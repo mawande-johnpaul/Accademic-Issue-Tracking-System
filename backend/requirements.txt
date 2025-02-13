@@ -1,4 +1,4 @@
-django djangorestframework 
+#requirements for backend
 asgiref==3.8.1
 asttokens==2.4.1
 colorama==0.4.6
