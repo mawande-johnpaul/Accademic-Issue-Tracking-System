@@ -1,0 +1,29 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'login.css' %}">
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log in to your account</title>
+</head>
+<body>
+    <form class="form-frame">
+        <div class="form-item" style="gap: 20px;">
+            <div>Email</div>
+            <input type="text">
+        </div>
+        <div class="form-item" style="gap: 20px;">
+            <div>Password</div>
+            <input type="password">
+        </div>
+        <div class="form-item" style="justify-self: center;">
+            <button type="submit"> Log In </button>
+        </div>
+        <div class="form-item" style="justify-self: center;">
+            <a href="signup.html">Create&nbsp;account</a>
+        </div>
+    </form>
+</body>
+</html>

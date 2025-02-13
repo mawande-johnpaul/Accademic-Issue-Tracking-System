@@ -1,0 +1,43 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'login.css' %}">
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enhance your academics</title>
+</head>
+<body>
+    <form class="form-frame" action="signup" method="post">
+        {% csrf_token %}
+        <div class="form-item">
+            <div>First&nbsp;name</div>
+            <input type="text" name="first-name">
+        </div>
+        <div class="form-item">
+            <div>Last&nbsp;name</div>
+            <input type="text" name="last-name">
+        </div>
+        <div class="form-item">
+            <div>Student&nbsp;number</div>
+            <input type="text" name="student-number">
+        </div>
+        <div class="form-item">
+            <div>Email</div>
+            <input type="email" name="email">
+        </div>
+        <div class="form-item">
+            <div>Password</div>
+            <input type="password" name="password1">
+        </div>
+        <div class="form-item">
+            <div>Confirm&nbsp;password</div>
+            <input type="password" name="password2">
+        </div>
+        <div class="form-item" style="justify-self: center;">
+            <button type="submit"> Sign up </button>
+        </div>
+    </form>
+</body>
+</html>

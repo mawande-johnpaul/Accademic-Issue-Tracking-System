@@ -1,0 +1,18 @@
+body{
+    margin: 0 auto;
+    align-content: center;
+}
+
+.form-frame{
+    justify-self: center;
+    border: 2px solid;
+    padding: 5vw;
+    gap: 5px;
+}
+
+.form-item{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 10px 20px;
+}
