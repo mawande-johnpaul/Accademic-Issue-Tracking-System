@@ -1,9 +1,9 @@
-const Button = ({ button_details }) => {
+const Button = () => {
     function leftButtonClick() {
       console.log("Left Button Clicked")
     }
     return <div>
-        <button className="left-buttons" onClick={leftButtonClick}>{button_details.text}</button>
+        <button className="left-buttons" onClick={leftButtonClick}>Button</button>
       </div>
   }
   

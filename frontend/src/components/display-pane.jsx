@@ -1,10 +1,10 @@
 import React from 'react';
 
-const DisplayPane = ({ content }) => {
+const DisplayPane = () => {
     return (
         <div>
-            <h1>{content.heading}</h1>
-            <p>{content.body}</p>
+            <h1>Heading</h1>
+            <p>Content</p>
         </div>
     );
 };
