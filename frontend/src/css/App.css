@@ -3,7 +3,7 @@
   flex-direction: row;
   height: 100vh;
   width: 100%;
-  margin: 0;
+  justify-content: center;
   padding: 0;
   box-sizing: border-box;
   font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
@@ -17,7 +17,7 @@
 
 .left-side {
   width: 20%;
-  background-color: #EAEAEA;
+  background-color: #d5d5d5;
   border-radius: 8px 0px 0px 8px;
 }
 
@@ -25,9 +25,32 @@
   width: 60%;
   background-color: #ffffff;
   margin: 10px;
-  border: 2px solid;
   border-color: #808080;
   border-radius: 10px;
+  height: 100%;
+  padding: 0px;
+}
+
+.content-section-header{
+  border: 1px solid;
+  border-bottom: 0px;
+  border-radius: 10px 10px 0px 0px;
+  border-color: #808080;
+  height: 5%;
+  font-size: 22px;
+  padding-left: 10px;
+  padding-top: 5px;
+  background-color: #d5d5d5;
+  cursor: pointer;
+}
+
+.content-section-body{
+  border: 1px solid;
+  border-color: #808080;
+  height: 95%;
+  padding: 10px ;
+  border-top: 0px;
+  border-radius: 0px 0px 10px 10px;
 }
 
 .right-side {
@@ -48,6 +71,9 @@
   border-radius: 5px;
   border: 0px;
   background-color: #ffffff;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  font-weight: 600;
+  font-size: large;
 }
 
 .profile-area{
@@ -61,27 +87,49 @@
   align-items: center;
   margin-bottom: 5px;
   cursor: pointer;
-  transition: background-color 0.3s;
   padding: 25px;
   border-radius: 5px;
   border: 0px;
   justify-content: center;
+  background-color: #009688;
+  color: #FFFFFF;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  font-weight: bold;
+  font-size: larger;
 }
 
 .left-buttons:hover {
-  background-color: #ddd;
   border-radius: 5px;
+  transition: background-color 0.5s;
+  background-color: #808080;
 }
 
 .search-bar{
-  width:auto;
-  height: 30px;
+  height: 35px;
   display: flex;
   flex-direction: row;
   margin-top: 10px;
   margin-bottom: 30px;
-  gap: 10px;
+  gap: 0px;
   justify-content: center;
+}
+
+.search-input{
+  width: 80%;
+  border: 2px solid;
+  border-radius: 10px 0px 0px 10px;
+  border: none;
+  padding-left: 10px;
+}
+
+.search-button{
+  background-color: #009688;
+  color: #FFFFFF;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  font-weight: bold;
+  border: none;
+  border-radius: 0px 10px 10px 0px;
+  cursor: pointer;
 }
 
 .display-pane{
@@ -92,21 +140,23 @@
 }
 
 .pane-header{
-  border: 2px solid;
+  border: 1px solid;
+  border-bottom: 0px;
   border-radius: 5px 5px 0px 0px;
   border-color: #808080;
-  height: 20%;
-  font-size: 28px;
+  height: 15%;
+  font-size: 22px;
   padding-left: 10px;
   padding-top: 2px;
-  background-color: #EAEAEA;
+  background-color: #d5d5d5;
+  cursor: pointer;
 }
 
 .pane-content{
-  border: 2px solid;
+  border: 1px solid;
   border-radius: 0px 0px 5px 5px;
   border-color: #808080;
-  height: 80%;
+  height: 85%;
   padding: 10px ;
   border-top: 0px;
 }
@@ -115,4 +165,10 @@
   font-family: 'Courier New', Courier, monospace;
   font-weight: bolder;
   font-size: 40px;
+  cursor: pointer;
+}
+
+.icon-left{
+  padding-top: 1px;
+  padding-right: 10px;
 }

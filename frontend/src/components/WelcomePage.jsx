@@ -2,10 +2,10 @@ import React from 'react';
 
 const WelcomePage = () => {
     return (
-        <div>
-            <h1>Welcome</h1>
-            <p>Username</p>
-        </div>
+        <>
+            <div className='content-section-header'>Context title</div>
+            <div className='content-section-body'>Context data</div>
+        </>
     );
 };
 

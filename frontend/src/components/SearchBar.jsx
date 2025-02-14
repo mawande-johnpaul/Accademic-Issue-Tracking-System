@@ -3,8 +3,10 @@ const SearchBar = () => {
         <div className="search-bar">
             <input
                 type="text"
-                placeholder="Search..."
+                placeholder="Search issues ..."
+                className="search-input"
             />
+            <button className="search-button">Search</button>
         </div>
     );
 };

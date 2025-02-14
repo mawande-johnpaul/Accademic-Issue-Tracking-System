@@ -4,7 +4,7 @@ const ProfileDisplay = () => {
     return (
         <div className='profile-area'>
             <button className="login-button">
-                Sign In / Login
+                Login / Signup
             </button>
         </div>
     );
