@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react';
 import './css/App.css';
 import Button from './components/Button';
-import SearchBar from './components/search-bar';
-import Logo from './components/logo';
-import ProfileDisplay from './components/profile-display';
-import DisplayPane from './components/display-pane';
+import SearchBar from './components/SearchBar';
+import Logo from './components/Logo';
+import ProfileDisplay from './components/ProfileDisplay';
+import DisplayPane from './components/DisplayPane';
+import WelcomePage from './components/WelcomePage'
 
 function App() {
   return (
@@ -17,7 +18,7 @@ function App() {
         <Button />
       </div>
       <div className='content-section'>
-        <h1>Hello there!</h1>
+        <WelcomePage />
       </div>
       <div className='right-side'>
         <ProfileDisplay />
