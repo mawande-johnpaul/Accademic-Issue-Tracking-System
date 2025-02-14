@@ -11,6 +11,7 @@ function App() {
   return (
     <div className='App'>
       <div className='left-side'>
+        <Logo />
         <SearchBar />
         <Button />
         <Button />

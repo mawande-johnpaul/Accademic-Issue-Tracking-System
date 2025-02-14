@@ -3,7 +3,7 @@ import React from 'react';
 const ProfileDisplay = () => {
     return (
         <div>
-            <button>
+            <button className="login-button">
                 Sign In / Login
             </button>
         </div>
