@@ -3,7 +3,7 @@ const Button = () => {
       console.log("Left Button Clicked")
     }
     return <div>
-        <button className="left-buttons" onClick={leftButtonClick}>Button</button>
+        <button onClick={leftButtonClick}>Button</button>
       </div>
   }
   
