@@ -5,7 +5,6 @@ const SearchBar = () => {
                 type="text"
                 placeholder="Search..."
             />
-            <button>Search</button>
         </div>
     );
 };
