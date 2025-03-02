@@ -1,33 +1,41 @@
 import axios from 'axios';
-import React from 'react';
+import React, { useState } from 'react';
 
 function LoginPage() {
-    const login = () => {
-        const username = document.getElementById('username')
-        const password = document.getElementById('password')
-        const password2 = document.getElementById('password2')
-        const response = async() => {
-          await axios.post('http://127.0.0.1:8000/api/login', {username, password, password2})
-          }
-        alert(response)
-    }
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+    
+
+    const login = async (event) => {
+        event.preventDefault(); // Prevent the form from refreshing the page
+        try {
+            const response = await axios.post('http://127.0.0.1:8000/api/login/',{ username, password });
+            console.log(response);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
     return (
-      <div>
-          <h1>Log in</h1>
-          <form>
-            <p>Username</p>
-            <input 
-                id="username" 
-                type="text" 
-            />
-            <p>Password</p>
-            <input id="password" type="password"/>
-            <p>Password again</p>
-            <input id="password2" type="password"/>
-            <button type="submit" onClick={login}>Submit</button>
-          </form>
-      </div>
+        <div>
+            <h1>Log in</h1>
+            <form onSubmit={login}>
+                <p>Username</p>
+                <input 
+                    type="text" 
+                    value={username} 
+                    onChange={(e) => setUsername(e.target.value)} 
+                />
+                <p>Password</p>
+                <input 
+                    type="password" 
+                    value={password} 
+                    onChange={(e) => setPassword(e.target.value)} 
+                />
+                <button type="submit">Submit</button>
+            </form>
+        </div>
     );
-  }
+}
 
 export default LoginPage;
