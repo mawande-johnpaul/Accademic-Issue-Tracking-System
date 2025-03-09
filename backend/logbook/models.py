@@ -22,3 +22,22 @@ class Issue(models.Model):
 
     def __str__(self):
         return self.title
+    
+class Department(models.Model):
+    name = models.CharField(max_length=100)
+    registrar = models.CharField(max_length=100)
+    lecturers = models.ForeignKey(CustomUser, on_delete=models.DO_NOTHING)
+    issues = models.ForeignKey(Issue, on_delete=models.DO_NOTHING)
+
+    def __str__(self):
+        return self.name
+    
+class Log(models.Model):
+    user_id = models.ForeignKey(CustomUser, on_delete=models.DO_NOTHING)
+    action = models.CharField(max_length=1000)
+    timestamp = models.DateTimeField(auto_now=True)
+
+class Notification(models.Model):
+    user_id_receiver = models.ForeignKey(CustomUser, on_delete=models.DO_NOTHING)
+    user_id_sender = models.ForeignKey(CustomUser, on_delete=models.DO_NOTHING)
+    content = models.CharField(max_length=1000)

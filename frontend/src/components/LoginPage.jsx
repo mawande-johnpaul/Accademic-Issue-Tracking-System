@@ -4,15 +4,22 @@ import React, { useState } from 'react';
 function LoginPage() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    
+    const [message, setMessage] = useState('');
 
     const login = async (event) => {
         event.preventDefault(); // Prevent the form from refreshing the page
+
         try {
-            const response = await axios.post('http://127.0.0.1:8000/api/login/',{ username, password });
-            console.log(response);
+            const response = await axios.post('http://127.0.0.1:8000/api/login/', { username, password });
+            setMessage(`Login successful! Access token: ${response.data.access}`);
+            console.log(response.data); // Handle the response data as needed
         } catch (error) {
-            console.log(error);
+            if (error.response && error.response.data) {
+                setMessage(`Login failed: ${error.response.data.detail}`);
+            } else {
+                setMessage('Login failed. Please check your credentials.');
+            }
+            console.error(error);
         }
     };
 
@@ -34,6 +41,7 @@ function LoginPage() {
                 />
                 <button type="submit">Submit</button>
             </form>
+            {message && <p>{message}</p>}
         </div>
     );
 }
