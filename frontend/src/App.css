@@ -24,3 +24,29 @@
   flex: 1;
   background-color: #f8f9fa;
 }
+.container{
+  width:50%;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid white;
+  border-radius: 5px;
+}
+
+input,select,textarea{
+  width: 95%;
+  padding: 10px;
+  margin: 5px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+button{
+  background: #007bff;
+  color: white;
+  padding: 10px;
+  border: none;
+  cursor: pointer;
+}
+ button:disabled{
+  background:gray;
+  cursor:not-allowed;
+ }

@@ -5,6 +5,7 @@ import SearchBar from './components/search-bar';
 import Logo from './components/logo';
 import ProfileDisplay from './components/profile-display';
 import DisplayPane from './components/display-pane';
+import issueform from './componets/issueform';
 
 function App() {
   useEffect(() => {
@@ -24,6 +25,7 @@ function App() {
         <Button button_details={{text: 'Logged Issues'}} />
         <Button button_details={{text: 'Other Issues'}} />
         <Button button_details={{text: 'Settings'}} />
+        <issueform/>
       </div>
       <div className='content-section'>
         {/* Content goes here */}
