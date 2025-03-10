@@ -42,11 +42,6 @@ class IssueSerializer(serializers.ModelSerializer):
         model = Issue
         fields = '__all__'
 
-class DepartmentSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Department
-        fields = '__all__'
-
 class LogSerialier(serializers.ModelSerializer):
     class Meta:
         model = Log
