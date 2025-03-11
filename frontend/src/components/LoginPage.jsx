@@ -10,7 +10,7 @@ function LoginPage() {
         event.preventDefault(); // Prevent the form from refreshing the page
 
         try {
-            const response = await axios.post('http://127.0.0.1:8000/api/login/', { username, password });
+            const response = await axios.post('http://127.0.0.1:8000/login/', data={ username, password });
             setMessage(`Login successful! Access token: ${response.data.access}`);
             console.log(response.data); // Handle the response data as needed
         } catch (error) {

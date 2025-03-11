@@ -32,9 +32,10 @@ class RegisterView(generics.CreateAPIView):
 class LoginView(generics.GenericAPIView):
     queryset = User.objects.all()
     permission_classes = [AllowAny]
-    serializer_class = LoginSerializer()
+    serializer_class = LoginSerializer
 
     def post(self, request, *args, **kwargs):
+        print(request)
         serializer = self.get_serializer(data=request.data)
 
         if serializer.is_valid():
