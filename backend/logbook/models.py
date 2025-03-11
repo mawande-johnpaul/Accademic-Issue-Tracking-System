@@ -1,8 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 
-DEPARTMENT_CHOICES = ['CoCIS', 'CoBAMS', 'CoNAS', 'CEDAT']
-ISSUE_CATEGORIES = ['Missing Marks', 'Attendance', 'Resources', 'Environmental', 'Conduct', 'Schedules']
+DEPARTMENT_CHOICES = [('cocis','CoCIS'), ('cobams','CoBAMS'), ('conas','CoNAS'), ('cedat','CEDAT')]
+ISSUE_CATEGORIES = [('marks','Missing Marks'), ('attendance','Attendance'), ('resources','Resources'), ('environment','Environmental'), ('conduct','Conduct'), ('schedules','Schedules')]
 
 # Create your models here.
 class CustomUser(AbstractUser):
