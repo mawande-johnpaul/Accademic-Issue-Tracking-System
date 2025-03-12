@@ -30,7 +30,6 @@ class RegisterView(generics.CreateAPIView):
             'access_token': str(refresh.access_token),
             'user': RegisterSerializer(user).data
         }, status=status.HTTP_201_CREATED)
-        return  Response(serializer.errors, status=400)
 
 class LoginView(generics.GenericAPIView):
     queryset = User.objects.all()
@@ -63,11 +62,17 @@ class LoginView(generics.GenericAPIView):
         return Response(serializer.errors, status=400)
 
 class IssueListCreate(generics.ListCreateAPIView):
+    queryset = Issue.objects.all()
     serializer_class = IssueSerializer
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        return Issue.objects.filter(created_by=self.request.user)
+        queryset = super().get_queryset()
+
+        if self.request.user:
+            queryset = queryset.filter(created_by=self.request.user)
+        
+        return queryset
 
     def perform_create(self, serializer):
         serializer.save(created_by=self.request.user)
