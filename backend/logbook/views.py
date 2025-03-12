@@ -5,8 +5,8 @@ from rest_framework.response import Response
 from .serializers import *
 from .models import *
 from rest_framework.permissions import IsAuthenticated, AllowAny
-from django.contrib.auth import authenticate, get_user_model, login
-from rest_framework_simplejwt.tokens import RefreshToken
+from django.contrib.auth import get_user_model, login
+from rest_framework_simplejwt.tokens import Token, RefreshToken
 
 User = get_user_model()
 
@@ -16,17 +16,20 @@ class RegisterView(generics.CreateAPIView):
     serializer_class = RegisterSerializer
     permission_classes = [AllowAny]
 
-    def post(self, request, *args, **kwargs):
+    def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
-        if serializer.is_valid(raise_exception=True):
-            serializer.save()
-            user_data = serializer.data
-            refresh = RefreshToken.for_user(user)
-            return Response({
-                'refresh': str(refresh),
-                'access': str(refresh.access_token),
-                'user': user_data
-            }, status=status.HTTP_201_CREATED)
+        serializer.is_valid(raise_exception=True)
+
+        user = serializer.save()
+
+        refresh = RefreshToken.for_user(user)
+        access_token = str(refresh.access_token)
+
+        return Response({
+            'token': access_token,
+            'access_token': str(refresh.access_token),
+            'user': RegisterSerializer(user).data
+        }, status=status.HTTP_201_CREATED)
         return  Response(serializer.errors, status=400)
 
 class LoginView(generics.GenericAPIView):

@@ -17,6 +17,17 @@ class RegisterSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError('Username already exists')
         
         return data
+    
+def create(self, validated_data):
+    user = User.objects.create_user(
+        username=validated_data['username'],
+        email=validated_data['email'],
+        role=validated_data.get('role', None),  # Use .get() to avoid KeyError if field is optional
+        department=validated_data.get('department', None),  # Use .get() for optional fields
+        password=validated_data['password']  # No need to call set_password()
+    )
+    return user
+
 
 class LoginSerializer(serializers.Serializer):
     username = serializers.CharField(max_length=255)
@@ -30,7 +41,7 @@ class LoginSerializer(serializers.Serializer):
             user = authenticate(username=username, password=password)
 
             if  user is None:
-                raise serializers.ValidationError('Invalid credentials')
+                raise serializers.ValidationError(f'Invalid credentials -{username}- -{password}-')
         else:
             raise serializers.ValidationError(f'Unable to log in with provided credentials. -{username}- -{password}-')
         
