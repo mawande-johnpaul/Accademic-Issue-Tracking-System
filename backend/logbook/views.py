@@ -14,10 +14,31 @@ class StudentViewSet(viewsets.ModelViewSet):
     queryset = Student.objects.all().filter(role='student')
     serializer_class = StudentSerializer
 
+<<<<<<< Updated upstream
 
 class IssueViewSet(viewsets.ModelViewSet):
     queryset = Issue.objects.all()
     serializer_class = IssueSerializer    
+=======
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            user = serializer.save() # saves the user to db
+            user_data = serializer.data
+            refresh = RefreshToken.for_user(user)
+            return Response({
+                'refresh': str(refresh),
+                'access': str(refresh.access_token),
+                'user': user_data
+            }, status=status.HTTP_201_CREATED)
+        return  Response(serializer.errors, status=400)
+
+class LoginView(generics.GenericAPIView):
+    queryset = User.objects.all()
+    permission_classes = [AllowAny]
+    serializer_class = LoginSerializer
+>>>>>>> Stashed changes
 
 class LecturerViewSet(viewsets.ModelViewSet):
     queryset = Lecturer.objects.all()
