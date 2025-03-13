@@ -12,21 +12,19 @@ class RegisterSerializer(serializers.ModelSerializer):
         extra_kwargs = {'password': {'write_only': True}}
 
     def validate(self, data):
-        user = User.objects.filter(username=data['username']).exists()
-        if user:
+        if User.objects.filter(username=data['username']).exists():
             raise serializers.ValidationError('Username already exists')
-        
         return data
-    
-def create(self, validated_data):
-    user = User.objects.create_user(
-        username=validated_data['username'],
-        email=validated_data['email'],
-        role=validated_data.get('role', None),  # Use .get() to avoid KeyError if field is optional
-        department=validated_data.get('department', None),  # Use .get() for optional fields
-        password=validated_data['password']  # No need to call set_password()
-    )
-    return user
+
+    def create(self, validated_data):  # Corrected indentation
+        user = User.objects.create_user(
+            username=validated_data['username'],
+            email=validated_data['email'],
+            role=validated_data.get('role', None),
+            department=validated_data.get('department', None),
+            password=validated_data['password']  # `create_user` automatically hashes the password
+        )
+        return user
 
 
 class LoginSerializer(serializers.Serializer):
@@ -34,33 +32,34 @@ class LoginSerializer(serializers.Serializer):
     password = serializers.CharField(write_only=True, max_length=128)
 
     def validate(self, data):
-        username=data.get("username")
-        password=data.get("password")
+        username = data.get("username")
+        password = data.get("password")
 
         if username and password:
             user = authenticate(username=username, password=password)
 
-            if  user is None:
-                raise serializers.ValidationError(f'Invalid credentials -{username}- -{password}-')
+            if user is None or not user.is_active:  # Added check for active status
+                raise serializers.ValidationError('Invalid credentials or inactive account.')
         else:
-            raise serializers.ValidationError(f'Unable to log in with provided credentials. -{username}- -{password}-')
-        
+            raise serializers.ValidationError('Both username and password are required.')
+
         data['user'] = user
         return data
+
 
 class IssueSerializer(serializers.ModelSerializer):
     class Meta:
         model = Issue
         fields = '__all__'
 
-class LogSerialier(serializers.ModelSerializer):
+
+class LogSerializer(serializers.ModelSerializer):  # Fixed typo in class name
     class Meta:
         model = Log
-        fields = '__all__'    
+        fields = '__all__'
 
-class NotificationSerialier(serializers.ModelSerializer):
+
+class NotificationSerializer(serializers.ModelSerializer):  # Fixed typo in class name
     class Meta:
         model = Notification
-        fields = '__all__'  
-
-    
+        fields = '__all__'

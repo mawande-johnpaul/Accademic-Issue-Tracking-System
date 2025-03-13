@@ -1,6 +1,6 @@
 import React from 'react'; 
 
-const DisplayPane = ({heading, items}) => {
+const ChatDisplayPane = ({heading, items}) => {
     return (
         <div className='display-pane'>
             <div className='pane-header'>{heading}</div>
@@ -12,6 +12,10 @@ const DisplayPane = ({heading, items}) => {
                         <div className='message-header'>{item.name}</div>
                         <div className='message-body'>{item.message}</div>
                     </div>
+                    <form>
+                        <button>Cancel</button>
+                        <button type='submit'>Send</button>
+                    </form>
                 </div>
             ))
             }
@@ -20,4 +24,4 @@ const DisplayPane = ({heading, items}) => {
     )
 };
 
-export default DisplayPane;
+export default ChatDisplayPane;

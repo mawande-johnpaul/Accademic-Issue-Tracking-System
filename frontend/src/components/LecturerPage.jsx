@@ -5,8 +5,8 @@ import SearchBar from "./SearchBar";
 import Button from "./Button";
 import DisplayPane from "./DisplayPane";
 import Logo from "./Logo"
-import IssueForm from "./IssueForm";
-import UserIssues from "./UserIssues";
+import IssueDisplayForm from "./IssueDisplayForm";
+import AssignedIssues from "./AssignedIssues";
 
 
 const MESSAGES=[
@@ -64,12 +64,13 @@ const MESSAGES=[
   
 ]
 
-const StudentPage = () => {
+const LecturerPage = () => {
   const [issues, setIssues] = useState([]);
 
   useEffect(() => {
     const fetchIssues = async () => {
       try {
+        const user = JSON.parse(localStorage.getItem("user"));
         const token = localStorage.getItem("token");
 
         const response = await axios.get('http://127.0.0.1:8000/issues/', {
@@ -86,16 +87,18 @@ const StudentPage = () => {
     fetchIssues();
   }, []);
 
-  const user = JSON.parse(localStorage.getItem("user"));
-
   const Welcome = () => {
     return (
         <div className="form-holder">
           <div className="content-section-header">
-          Hello {user.username}!
+          Hello! Welcome to AITS. Here are the issues you have posted:
           </div>
           <div className="content-section-body">
-            <UserIssues /> 
+            <ul >
+                {Array.isArray(issues) && issues.map(issue => (
+                <li key={issue.id}>{issue.title}</li>
+                ))}
+            </ul>
           </div>
         </div>
     );
@@ -117,8 +120,8 @@ function settings(){
     <div className="bodyy">
       <div className="left-side">
         <Logo />
-        <Button text={"New issue"} image={"new-issue.svg"} funct={createnew}/>
-        <Button text={"Posted issues"} image={"posted-logo.svg"} funct={otherlist}/>
+        <Button text={"Assigned issues"} image={"new-issue.svg"} funct={createnew}/>
+        <Button text={"Resolved issues"} image={"posted-logo.svg"} funct={otherlist}/>
         <Button text={"Settings"} image={"settings.svg"} funct={settings}/>
 
       </div>
@@ -127,7 +130,7 @@ function settings(){
         <Welcome />
       </div>
       <div className="right-side">
-        <ProfileDisplay text={user.username}/>
+        <ProfileDisplay text={"Lecturer"}/>
         <DisplayPane heading={MESSAGES[0].head} items={MESSAGES[0].contents} />
         <DisplayPane heading={MESSAGES[1].head} items={MESSAGES[1].contents} />
         <DisplayPane heading={MESSAGES[2].head} items={MESSAGES[2].contents} />
@@ -136,4 +139,4 @@ function settings(){
   );
 };
 
-export default StudentPage;
+export default LecturerPage;

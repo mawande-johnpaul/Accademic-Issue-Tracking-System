@@ -1,16 +1,4 @@
-@font-face {
-  font-family: 'CactronBold';
-  src: url('/CactronBold.otf') format('opentype');
-  font-weight: normal;
-  font-style: normal;
-}
 
-@font-face {
-  font-family: 'Inter';
-  src: url('/Inter.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-}
 
 
 
@@ -21,6 +9,7 @@
   width: 100%;
   justify-content: center;
   padding: 0px;
+  margin: 0px;
   box-sizing: border-box;
   font-family: 'Inter', 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }

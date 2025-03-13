@@ -8,6 +8,8 @@ import Homepage from './components/HomePage';
 import SignupPage from './components/SignupPage';
 import LoginPage from './components/LoginPage';
 import StudentPage from './components/StudentPage';
+import LecturerPage from "./components/LecturerPage";
+import RegistrarPage from "./components/RegistrarPage";
   
 function App() {
   return (
@@ -17,6 +19,8 @@ function App() {
             <Route path='/signup' element={<SignupPage />} />
             <Route path='/login' element={<LoginPage />} />
             <Route path='/student' element={<StudentPage />} />
+            <Route path='/registrar' element={<RegistrarPage />} />
+            <Route path='/lecturer' element={<RegistrarPage />} />
         </Routes>
     </Router>
   );

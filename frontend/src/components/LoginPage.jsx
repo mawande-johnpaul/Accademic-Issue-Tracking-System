@@ -13,7 +13,7 @@ function LoginPage() {
 
         try {
             const response = await axios.post('http://127.0.0.1:8000/login/', { username, password });
-            localStorage.setItem('token', response.data.access); // Store the token in the browser
+            localStorage.setItem('token', response.data.access_token); // Store the token in the browser
             localStorage.setItem('user', JSON.stringify(response.data.user)); // Store the user data in the browser
             navigate("/student"); // Redirect to dashboard
         } catch (error) {

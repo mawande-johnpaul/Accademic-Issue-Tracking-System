@@ -18,7 +18,13 @@ function SignupPage() {
         const response = await axios.post('http://127.0.0.1:8000/signup/', { username, password, email, role, department });
         localStorage.setItem('token', response.data.access);
         localStorage.setItem('user', JSON.stringify(response.data.user));
-        navigate("/student");
+        if (response.data.user.role === "lecturer") {
+          navigate("/lecturer");
+        } else if (response.data.user.role === "registrar") {
+          navigate("/registrar");
+        } else {
+          navigate("/student");
+        }
         
       } catch (error) {
         setMessage('Signup failed. Please try again.');
@@ -50,13 +56,13 @@ function SignupPage() {
             </div>
             <div className='row'>
               <div className='labels'>Role</div>
-              <input type="text" className='inputs'
+              <input type="text" className='inputs' choices={['student', 'lecturer', 'registrar']}
                 value={role} 
                 onChange={(e) => setRole(e.target.value)} />
             </div>
             <div className='row'>
               <div className='labels'>Department</div>
-              <input type="text" className='inputs'
+              <input type="text" className='inputs' choices={['cocis', 'cobams', 'conas']}
                 value={department} 
                 onChange={(e) => setDepartment(e.target.value)} />
             </div>
