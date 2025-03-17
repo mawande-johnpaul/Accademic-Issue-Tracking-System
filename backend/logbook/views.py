@@ -1,57 +1,119 @@
 from django.shortcuts import render
+from rest_framework import generics, permissions, status
 from rest_framework.views import APIView
-from .models import *
 from rest_framework.response import Response
-from .serializer import *
-from django.http import JsonResponse
-import json
-from django.views.decorators.csrf import csrf_exempt
-from rest_framework import viewsets
-from logbook.models import *
+from .serializers import *
+from .models import *
+from rest_framework.permissions import IsAuthenticated, AllowAny
+from django.contrib.auth import get_user_model, login
+from rest_framework_simplejwt.tokens import Token, RefreshToken
+
+User = get_user_model()
 
 # Create your views here.
-class StudentViewSet(viewsets.ModelViewSet):
-    queryset = Student.objects.all().filter(role='student')
-    serializer_class = StudentSerializer
+class RegisterView(generics.CreateAPIView):
+    queryset = User.objects.all()
+    serializer_class = RegisterSerializer
+    permission_classes = [AllowAny]
 
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
 
-class IssueViewSet(viewsets.ModelViewSet):
-    queryset = Issue.objects.all()
-    serializer_class = IssueSerializer    
+        user = serializer.save()
 
-class LecturerViewSet(viewsets.ModelViewSet):
-    queryset = Lecturer.objects.all()
-    serializer_class = LecturerSerializer 
+        refresh = RefreshToken.for_user(user)
+        access_token = str(refresh.access_token)
 
-class RegistrarViewSet(viewsets.ModelViewSet):
-    queryset = Registrar.objects.all()
-    serializer_class = RegistrarSerializer 
+        return Response({
+            'token': access_token,
+            'access_token': str(refresh.access_token),
+            'user': RegisterSerializer(user).data
+        }, status=status.HTTP_201_CREATED)
+        return  Response(serializer.errors, status=400)
 
-class NotificationViewSet(viewsets.ModelViewSet):
-    queryset = Notification.objects.all()
-    serializer_class = NotificationSerializer 
+class LoginView(generics.GenericAPIView):
+    queryset = User.objects.all()
+    permission_classes = [AllowAny]
+    serializer_class = LoginSerializer
 
-class LogViewSet(viewsets.ModelViewSet):
-    queryset = Log.objects.all()
-    serializer_class = LogSerializer 
+    def post(self, request, *args, **kwargs):
+        print(request)
+        serializer = self.get_serializer(data=request.data)
 
+        if serializer.is_valid():
+            user = serializer.validated_data['user']
 
+            login(request, user)
 
-def dashboard(request):
-    return render(request, 'dashboard.html')
+            refresh = RefreshToken.for_user(user)
 
-@csrf_exempt
-def login(request):
-    if request.method == "POST":
-        data = json.loads(request.body)
-        email = data.get('email')
-        password = data.get('password')
-        return JsonResponse({"status": "success", "message": f"Welcome, {email}!{password}"})
-def signup(request):
-    first_name = request.POST['first-name']
-    last_name = request.POST['last-name']
-    email = request.POST['email']
-    student_number = request.POST['student-number']
-    password1 = request.POST['password1']
-    password2 = request.POST['password2']
-    return render(request, 'login.html')
+            return Response({
+                'refresh': str(refresh),
+                'access': str(refresh.access_token),
+                'user': {
+                    'id': user.id,
+                    'username': user.username,
+                    'email': user.email,
+                    'role': user.role,
+                    'department': user.department,
+                }
+            }, status=status.HTTP_200_OK)
+        
+        return Response(serializer.errors, status=400)
+
+class IssueListCreate(generics.ListCreateAPIView):
+    serializer_class = IssueSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        return Issue.objects.filter(created_by=self.request.user)
+
+    def perform_create(self, serializer):
+        serializer.save(created_by=self.request.user)
+
+class IssueUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = IssueSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        return Issue.objects.filter(created_by=self.request.user)
+    
+    def put(self, request, *args, **kwargs):
+        return self.update(request, *args, **kwargs)
+
+    def patch(self, request, *args, **kwargs):
+        return self.partial_update(request, *args, **kwargs)
+
+    def delete(self, request, *args, **kwargs):
+        return self.destroy(request, *args, **kwargs)
+
+class NotificationsListDestroy(generics.RetrieveDestroyAPIView):
+    serializer_class = NotificationSerialier
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, *args, **kwargs):
+        return self.retrieve(request, *args, **kwargs)
+
+    def delete(self, request, *args, **kwargs):
+        return self.destroy(request, *args, **kwargs)
+
+class NotificationsCreate(generics.CreateAPIView):
+    serializer_class = NotificationSerialier
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
+
+class LogListUpdateDelete(generics.RetrieveUpdateAPIView):
+    serializer_class = LogSerialier
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, *args, **kwargs):
+        return self.retrieve(request, *args, **kwargs)
+
+    def put(self, request, *args, **kwargs):
+        return self.update(request, *args, **kwargs)
+
+    def patch(self, request, *args, **kwargs):
+        return self.partial_update(request, *args, **kwargs)

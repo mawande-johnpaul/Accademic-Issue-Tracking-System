@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Issue Submission</title>
+    <link rel="stylesheet" href="issuesubmission.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Submit An Academic Issue</h1>
+        <form id="issueform" onsubmit="return validateForm()">
+            <label for="title">Issue Title</label>
+            <input type="text" id="title" name="title" required placeholder="Enter the Issue Title">
+            <label for="studentId">Student ID</label>
+            <input type="text" id="studentId" name="studentId" required placeholder="Enter your Student ID">
+            <label for="regNumber">Reg Number</label>
+            <input type="text" id="regNumber" name="regNumber" required placeholder="Enter your Registration Number">
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name" required placeholder="Enter your Name">
+            <label for="subject">Course-Unit</label>
+            <input type="text" id="subject" name="subject" required placeholder="Enter the Course-Unit">
+            <label for="description">Issue Description</label>
+            <textarea id="description" name="description"required placeholder="Describe The Issue"></textarea>
+            <label for="category">Category</label>
+            <select id="category" name="category" required>
+                <option value="">-- Select-Category --</option>
+                <option value="course Registration">Course Registration</option>
+                <option value="Missing Marks">Missing Marks</option>
+                <option value="Timetable Clash">Timetable Clash</option>
+                <option value="Lecturer Concern">Lecturer Concern</option>
+                <option value="Examination Issue">Examination Issue</option>
+                <option value="Other">Other</option>
+            </select>
+            <label for="courseCode">Course-Code</label>
+            <input type="text" id="courseCode" name="courseCode"required placeholder="Enter the Course Code">
+            <label for="attachments">Attachments</label>
+            <input type="file" id="attachments" name="attachments">
+            <label for="year">Year Of Study</label>
+            <input type="number" id="year" name="year" required placeholder="Enter Year Of Study">
+            <label for="semester">Semester</label>
+            <input type="text" id="semester" name="semester" required placeholder="Enter the Semester">
+            <label for="lecturer">Lecturer</label>
+            <div class="lecturer-container">
+                <input type="text" id="lecturerSearch" name="lecturer" required placeholder="Search for lecturer" oninput="searchLecturer()">
+                <span class="search-text">Search</span>
+            </div>            
+            <button type="submit" id="submitButton" disabled>Submit Issue</button>         
+
+        </form>
+
+    </div>
+</body>
+</html>

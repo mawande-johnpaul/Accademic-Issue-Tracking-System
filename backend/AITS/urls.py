@@ -14,30 +14,15 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-
-from logbook import views
-from logbook.views import *
-from django.urls import path, include, re_path
 from django.contrib import admin
-from rest_framework import routers
-
-router = routers.DefaultRouter()
-router.register(r'Student', StudentViewSet)
-router.register(r'Issue', IssueViewSet)
-router.register(r'Registrar', RegistrarViewSet)
-router.register(r'Lecturer', LecturerViewSet)
-router.register(r'Notification', NotificationViewSet)
-router.register(r'Log', LogViewSet)
+from django.urls import path, include
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+from logbook.views import *
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.login, name='login'),
-    path('dashboard', views.dashboard, name='dashboard'),
-    path('signup/', views.signup, name='signup'),
-    path('api/student/', include(router.urls), name='student_api'),
-    path('api/issue/', include(router.urls), name='issue_api'),
-    path('api/lecturer/', include(router.urls), name='lecturer_api'),
-    path('api/registrar/', include(router.urls), name='registrar_api'),
-    path('api/notification/', include(router.urls), name='notification_api'),
-    path('api/log/', include(router.urls), name='log_api'),
+    path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('signup/', RegisterView.as_view(), name='signup'),
+    path('login/', LoginView.as_view(), name='login'),
 ]

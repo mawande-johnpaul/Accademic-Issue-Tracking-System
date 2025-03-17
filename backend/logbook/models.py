@@ -1,98 +1,39 @@
 from django.db import models
+from django.contrib.auth.models import AbstractUser
 
+DEPARTMENT_CHOICES = [('cocis','CoCIS'), ('cobams','CoBAMS'), ('conas','CoNAS'), ('cedat','CEDAT')]
+ROLES = [('student','Student'), ('lecturer','Lecturer'), ('registrar','Registrar'), ('admin','Admin')]
+ISSUE_CATEGORIES = [('marks','Missing Marks'), ('attendance','Attendance'), ('resources','Resources'), ('environment','Environmental'), ('conduct','Conduct'), ('schedules','Schedules')]
 
-# Parent User model
-class User(models.Model):
-    class Meta:
-        abstract = True
-        
-    name = models.CharField(max_length=50)
-    email = models.EmailField(unique=True)
+# Create your models here.
+class CustomUser(AbstractUser):
+    username = models.CharField(max_length=100, unique=True)
+    email = models.EmailField(max_length=100, unique=True)
+    password = models.CharField(max_length=100)
+    role = models.CharField(max_length=100, choices=ROLES)
+    department = models.CharField( max_length=10,choices=DEPARTMENT_CHOICES)
 
-# Child models
-class Student(User):
-    role = models.CharField(default="student", max_length=20)
+    def __str__(self):
+        return self.username
 
-    def submit_issue(self):
-        pass
-
-    def followup_issue(self):
-        pass
-
-    def check_status(self):
-        pass
-
-    def remove_issue(self):
-        pass
-
-
-class Registrar(User):
-    role = models.CharField(default="registrar", max_length=20)
-
-    def assign_issue(self):
-        pass
-
-    def followup_issue(self):
-        pass
-
-    def check_status(self):
-        pass
-
-    def remove_issue(self):
-        pass
-
-
-class Lecturer(User):
-    role = models.CharField(default="lecturer", max_length=20)
-
-    def resolve_issue(self):
-        pass
-
-    def change_issue(self):
-        pass
-
-
-# Notification model
-class Notification(models.Model):
-    user_id = models.CharField(max_length=100)
-    message = models.CharField(max_length=200)
-
-    def send(self):
-        pass
-
-    def delete_notification(self):
-        pass
-
-
-# Issue model
 class Issue(models.Model):
-    category = models.CharField(max_length=100)
-    summary = models.CharField(max_length=100)
-    description = models.TextField(max_length=1000)
-    attachments = models.FileField(upload_to="attachments/")
-    status = models.CharField(default="Pending", max_length=20)
+    title = models.CharField(max_length=100)
+    category = models.CharField(max_length=100, choices=ISSUE_CATEGORIES, default='student')
+    description = models.TextField()
+    department = models.CharField(max_length=10,choices=DEPARTMENT_CHOICES )
+    created_by = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
-    def submit(self):
-        pass
-
-    def update(self):
-        pass
-
-    def delete_issue(self):
-        pass
-
-    def resolve(self):
-        pass
-
-
-# Log model
+    def __str__(self):
+        return self.title
+    
 class Log(models.Model):
-    user_id = models.CharField(max_length=100)
-    action = models.CharField(max_length=100)
-    timestamp = models.DateTimeField(auto_now_add=True)
+    user_id = models.ForeignKey(CustomUser, on_delete=models.DO_NOTHING)
+    action = models.CharField(max_length=1000)
+    timestamp = models.DateTimeField(auto_now=True)
 
-    def record(self):
-        pass
-
-    def provide_log(self):
-        pass
+class Notification(models.Model):
+    user_id_receiver = models.ForeignKey(CustomUser, on_delete=models.DO_NOTHING)
+    user_id_sender = models.ForeignKey(CustomUser, related_name='sent_notifications', on_delete=models.DO_NOTHING)
+    content = models.CharField(max_length=1000)

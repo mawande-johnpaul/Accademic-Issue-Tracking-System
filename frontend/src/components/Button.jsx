@@ -1,9 +1,13 @@
-const Button = ({ button_details }) => {
-    function leftButtonClick() {
-      console.log("Left Button Clicked")
-    }
+const Button = ({text, image, funct}) => {
     return <div>
-        <button className="left-buttons" onClick={leftButtonClick}>{button_details.text}</button>
+        <button onClick={funct} className="left-buttons">
+          <div className="icon-left">
+            <img src={image} alt="icon" width="20" height="20" />
+          </div>
+          <div>
+            {text}
+          </div>
+        </button>
       </div>
   }
   
