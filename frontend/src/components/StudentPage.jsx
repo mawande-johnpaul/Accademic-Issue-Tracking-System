@@ -5,8 +5,9 @@ import SearchBar from "./SearchBar";
 import Button from "./Button";
 import DisplayPane from "./DisplayPane";
 import Logo from "./Logo";
-import IssueForm from "./IssueForm";
-import UserIssues from "./UserIssues";
+import Content from "./ContentSection";
+import InPageLoginButton from "./InPageLoginButton";
+
 
 const MESSAGES = [
   {
@@ -35,22 +36,10 @@ const MESSAGES = [
   },
 ];
 
-const Welcome = ({ user }) => {
-  return (
-    <div className="form-holder">
-      <div className="content-section-header">
-        Hello {user.username}!
-      </div>
-      <div className="content-section-body">
-        <UserIssues />
-      </div>
-    </div>
-  );
-};
 
 const StudentPage = () => {
   const [issues, setIssues] = useState([]);
-  const [content, setContent] = useState(<div>Loading...</div>);
+  const [content, setContent] = useState();
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
 
@@ -76,10 +65,10 @@ const StudentPage = () => {
     }
   }, [user]);
 
-  const createnew = () => setContent(<IssueForm />);
-  const otherlist = () => setContent(<UserIssues />);
-  const settings = () => setContent(<div>Settings</div>);
-  const no_operation = () => setContent(<div>Sign in to handle issues</div>);
+  const createnew = () => setContent("IssueForm");
+  const otherlist = () => setContent("UserIsues");
+  const settings = () => setContent("Settings");
+  const no_operation = () => setContent("Splash");  
 
   return (
     <div className="bodyy">
@@ -102,7 +91,7 @@ const StudentPage = () => {
       </div>
       <div className="content-section">
         <SearchBar />
-        {content}
+        <Content to_display_name={content} issues={issues} user={user}/>
       </div>
       <div className="right-side">
         {user ? (
@@ -114,7 +103,7 @@ const StudentPage = () => {
           </div>
         ) : (
           <div>
-            <ProfileDisplay text={"Guest"} />
+            <InPageLoginButton />
           </div>
         )}
       </div>

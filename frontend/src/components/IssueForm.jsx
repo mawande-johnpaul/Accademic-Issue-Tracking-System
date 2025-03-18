@@ -73,55 +73,18 @@ const IssueForm = ({ token }) => {
   };
 
   return (
-    <div className="max-w-lg mx-auto p-6 bg-white shadow-md rounded-lg">
-      <h2 className="text-xl font-bold mb-4">Submit an Issue</h2>
-      {message && <p className="mb-3 text-sm text-gray-700">{message}</p>}
+    <div>
+      
+      <form onSubmit={handleSubmit} className="formcontainer">
 
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div>
-          <label className="block font-medium">Title</label>
-          <input
-            type="text"
-            name="title"
-            value={formData.title}
-            onChange={handleChange}
-            required
-            className="w-full p-2 border rounded"
-          />
-        </div>
-
-        <div>
-          <label className="block font-medium">Description</label>
-          <textarea
-            name="description"
-            value={formData.description}
-            onChange={handleChange}
-            required
-            className="w-full p-2 border rounded"
-          ></textarea>
-        </div>
-
-        <div>
-          <label className="block font-medium">Course-Unit</label>
-          <input
-            type="text"
-            name="subject"
-            value={formData.subject}
-            onChange={handleChange}
-            required
-            placeholder="Enter the Course-Unit"
-            className="w-full p-2 border rounded"
-          />
-        </div>
-
-        <div>
-          <label className="block font-medium">Category</label>
+      <div className="inputrows">
+          <label className="inputlabels">Category</label>
           <select
             name="category"
             value={formData.category}
             onChange={handleChange}
             required
-            className="w-full p-2 border rounded"
+            className="inputinputs"
           >
             <option value="">-- Select-Category --</option>
             <option value="course Registration">Course Registration</option>
@@ -133,8 +96,31 @@ const IssueForm = ({ token }) => {
           </select>
         </div>
 
-        <div>
-          <label className="block font-medium">Course-Code</label>
+        <div className="inputrows">
+          <label className="inputlabels">Title</label>
+          <input
+            type="text"
+            name="title"
+            value={formData.title}
+            onChange={handleChange}
+            required
+            className="inputinputs"
+          />
+        </div>
+
+        <div className="inputrows">
+          <label className="inputlabels">Description</label>
+          <textarea
+            name="description"
+            value={formData.description}
+            onChange={handleChange}
+            required
+            className="inputinputs"
+          ></textarea>
+        </div>
+
+        <div className="inputrows">
+          <label className="inputlabels">Course-Code</label>
           <input
             type="text"
             name="courseCode"
@@ -142,22 +128,25 @@ const IssueForm = ({ token }) => {
             onChange={handleChange}
             required
             placeholder="Enter the Course Code"
-            className="w-full p-2 border rounded"
+            className="inputinputs"
           />
         </div>
 
-        <div>
-          <label className="block font-medium">Attachments</label>
+        <div className="inputrows">
+          <label className="inputlabels">Course-Unit</label>
           <input
-            type="file"
-            name="attachments"
+            type="text"
+            name="subject"
+            value={formData.subject}
             onChange={handleChange}
-            className="w-full p-2 border rounded"
+            required
+            placeholder="Enter the Course-Unit"
+            className="inputinputs"
           />
         </div>
 
-        <div>
-          <label className="block font-medium">Year Of Study</label>
+        <div className="inputrows">
+          <label className="inputlabels">Year Of Study</label>
           <input
             type="number"
             name="year"
@@ -165,12 +154,12 @@ const IssueForm = ({ token }) => {
             onChange={handleChange}
             required
             placeholder="Enter Year Of Study"
-            className="w-full p-2 border rounded"
+            className="inputinputs"
           />
         </div>
 
-        <div>
-          <label className="block font-medium">Semester</label>
+        <div className="inputrows">
+          <label className="inputlabels">Semester</label>
           <input
             type="text"
             name="semester"
@@ -178,13 +167,12 @@ const IssueForm = ({ token }) => {
             onChange={handleChange}
             required
             placeholder="Enter the Semester"
-            className="w-full p-2 border rounded"
+            className="inputinputs"
           />
         </div>
 
-        <div>
-          <label className="block font-medium">Lecturer</label>
-          <div className="lecturer-container">
+        <div className="inputrows">
+          <label className="inputlabels">Lecturer</label>
             <input
               type="text"
               name="lecturer"
@@ -192,19 +180,45 @@ const IssueForm = ({ token }) => {
               onChange={handleChange}
               required
               placeholder="Search for lecturer"
-              className="w-full p-2 border rounded"
+              className="inputinputs"
             />
-            <span className="search-text">Search</span>
-          </div>
         </div>
 
+        <div className="inputrows">
+          <label className="inputlabels">Attachments</label>
+          <input
+            type="file"
+            name="attachments"
+            onChange={handleChange}
+            className="fileinputinputs"
+          />
+        </div>
+
+        <div className="inputrows">  
         <button
           type="submit"
           disabled={loading}
-          className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
+          className="formbuttons"
+            style={{ backgroundColor: '#080808' , color: "white" }}
         >
-          {loading ? "Submitting..." : "Submit Issue"}
+          Clear Form
         </button>
+        <button
+          type="submit"
+          disabled={loading}
+          className="formbuttons"
+            style={{ backgroundColor: "red", color: "white" }}
+        >
+          Cancel
+        </button>
+          <button
+            type="submit"
+            disabled={loading}
+            className="formbuttons"
+          >
+          Submit
+          </button>
+        </div>
       </form>
     </div>
   );

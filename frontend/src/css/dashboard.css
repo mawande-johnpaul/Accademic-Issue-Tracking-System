@@ -59,11 +59,11 @@
     border-bottom: 0px;
     border-radius: 5px 5px 0px 0px;
     border-color: #808080;
-    height: 4.5%;
+    height: auto;
     font-size: 20px;
     font-weight: bold;
+    padding: 5px;
     padding-left: 10px;
-    padding-top: 5px;
     background-color: #d5d5d5;
     cursor: pointer;
   }
@@ -79,7 +79,6 @@
   
   .right-side {
     width: 20%;
-    align-items: center;
   }
 
   .left-buttons {
@@ -110,7 +109,7 @@
     width: 99%;
     display: flex;
     gap: 5px;
-    height: 7.2%;
+    height: 6.5vh;
     margin-bottom: 7px;
     background-color: beige;
     border-radius: 5px;
@@ -167,7 +166,7 @@
     width: 20%;
     background-color: #032221;
     color: #FFFFFF;
-    font-size: 20px;
+    font-size: 18px;
     font-family: 'Inter', 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     font-weight: bold;
     border: none;
@@ -187,7 +186,7 @@
     border-bottom: 0px;
     border-radius: 5px 5px 0px 0px;
     border-color: #808080;
-    height: 13%;
+    height: 14%;
     font-size: 16px;
     padding-left: 10px;
     padding-top: 5px;
@@ -224,6 +223,7 @@
     overflow: hidden;
     text-overflow: ellipsis;
     background-color: #FFFFFF;
+    gap:5px;
   }
 
   .message-header{
