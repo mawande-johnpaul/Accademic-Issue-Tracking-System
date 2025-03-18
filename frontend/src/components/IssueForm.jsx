@@ -6,6 +6,13 @@ const IssueForm = ({ token }) => {
     title: "",
     description: "",
     priority: "Low",
+    subject: "",
+    category: "",
+    courseCode: "",
+    year: "",
+    semester: "",
+    lecturer: "",
+    attachments: null,
   });
 
   const [loading, setLoading] = useState(false);
@@ -13,7 +20,12 @@ const IssueForm = ({ token }) => {
 
   // Handle input changes
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value, files } = e.target;
+    if (name === "attachments") {
+      setFormData({ ...formData, [name]: files[0] });
+    } else {
+      setFormData({ ...formData, [name]: value });
+    }
   };
 
   // Handle form submission
@@ -22,20 +34,36 @@ const IssueForm = ({ token }) => {
     setLoading(true);
     setMessage("");
 
+    const formDataToSend = new FormData();
+    for (const key in formData) {
+      formDataToSend.append(key, formData[key]);
+    }
+
     try {
       const response = await axios.post(
         "http://127.0.0.1:8000/issues/",
-        formData,
+        formDataToSend,
         {
           headers: {
             Authorization: `Bearer ${token}`, // JWT token for authentication
-            "Content-Type": "application/json",
+            "Content-Type": "multipart/form-data",
           },
         }
       );
 
       setMessage("Issue submitted successfully!");
-      setFormData({ title: "", description: "", priority: "Low" }); // Reset form
+      setFormData({
+        title: "",
+        description: "",
+        priority: "Low",
+        subject: "",
+        category: "",
+        courseCode: "",
+        year: "",
+        semester: "",
+        lecturer: "",
+        attachments: null,
+      }); // Reset form
     } catch (error) {
       setMessage("Failed to submit issue.");
       console.error("Error:", error.response ? error.response.data : error);
@@ -74,17 +102,100 @@ const IssueForm = ({ token }) => {
         </div>
 
         <div>
-          <label className="block font-medium">Priority</label>
-          <select
-            name="priority"
-            value={formData.priority}
+          <label className="block font-medium">Course-Unit</label>
+          <input
+            type="text"
+            name="subject"
+            value={formData.subject}
             onChange={handleChange}
+            required
+            placeholder="Enter the Course-Unit"
+            className="w-full p-2 border rounded"
+          />
+        </div>
+
+        <div>
+          <label className="block font-medium">Category</label>
+          <select
+            name="category"
+            value={formData.category}
+            onChange={handleChange}
+            required
             className="w-full p-2 border rounded"
           >
-            <option value="Low">Low</option>
-            <option value="Medium">Medium</option>
-            <option value="High">High</option>
+            <option value="">-- Select-Category --</option>
+            <option value="course Registration">Course Registration</option>
+            <option value="Missing Marks">Missing Marks</option>
+            <option value="Timetable Clash">Timetable Clash</option>
+            <option value="Lecturer Concern">Lecturer Concern</option>
+            <option value="Examination Issue">Examination Issue</option>
+            <option value="Other">Other</option>
           </select>
+        </div>
+
+        <div>
+          <label className="block font-medium">Course-Code</label>
+          <input
+            type="text"
+            name="courseCode"
+            value={formData.courseCode}
+            onChange={handleChange}
+            required
+            placeholder="Enter the Course Code"
+            className="w-full p-2 border rounded"
+          />
+        </div>
+
+        <div>
+          <label className="block font-medium">Attachments</label>
+          <input
+            type="file"
+            name="attachments"
+            onChange={handleChange}
+            className="w-full p-2 border rounded"
+          />
+        </div>
+
+        <div>
+          <label className="block font-medium">Year Of Study</label>
+          <input
+            type="number"
+            name="year"
+            value={formData.year}
+            onChange={handleChange}
+            required
+            placeholder="Enter Year Of Study"
+            className="w-full p-2 border rounded"
+          />
+        </div>
+
+        <div>
+          <label className="block font-medium">Semester</label>
+          <input
+            type="text"
+            name="semester"
+            value={formData.semester}
+            onChange={handleChange}
+            required
+            placeholder="Enter the Semester"
+            className="w-full p-2 border rounded"
+          />
+        </div>
+
+        <div>
+          <label className="block font-medium">Lecturer</label>
+          <div className="lecturer-container">
+            <input
+              type="text"
+              name="lecturer"
+              value={formData.lecturer}
+              onChange={handleChange}
+              required
+              placeholder="Search for lecturer"
+              className="w-full p-2 border rounded"
+            />
+            <span className="search-text">Search</span>
+          </div>
         </div>
 
         <button
