@@ -5,7 +5,7 @@ import SearchBar from "./SearchBar";
 import Button from "./Button";
 import DisplayPane from "./DisplayPane";
 import Logo from "./Logo"
-import IssueForm from "./IssueForm";
+/*import IssueForm from "./IssueForm";*/
 import UserIssues from "./UserIssues";
 
 

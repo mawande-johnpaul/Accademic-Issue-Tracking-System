@@ -10,11 +10,13 @@ from rest_framework_simplejwt.tokens import RefreshToken
 
 User = get_user_model()
 
+# I changed from ModelViewSet to enerics because of its descriptive and ore specialied mrthods.
+
 # User Registration
 class RegisterView(generics.CreateAPIView):
-    queryset = User.objects.all()
+    queryset = User.objects.all() #Focus on all user objects
     serializer_class = RegisterSerializer
-    permission_classes = [AllowAny]
+    permission_classes = [AllowAny] #Anyone can acess this signup view
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
@@ -53,24 +55,42 @@ class LoginView(generics.GenericAPIView):
 
 
 # Issue Management
-class IssueListCreate(generics.ListCreateAPIView):
+class IssueListCreate(generics.ListCreateAPIView): #View to list or create an issue
+    queryset = Issue.objects.all()
+    serializer_class = IssueSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self): #Runs if the request method is GET
+        return super().get_queryset().filter(created_by=self.request.user)  # Ensure filtering works
+
+    def perform_create(self, serializer): #Runs if request is POST
+        serializer.save(created_by=self.request.user)
+
+class IssueUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     queryset = Issue.objects.all()
     serializer_class = IssueSerializer
     permission_classes = [AllowAny]
 
-    def get_queryset(self):
-        return super().get_queryset().filter(created_by=self.request.user)  # Ensure filtering works
+    def put(self, request, *args, **kwargs):
+        instance = self.get_object()
+        instance.state = request.data.get('state', instance.state)
+        instance.updated_at = timezone.now()
+        instance.save()
+        serializer = self.get_serializer(instance)
+        return Response(serializer.data)
 
-    def perform_create(self, serializer):
-        serializer.save(created_by=self.request.user)
+    def patch(self, request, *args, **kwargs):
+        instance = self.get_object()
+        instance.state = request.data.get('state', instance.state)
+        instance.updated_at = timezone.now()
+        instance.save()
+        serializer = self.get_serializer(instance)
+        return Response(serializer.data)
 
-
-class IssueUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
-    serializer_class = IssueSerializer
-    permission_classes = [AllowAny]
-
-    def get_queryset(self):
-        return Issue.objects.filter(created_by=self.request.user)
+    def delete(self, request, *args, **kwargs):
+        instance = self.get_object()
+        instance.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 # Notifications
@@ -89,17 +109,28 @@ class NotificationsCreate(generics.CreateAPIView):
     serializer_class = NotificationSerializer  # Fixed typo
     permission_classes = [IsAuthenticated]
 
+    def perform_create(self, serializer):
+        return super().perform_create(serializer)
+
 
 # Logs
 class LogListUpdateDelete(generics.RetrieveUpdateAPIView):
     serializer_class = LogSerializer  # Fixed typo
     permission_classes = [IsAuthenticated]
 
-    def get(self, request, *args, **kwargs):
-        return self.retrieve(request, *args, **kwargs)
+    def delete(self, request, *args, **kwargs):
+        instance = self.get_object()
+        instance.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
     def put(self, request, *args, **kwargs):
-        return self.update(request, *args, **kwargs)
-
-    def patch(self, request, *args, **kwargs):
-        return self.partial_update(request, *args, **kwargs)
+        instance = self.get_object()
+        instance.state = request.data.get('state', instance.state)
+        instance.timestamp = timezone.now()
+        instance.action = request.data.get('action', instance.action)
+        user = request.data.get('user')
+        user_id = user.id
+        instance.user_id = request.data.get('action', instance.user_id)
+        instance.save()
+        serializer = self.get_serializer(instance)
+        return Response(serializer.data)

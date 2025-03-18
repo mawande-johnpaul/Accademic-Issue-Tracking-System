@@ -15,7 +15,13 @@ function LoginPage() {
             const response = await axios.post('http://127.0.0.1:8000/login/', { username, password });
             localStorage.setItem('token', response.data.access_token); // Store the token in the browser
             localStorage.setItem('user', JSON.stringify(response.data.user)); // Store the user data in the browser
-            navigate("/student"); // Redirect to dashboard
+            if (response.data.user.role === "lecturer") {
+                navigate("/lecturer");
+              } else if (response.data.user.role === "registrar") {
+                navigate("/registrar");
+              } else {
+                navigate("/student");
+              }
         } catch (error) {
             if (error.response && error.response.data) {
                 setMessage(`Login failed: ${error.response.data.detail}`);

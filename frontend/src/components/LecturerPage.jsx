@@ -5,8 +5,8 @@ import SearchBar from "./SearchBar";
 import Button from "./Button";
 import DisplayPane from "./DisplayPane";
 import Logo from "./Logo"
-import IssueDisplayForm from "./IssueDisplayForm";
-import AssignedIssues from "./AssignedIssues";
+/*import IssueDisplayForm from "./IssueDisplayForm";
+/*import AssignedIssues from "./AssignedIssues";*/
 
 
 const MESSAGES=[
