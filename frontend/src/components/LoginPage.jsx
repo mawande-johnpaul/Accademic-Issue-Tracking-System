@@ -1,33 +1,66 @@
 import axios from 'axios';
-import React from 'react';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function LoginPage() {
-    const login = () => {
-        const username = document.getElementById('username')
-        const password = document.getElementById('password')
-        const password2 = document.getElementById('password2')
-        const response = async() => {
-          await axios.post('http://127.0.0.1:8000/api/login', {username, password, password2})
-          }
-        alert(response)
-    }
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+    const [message, setMessage] = useState('');
+    const navigate = useNavigate();
+
+    const login = async (event) => {
+        event.preventDefault(); // Prevent the form from refreshing the page
+
+        try {
+            const response = await axios.post('http://127.0.0.1:8000/login/', { username, password });
+            localStorage.setItem('token', response.data.access_token); // Store the token in the browser
+            localStorage.setItem('user', JSON.stringify(response.data.user)); // Store the user data in the browser
+            if (response.data.user.role === "lecturer") {
+                navigate("/lecturer");
+              } else if (response.data.user.role === "registrar") {
+                navigate("/registrar");
+              } else {
+                navigate("/student");
+              }
+        } catch (error) {
+            if (error.response && error.response.data) {
+                setMessage(`Login failed: ${error.response.data.detail}`);
+            } else {
+                setMessage('Login failed. Please check your credentials.');
+            }
+            console.error(error);
+        }
+    };
+
     return (
-      <div>
-          <h1>Log in</h1>
-          <form>
-            <p>Username</p>
-            <input 
-                id="username" 
-                type="text" 
-            />
-            <p>Password</p>
-            <input id="password" type="password"/>
-            <p>Password again</p>
-            <input id="password2" type="password"/>
-            <button type="submit" onClick={login}>Submit</button>
-          </form>
-      </div>
+        <div className='homepage'>
+            <h1 className='h1'>Log in</h1>
+            <form onSubmit={login} className='signuplower'>
+                <div className='row'>
+                    <div className='labels'>Username</div>
+                    <input 
+                        className='inputs'
+                        type="text" 
+                        value={username} 
+                        onChange={(e) => setUsername(e.target.value)} 
+                    />
+                </div>
+
+                <div className='row'>
+                    <div className='labels'>Password</div>
+                    <input 
+                        className='inputs'
+                        type="password" 
+                        value={password} 
+                        onChange={(e) => setPassword(e.target.value)} 
+                    />
+                </div>
+
+                <button type="submit" className='buttons'>Submit</button>
+            </form>
+            {message && <div>{message}</div>}
+        </div>
     );
-  }
+}
 
 export default LoginPage;
