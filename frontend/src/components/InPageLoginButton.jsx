@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 
 const InPageLoginButton = () => {
     return (
-        <Link className="buttons" to="/">Login/Signup</Link>
+        <Link className="InPageLoginButton" to="/">Login/Signup</Link>
     );
 }
 

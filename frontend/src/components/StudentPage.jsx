@@ -102,7 +102,7 @@ const StudentPage = () => {
             <DisplayPane heading={MESSAGES[2].head} items={MESSAGES[2].contents} />
           </div>
         ) : (
-          <div>
+          <div className="profile-area">
             <InPageLoginButton />
           </div>
         )}
