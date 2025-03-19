@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Issue Submission</title>
-    <link rel="stylesheet" href="issuesubmission.css">
+    <link rel="stylesheet" href="issuesubmission.css">   
 </head>
 <body>
     <div class="container">
@@ -44,8 +44,12 @@
             <div class="lecturer-container">
                 <input type="text" id="lecturerSearch" name="lecturer" required placeholder="Search for lecturer" oninput="searchLecturer()">
                 <span class="search-text">Search</span>
-            </div>            
-            <button type="submit" id="submitButton" disabled>Submit Issue</button>         
+            </div>    
+            <div class="footer">
+                <button type="submit" id="submitButton" disabled>Submit Issue</button>
+                <a href="#" class="back">Back</a>
+            </div>        
+                
 
         </form>
 

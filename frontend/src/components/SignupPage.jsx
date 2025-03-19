@@ -12,7 +12,17 @@ function SignupPage() {
 
     const signup = async (event) => {
       event.preventDefault();
-      response = await axios.post('http://127.0.0.1:8000/', { username, password, email, role, department } )
+      try {
+        const response = await axios.post('http://127.0.0.1:8000/', { username, password, email, role, department });
+        setMessage('Signup Succesful!')
+        setUsername('');
+        setPassword('');
+        setEmail('');
+        setRole('');
+        setDepartment('');      
+    } catch (error) {
+      setMessage('Signup failed! Please try again.');
+      console.error('Signup error:',error);
     }
 
     return (

@@ -24,7 +24,7 @@ input,textarea,select{
     width: 95%;
     padding: 10px;
     margin-bottom: 15px;
-    border: 1px solid #ccc;
+    border: 1px solid rgb(170, 136, 136);
 }
 textarea{
     height: 150px;
@@ -39,17 +39,17 @@ button{
     margin-top: 10px;
 }
 button:disabled{
-    background-color: #cccccc;
+    background-color: rgb(204, 204, 204);
     cursor: not-allowed;
 }
 button:hover:enabled{
-    background-color:#45a049;
+    background-color:rgb(69, 160, 73);
 }
 .lecturer-container{
     position: relative;
     display: flex;
     align-items: center;
-    border: 1px solid #ccc;
+    border: 1px solid rgb(204, 204, 204);
     padding: 5px;
     background: white;
     width: 100%;
@@ -62,9 +62,9 @@ button:hover:enabled{
     padding: 4px;
 }
 .search-text{
-    background:green;
+    background:rgb(0, 128, 0);
     padding: 5px 10px;
-    border-left: 1px solid #ccc;
+    border-left: 1px solid rgb(204, 204, 204);
     font-size: 14px;
     color:red;
     text-align: center;
@@ -72,4 +72,17 @@ button:hover:enabled{
 }
 .search-text:hover{
     background-color: rgb(3, 22, 3);
+}
+.footer{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.back{
+    text-decoration: none;
+    color: rgb(76, 175, 80);
+    font-weight: bold;
+}
+.back:hover{
+    color: rgb(69,160,73);
 }
