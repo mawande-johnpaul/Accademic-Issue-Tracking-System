@@ -70,7 +70,7 @@ const LecturerPage = () => {
   useEffect(() => {
     const fetchIssues = async () => {
       try {
-        const user = JSON.parse(localStorage.getItem("user"));
+        /*const user = JSON.parse(localStorage.getItem("user"));*/
         const token = localStorage.getItem("token");
 
         const response = await axios.get('http://127.0.0.1:8000/issues/', {
