@@ -1,21 +1,30 @@
+// eslint-disable-next-line no-unused-vars
 import React from 'react';
-/*import './css/App.css';
+import './css/App.css';
+import './css/homepage.css';
+import './css/signup.css';
+import './css/dashboard.css';
 import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 import Homepage from './components/HomePage';
 import SignupPage from './components/SignupPage';
-import LoginPage from './components/LoginPage';*/
-import IssueSubmission from './IssueSubmission';
+import LoginPage from './components/LoginPage';
+import StudentPage from './components/StudentPage';
+//import LecturerPage from './components/LecturerPage';
+import RegistrarPage from "./components/RegistrarPage";
   
 function App() {
   return (
-    /*<Router>
+    <Router>
         <Routes>
             <Route path='/' element={<Homepage />} />
             <Route path='/signup' element={<SignupPage />} />
             <Route path='/login' element={<LoginPage />} />
+            <Route path='/student' element={<StudentPage />} />
+            <Route path='/registrar' element={<RegistrarPage />} />
+            <Route path='/lecturer' element={<RegistrarPage />} />
         </Routes>
-    </Router>*/
-    <div><IssueSubmission/></div>
+    </Router>
+  
   );
 }
 
