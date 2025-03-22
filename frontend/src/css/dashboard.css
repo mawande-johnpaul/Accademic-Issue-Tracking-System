@@ -47,6 +47,8 @@
     margin-right: 10px;
     border-color: #808080;
     height: 97.5vh;
+    align-items: flex-start;
+    position: relative;
   }
 
   .form-holder{
@@ -173,6 +175,13 @@
     border: none;
     border-radius: 0px 5px 5px 0px;
     cursor: pointer;
+  }
+  /* For Assigned Issues card*/
+  .assigned-issues-wrapper{
+    width: 50%;
+    position:absolute;
+    bottom: 20px;
+    left: 20px;
   }
   
   .display-pane {

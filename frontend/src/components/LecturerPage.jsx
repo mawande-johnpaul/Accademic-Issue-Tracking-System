@@ -5,8 +5,8 @@ import SearchBar from "./SearchBar";
 import Button from "./Button";
 import DisplayPane from "./DisplayPane";
 import Logo from "./Logo"
-/*import IssueDisplayForm from "./IssueDisplayForm";
-/*import AssignedIssues from "./AssignedIssues";*/
+/*import IssueDisplayForm from "./IssueDisplayForm";*/
+import AssignedIssues from "./AssignedIssues";
 
 
 const MESSAGES=[
@@ -99,6 +99,10 @@ const LecturerPage = () => {
                 <li key={issue.id}>{issue.title}</li>
                 ))}
             </ul>
+            <div className="assigned-issues-wrapper">
+          <AssignedIssues issues={issues}/>
+        </div>
+            
           </div>
         </div>
     );
@@ -128,6 +132,7 @@ function settings(){
       <div className="content-section">
         <SearchBar />
         <Welcome />
+        
       </div>
       <div className="right-side">
         <ProfileDisplay text={"Lecturer"}/>
