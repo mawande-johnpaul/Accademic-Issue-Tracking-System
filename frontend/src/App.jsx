@@ -1,4 +1,3 @@
-// eslint-disable-next-line no-unused-vars
 import React from 'react';
 import './css/App.css';
 import './css/homepage.css';
@@ -9,7 +8,7 @@ import Homepage from './components/HomePage';
 import SignupPage from './components/SignupPage';
 import LoginPage from './components/LoginPage';
 import StudentPage from './components/StudentPage';
-//import LecturerPage from './components/LecturerPage';
+import LecturerPage from './components/LecturerPage';
 import RegistrarPage from "./components/RegistrarPage";
   
 function App() {
@@ -24,7 +23,6 @@ function App() {
             <Route path='/lecturer' element={<RegistrarPage />} />
         </Routes>
     </Router>
-  
   );
 }
 
