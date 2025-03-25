@@ -37,7 +37,7 @@ function SignupPage() {
           <h1 className='h1'>Sign up</h1>
           <form onSubmit={signup} className='signuplower'>
             <div className='row'>
-              <div className='labels'>Username</div>
+              <div className='labels'>username</div>
               <input type="text"  className='inputs'                   
                 value={username} 
                 onChange={(e) => setUsername(e.target.value)} />
