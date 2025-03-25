@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        body{
+            display: flex;
+            overflow: hidden;
+            padding: 0px;
+            margin: 0px;
+            flex-direction: column;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .sidebarlogo{
+            font-size: 20px;
+            font-weight: bolder;
+            color: darkorange;
+            margin-left: 10px;
+             }
+
+         .top{
+            background-color: rgb(0, 46, 0);
+
+            padding: 5px;
+         }
+         .bottom{
+            display: flex;
+            flex-direction: row;
+
+        }
+        .leftbuttons{
+            padding: 10px;
+            border-radius: 10px ;
+            margin-bottom: 10px;
+            background-color: aliceblue;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-weight: bold;
+         }
+         .leftpanel{
+            display: flex;
+            flex-direction: column;
+            width: 20%;
+            background-color:#005504 ;
+            padding: 10px;
+         }
+         .recentpanel{
+            display: flex;
+            flex-direction: column;
+            width: 80%;
+
+         }
+         .user{
+            display: flex;
+            flex-direction: column;
+            border-radius: 10px;
+            width: 30%;
+            margin: 10px;
+            padding: 10px;
+            height: 70vh;
+            border: 1px solid #9f9f9f;
+            background-color: rgb(233, 233, 233);
+         }  
+         .headersection{
+            display: flex;
+            flex-direction: row;
+            gap: 40%;
+            
+         }
+         .recentcomp{
+            display: flex;
+            flex-direction: row;
+            
+         }
+         .adminbutton{
+            margin: 10px;
+            width: 25%;
+            border-radius: 10px;
+            border: 1px solid #9f9f9f;
+         }
+         h1{
+            padding-left: 10px;
+            width: 35%;
+         }
+         h2{
+            margin-top: 10px;
+            font-size: 18px;
+         }
+         .actioncontainer{
+            background-color: #ffffff;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            padding: 5px;
+            font-size: 12px;
+         }
+    </style>
+
+</head>
+<body>
+    <section class="top">
+        <div class="sidebarlogo">ATIS admin</div>  
+    </section>
+    <section class="bottom">
+        <div class="leftpanel">
+                <button class="leftbuttons">Dashboard</button>
+                <button class="leftbuttons">Users</button>
+                <button class="leftbuttons">Groups</button>
+                <button class="leftbuttons">Issues</button>
+                <button class="leftbuttons">Logs</button>
+                <button class="leftbuttons" style="margin-top: 180px;">Logout</button>
+
+        </div>
+        <div class="recentpanel">
+                <div class="headersection">
+                    <h1> Recent actions</h1>
+                    <button class="adminbutton">Admin username</button>
+                </div>
+                
+                <div class="recentcomp">
+                    <div class="user">
+                        <h2>Users</h2>
+                        <div class="actioncontainer">Student skibidi logged in.</div>
+                        <div class="actioncontainer">Lecturer umziky logged in.</div>
+                        <div class="actioncontainer"> Student skibidi logged issue.</div>
+                        <div class="actioncontainer">Registrar kizito logged in.</div>
+                        <div class="actioncontainer">Registrar kizito logged out.</div>
+                    </div>
+                    <div class="user">
+                        <h2>Issues</h2>
+                        <div class="actioncontainer">Student skibidi logged in.</div>
+                        <div class="actioncontainer">Lecturer umziky logged in.</div>
+                        <div class="actioncontainer"> Student skibidi logged issue.</div>
+                        <div class="actioncontainer">Registrar kizito logged in.</div>
+                        <div class="actioncontainer">Registrar kizito logged out.</div>
+                    </div>
+                    <div class="user">
+                        <h2>Log</h2>
+                        <div class="actioncontainer">Student skibidi logged in.</div>
+                        <div class="actioncontainer">Lecturer umziky logged in.</div>
+                        <div class="actioncontainer"> Student skibidi logged issue.</div>
+                        <div class="actioncontainer">Registrar kizito logged in.</div>
+                        <div class="actioncontainer">Registrar kizito logged out.</div>
+                    </div>
+                </div>  
+            
+    
+        </div>
+    
+    </body>
+    
+    </section>
+    
