@@ -49,7 +49,7 @@ function SignupPage() {
                 onChange={(e) => setEmail(e.target.value)} />
             </div>
             <div className='row'>
-              <div className='labels'>Password</div>
+              <div className='labels'>password</div>
               <input type="password" className='inputs'
                 value={password} 
                 onChange={(e) => setPassword(e.target.value)} />
