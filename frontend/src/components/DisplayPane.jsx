@@ -1,22 +1,23 @@
-import React from 'react';
-import RightPaneItem from './RightPaneItem';  
+import React from 'react'; 
 
-const DisplayPane = ({heading, messages}) => {
+const DisplayPane = ({heading, items}) => {
     return (
-        <div className="display-pane">
-            <div className='pane-header'>
-                {heading}
-            </div>
+        <div className='display-pane'>
+            <div className='pane-header'>{heading}</div>
             <div className='pane-content'>
-                {messages.map((message, index) => (
-                    <div key={index} className='message'>
-                        <RightPaneItem message={message} />
+            {
+            items.map(item => (
+                <div key={item.id}>
+                    <div className='message-item'> 
+                        <div className='message-header'>{item.name}</div>
+                        <div className='message-body'>{item.message}</div>
                     </div>
-                ))}
+                </div>
+            ))
+            }
             </div>
-            
         </div>
-    );
+    )
 };
 
 export default DisplayPane;

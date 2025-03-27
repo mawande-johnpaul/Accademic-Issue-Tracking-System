@@ -1,49 +1,65 @@
-from .models import *
 from rest_framework import serializers
+from .models import *
+from django.contrib.auth import get_user_model
+from django.contrib.auth import authenticate
+
+User = get_user_model()
 
 class RegisterSerializer(serializers.ModelSerializer):
-    password = serializers.CharField(max_length=68, min_length=6, write_only=True)
-
     class Meta:
-        model = CustomUser
-        fields = ['email', 'username', 'password']
+        model = User
+        fields = '__all__'
+        extra_kwargs = {'password': {'write_only': True}}
 
-    def validate(self, attrs):
-        email = attrs.get('email', '')
-        username = attrs.get('username', '')
+    def validate(self, data):
+        if User.objects.filter(username=data['username']).exists():
+            raise serializers.ValidationError('Username already exists')
+        return data
 
-        if not username.isalnum():
-            raise serializers.ValidationError('The username should only contain alphanumeric characters')
+    def create(self, validated_data):  # Corrected indentation
+        user = User.objects.create_user(
+            username=validated_data['username'],
+            email=validated_data['email'],
+            role=validated_data.get('role', None),
+            department=validated_data.get('department', None),
+            password=validated_data['password']  # `create_user` automatically hashes the password
+        )
+        return user
 
-        return attrs
 
-    def create(self, validated_data):
-        return CustomUser.objects.create_user(**validated_data)
+class LoginSerializer(serializers.Serializer):
+    username = serializers.CharField(max_length=255)
+    password = serializers.CharField(write_only=True, max_length=128)
 
-class LoginSerializer(serializers.ModelSerializer):
-    password = serializers.CharField(max_length=68, min_length=6, write_only=True)
-    username = serializers.CharField(max_length=100, write_only=True)
-    token = serializers.CharField(max_length=255, read_only=True)
+    def validate(self, data):
+        username = data.get("username")
+        password = data.get("password")
 
-    class Meta:
-        model = CustomUser
-        fields = ['username', 'password', 'token']
+        if username and password:
+            user = authenticate(username=username, password=password)
 
-class IssueCreateSerializer(serializers.ModelSerializer):
-    title = serializers.CharField(max_length=100)
-    description = serializers.CharField()
-    status = serializers.CharField(max_length=100)
-    assignee = serializers.CharField(max_length=100)
+            if user is None or not user.is_active:  # Added check for active status
+                raise serializers.ValidationError('Invalid credentials or inactive account.')
+        else:
+            raise serializers.ValidationError('Both username and password are required.')
 
+        data['user'] = user
+        return data
+
+
+class IssueSerializer(serializers.ModelSerializer):
     class Meta:
         model = Issue
-        fields = ['title', 'description', 'status', 'assignee', 'created_at', 'updated_at']
+        fields = '__all__'
 
-    def create(self, validated_data):
-        return Issue.objects.create(**validated_data)
 
-class IssueListSerializer(serializers.ModelSerializer):
-    title = serializers.CharField(max_length=100)
-    description = serializers.CharField()
-    status = serializers.CharField(max_length=100)
+class LogSerializer(serializers.ModelSerializer):  # Fixed typo in class name
+    class Meta:
+        model = Log
+        fields = '__all__'
 
+
+class NotificationSerializer(serializers.ModelSerializer):  # Fixed typo in class name
+    class Meta:
+        model = Notification
+        fields = '__all__'

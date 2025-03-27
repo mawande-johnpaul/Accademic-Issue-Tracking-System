@@ -4,12 +4,15 @@ function displayLoginContent () {
     
 }
 
-const ProfileDisplay = () => {
+const ProfileDisplay = ({text}) => {
     return (
         <div className='profile-area'>
-            <button className="login-button" onClick={displayLoginContent}>
-                Login / Signup
-            </button>
+            <div className='profile-picture'>
+                <img className='profile' src="profile-picture.png" alt="icon" width="20" height="20" />
+            </div>
+            <div className='profile-name'>
+                {text}
+            </div>
         </div>
     );
 };
