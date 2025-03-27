@@ -1,0 +1,105 @@
+.resolving{
+    margin-top: 20px;
+    padding: 15px;
+    background:#fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    width:96%;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+.resolved-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.F-btns button{
+    background: #ddd;
+    padding: 6px 10px;
+    border: none;
+    margin-left: 5px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+.F-btns .active{
+    background: rgb(13, 199, 13);
+    color: White;
+}
+.issues-griid{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+.isuse-card{
+    background:#f9f9f9;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    height: 25vh;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.isuse-card:hover{
+    transform: scale(1.02);
+}
+.issue-Head{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: bold;
+    padding-bottom:3px;
+    font-size: 0.9em;
+    border-bottom: 1px solid #ddd;
+}
+.priOrity{
+    background: #ccb040;
+    border: none;
+    border-radius: 5px;
+    padding: 2px 6px;
+    font-size:0.8em;
+    color: #333;    
+}
+.deaDline{
+    color: red;
+    font-size: 0.8em;
+    font-weight: bold;
+}
+.isuse-card p{
+    font-size: 0.85em;
+    margin: 5px 0;
+}
+.button-ccontainer{
+    position: absolute;
+    bottom: 5px;
+    right: 10px;
+    display: flex;
+    gap: 8px;
+}
+.remove,.reopen{
+    padding: 6px 10px;
+    font-size: 0.85em;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+.remove{
+    background: red;
+    color: rgb(255, 255, 255);
+}
+.reopen{
+    background: rgb(12, 189, 12);
+}
+.remove:hover{
+    background-color: darkred;
+    color: black;
+}
+.reopen:hover{
+    background-color: darkgreen;
+    color: white;
+}

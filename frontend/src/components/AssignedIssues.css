@@ -1,48 +1,108 @@
+
 .assigned{
+    margin-top: 20px;
     padding: 15px;
-    background:rgb(45, 99, 45);
-    display: inline-block;
-    width: 50%;
-    max-width: 500px;
-    margin: auto;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    width:93.9%;
+    height: 100vh;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column; 
 }
-
-.issues-container{
+.assigned h2{
+    text-align:center ;
+}
+.issues-gridd{
+    width:100% !important;
     display:flex;
-    flex-wrap: wrap;
+    flex-direction: column;
     gap: 15px;
-    max-height: 150px;
-    overflow-y: scroll;
-    overflow-x: hidden;
 }
-.issue-card{
-    background:rgb(249, 249, 249);
-    padding: 15px;
+.isssue-cardd{
+    background: #ebe6e6;
+    padding: 9px;
     border-radius: 5px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);    
+    position: relative;
+    min-height: 90px;    
     transition: transform 0.2s;
-    width: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;    
 }
-
-.issue-card:hover{
-    transform:scale(1.02);
+.isssue-head{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: bold;
+    padding-bottom: 2px;
+    border-bottom: 1px solid #ddd;
 }
-.issue-card h3{
+.priority{
+    background: #d4b63d;
+    padding: 3px 8px;
+    border-radius: 5px;
+    font-size: 0.9em;
+    color: #333;
+}
+.deadline{
+    color: #680e0b;
+    font-size: 0.9em;
+    font-weight: bold;
+}
+.isssue-cardd:hover{
+    transform: scale(1.02);
+}
+.isssue-carddh3{
     margin: 0;
-    color: rgb(51, 51, 51);
+    color: #333;
 }
-.issue-card p{
-    margin: 0;
-    color: rgb(102, 102, 102);
-}
-.issue-card button{
-    background: rgb(0, 123, 255);
+.isssue-cardd p{
+    margin:5px 0;
+    color: #a37171;
+}/*
+.isssue-cardd button{
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    background: #007bff;
     color: white;
     border: none;
     padding: 8px 12px;
-    
+    cursor: pointer;
+    border-radius: 4px;    
+}
+.isssue-cardd button:hover{
+    background: #0056b3;
+}*/
+.btn-container{
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    display: flex;
+    gap: 10px;
+}
+.report{
+    background:green;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    cursor: pointer;
     border-radius: 4px;
 }
-.issue-card button:hover{
-    background: rgb(0, 86, 179);
+.report:hover{
+    background:rgb(5,63,5);
+}
+.details{
+    background: green;
+    border: none;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+    padding: 8px 12px;
+}
+.details:hover{
+    background: rgb(5, 63, 5);
 }

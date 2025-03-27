@@ -7,7 +7,7 @@ import DisplayPane from "./DisplayPane";
 import Logo from "./Logo"
 /*import IssueDisplayForm from "./IssueDisplayForm";*/
 import AssignedIssues from "./AssignedIssues";
-
+import ResolvingIssues from "./ResolvingIssues";
 
 const MESSAGES=[
   {
@@ -66,6 +66,7 @@ const MESSAGES=[
 
 const LecturerPage = () => {
   const [issues, setIssues] = useState([]);
+  const [activeSection , setActiveSection] = useState('welcome');
 
   useEffect(() => {
     const fetchIssues = async () => {
@@ -100,15 +101,15 @@ const LecturerPage = () => {
                 ))}
             </ul>
             <div className="assigned-issues-wrapper">
-          <AssignedIssues issues={issues}/>
+          {/*<AssignedIssues issues={issues}/>*/}
         </div>
-            
+            {/*<ResolvingIssues resolvingIssues={issues}/>*/}
           </div>
         </div>
     );
 };
 
-function createnew(){
+{/*function createnew(){
   console.log("New Issue created");
 };
 
@@ -118,20 +119,56 @@ function otherlist(){
 
 function settings(){
   console.log("Settings selected");
-}
+}*/}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   return (
     <div className="bodyy">
       <div className="left-side">
         <Logo />
-        <Button text={"Assigned issues"} image={"new-issue.svg"} funct={createnew}/>
+        {/*<Button text={"Assigned issues"} image={"new-issue.svg"} funct={createnew}/>
         <Button text={"Resolved issues"} image={"posted-logo.svg"} funct={otherlist}/>
-        <Button text={"Settings"} image={"settings.svg"} funct={settings}/>
+        <Button text={"Settings"} image={"settings.svg"} funct={settings}/>*/}
+        <Button text={"Assigned issues"} image={"new-issue.svg"} funct={() => setActiveSection('assigned')}/>
+        <Button text={"Resolved issues"} image={"posted-logo.svg"} funct={() => setActiveSection('resolved')}/>
+        <Button text={"Settings"} image={"settings.svg"} funct={() => setActiveSection('settings')}/>
+        
 
       </div>
       <div className="content-section">
         <SearchBar />
-        <Welcome />
+        {/*<Welcome />*/}
+        {activeSection === 'welcome' && <Welcome/>}
+        {activeSection === 'assigned' && <AssignedIssues issues={issues}/>}
+        {activeSection === 'resolved' && <ResolvingIssues resolvingIssues={issues}/>}
         
       </div>
       <div className="right-side">
