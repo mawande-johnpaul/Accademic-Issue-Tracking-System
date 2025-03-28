@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Table from "./table";
 
 const AdminPage = () => {
 
@@ -11,16 +12,26 @@ const AdminPage = () => {
                 </section>
                 <section className="bottom">
                     <div className="leftpanel">
-                        <button className="leftbuttons">Dashboard</button>
-                        <button className="leftbuttons" onClick={ () => setShow("users")}>Users</button>
-                        <button className="leftbuttons">Groups</button>
-                        <button className="leftbuttons">Issues</button>
-                        <button className="leftbuttons">Logs</button>
+                        <button className="leftbuttons"onClick={ () => setShow("splash")}>Dashboard</button>
+                        <button className="leftbuttons"onClick={ () => setShow("users")}>Users</button>
+                        <button className="leftbuttons" onClick={ () => setShow("groups")}>Groups</button>
+                        <button className="leftbuttons"onClick={ () => setShow("issues")}>Issues</button>
+                        <button className="leftbuttons"onClick={ () => setShow("logs")}>Logs</button>
                         <button className="leftbuttons" style={{ marginTop: '180px' }}>Logout</button>
                     </div>
                     <div className="recentpanel">
                     <div className="headersection">
-                        <h3> Recent actions</h3>
+                        {show === 'users'? (
+                            <h3>Users</h3>
+                        ) : show === 'splash'? (
+                            <h3>Recent actions</h3>
+                        ) : show === "issues"? (
+                            <h3>Issues</h3>
+                        ) : show === "groups" ?(
+                            <h3>Groups</h3>
+                         ) :(
+                            <h3>Logs</h3>
+                         )}
                         <button className="adminbutton">Admin username</button>
                     </div>
                     {show === "splash" ? (
@@ -51,15 +62,13 @@ const AdminPage = () => {
                             </div>
                         </div>
                     ) : show === "groups" ? (
-                        <h1>Groups clicked</h1>
+                        <div><Table /></div>
                     ) : show === "users" ? (
-                        <h1>Users clicked</h1>
+                        <div><Table /></div>
                     ) : show === "issues" ? (
-                        <h1>Issues clicked</h1>
-                    ) : show === "logs" ? (
-                        <h1>Logs clicked</h1>
+                        <div><Table /></div>
                     ) : (
-                        <h1>Logout clicked</h1>
+                        <div><Table /></div>
                     )}
                     
                     </div>

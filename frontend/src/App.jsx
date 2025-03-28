@@ -3,6 +3,7 @@ import './css/homepage.css';
 import './css/signup.css';
 import './css/dashboard.css';
 import './css/admin.css';
+import './css/table.css';
 import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 import Homepage from './components/HomePage';
 import SignupPage from './components/SignupPage';
