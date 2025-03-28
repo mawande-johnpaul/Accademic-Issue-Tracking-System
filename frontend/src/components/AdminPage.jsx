@@ -1,6 +1,11 @@
 import { useState } from "react";
 import Table from "./table";
 
+const GROUPS = {
+    admin:['john', 'peter', 'paul'],
+    students: ['skibidi', 'kizito', 'fred']
+}
+
 const AdminPage = () => {
 
     const [show, setShow] = useState("splash");
@@ -62,13 +67,13 @@ const AdminPage = () => {
                             </div>
                         </div>
                     ) : show === "groups" ? (
-                        <div><Table /></div>
+                        <div><Table data={GROUPS}/></div>
                     ) : show === "users" ? (
-                        <div><Table /></div>
+                        <div><Table data={GROUPS} /></div>
                     ) : show === "issues" ? (
-                        <div><Table /></div>
+                        <div><Table data={GROUPS} /></div>
                     ) : (
-                        <div><Table /></div>
+                        <div><Table data={GROUPS} /></div>
                     )}
                     
                     </div>
