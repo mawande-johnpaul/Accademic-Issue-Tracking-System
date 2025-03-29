@@ -9,7 +9,7 @@ import Content from "./ContentSection";
 import InPageLoginButton from "./InPageLoginButton";
 
 
-const MESSAGES = [
+/*const MESSAGES = [
   {
     head: 'Messages',
     contents: [
@@ -34,11 +34,12 @@ const MESSAGES = [
       { name: 'John Doe', message: 'You have a new request.' },
     ],
   },
-];
+];*/
 
 
 const StudentPage = () => {
   const [issues, setIssues] = useState([]);
+  const [notifications, setNotifications] = useState([]);
   const [content, setContent] = useState();
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
@@ -60,8 +61,24 @@ const StudentPage = () => {
       }
     };
 
+    const fetchNotifications = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        const response = await axios.get('http://127.0.0.1:8000/notifications/', {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+          },
+        });
+        setNotifications(response.data);
+
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
     if (user) {
       fetchIssues();
+      fetchNotifications();
     }
   }, [user]);
 
@@ -94,25 +111,10 @@ const StudentPage = () => {
         <Content to_display_name={content} issues={issues} user={user}/>
       </div>
       <div className="right-side">
-<<<<<<< Updated upstream
-        {user ? (
-          <div>
-            <ProfileDisplay text={user.username} />
-            <DisplayPane heading={MESSAGES[0].head} items={MESSAGES[0].contents} />
-            <DisplayPane heading={MESSAGES[1].head} items={MESSAGES[1].contents} />
-            <DisplayPane heading={MESSAGES[2].head} items={MESSAGES[2].contents} />
-          </div>
-        ) : (
-          <div className="profile-area">
-            <InPageLoginButton />
-          </div>
-        )}
-=======
         <ProfileDisplay text={user.username}/>
-        <DisplayPane heading={MESSAGES[0].head} items={MESSAGES[0].contents} type='messages' />
-        <DisplayPane heading={MESSAGES[1].head} items={MESSAGES[1].contents} type='notifications' />
-        <DisplayPane heading={MESSAGES[2].head} items={MESSAGES[2].contents} type='announcements' />
->>>>>>> Stashed changes
+        <DisplayPane items={notifications[0].contents} type='messages' />
+        <DisplayPane items={notifications[1].contents} type='notifications' />
+        <DisplayPane items={notifications[2].contents} type='announcements' />
       </div>
     </div>
   );

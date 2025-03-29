@@ -1,9 +1,9 @@
 import React from 'react'; 
 
-const ChatDisplayPane = ({heading, items}) => {
+const ChatDisplayPane = ({items}) => {
     return (
         <div className='display-pane'>
-            <div className='pane-header'>{heading}</div>
+            <div className='pane-header'>Messages</div>
             <div className='pane-content'>
             {
             items.map(item => (
