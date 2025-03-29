@@ -8,14 +8,15 @@ function SignupPage() {
     const [password, setPassword] = useState('');
     const [message, setMessage] = useState('');
     const [email, setEmail] = useState('');
-    const [role, setRole] = useState('');
+    const [webmail, setWebmail] = useState('');
+    const [course, setCourse] = useState('');
     const [department, setDepartment] = useState('');
     const navigate = useNavigate();
 
     const signup = async (event) => {
       event.preventDefault();
       try {
-        const response = await axios.post('http://127.0.0.1:8000/signup/', { username, password, email, role, department });
+        const response = await axios.post('http://127.0.0.1:8000/signup/', { username, password, email, webmail, role, department });
         localStorage.setItem('token', response.data.access);
         localStorage.setItem('user', JSON.stringify(response.data.user));
         if (response.data.user.role === "lecturer") {
@@ -49,22 +50,28 @@ function SignupPage() {
                 onChange={(e) => setEmail(e.target.value)} />
             </div>
             <div className='row'>
+              <div className='labels'>Webmail</div>
+              <input type="text" className='inputs'
+                value={webmail} 
+                onChange={(e) => setWebmail(e.target.value)} />
+            </div>
+            <div className='row'>
               <div className='labels'>Password</div>
               <input type="password" className='inputs'
                 value={password} 
                 onChange={(e) => setPassword(e.target.value)} />
             </div>
             <div className='row'>
-              <div className='labels'>Role</div>
-              <input type="text" className='inputs' choices={['student', 'lecturer', 'registrar']}
-                value={role} 
-                onChange={(e) => setRole(e.target.value)} />
-            </div>
-            <div className='row'>
               <div className='labels'>Department</div>
               <input type="text" className='inputs' choices={['cocis', 'cobams', 'conas']}
                 value={department} 
                 onChange={(e) => setDepartment(e.target.value)} />
+            </div>
+            <div className='row'>
+              <div className='labels'>Course</div>
+              <input type="text" className='inputs' choices={['bscs', 'bcse', 'bist']}
+                value={course} 
+                onChange={(e) => setCourse(e.target.value)} />
             </div>
             <button type="submit" className='buttons'>Submit</button>
           </form>

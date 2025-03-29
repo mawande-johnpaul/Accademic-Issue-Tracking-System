@@ -94,6 +94,7 @@ const StudentPage = () => {
         <Content to_display_name={content} issues={issues} user={user}/>
       </div>
       <div className="right-side">
+<<<<<<< Updated upstream
         {user ? (
           <div>
             <ProfileDisplay text={user.username} />
@@ -106,6 +107,12 @@ const StudentPage = () => {
             <InPageLoginButton />
           </div>
         )}
+=======
+        <ProfileDisplay text={user.username}/>
+        <DisplayPane heading={MESSAGES[0].head} items={MESSAGES[0].contents} type='messages' />
+        <DisplayPane heading={MESSAGES[1].head} items={MESSAGES[1].contents} type='notifications' />
+        <DisplayPane heading={MESSAGES[2].head} items={MESSAGES[2].contents} type='announcements' />
+>>>>>>> Stashed changes
       </div>
     </div>
   );
