@@ -93,7 +93,7 @@ const StudentPage = () => {
     return (
         <div className="form-holder">
           <div className="content-section-header">
-          Hello {user.username}!
+          {/* Hello {user.username}! */}
           </div>
           <div className="content-section-body">
             <UserIssues /> 
