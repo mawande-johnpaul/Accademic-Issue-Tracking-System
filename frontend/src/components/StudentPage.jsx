@@ -93,7 +93,7 @@ const StudentPage = () => {
     return (
         <div className="form-holder">
           <div className="content-section-header">
-          {/* Hello {user.username}! */}
+          {/* Hello {user.username}!   */}
           </div>
           <div className="content-section-body">
             <UserIssues /> 
@@ -121,7 +121,7 @@ function settings(){
         <Button text={"New issue"} image={"new-issue.svg"} funct={createnew}/>
         <Button text={"Posted issues"} image={"posted-logo.svg"} funct={otherlist}/>
         <Button text={"Settings"} image={"settings.svg"} funct={settings}/>
-
+        
       </div>
       <div className="content-section">
         <SearchBar />
