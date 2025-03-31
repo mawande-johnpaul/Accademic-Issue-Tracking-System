@@ -72,6 +72,7 @@ const StudentPage = () => {
       try {
         const token = localStorage.getItem("token");
 
+        // Probably hoist this as a config
         const response = await axios.get('http://127.0.0.1:8000/issues/', {
           headers: {
             'Authorization': `Bearer ${token}`
