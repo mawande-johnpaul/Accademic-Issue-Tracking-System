@@ -54,7 +54,7 @@ const MESSAGES=[
           },
       ]
   }
-  
+ // 
 ]
 
 const RegistrarPage = () => {
