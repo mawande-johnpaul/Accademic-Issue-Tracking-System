@@ -8,10 +8,11 @@ from rest_framework.permissions import IsAuthenticated, AllowAny
 from django.contrib.auth import get_user_model, login
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.core.mail import *
+from logbook import permissions
 
 User = get_user_model()
 
-# I changed from ModelViewSet to enerics because of its descriptive and ore specialied mrthods.
+# I changed from ModelViewSet to generics because of its descriptive and more specialized methods.
 
 # User Registration
 class RegisterView(generics.CreateAPIView):

@@ -2,6 +2,9 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from logbook.views import *
+from django.conf import settings
+from django.conf.urls.static import static
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -14,4 +17,7 @@ urlpatterns = [
     path('notifications/', NotificationsListDestroy.as_view(), name='notifications'),
     path('notifications/create/', NotificationsCreate.as_view(), name='create_notification'),
     path('logs/', LogListUpdateDelete.as_view(), name='logs'),
-]
+    
+    
+] + static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
+

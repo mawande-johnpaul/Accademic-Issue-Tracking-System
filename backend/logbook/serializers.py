@@ -2,6 +2,8 @@ from rest_framework import serializers
 from .models import *
 from django.contrib.auth import get_user_model
 from django.contrib.auth import authenticate
+from logbook.permissions import *
+from django.contrib.auth.models import Permission
 
 User = get_user_model()
 
@@ -21,19 +23,36 @@ class RegisterSerializer(serializers.ModelSerializer):
         webmail_suffix = webmail.split('@')[1]
         if webmail_suffix == 'students.mak.ac.ug':
             roles = 'student'
+            permission = IsStudent()
+            
+            
         elif '@' not in webmail:
             roles = 'registrar'
+            permission = IsRegistrar()
+            
+            
         else:
             roles = 'lecturer'
+            permission = IsRegistrar()
+           
+            
         user = User.objects.create_user(
             username=validated_data['username'],
             email=validated_data['email'],
             role=roles,
             department=validated_data.get('department', None),
-            password=validated_data['password']  # `create_user` automatically hashes the password
+            password=validated_data['password'],  # `create_user` automatically hashes the password
+            permissions=permission
         )
         return user
-
+#assign permissions
+# for codename in codenames:
+#     try:
+#         perms = Permission.objects.get(codename=codename)
+#         user.user_permissions.add(perms)
+#     except Permission.DoesNotExist:
+#         pass
+        
 
 class LoginSerializer(serializers.Serializer):
     username = serializers.CharField(max_length=255)
@@ -59,6 +78,19 @@ class IssueSerializer(serializers.ModelSerializer):
     class Meta:
         model = Issue
         fields = '__all__'
+#Logic to ensure that students do not submit massive files 
+    def validate_attachment(self, value):
+        max_size = 10 * 1024 * 1024  # 10 MB
+        if value and value.size > max_size: 
+            raise serializers.ValidationError("Attachment file size must not exceed 10MB")
+        return value
+
+    def validate_image(self, value):
+        max_size = 10 * 1024 * 1024  # 10 MB
+        if value and value.size > max_size:
+            raise serializers.ValidationError("Image file size must not exceed 10MB")
+        return value
+
 
 
 class LogSerializer(serializers.ModelSerializer):  # Fixed typo in class name
