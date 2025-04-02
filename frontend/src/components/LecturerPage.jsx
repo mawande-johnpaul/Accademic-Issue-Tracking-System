@@ -5,11 +5,12 @@ import SearchBar from "./SearchBar";
 import Button from "./Button";
 import DisplayPane from "./DisplayPane";
 import Logo from "./Logo"
+import Content from './LecturerContentSection'
 /*import IssueDisplayForm from "./IssueDisplayForm";
 /*import AssignedIssues from "./AssignedIssues";*/
 
 
-const MESSAGES=[
+/*const MESSAGES=[
   {
       head: 'Messages',
       contents: [
@@ -62,10 +63,11 @@ const MESSAGES=[
       ]
   }
   
-]
+]*/
 
 const LecturerPage = () => {
   const [issues, setIssues] = useState([]);
+  const [content, setContent] = useState('Splash');
 
   useEffect(() => {
     const fetchIssues = async () => {
@@ -86,23 +88,6 @@ const LecturerPage = () => {
 
     fetchIssues();
   }, []);
-
-  const Welcome = () => {
-    return (
-        <div className="form-holder">
-          <div className="content-section-header">
-          Hello! Welcome to AITS. Here are the issues you have posted:
-          </div>
-          <div className="content-section-body">
-            <ul >
-                {Array.isArray(issues) && issues.map(issue => (
-                <li key={issue.id}>{issue.title}</li>
-                ))}
-            </ul>
-          </div>
-        </div>
-    );
-};
 
 function createnew(){
   console.log("New Issue created");
@@ -127,14 +112,14 @@ function settings(){
       </div>
       <div className="content-section">
         <SearchBar />
-        <Welcome />
+        <Content to_display_name={content} issues={issues} user={user}/>
       </div>
-      <div className="right-side">
+      {/*<div className="right-side">
         <ProfileDisplay text={"Lecturer"}/>
         <DisplayPane heading={MESSAGES[0].head} items={MESSAGES[0].contents} />
         <DisplayPane heading={MESSAGES[1].head} items={MESSAGES[1].contents} />
         <DisplayPane heading={MESSAGES[2].head} items={MESSAGES[2].contents} />
-      </div>
+      </div>*/}
     </div>
   );
 };

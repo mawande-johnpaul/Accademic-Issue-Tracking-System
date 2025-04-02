@@ -5,7 +5,7 @@ import SearchBar from "./SearchBar";
 import Button from "./Button";
 import DisplayPane from "./DisplayPane";
 import Logo from "./Logo";
-import Content from "./ContentSection";
+import Content from "./StudentContentSection";
 import InPageLoginButton from "./InPageLoginButton";
 
 
@@ -40,7 +40,7 @@ import InPageLoginButton from "./InPageLoginButton";
 const StudentPage = () => {
   const [issues, setIssues] = useState([]);
   const [notifications, setNotifications] = useState([]);
-  const [content, setContent] = useState();
+  const [content, setContent] = useState('Splash');
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
 
@@ -110,12 +110,12 @@ const StudentPage = () => {
         <SearchBar />
         <Content to_display_name={content} issues={issues} user={user}/>
       </div>
-      <div className="right-side">
+      {/*<div className="right-side">
         <ProfileDisplay text={user.username}/>
-        <DisplayPane items={notifications[0].contents} type='messages' />
+        {<DisplayPane items={notifications[0].contents} type='messages' />
         <DisplayPane items={notifications[1].contents} type='notifications' />
         <DisplayPane items={notifications[2].contents} type='announcements' />
-      </div>
+      </div>*/}
     </div>
   );
 };

@@ -4,7 +4,7 @@ import ProfileDisplay from "./ProfileDisplay";
 import SearchBar from "./SearchBar";
 import Button from "./Button";
 import DisplayPane from "./DisplayPane";
-import ChatDisplayPane from "./ChatDiaplayPane"
+import ChatDisplayPane from "./ChatDisplayPane"
 import Logo from "./Logo"
 import IssueForm from "./IssueForm";
 import UserIssues from "./UserIssues";
@@ -122,12 +122,12 @@ function settings(){
         <SearchBar />
         <Welcome />
       </div>
-      <div className="right-side">
+      {/*<div className="right-side">
         <ProfileDisplay text={"Registrar"}/>
         <DisplayPane heading={MESSAGES[0].head} items={MESSAGES[0].contents} />
         <DisplayPane heading={MESSAGES[1].head} items={MESSAGES[1].contents} />
         <ChatDisplayPane heading={MESSAGES[2].head} items={MESSAGES[2].contents} />
-      </div>
+      </div>*/}
     </div>
   );
 };
