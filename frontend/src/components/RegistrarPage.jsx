@@ -80,22 +80,6 @@ const RegistrarPage = () => {
     fetchIssues();
   }, []);
 
-  const Welcome = () => {
-    return (
-        <div className="form-holder">
-          <div className="content-section-header">
-          Hello! Welcome to AITS. Here are the issues you have posted:
-          </div>
-          <div className="content-section-body">
-            <ul >
-                {Array.isArray(issues) && issues.map(issue => (
-                <li key={issue.id}>{issue.title}</li>
-                ))}
-            </ul>
-          </div>
-        </div>
-    );
-};
 
 function createnew(){
   console.log("New Issue created");
