@@ -7,6 +7,7 @@ from .models import *
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from django.contrib.auth import get_user_model, login
 from rest_framework_simplejwt.tokens import RefreshToken
+from django.core.mail import send_mail
 
 User = get_user_model()
 
@@ -134,3 +135,27 @@ class LogListUpdateDelete(generics.RetrieveUpdateAPIView):
         instance.save()
         serializer = self.get_serializer(instance)
         return Response(serializer.data)
+    
+class LogCreate(generics.CreateAPIView):
+    serializer_class = LogSerializer  # Fixed typo
+    permission_classes = [IsAuthenticated]
+
+    def perform_create(self, serializer):
+        return super().perform_create(serializer)
+    
+class EmailView(APIView):
+    def send_email(self, subject, message, to):
+        send_mail(subject, message, from_email=None, recipient_list=[to], fail_silently=False, auth_user=None, auth_password=None, connection=None, html_message=None)
+
+
+
+
+# django signals
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+
+'''class Signal:
+    @receiver(post_save, sender=Issue)
+    def issue_post_save(sender, instance, created, **kwargs):
+        if created:
+            EmailView.send_email('New Issue', 'A new issue has been created', User'''
