@@ -7,7 +7,7 @@ from .models import *
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from django.contrib.auth import get_user_model, login
 from rest_framework_simplejwt.tokens import RefreshToken
-from django.core.mail import *
+from django.core.mail import send_mail
 
 User = get_user_model()
 
