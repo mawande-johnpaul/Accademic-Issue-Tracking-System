@@ -58,17 +58,67 @@
     flex-direction: row;
     gap: 40%;
     
+    
  }
  .recentcomp{
     display: flex;
     flex-direction: row;
     
  }
+
+ table {
+   width: 10%;
+   border-collapse: collapse;
+   font-family: Arial, sans-serif;
+   font-size: 16px;
+   text-align: left;
+   border-radius: 8px;
+   overflow: hidden;
+   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+   padding: 0px;
+}
+
+th, td {
+   padding: 12px 15px;
+}
+
+th {
+   background-color: #4CAF50;
+   color: white;
+   font-weight: bold;
+}
+
+tr:nth-child(even) {
+   background-color: #f2f2f2;
+}
+
+tr:hover {
+   background-color: #ddd;
+   transition: 0.3s;
+}
+
+td {
+   border-bottom: 1px solid #ddd;
+}
+
+caption {
+   font-size: 20px;
+   font-weight: bold;
+   margin-bottom: 10px;
+}
+
+
  .adminbutton{
     margin: 10px;
     width: 25%;
     border-radius: 10px;
     border: 1px solid #9f9f9f;
+     background-color:  #005504;
+ }
+ .adminbutton:hover{
+    background-color: #005504;
+    color: white;
+    cursor: pointer;
  }
 
  h3{

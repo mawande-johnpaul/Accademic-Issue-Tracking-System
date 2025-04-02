@@ -4,8 +4,8 @@ const Table = ({data}) => {
     const headings = Object.keys(data);
     return (
     <>
-        <table>
-            <thead className="things">
+        <table className="table">
+            <thead>
             <tr>
                 {
                 headings.map((heading, i) => (
@@ -17,7 +17,7 @@ const Table = ({data}) => {
             </tr>
             
             </thead>
-            <tbody className="td">
+            <tbody>
                 <tr></tr>
                 <tr></tr>
                 <tr></tr>

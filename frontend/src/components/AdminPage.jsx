@@ -67,7 +67,7 @@ const AdminPage = () => {
                             </div>
                         </div>
                     ) : show === "groups" ? (
-                        <div><Table data={GROUPS}/></div>
+                        <div><Table data={GROUPS} /></div>
                     ) : show === "users" ? (
                         <div><Table data={GROUPS} /></div>
                     ) : show === "issues" ? (
