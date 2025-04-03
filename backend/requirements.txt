@@ -11,4 +11,5 @@ PyJWT
 python-dateutil==2.9.0.post0
 sqlparse
 whitenoise
+dj_database_url
 
