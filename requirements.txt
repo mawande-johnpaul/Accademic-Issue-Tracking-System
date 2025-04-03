@@ -9,7 +9,6 @@ gunicorn==23.0.0
 dj-database-url==2.3.0
 psycopg2==2.9.10  # PostgreSQL adapter
 pillow==11.1.0  # Image processing for Django (if needed)
-pycairo==1.27.0  # Only if required by specific functionality
 pyjwt==2.10.1
 rich==13.9.4
 tqdm==4.67.1
