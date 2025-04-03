@@ -105,7 +105,7 @@ const StudentPage = () => {
           </div>
           <div className="content-section">
             <SearchBar />
-            <Content to_display_name={content} issues={issues} course={user.course} username={user.username} token={token} department={user.department} pk={user.id}/>
+            <Content to_display_name={content} issues={issues} course={user.course} username={user.username} token={token} department={user.department} pk={user.id} type={'user'}/>
           </div>
           <div className="right-side">
             {user ? (

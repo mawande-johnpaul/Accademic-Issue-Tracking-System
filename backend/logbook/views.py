@@ -62,10 +62,21 @@ class IssueListCreate(generics.ListCreateAPIView): #View to list or create an is
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self): #Runs if the request method is GET
-        return super().get_queryset().filter(created_by=self.request.user)  # Ensure filtering works
+        if self.request.user.role == 'student':
+            return super().get_queryset().filter(created_by=self.request.user)  # Ensure filtering works
+        elif self.request.user.role == 'registrar':
+            return super().get_queryset().filter(status='Unseen')
 
     def perform_create(self, serializer): #Runs if request is POST
         serializer.save(created_by=self.request.user)
+
+class IssueList(generics.ListAPIView):
+    queryset = Issue.objects.all()
+    serializer_class = IssueSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self): #Runs if the request method is GET
+        return super().get_queryset(status='Assigned') 
 
 class IssueUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     queryset = Issue.objects.all()

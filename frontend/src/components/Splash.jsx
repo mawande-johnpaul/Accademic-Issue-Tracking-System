@@ -12,10 +12,7 @@ const Splash = () => {
             1. Sign up or log in to your account.
         </p>
         <p>
-            2. Click create a new issue or view your posted issues.
-        </p>
-        <p>
-            3. Edit your profile settings.
+            2. Select an action from the left panel.
         </p>
         <p>
             4. Log out when you're done to protect your data.

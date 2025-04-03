@@ -3,7 +3,7 @@ import UserIssues from "./UserIssues";
 import Settings from "./Settings";
 import Splash from "./Splash";  
 
-const Content = ({to_display_name, issues, course, username, token, department, pk}) => {
+const Content = ({to_display_name, issues, course, username, token, department, pk, type}) => {
     return (
         <div>
             <div className="content-section-header">
@@ -17,7 +17,7 @@ const Content = ({to_display_name, issues, course, username, token, department, 
                 {to_display_name === "IssueForm" && course ? (
                     <IssueForm cs={course} token={token} username={username} department={department} pk={pk}/>
                 ) : to_display_name === "UserIssues" && issues ? (
-                    <UserIssues issues={issues} />
+                    <UserIssues issues={issues}  type={type}/>
                 ) : to_display_name === "Settings" && course ? (
                     <Settings user={""} />
                 ) : (
