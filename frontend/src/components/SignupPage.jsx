@@ -15,7 +15,7 @@ function SignupPage() {
     const [message, setMessage] = useState('');
     const [email, setEmail] = useState('');
     const [webmail, setWebmail] = useState('');
-    const [course, setCourse] = useState('');
+    const [course, setCourse] = useState('Select a course first');
     const [department, setDepartment] = useState('');
     const navigate = useNavigate();
 
@@ -91,17 +91,30 @@ function SignupPage() {
             </div>
             <div className='row'>
               <div className='labels'>College</div>
-              <input type="text" className='inputs' choices={Object.keys(COLLEGES)}
+              <select type="text" className='inputs'
                 value={department} 
-                onChange={(e) => setDepartment(e.target.value)} />
+                onChange={(e) => {
+                  setDepartment(e.target.value);
+                  setCourse('Select a course first'); // Reset course when department changes
+                }}>
+                <option value="">Select a college</option>
+                {Object.keys(COLLEGES).map((college, index) => (
+                  <option key={index} value={college}>{college}</option>
+                ))}
+              </select>
             </div>
             <div className='row'>
               <div className='labels'>Course</div>
-              <input type="text" className='inputs' choices={COLLEGES[department]}
+              <select type="text" className='inputs' choices={COLLEGES[department]}
                 value={course} 
-                onChange={(e) => setCourse(e.target.value)} />
+                onChange={(e) => setCourse(e.target.value)}>
+                <option value="Select a course first">Select a course first</option>
+                {COLLEGES[department] && COLLEGES[department].map((course, index) => (
+                  <option key={index} value={course}>{course}</option>
+                ))}
+              </select> 
             </div>
-            <button type="submit" className='buttons'>Submit</button>
+            <button type="submit" className='buttons'>Signup</button>
           </form>
           {message && <div style={{color:"red"}}>{message}</div>}
       </div>

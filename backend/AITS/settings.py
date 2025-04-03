@@ -26,13 +26,13 @@ SECRET_KEY = 'django-insecure-=)^=tl^%$nw&ip#(^ch%@d(&24f%@ul)6m%4dbso4aj$%e-u64
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['aits-hya6gmbke7buahd3.canadacentral-01.azurewebsites.net', 'localhost']
+ALLOWED_HOSTS = ['aits-hya6gmbke7buahd3.canadacentral-01.azurewebsites.net', 'localhost', '127.0.0.1']
 
 # CORS settings
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:5173',
     'http://127.0.0.1:8000',
-    'aits-hya6gmbke7buahd3.canadacentral-01.azurewebsites.net'
+    'http://aits-hya6gmbke7buahd3.canadacentral-01.azurewebsites.net'
 ]
 CORS_ALLOW_METHODS = [
     'DELETE', 'GET', 'OPTIONS', 'PATCH', 'POST', 'PUT'
@@ -40,7 +40,7 @@ CORS_ALLOW_METHODS = [
 
 CSRF_TRUSTED_ORIGINS = [
     "http://localhost:5173",
-    'aits-hya6gmbke7buahd3.canadacentral-01.azurewebsites.net'
+    'http://aits-hya6gmbke7buahd3.canadacentral-01.azurewebsites.net'
 ]
 
 # Application definition
@@ -100,9 +100,9 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'postgres',
         'USER': 'postgres',
-        'PASSWORD': '#admin12345',
-        'HOST': 'aits.postgres.database.azure.com',
-        'PORT': '5432',
+        'PASSWORD': 'admin',
+        'HOST': 'localhost',
+        'PORT': '9000',
     }
 }
 
@@ -142,10 +142,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+'''STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR.parent, 'frontend', 'dist'),
-]
+]'''
 
 
 

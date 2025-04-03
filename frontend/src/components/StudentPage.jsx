@@ -63,6 +63,7 @@ const StudentPage = () => {
         },
       });
       setIssues(response.data);
+      console.log(user);
     };
 
     const fetchNotifications = async () => {

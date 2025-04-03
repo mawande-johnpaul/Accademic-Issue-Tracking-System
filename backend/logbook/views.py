@@ -82,7 +82,7 @@ class IssueList(generics.ListAPIView):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self): #Runs if the request method is GET
-        return super().get_queryset(status='Assigned') 
+        return super().get_queryset(status='Unseen') 
 
 class IssueUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     queryset = Issue.objects.all()

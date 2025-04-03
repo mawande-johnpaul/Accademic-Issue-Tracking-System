@@ -11,6 +11,7 @@ urlpatterns = [
     path('signup/', RegisterView.as_view(), name='signup'),
     path('login/', LoginView.as_view(), name='login'),
     path('issues/', IssueListCreate.as_view(), name='issues'),
+    path('issues/unseen/', IssueList.as_view(), name='issue_new'),
     path('issues/all/', IssueList.as_view(), name='issue_assigned'),
     path('issues/<int:pk>/', IssueUpdateDestroy.as_view(), name='issue_detail'),
     path('notifications/', NotificationsListDestroy.as_view(), name='notifications'),

@@ -9,6 +9,7 @@ const IssueForm = ({ cs, token, username, department, pk}) => {
     "BLIS": ["BL101", "BL102", "BL103"],
     "BIST": ["BI101", "BI102", "BI103"],
     "BSEE": ["BE101", "BE102", "BE103"],
+    "BSCOMM": ["BC101", "BC102", "BC103"],
   }
 
   const ISSUE_CATEGORIES = ['Marks', 'Attendance', 'Resources', 'Environmental', 'Conduct', 'Schedules', 'Other'];
@@ -60,8 +61,9 @@ const IssueForm = ({ cs, token, username, department, pk}) => {
           },
         }
       );
-
       setMessage("Issue submitted successfully!");
+      console.log("Response:", response.data);
+
       setFormData({
         title: "",
         description: "",
@@ -130,10 +132,9 @@ const IssueForm = ({ cs, token, username, department, pk}) => {
           <label className="inputlabels">Course-Unit</label>
           <select
             type="text"
-            name="subject"
+            name="courseCode"
             value={formData.courseCode}
             onChange={handleChange}
-            required
             className="inputinputs"
           >
           <option value="">-- Select Course-Unit --</option>
@@ -230,6 +231,11 @@ const IssueForm = ({ cs, token, username, department, pk}) => {
           </button>
         </div>
       </form>
+      {message && (
+        <div className="message" style={{ color: "red", marginTop: "10px" }}>
+          {message}
+        </div>
+      )}
     </div>
   );
 };

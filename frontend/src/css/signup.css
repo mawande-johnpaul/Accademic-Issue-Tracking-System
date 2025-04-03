@@ -19,7 +19,6 @@
     flex-direction: column;
     justify-content: center;
     height: 60vh;
-    gap:10px;
     flex-direction: column;
     font-family: Inter;
 }
@@ -28,5 +27,5 @@
     display: flex;
     flex-direction: row;
     margin: 10px;
-    height: 24px;
+    height: 20px;
 }

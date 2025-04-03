@@ -1,4 +1,4 @@
-import Card from "./IssueCard";
+import IssueCard from "./IssueCard";
 
 const UserIssues = ({issues, type}) => {
   return (

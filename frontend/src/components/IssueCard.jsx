@@ -1,4 +1,4 @@
-const Card = ({ isssue, type }) => {
+const IssueCard = ({ isssue, type }) => {
   if (type === 'user'){
     return (
       <div className="issue-card">
@@ -35,6 +35,6 @@ const Card = ({ isssue, type }) => {
   }
   };
 
-  export default Card;
+  export default IssueCard;
   
   
