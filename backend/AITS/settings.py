@@ -26,12 +26,13 @@ SECRET_KEY = 'django-insecure-=)^=tl^%$nw&ip#(^ch%@d(&24f%@ul)6m%4dbso4aj$%e-u64
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['aits.azurewebsites.net', 'localhost']
+ALLOWED_HOSTS = ['aits-hya6gmbke7buahd3.canadacentral-01.azurewebsites.net', 'localhost']
 
 # CORS settings
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:5173',
     'http://127.0.0.1:8000',
+    'aits-hya6gmbke7buahd3.canadacentral-01.azurewebsites.net'
 ]
 CORS_ALLOW_METHODS = [
     'DELETE', 'GET', 'OPTIONS', 'PATCH', 'POST', 'PUT'
@@ -39,6 +40,7 @@ CORS_ALLOW_METHODS = [
 
 CSRF_TRUSTED_ORIGINS = [
     "http://localhost:5173",
+    'aits-hya6gmbke7buahd3.canadacentral-01.azurewebsites.net'
 ]
 
 # Application definition
