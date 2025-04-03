@@ -28,7 +28,7 @@ SECRET_KEY = 'django-insecure-=)^=tl^%$nw&ip#(^ch%@d(&24f%@ul)6m%4dbso4aj$%e-u64
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [aitsserver.up.railway.app]
 
 # CORS settings
 CORS_ALLOWED_ORIGINS = [
