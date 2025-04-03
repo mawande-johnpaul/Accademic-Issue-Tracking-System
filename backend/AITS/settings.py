@@ -51,7 +51,7 @@ CORS_ALLOW_METHODS = [
 
 CSRF_TRUSTED_ORIGINS = [
     "http://localhost:5173",
-    'https://accademic-issue-tracking-system-production.up.railway.app',
+    'http://accademic-issue-tracking-system-production.up.railway.app',
 ]
 
 # Application definition
