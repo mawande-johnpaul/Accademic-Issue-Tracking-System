@@ -37,7 +37,7 @@ if ENVIRONMENT == 'production':
 else:
     DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'accademic-issue-tracking-system-production.up.railway.app']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1','accademic-issue-tracking-system-production.up.railway.app']
 
 # CORS settings
 CORS_ALLOWED_ORIGINS = [
