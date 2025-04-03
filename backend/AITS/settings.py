@@ -43,6 +43,7 @@ ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'accademic-issue-tracking-system-prod
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:5173',
     'http://127.0.0.1:8000',
+    'https://accademic-issue-tracking-system-production.up.railway.app',
 ]
 CORS_ALLOW_METHODS = [
     'DELETE', 'GET', 'OPTIONS', 'PATCH', 'POST', 'PUT'
