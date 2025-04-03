@@ -1,0 +1,32 @@
+.labels{
+    margin:5px;
+    padding-left: 100px;
+    width: 40%;
+    font-weight: bold;
+}
+
+.inputs{
+    width: 50%;;
+    justify-self:flex-end;
+    border: 1px solid #747474;
+    border-radius: 5px;
+    margin-right: 50px;
+    font-family: Inter;
+}
+
+.signuplower{
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 60vh;
+    gap:10px;
+    flex-direction: column;
+    font-family: Inter;
+}
+
+.row{
+    display: flex;
+    flex-direction: row;
+    margin: 10px;
+    height: 24px;
+}
