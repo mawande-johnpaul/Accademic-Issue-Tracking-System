@@ -12,6 +12,9 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 
+import os
+import dj_database_url
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -91,16 +94,10 @@ WSGI_APPLICATION = 'AITS.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
+DATABASE_URL = "postgresql://postgres:gdjOhQDdKfifPbjIynKQilrzOWNnLDPx@yamabiko.proxy.rlwy.net:29965/railway"
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'postgres',
-        'USER': 'postgres',
-        'PASSWORD': 'admin12345',
-        'HOST': 'localhost',
-        'PORT': '9000',
-    }
+    'default': dj_database_url.parse(DATABASE_URL)
 }
 
 
