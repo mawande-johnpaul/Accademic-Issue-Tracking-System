@@ -4,6 +4,12 @@ import { useNavigate } from 'react-router-dom';
 
 function SignupPage() {
 
+    const COLLEGES = {'COCIS': ['BSCS', 'BSEE', 'BLIS', 'BIST'],
+                      'COBAMS': ['BSBA', 'BSCOMM', 'BSECON'],
+                      'CONAS': ['BSN', 'BSHRM', 'BSED']}
+    
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [message, setMessage] = useState('');
@@ -16,7 +22,7 @@ function SignupPage() {
     const signup = async (event) => {
       event.preventDefault();
       try {
-        const response = await axios.post('http://127.0.0.1:8000/signup/', { username, password, email, webmail, role, department });
+        const response = await axios.post('http://127.0.0.1:8000/signup/', { username, password, email, webmail, department, course });
         localStorage.setItem('token', response.data.access);
         localStorage.setItem('user', JSON.stringify(response.data.user));
         if (response.data.user.role === "lecturer") {
@@ -38,6 +44,18 @@ function SignupPage() {
           <h1 className='h1'>Sign up</h1>
           <form onSubmit={signup} className='signuplower'>
             <div className='row'>
+              <div className='labels'>First name</div>
+              <input type="text" className='inputs'
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)} />
+            </div>
+            <div className='row'>
+              <div className='labels'>Last name</div>
+              <input type="text" className='inputs'
+                value={lastName}
+                onChange={(e) => setLastName(e.target.value)} />
+            </div>
+            <div className='row'>
               <div className='labels'>Username</div>
               <input type="text"  className='inputs'                   
                 value={username} 
@@ -53,7 +71,17 @@ function SignupPage() {
               <div className='labels'>Webmail</div>
               <input type="text" className='inputs'
                 value={webmail} 
-                onChange={(e) => setWebmail(e.target.value)} />
+                placeholder='xxxxxxx.mak.ac.ug'
+                onChange={(e) => {
+                  const value = e.target.value;
+                  if (value.includes('mak.ac.ug')) {
+                    setWebmail(value);
+                    setMessage(''); // Clear any previous error message
+                  } else {
+                    setWebmail(value);
+                    setMessage('Webmail must contain "mak.ac.ug".');
+                  }
+                }} />
             </div>
             <div className='row'>
               <div className='labels'>Password</div>
@@ -63,19 +91,19 @@ function SignupPage() {
             </div>
             <div className='row'>
               <div className='labels'>College</div>
-              <input type="text" className='inputs' choices={['cocis', 'cobams', 'conas']}
+              <input type="text" className='inputs' choices={Object.keys(COLLEGES)}
                 value={department} 
                 onChange={(e) => setDepartment(e.target.value)} />
             </div>
             <div className='row'>
               <div className='labels'>Course</div>
-              <input type="text" className='inputs' choices={['bscs', 'bcse', 'bist']}
+              <input type="text" className='inputs' choices={COLLEGES[department]}
                 value={course} 
                 onChange={(e) => setCourse(e.target.value)} />
             </div>
             <button type="submit" className='buttons'>Submit</button>
           </form>
-          {message && <div>{message}</div>}
+          {message && <div style={{color:"red"}}>{message}</div>}
       </div>
     );
   }

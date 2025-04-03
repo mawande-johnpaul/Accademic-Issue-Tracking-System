@@ -26,10 +26,12 @@ class RegisterSerializer(serializers.ModelSerializer):
         else:
             roles = 'lecturer'
         user = User.objects.create_user(
+            webmail=webmail,
             username=validated_data['username'],
             email=validated_data['email'],
             role=roles,
-            department=validated_data.get('department', None),
+            department=validated_data['department'],
+            course=validated_data['course'],
             password=validated_data['password']  # `create_user` automatically hashes the password
         )
         return user

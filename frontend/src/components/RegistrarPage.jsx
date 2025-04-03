@@ -4,7 +4,7 @@ import ProfileDisplay from "./ProfileDisplay";
 import SearchBar from "./SearchBar";
 import Button from "./Button";
 import DisplayPane from "./DisplayPane";
-import ChatDisplayPane from "./ChatDisplayPane"
+import ChatDisplayPane from "./ChatContentSection"
 import Logo from "./Logo"
 import IssueForm from "./IssueForm";
 import UserIssues from "./UserIssues";

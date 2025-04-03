@@ -33,7 +33,7 @@
   }
   
   .left-side {
-    width: 20%;
+    width: 25%;
     background-color: #06302B;
     border-radius: 8px 0px 0px 8px;
   }
@@ -109,8 +109,8 @@
     width: 99%;
     display: flex;
     gap: 5px;
-    height: 6.5vh;
-    margin-bottom: 7px;
+    height: 5.8vh;
+    margin-bottom: 5px;
     background-color: beige;
     border-radius: 5px;
     align-content: center;
@@ -118,14 +118,14 @@
 
   .profile-picture{
     align-content: center;
-    padding-left: 20px;
-    padding-right: 10px;
+    padding-left: 5px;
+    padding-right: 5px;
     padding-top: 4px;
   }
 
   .profile{
-    width: 40px;
-    height: 40px;
+    width: 30px;
+    height: 30px;
   }
 
   .logo-profile{
@@ -143,15 +143,14 @@
   .InPageLoginButton{
     background-color: #00DF81;
     padding: 10px;
+    text-align: center;
     color: black;
     text-decoration: none;
     border-radius: 10px;
-    margin: 20px;
     border: 0px;
     cursor: pointer; 
     font-family:"Inter"; 
     font-weight:bold;
-    align-self: center;
   }
 
   .search-bar {
@@ -189,8 +188,7 @@
   }
   
   .display-pane {
-    width: 100%;
-    height: 30vh;
+    height: 50%;
     display: flex;
     flex-direction: column;
   }
@@ -215,7 +213,7 @@
     border-radius: 0px 0px 5px 5px;
     border-color: #808080;
     background-color: beige;
-    height: 75%;
+    height: 140%;
     padding: 5px;
     border-top: 0px;
     font-size: 10px;
@@ -300,10 +298,12 @@
     font-size: 12px;
     padding: 5px;
     background-color:beige;
+    text-align: left;
   }
 
   .card-body{
     padding: 10px;
     font-size: 14px;
+    text-align: left;
   }
 

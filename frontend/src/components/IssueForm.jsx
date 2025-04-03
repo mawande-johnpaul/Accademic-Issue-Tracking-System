@@ -1,22 +1,33 @@
 import { useState } from "react";
 import axios from "axios";
 
-const IssueForm = ({ token }) => {
+
+const IssueForm = ({ cs, token, username, department, pk}) => {
+
+  const COURSES = {
+    "BSCS": ["CS101", "CS102", "CS103"],
+    "BLIS": ["BL101", "BL102", "BL103"],
+    "BIST": ["BI101", "BI102", "BI103"],
+    "BSEE": ["BE101", "BE102", "BE103"],
+  }
+
+  const ISSUE_CATEGORIES = ['Marks', 'Attendance', 'Resources', 'Environmental', 'Conduct', 'Schedules', 'Other'];
+
   const [formData, setFormData] = useState({
     title: "",
     description: "",
-    priority: "Low",
-    subject: "",
     category: "",
     courseCode: "",
     year: "",
     semester: "",
-    lecturer: "",
     attachments: null,
+    created_by: pk,
+    department: department,
   });
 
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
+  const [cse, setCourse] = useState(cs);
 
   // Handle input changes
   const handleChange = (e) => {
@@ -31,7 +42,6 @@ const IssueForm = ({ token }) => {
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
     setMessage("");
 
     const formDataToSend = new FormData();
@@ -55,21 +65,19 @@ const IssueForm = ({ token }) => {
       setFormData({
         title: "",
         description: "",
-        priority: "Low",
-        subject: "",
         category: "",
         courseCode: "",
         year: "",
         semester: "",
-        lecturer: "",
         attachments: null,
+        created_by: pk,
+        department: department
       }); // Reset form
     } catch (error) {
       setMessage("Failed to submit issue.");
       console.error("Error:", error.response ? error.response.data : error);
     }
-
-    setLoading(false);
+    
   };
 
   return (
@@ -87,12 +95,11 @@ const IssueForm = ({ token }) => {
             className="inputinputs"
           >
             <option value="">-- Select-Category --</option>
-            <option value="course Registration">Course Registration</option>
-            <option value="Missing Marks">Missing Marks</option>
-            <option value="Timetable Clash">Timetable Clash</option>
-            <option value="Lecturer Concern">Lecturer Concern</option>
-            <option value="Examination Issue">Examination Issue</option>
-            <option value="Other">Other</option>
+            {ISSUE_CATEGORIES.map((category) => (
+              <option key={category} value={category}>
+                {category}
+              </option>
+            ))}
           </select>
         </div>
 
@@ -120,34 +127,27 @@ const IssueForm = ({ token }) => {
         </div>
 
         <div className="inputrows">
-          <label className="inputlabels">Course-Code</label>
-          <input
+          <label className="inputlabels">Course-Unit</label>
+          <select
             type="text"
-            name="courseCode"
+            name="subject"
             value={formData.courseCode}
             onChange={handleChange}
             required
-            placeholder="Enter the Course Code"
             className="inputinputs"
-          />
-        </div>
-
-        <div className="inputrows">
-          <label className="inputlabels">Course-Unit</label>
-          <input
-            type="text"
-            name="subject"
-            value={formData.subject}
-            onChange={handleChange}
-            required
-            placeholder="Enter the Course-Unit"
-            className="inputinputs"
-          />
+          >
+          <option value="">-- Select Course-Unit --</option>
+          {
+            cse && COURSES[cse].map((unit) => (
+              <option key={unit} value={unit}>{unit}</option>
+            ))
+          }
+          </select>
         </div>
 
         <div className="inputrows">
           <label className="inputlabels">Year Of Study</label>
-          <input
+          <select
             type="number"
             name="year"
             value={formData.year}
@@ -155,12 +155,17 @@ const IssueForm = ({ token }) => {
             required
             placeholder="Enter Year Of Study"
             className="inputinputs"
-          />
+          >
+          <option value="">-- Select Year --</option>
+          <option value="1">Year 1</option>
+          <option value="2">Year 2</option>
+          <option value="3">Year 3</option>
+          </select>
         </div>
 
         <div className="inputrows">
           <label className="inputlabels">Semester</label>
-          <input
+          <select
             type="text"
             name="semester"
             value={formData.semester}
@@ -168,20 +173,13 @@ const IssueForm = ({ token }) => {
             required
             placeholder="Enter the Semester"
             className="inputinputs"
-          />
-        </div>
-
-        <div className="inputrows">
-          <label className="inputlabels">Lecturer</label>
-            <input
-              type="text"
-              name="lecturer"
-              value={formData.lecturer}
-              onChange={handleChange}
-              required
-              placeholder="Search for lecturer"
-              className="inputinputs"
-            />
+          >
+          <option value="">-- Select Semester --</option>
+          <option value="1">Semester 1</option>
+          <option value="2">Recess 1</option>
+          <option value="2">Semester 2</option>
+          <option value="3">Recess 2</option>
+          </select>
         </div>
 
         <div className="inputrows">
@@ -191,6 +189,8 @@ const IssueForm = ({ token }) => {
             name="attachments"
             onChange={handleChange}
             className="fileinputinputs"
+            placeholder="Only Documents and Images are allowed"
+            accept=".pdf, .doc, .docx, .jpg, .jpeg, .png, .gif, .pptx, .txt, .ppt"
           />
         </div>
 
@@ -200,6 +200,16 @@ const IssueForm = ({ token }) => {
           disabled={loading}
           className="formbuttons"
             style={{ backgroundColor: '#080808' , color: "white" }}
+          onClick={() => setFormData({
+            title: "",
+            description: "",
+            subject: "",
+            category: "",
+            courseCode: "",
+            year: "",
+            semester: "",
+            attachments: null,
+          })} // Clear form data
         >
           Clear Form
         </button>

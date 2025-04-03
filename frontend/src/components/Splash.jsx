@@ -1,7 +1,10 @@
+import InPageLoginButton from "./InPageLoginButton";
+
 const Splash = () => {
   return (
-    <div>
-        <img src="bookmark.svg" alt="logo" style={{width: "35%", paddingBottom:"1vh"}} />
+    <>
+    <div style={{paddingBottom: "10px"}}>
+        <img src="bookmark.svg" alt="logo" style={{width: "25%"}} />
         <h1>
             This is how it works:
         </h1>
@@ -20,7 +23,10 @@ const Splash = () => {
         <p>
             5. Enjoy your experience!
         </p>
+        
     </div>
+    <InPageLoginButton />
+    </>
   );
 };
 
