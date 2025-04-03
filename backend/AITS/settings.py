@@ -63,7 +63,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'AITS.logbook',
+    'backend.AITS.logbook',
     'rest_framework',
     'corsheaders',
     'rest_framework_simplejwt',
