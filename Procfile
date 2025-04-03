@@ -1,1 +1,1 @@
-web: gunicorn backend.AITS.wsgi
+web: gunicorn backend.AITS.wsgi:application
