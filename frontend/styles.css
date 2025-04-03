@@ -11,11 +11,14 @@ body{
     padding:20px;
     background:white;
     border-radius: 4px;
-    box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+    box-shadow: 0px 0px 10px;
 }
 form{
     display:flex;
     flex-direction: column;
+}
+.remember{
+    margin-bottom: 1px;
 }
 label{
     margin-top: 10px;
@@ -24,23 +27,28 @@ input,textarea,button{
     margin-top: 5px;
     padding:10px;
     font-size:16px;
+    border-radius: 5px;
 }
 button{
-    background-color:green;
+    background-color:rgb(36, 219, 36);
     color:black;
     border-radius: 5px;
     cursor:pointer;
     margin-top:15px;
+    border: none;
 }
 button:hover{
-    background-color: red;
+    background-color:darkgreen;
 }
 .submit{
     background-color: white;
     border-radius: 5px;
     cursor: pointer;
-    width: 55px;
+    border: none;
+    text-align: center;
+        
 }
+
 .submit:hover{
     background-color: red;
 }
