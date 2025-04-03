@@ -31,7 +31,7 @@ class Issue(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     status = models.CharField(max_length=10, default='Unseen')
-    attachmet = models.FileField(upload_to='issue_attachments/', null=True, blank=True) 
+    attachment = models.FileField(upload_to='issue_attachments/', null=True, blank=True)  #corrected typo
     image = models.ImageField(upload_to='issue_images/', null=True, blank=True)
     
 

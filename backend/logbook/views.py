@@ -10,6 +10,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from django.core.mail import *
 from logbook import permissions
 
+
 User = get_user_model()
 
 # I changed from ModelViewSet to generics because of its descriptive and more specialized methods.
@@ -93,6 +94,9 @@ class IssueUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
         instance = self.get_object()
         instance.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+    def get_queryset(self):  
+        return Issue.objects.filter(created_by=self.request.user)  # student cant view another student issue which they didn't create
+         
 
 
 # Notifications

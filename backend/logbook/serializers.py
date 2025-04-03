@@ -45,14 +45,7 @@ class RegisterSerializer(serializers.ModelSerializer):
             permissions=permission
         )
         return user
-#assign permissions
-# for codename in codenames:
-#     try:
-#         perms = Permission.objects.get(codename=codename)
-#         user.user_permissions.add(perms)
-#     except Permission.DoesNotExist:
-#         pass
-        
+  
 
 class LoginSerializer(serializers.Serializer):
     username = serializers.CharField(max_length=255)
