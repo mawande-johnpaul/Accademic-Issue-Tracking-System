@@ -63,7 +63,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'backend.logbook',
+    'logbook',
     'rest_framework',
     'corsheaders',
     'rest_framework_simplejwt',
@@ -87,7 +87,7 @@ ROOT_URLCONF = 'AITS.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'backend/logbook/static'),],
+        'DIRS': [os.path.join(BASE_DIR, '/staticfiles'),],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -98,6 +98,10 @@ TEMPLATES = [
             ],
         },
     },
+]
+
+TEMPLATES[0]['DIRS'] = [
+    os.path.join(BASE_DIR, '..', 'frontend', 'dist'),  # Correct path to the frontend build directory
 ]
 
 WSGI_APPLICATION = 'AITS.wsgi.application'
@@ -160,10 +164,11 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = 'logbook/static/'
+STATIC_URL = '/static/'
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'backend/logbook/static'),
+    os.path.join(BASE_DIR, '..', 'frontend', 'dist'),  # Correct path to the frontend build directory
 ]
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # For production use
 
 
 # Default primary key field type

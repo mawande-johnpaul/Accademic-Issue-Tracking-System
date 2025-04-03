@@ -14,6 +14,9 @@ User = get_user_model()
 # I changed from ModelViewSet to enerics because of its descriptive and ore specialied mrthods.
 
 def frontend_view(request):
+    """
+    Serve the frontend's index.html file.
+    """
     return render(request, 'index.html')
 
 # User Registration

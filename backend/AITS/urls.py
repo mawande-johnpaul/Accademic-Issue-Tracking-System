@@ -1,5 +1,7 @@
 from django.contrib import admin
 from django.urls import path, include
+from django.conf import settings
+from django.conf.urls.static import static
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from logbook.views import *
 from logbook import views
@@ -18,3 +20,7 @@ urlpatterns = [
     path('notifications/create/', NotificationsCreate.as_view(), name='create_notification'),
     path('logs/', LogListUpdateDelete.as_view(), name='logs'),
 ]
+
+# Serve static files during development
+if settings.DEBUG:
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
