@@ -148,6 +148,14 @@ class LogCreate(generics.CreateAPIView):
     def perform_create(self, serializer):
         return super().perform_create(serializer)
     
+    #checks for validity of the log data
+    def create(self,request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response
+        return Response({'error':'Invalid log data',details:'serializer.errors'},status=400)
+    
 class EmailView(APIView):
     def send_email(self, subject, message, to):
         send_mail(subject, message, from_email=None, recipient_list=[to], fail_silently=False, auth_user=None, auth_password=None, connection=None, html_message=None)
