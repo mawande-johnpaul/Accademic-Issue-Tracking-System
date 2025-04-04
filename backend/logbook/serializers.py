@@ -65,6 +65,19 @@ class IssueSerializer(serializers.ModelSerializer):
     class Meta:
         model = Issue
         fields = '__all__'
+        #Logic to ensure that students do not submit massive files 
+    def validate_attachment(self, value):
+        max_size = 10 * 1024 * 1024  # 10 MB
+        if value and value.size > max_size: 
+            raise serializers.ValidationError("Attachment file size must not exceed 10MB")
+        return value
+
+    def validate_image(self, value):
+        max_size = 10 * 1024 * 1024  # 10 MB
+        if value and value.size > max_size:
+            raise serializers.ValidationError("Image file size must not exceed 10MB")
+        return value
+
 
 
 class LogSerializer(serializers.ModelSerializer):  # Fixed typo in class name
