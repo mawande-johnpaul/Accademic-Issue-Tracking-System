@@ -11,6 +11,7 @@ from django.core.mail import *
 from logbook import permissions
 
 
+
 User = get_user_model()
 
 # I changed from ModelViewSet to generics because of its descriptive and more specialized methods.
@@ -123,6 +124,20 @@ class NotificationsCreate(generics.CreateAPIView):
 class LogListUpdateDelete(generics.RetrieveUpdateAPIView):
     serializer_class = LogSerializer  # Fixed typo
     permission_classes = [IsAuthenticated]
+
+# creates a log entry whenever an issue is updated or resolved
+@receiver(post_save, sender=Issue)
+def create_log_entry(sender, instance, created, **kwargs):
+    if not created:
+        Log.objects.create(
+            user_id=instance.created_by,
+            action="Issue updated",
+            timestamp=timezone.now()
+        )
+
+
+
+    
 
     def delete(self, request, *args, **kwargs):
         instance = self.get_object()
