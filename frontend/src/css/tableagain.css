@@ -1,0 +1,23 @@
+table{
+    border-collapse: collapse;
+    border-radius: 5px;
+    width: 700px;
+    margin-left: 500px;
+    
+
+}
+th,td{
+    border: 1px solid;
+    margin: 10px;
+}
+th{
+    padding: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 20px;
+    padding-top: 20px;
+    
+}
+td{
+    height: 90vh;
+}
