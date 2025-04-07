@@ -3,6 +3,8 @@ table{
     border-radius: 5px;
     width: 700px;
     margin-left: 500px;
+    border-radius: 5px;
+    margin-top: 60px;
     
 
 }
@@ -19,5 +21,5 @@ th{
     
 }
 td{
-    height: 90vh;
+    height: 80vh;
 }
