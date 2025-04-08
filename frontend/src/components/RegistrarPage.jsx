@@ -58,7 +58,7 @@ const RegistrarPage = () => {
 
   useEffect(() => {
     const fetchIssues = async () => {
-      const response = await axios.get('http://127.0.0.1:8000/issues/unseen', {
+      const response = await axios.get('http://127.0.0.1:8000/issues/unseen/status="Unseen"', {
         headers: {
           'Authorization': `Bearer ${token}`,
         },
@@ -84,7 +84,7 @@ const RegistrarPage = () => {
   const no_operation = () => setContent("Splash");
 
   const fetchAllIssues = async() => {
-    const response = await axios.get('http://127.0.0.1:8000/issues/all/', {
+    const response = await axios.get('http://127.0.0.1:8000/issues/all/status="Seen"', {
       headers: {
         'Authorization': `Bearer ${token}`,
       },

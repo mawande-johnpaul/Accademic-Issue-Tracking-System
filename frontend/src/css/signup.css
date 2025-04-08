@@ -21,11 +21,13 @@
     height: 60vh;
     flex-direction: column;
     font-family: Inter;
+    gap: 5px;
+    padding-top: 20px;
 }
 
 .row{
     display: flex;
     flex-direction: row;
     margin: 10px;
-    height: 20px;
+    height: 24px;
 }

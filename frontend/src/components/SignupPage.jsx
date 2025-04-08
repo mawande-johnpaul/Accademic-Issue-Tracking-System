@@ -4,9 +4,9 @@ import { useNavigate } from 'react-router-dom';
 
 function SignupPage() {
 
-    const COLLEGES = {'COCIS': ['BSCS', 'BSEE', 'BLIS', 'BIST'],
-                      'COBAMS': ['BSBA', 'BSCOMM', 'BSECON'],
-                      'CONAS': ['BSN', 'BSHRM', 'BSED']}
+    const COLLEGES = {'COCIS': ['BSCS', 'BSEE', 'BLIS', 'BIST']}
+                      /*'COBAMS': ['BSBA', 'BSCOMM', 'BSECON'],
+                      'CONAS': ['BSN', 'BSHRM', 'BSED']}*/
     
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');

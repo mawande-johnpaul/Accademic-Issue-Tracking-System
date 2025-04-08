@@ -83,6 +83,14 @@ class IssueList(generics.ListAPIView):
 
     def get_queryset(self): #Runs if the request method is GET
         return super().get_queryset(status='Unseen') 
+    
+class IssueList2(generics.ListAPIView):
+    queryset = Issue.objects.all()
+    serializer_class = IssueSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self, request): #Runs if the request method is GET
+        return super().get_queryset(status='Seen') 
 
 class IssueUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     queryset = Issue.objects.all()
