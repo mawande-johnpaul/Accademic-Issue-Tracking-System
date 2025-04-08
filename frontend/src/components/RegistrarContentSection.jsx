@@ -14,9 +14,9 @@ const Content = ({to_display_name, newissues, assignedissues, username, token, d
             </div>
             <div className="content-section-body" style={{ textAlign: "center" }}>
                 {to_display_name === "NewIssues"? (
-                    <RegistrarIssues />
+                    <RegistrarIssues issues={newissues} type={'new'}/>
                 ) : to_display_name === "AssignedIssues"? (
-                    <RegistrarIssues />
+                    <RegistrarIssues issues={assignedissues} type={'assigned'}/>
                 ) : to_display_name === "Settings"? (
                     <Settings user={""} />
                 ) : (

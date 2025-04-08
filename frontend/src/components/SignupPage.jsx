@@ -23,8 +23,8 @@ function SignupPage() {
       event.preventDefault();
       try {
         const response = await axios.post('http://127.0.0.1:8000/signup/', { username, password, email, webmail, department, course });
-        localStorage.setItem('token', response.data.access);
-        localStorage.setItem('user', JSON.stringify(response.data.user));
+        sessionStorage.setItem('token', response.data.access);
+        sessionStorage.setItem('user', JSON.stringify(response.data.user));
         if (response.data.user.role === "lecturer") {
           navigate("/lecturer");
         } else if (response.data.user.role === "registrar") {

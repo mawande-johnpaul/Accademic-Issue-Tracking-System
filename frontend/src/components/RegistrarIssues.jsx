@@ -1,6 +1,6 @@
-import Card from "./IssueCard";
+import IssueCard from "./IssueCard";
 
-const UserIssues = ({issues, type}) => {
+const RegistrarIssues = ({issues, type}) => {
   return (
     <div className="max-w-2xl mx-auto mt-6">
       {type === 'new' ?(
@@ -23,4 +23,4 @@ const UserIssues = ({issues, type}) => {
   );
 };
 
-export default UserIssues;
+export default RegistrarIssues;
