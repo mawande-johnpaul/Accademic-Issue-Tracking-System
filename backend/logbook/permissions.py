@@ -2,6 +2,7 @@ from django.contrib.auth.models import Group, Permission
 from django.core.management.base import BaseCommand
 from django.contrib.contenttypes.models import ContentType
 from logbook.models import CustomUser, Issue
+from rest_framework.permissions import BasePermission
 
 class Command(BaseCommand):
     help = "Setup roles and permissions"
@@ -32,3 +33,8 @@ class Command(BaseCommand):
         registrar_group.permissions.add(assign_permission)
 
         self.stdout.write(self.style.SUCCESS("Roles and permissions have been set up!"))
+
+# for the technical personnel
+class IsAdmin(BasePermission):
+    def has_permission(self, request, view):
+        return request.user.is_authenticated and request.user.role == 'admin'
