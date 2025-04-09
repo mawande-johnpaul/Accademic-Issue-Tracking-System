@@ -22,7 +22,7 @@ class RegisterSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):  # Corrected indentation
         webmail=validated_data['webmail']  #Create role based on webmail
-        webmail_suffix = webmail.split('@')[1]  
+        webmail_suffix = webmail.split('@')[1]  #extracts the part of the email after @
         if webmail_suffix == 'students.mak.ac.ug':
             roles = 'student'
             permission = IsStudent()
