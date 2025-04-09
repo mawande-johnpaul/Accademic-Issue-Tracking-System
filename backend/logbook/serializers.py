@@ -17,11 +17,25 @@ class RegisterSerializer(serializers.ModelSerializer):
         return data
 
     def create(self, validated_data):  # Corrected indentation
+        webmail=validated_data['webmail']  #Create role based on webmail
+        webmail_words = webmail.split('.')
+        for word in webmail_words:
+            if 'students' in word:
+                roles = 'student'
+                break
+            elif 'lecturers' in word:
+                roles = 'lecturer'
+                break
+            else:
+                roles = 'registrar'
+
         user = User.objects.create_user(
+            webmail=webmail,
             username=validated_data['username'],
             email=validated_data['email'],
-            role=validated_data.get('role', None),
-            department=validated_data.get('department', None),
+            role=roles,
+            department=validated_data['department'],
+            course=validated_data['course'],
             password=validated_data['password']  # `create_user` automatically hashes the password
         )
         return user
@@ -51,6 +65,19 @@ class IssueSerializer(serializers.ModelSerializer):
     class Meta:
         model = Issue
         fields = '__all__'
+        #Logic to ensure that students do not submit massive files 
+    def validate_attachment(self, value):
+        max_size = 10 * 1024 * 1024  # 10 MB
+        if value and value.size > max_size: 
+            raise serializers.ValidationError("Attachment file size must not exceed 10MB")
+        return value
+
+    def validate_image(self, value):
+        max_size = 10 * 1024 * 1024  # 10 MB
+        if value and value.size > max_size:
+            raise serializers.ValidationError("Image file size must not exceed 10MB")
+        return value
+
 
 
 class LogSerializer(serializers.ModelSerializer):  # Fixed typo in class name

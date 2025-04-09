@@ -11,6 +11,7 @@
     border: 1px solid #747474;
     border-radius: 5px;
     margin-right: 50px;
+    font-family: Inter;
 }
 
 .signuplower{
@@ -20,11 +21,12 @@
     height: 60vh;
     gap:10px;
     flex-direction: column;
+    font-family: Inter;
 }
 
 .row{
     display: flex;
     flex-direction: row;
     margin: 10px;
-    height: 30px;
+    height: 24px;
 }

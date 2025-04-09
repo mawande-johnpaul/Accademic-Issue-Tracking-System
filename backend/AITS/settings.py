@@ -11,6 +11,15 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+from environ import Env
+import dj_database_url
+import os
+
+env = Env()
+
+Env.read_env()
+
+ENVIRONMENT = env('ENVIRONMENT', default='production')
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,17 +29,21 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-=)^=tl^%$nw&ip#(^ch%@d(&24f%@ul)6m%4dbso4aj$%e-u64'
+SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+if ENVIRONMENT == 'production':
+    DEBUG = False
+else:
+    DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1','accademic-issue-tracking-system-production.up.railway.app']
 
 # CORS settings
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:5173',
     'http://127.0.0.1:8000',
+    'https://accademic-issue-tracking-system-production.up.railway.app',
 ]
 CORS_ALLOW_METHODS = [
     'DELETE', 'GET', 'OPTIONS', 'PATCH', 'POST', 'PUT'
@@ -38,6 +51,7 @@ CORS_ALLOW_METHODS = [
 
 CSRF_TRUSTED_ORIGINS = [
     "http://localhost:5173",
+    'https://accademic-issue-tracking-system-production.up.railway.app',
 ]
 
 # Application definition
@@ -49,7 +63,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'logbook',
+    'backend.logbook',
     'rest_framework',
     'corsheaders',
     'rest_framework_simplejwt',
@@ -73,7 +87,7 @@ ROOT_URLCONF = 'AITS.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, '/staticfiles'),],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -86,18 +100,34 @@ TEMPLATES = [
     },
 ]
 
+TEMPLATES[0]['DIRS'] = [
+    os.path.join(BASE_DIR, '..', 'frontend', 'dist'),  # Correct path to the frontend build directory
+]
+
 WSGI_APPLICATION = 'AITS.wsgi.application'
 
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+POSTGRES_LOCALLY = False
+
+if ENVIRONMENT == 'production' or not POSTGRES_LOCALLY:
+    # Use PostgreSQL database in production or remotely
+    DATABASES = {
+        'default': dj_database_url.config(
+            default=env('DATABASE_URL'),
+            engine='django.db.backends.postgresql'
+        )
     }
-}
+else:
+    # Use SQLite for local development
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
 
 
 # Password validation
@@ -134,7 +164,11 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, '..', 'frontend', 'dist'),  # Correct path to the frontend build directory
+]
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # For production use
 
 
 # Default primary key field type
