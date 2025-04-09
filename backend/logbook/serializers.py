@@ -25,17 +25,17 @@ class RegisterSerializer(serializers.ModelSerializer):
         webmail_suffix = webmail.split('@')[1]  #extracts the part of the email after @
         if webmail_suffix == 'students.mak.ac.ug':
             roles = 'student'
-            permission = IsStudent()
+            
             
             
         elif '@' not in webmail:
             roles = 'registrar'
-            permission = IsRegistrar()
+            
             
             
         else:
             roles = 'lecturer'
-            permission = IsRegistrar()
+            
            
             
         user = User.objects.create_user(
