@@ -8,7 +8,14 @@ from rest_framework.permissions import IsAuthenticated, AllowAny
 from django.contrib.auth import get_user_model, login
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.core.mail import *
-from logbook import permissions
+from logbook.permissions import *
+from django.dispatch import receiver
+from django.utils import timezone
+from django.db.models.signals import post_save
+
+
+
+
 
 
 
@@ -34,6 +41,26 @@ class RegisterView(generics.CreateAPIView):
             'token': access_token,
             'user': RegisterSerializer(user).data
         }, status=status.HTTP_201_CREATED)
+
+#admin can create a user
+class AdminCreateUserView(generics.CreateAPIView):
+    permission_classes = [IsAdmin]
+    def post(self, request, *args, **kwargs):
+        if request.user.role!='admin':
+            return Response({"error": "You aren't authorized to perform this action"}, status=status.HTTP_403_FORBIDDEN)
+        serializer = AdminCreateUserSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({
+                "message": "User created successfully",
+                "user": {
+                    "username": user.username,
+                    "email": user.email,
+                    "role": user.role,
+                    
+                }
+            },status = status.HTTP_201_CREATED)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 # User Login
