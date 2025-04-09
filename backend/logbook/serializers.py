@@ -4,6 +4,8 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth import authenticate
 from logbook.permissions import *
 from django.contrib.auth.models import Permission
+from django.contrib.auth.hashers import make_password
+
 
 User = get_user_model()
 
@@ -45,7 +47,17 @@ class RegisterSerializer(serializers.ModelSerializer):
             permissions=permission
         )
         return user
-  
+# serializer for admin(technical personnel)
+class AdminCreateUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = '__all__'
+    def validate_password(self,value):
+        return make_password(value) #encrypts the password using Django's hashing system
+    def create(self, validated_data):
+        return CustomUser.objects.create_user(**validated_data)
+
+
 
 class LoginSerializer(serializers.Serializer):
     username = serializers.CharField(max_length=255)
