@@ -55,6 +55,7 @@ class AdminCreateUserSerializer(serializers.ModelSerializer):
     def validate_password(self,value):
         return make_password(value) #encrypts the password using Django's hashing system
     def create(self, validated_data):
+        validated_data['role'] = 'admin'
         return CustomUser.objects.create_user(**validated_data)
 
 
