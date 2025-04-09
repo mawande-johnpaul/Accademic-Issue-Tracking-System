@@ -22,7 +22,7 @@ class RegisterSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):  # Corrected indentation
         webmail=validated_data['webmail']  #Create role based on webmail
-        webmail_suffix = webmail.split('@')[1]
+        webmail_suffix = webmail.split('@')[1]  
         if webmail_suffix == 'students.mak.ac.ug':
             roles = 'student'
             permission = IsStudent()
@@ -55,7 +55,7 @@ class AdminCreateUserSerializer(serializers.ModelSerializer):
     def validate_password(self,value):
         return make_password(value) #encrypts the password using Django's hashing system
     def create(self, validated_data):
-        validated_data['role'] = 'admin'
+        validated_data['role'] = 'admin'  # Set the role to 'admin'
         return CustomUser.objects.create_user(**validated_data)
 
 
