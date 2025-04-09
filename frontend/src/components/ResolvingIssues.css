@@ -23,11 +23,14 @@
     margin-left: 5px;
     cursor: pointer;
     border-radius: 4px;
+    font-size: 1rem;
+    transition: background 0.3s ease-in-out;
 }
 .F-btns .active{
     background: rgb(13, 199, 13);
     color: White;
 }
+
 .issues-griid{
     width: 100%;
     display: flex;
@@ -38,12 +41,13 @@
     background:#f9f9f9;
     padding: 10px;
     border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.5);
     height: 25vh;
     position: relative;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    transition: all 0.3s ease-in-out;
 }
 .isuse-card:hover{
     transform: scale(1.02);
@@ -80,6 +84,7 @@
     right: 10px;
     display: flex;
     gap: 8px;
+    flex-wrap: wrap;
 }
 .remove,.reopen{
     padding: 6px 10px;
@@ -87,6 +92,8 @@
     border: none;
     border-radius: 4px;
     cursor: pointer;
+    font-size: 1rem;
+    transition: background 0.3s ease-in-out;
 }
 .remove{
     background: red;
@@ -102,4 +109,29 @@
 .reopen:hover{
     background-color: darkgreen;
     color: white;
+}
+@media(max-width:768px){
+    .resolving{
+        font-size: 0.9rem;
+        padding: 8px;
+        max-width: 100%;
+    }
+    .isuse-card{
+        max-width: 100%;
+    }
+    .button-ccontainer{
+        gap: 5px;
+    }
+    .F-btns{
+        width: 100%;
+    }
+}
+@media(max-width:480px){
+    .resolving{
+        padding: 5px;
+    }
+    .remove,.reopen,.F-btns{
+        font-size: 0.9rem;
+        padding: 8px 12px;
+    }
 }

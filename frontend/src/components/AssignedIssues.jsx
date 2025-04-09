@@ -5,6 +5,9 @@ import PropTypes from 'prop-types';
 
 const AssignedIssues = () => {
     const [displayIssues,setDisplayIssues] = useState([]);
+    const [priority,setPriority] = useState('ALL');
+
+
     //fetch assigned issues from backend
     const fetchIssues = async() => {
         try{
@@ -48,15 +51,28 @@ const AssignedIssues = () => {
         }
     };
 
-    useEffect(() => {fetchIssues();},[]);//fetch data when component mounts.
+   useEffect(() => {fetchIssues();},[]);
+   const filteredIssues = priority === 'ALL' ? displayIssues:displayIssues.filter(issue => issue.priority === priority);
+        
     return (
         <div className='assigned'>
             <h2>Assigned Issues</h2>
-            {displayIssues.length === 0 ? (<p>No Assigned Issues Found.</p>)
+            <div className='bUTTONs'>
+                <div className='Priority-DropDown'>
+                    <button className='P-Btn'>Priority</button>
+                    <div className='dropcontent'>
+                        <button onClick={() => setPriority('High')}>High</button>
+                        <button onClick={() => setPriority('Medium')}>Medium</button>
+                        <button onClick={() => setPriority('Low')}>Low</button>
+                    </div>
+                </div>
+                <button className='AlL' onClick={() => setPriority('ALL')}>All</button>
+            </div>
+            {filteredIssues.length === 0 ? (<p>No Assigned Issues Found.</p>)
             :(
                 <div className='issues-gridd'>
                     
-                    {displayIssues.map((issue) => (<div key={issue.id} className="isssue-cardd">
+                    {filteredIssues.map((issue) => (<div key={issue.id} className="isssue-cardd">
                     <div className='isssue-head'>
                         <h3>{issue.title}</h3>
                         <span className='priority'><strong>Priority : </strong>{issue.priority}</span>

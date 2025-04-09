@@ -1,44 +1,128 @@
-.modal{
-    position:fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.modal-content{
-    background: white;
-    padding: 20px;
+.assistance{
+    max-width: 600px;
+    margin: 20px auto;
+    padding:20px;
+    background: rgb(255, 255, 255);
+    box-shadow:0 0 10px rgba( 0,0,0,1);
     border-radius: 8px;
-    width: 400px;
+    background-color: rgb(221, 176, 176);
 }
-
-textarea,select{
-    width: 85%;
-    margin-top: 10px;
-    padding: 8px;
+.assistance h2{
+    text-align: center;
+    color: rgb(51, 51, 51);
 }
-button{
-    margin-top: 10px;
-    padding: 8px;    
-}
-.modal-content form{
+.assistance-form{
     display: flex;
     flex-direction: column;
 }
-.modal-content button{
-    margin-top: 10px;
-    padding: 8px 12px;
+
+.form{
+    margin-bottom: 15px;
+}
+.form label{
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+}
+.form input,.form select,.form textarea{
+    width: 96%;
+    padding: 10px;
+    border: 1px solid rgb(204, 204, 204);
+    border-radius: 5px;
+    border-color: rgb(116, 69, 69);
+}
+.form textarea{
+    resize: vertical;
+    height: 100px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.submit,.cancel{
+    padding: 10px 15px;
+    color: white;
+    border-radius: 5px;
     border: none;
     cursor: pointer;
-    border-radius: 4px;
+    font-size: 14px;
 }
-.modal-content .button-container{
+.submit{
+    transition: background-color 0.3s,cursor 0.3s;
+    cursor: not-allowed;
+}
+
+/*.submit:disabled{
+    background: #cccccc;
+    cursor: not-allowed;
+}*/
+
+@media(max-width:600px){
+    .assistance{
+        width: 90%;
+    }
+}
+.btn-grrp{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+.cancel{
+    background-color: rgb(209, 49, 49);
+}
+.cancel:hover{
+    background-color: rgb(241, 0, 0);
+}
+.submit.enabled{
+    cursor: pointer;
+    background-color: green;
+}
+.submit.disabled{
+    background-color:gray;
+}
+
+.progress-form-container{
+    width: 50%;
+    margin: auto;
+    padding: 20px;
+    border-radius:8px;
+    background-color: #f9f9f9;
+    box-shadow: 0 0 10px rgba(0,0,0,0.8);
+}
+.progress-form-container h2{
+    text-align: center;
+}
+.progress-form label{
+    display: block;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+.progress-form input,.progress-form textarea{
+    width: 98%;
+    padding: 8px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+.button-container{
     display: flex;
     justify-content: space-between;
     margin-top: 15px;
+}
+button:disabled{
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+.cancell{
+    background-color: red;
+    color: white;
+}
+
+.cancell:hover{
+    background-color: darkred;
+}
+ 
+.cancell,.suBmit{
+    border: none;
+    border-radius: 3px;
 }
