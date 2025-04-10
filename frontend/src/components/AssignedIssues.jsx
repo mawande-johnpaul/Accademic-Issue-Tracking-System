@@ -47,6 +47,15 @@ const AssignedIssues = () => {
                     status:'Resolved',
                     description:"Student Unable to register for a required course unit"
                 },
+                {
+                    id:4,
+                    title:'Coursework Marks',
+                    priority:'High',
+                    deadline:'04/22/25',
+                    category:'Grades',
+                    status:'Pending',
+                    description:"Haven't seen my coursework marks"
+                },
             ]);
         }
     };
@@ -68,7 +77,7 @@ const AssignedIssues = () => {
                 </div>
                 <button className='AlL' onClick={() => setPriority('ALL')}>All</button>
             </div>
-            {filteredIssues.length === 0 ? (<p>No Assigned Issues Found.</p>)
+            {filteredIssues.length === 0 ? (<p>Relax! You are not assigned any issues for now</p>)
             :(
                 <div className='issues-gridd'>
                     
