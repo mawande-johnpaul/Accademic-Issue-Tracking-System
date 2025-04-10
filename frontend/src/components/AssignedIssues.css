@@ -23,12 +23,6 @@
     flex-direction: column;
     gap: 15px;
 }
-/*.issues-gridd{
-    flex: 3;
-    display: grid;
-    grid-template-columns: repeat(auto-fit,minmax(300px,1fr));
-    gap: 20px;
-}*/
 .isssue-cardd{
     background: #ebe6e6;
     padding: 9px;
@@ -72,21 +66,7 @@
 .isssue-cardd p{
     margin:5px 0;
     color: #a37171;
-}/*
-.isssue-cardd button{
-    position: absolute;
-    bottom: 10px;
-    right: 10px;
-    background: #007bff;
-    color: white;
-    border: none;
-    padding: 8px 12px;
-    cursor: pointer;
-    border-radius: 4px;    
 }
-.isssue-cardd button:hover{
-    background: #0056b3;
-}*/
 .btn-container{
     position: absolute;
     bottom: 10px;

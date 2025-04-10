@@ -33,12 +33,12 @@ const ProgressForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!isFormValid()) {
-      alert("Please fill in all fields.");
+      alert("All fields are required.Please complete the form.");
       return;
     }
     setLoading(true);
     setTimeout(() => {
-      alert("Form submitted successfully!");
+      alert("Success! Progress Update sent.");
       setLoading(false);
     }, 2000);
   };
