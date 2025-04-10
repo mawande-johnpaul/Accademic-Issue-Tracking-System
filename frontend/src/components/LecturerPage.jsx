@@ -120,36 +120,6 @@ function otherlist(){
 function settings(){
   console.log("Settings selected");
 }*/}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   return (
     <div className="bodyy">
       <div className="left-side">
