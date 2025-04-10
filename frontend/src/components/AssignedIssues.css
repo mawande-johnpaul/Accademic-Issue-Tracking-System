@@ -45,14 +45,14 @@
     border-bottom: 1px solid #ddd;
 }
 .priority{
-    background: #d4b63d;
+    background: #e6c74e;
     padding: 3px 8px;
     border-radius: 5px;
     font-size: 0.9rem;
     color: #333;
 }
 .deadline{
-    color: #680e0b;
+    color: #cf1e18;
     font-size: 0.9em;
     font-weight: bold;
 }

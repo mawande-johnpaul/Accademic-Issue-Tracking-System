@@ -46,16 +46,7 @@ const AssignedIssues = () => {
                     category:'Enrollment',
                     status:'Resolved',
                     description:"Student Unable to register for a required course unit"
-                },
-                {
-                    id:4,
-                    title:'Coursework Marks',
-                    priority:'High',
-                    deadline:'04/22/25',
-                    category:'Grades',
-                    status:'Pending',
-                    description:"Haven't seen my coursework marks"
-                },
+                },                
             ]);
         }
     };
