@@ -13,6 +13,7 @@ body{
 .assistance h2{
     text-align: center;
     color: rgb(51, 51, 51);
+    text-transform: uppercase;
 }
 .assistance-form{
     display: flex;
@@ -26,6 +27,7 @@ body{
     font-weight: bold;
     display: block;
     margin-bottom: 5px;
+    font-size: large;
 }
 .form input,.form select,.form textarea{
     width: 96%;
@@ -33,6 +35,8 @@ body{
     border: 1px solid rgb(204, 204, 204);
     border-radius: 5px;
     border-color: rgb(116, 69, 69);
+    background-color: #b9c2b6;
+    font-size: medium;
 }
 .form textarea{
     resize: vertical;
@@ -53,10 +57,6 @@ body{
     cursor: not-allowed;
 }
 
-/*.submit:disabled{
-    background: #cccccc;
-    cursor: not-allowed;
-}*/
 
 @media(max-width:600px){
     .assistance{
