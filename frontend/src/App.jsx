@@ -1,8 +1,8 @@
-import React from 'react';
+/*import React from 'react';
 import './css/App.css';
 import './css/homepage.css';
-import './css/signup.css';
-import './css/dashboard.css';
+import './css/signup.css';*/
+import './css/dashboard.css';/*
 import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 import Homepage from './components/HomePage';
 import SignupPage from './components/SignupPage';
@@ -26,4 +26,12 @@ function App() {
   );
 }
 
-export default App;
+export default App;*/
+import ProgressForm from "./components/ProgressForm";
+
+function lect(){
+  return(
+    <ProgressForm/>
+  );
+}
+export default lect;
