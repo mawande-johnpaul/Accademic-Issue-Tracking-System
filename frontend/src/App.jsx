@@ -27,11 +27,11 @@ function App() {
 }
 
 export default App;*/
-/*import ProgressForm from "./components/ProgressForm";*/
-import RequestAssistanceForm from './components/AssistanceForm';
+import ProgressForm from "./components/ProgressForm";
+/*import RequestAssistanceForm from './components/AssistanceForm';*/
 function lect(){
   return(
-    <RequestAssistanceForm/>
+    <ProgressForm/>
   );
 }
 export default lect;

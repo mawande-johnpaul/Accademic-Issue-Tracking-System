@@ -92,11 +92,14 @@ body{
 }
 .progress-form-container h2{
     text-align: center;
+    text-transform: uppercase;
 }
+
 .progress-form label{
     display: block;
     margin-top: 10px;
     font-weight: bold;
+    font-size: large;
 }
 
 .progress-form input,.progress-form textarea{
@@ -107,6 +110,7 @@ body{
     border-radius: 5px;
     font-family: Arial, Helvetica, sans-serif;
     background-color:rgb(215, 221, 215);
+    font-size: medium;
 }
 .button-container{
     display: flex;
@@ -128,5 +132,10 @@ button:disabled{
  
 .cancell,.suBmit{
     border: none;
-    border-radius: 3px;
+    border-radius: 4px;
+    padding: 10px 15px;
+    font-size: medium;
+}
+.suBmit:enabled{
+    background-color: rgb(11, 150, 11);
 }
