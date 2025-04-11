@@ -6,7 +6,15 @@ import PropTypes from 'prop-types';
 const AssignedIssues = () => {
     const [displayIssues,setDisplayIssues] = useState([]);
     const [priority,setPriority] = useState('ALL');
+    const [loading, setLoading] = useState(true);
 
+    useEffect(() => {
+        const storedIssues = localStorage.getItem('assignedIssues');
+        if(storedIssues){setDisplayIssues(JSON.parse(storedIssues));
+
+        setLoading(false);
+    } else {fetchIssues();}
+    },[]);
 
     //fetch assigned issues from backend
     const fetchIssues = async() => {
@@ -14,6 +22,7 @@ const AssignedIssues = () => {
             const response = await fetch('http://127.0.0.1:8000/issues/');
             const data = await response.json();
             setDisplayIssues(data);
+            localStorage.setItem('assignedIssues',JSON.stringify(data));
         } catch (error){
             console.error("Error Fetching Issues:",error);
         
@@ -48,7 +57,7 @@ const AssignedIssues = () => {
                     description:"Student Unable to register for a required course unit"
                 },                
             ]);
-        }
+        }finally{setLoading(false);}
     };
 
    useEffect(() => {fetchIssues();},[]);
@@ -57,7 +66,12 @@ const AssignedIssues = () => {
     return (
         <div className='assigned'>
             <h2>Assigned Issues</h2>
-            <div className='bUTTONs'>
+            {loading ? (<div className='noissuescontainer'>
+                <p className='noissues'>Loading Assigned Issues,Please Wait...</p></div>):
+                filteredIssues.length === 0 ? (<div className='noissuescontainer'>
+                    <p className='noissues'>Relax! You are not assigned any issues for now</p></div>):(
+            <>
+            <div className='bUTTONs'>                
                 <div className='Priority-DropDown'>
                     <button className='P-Btn'>Priority</button>
                     <div className='dropcontent'>
@@ -67,9 +81,8 @@ const AssignedIssues = () => {
                     </div>
                 </div>
                 <button className='AlL' onClick={() => setPriority('ALL')}>All</button>
-            </div>
-            {filteredIssues.length === 0 ? (<p>Relax! You are not assigned any issues for now</p>)
-            :(
+            </div>           
+            
                 <div className='issues-gridd'>
                     
                     {filteredIssues.map((issue) => (<div key={issue.id} className="isssue-cardd">
@@ -88,6 +101,7 @@ const AssignedIssues = () => {
                         </div>
                     ))}
                 </div>
+                </>
             )}
         </div>
     );

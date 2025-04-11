@@ -139,7 +139,18 @@
     position: relative;
     display: inline-block;
 }
-
+.noissues{
+    font-size: 18px;
+    font-weight: 500;
+    color: #555;
+    text-align: center;
+}
+.noissuescontainer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height:200px;
+}
 .dropcontent button{
     display: block;
     width:100%;
