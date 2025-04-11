@@ -92,7 +92,7 @@ const RegistrarPage = () => {
     setAssignedIssues(response.data);   
   }
 
-  // main html response
+  // main html response for regisrar
 
   return (
     <div className="bodyy">
