@@ -8,6 +8,10 @@ const GROUPS = {
     lecturers: ['pierce', 'tracy', 'price']
 }
 
+const USERS = ['user1', 'user2', 'user3', 'user4']
+const ISSUES = ['issue1', 'issue2', 'issue3', 'issue4']
+const LOGS = ['action1', 'action2', 'action3', 'action4']
+
 const AdminPage = () => {
 
     const [show, setShow] = useState("splash");
@@ -70,13 +74,13 @@ const AdminPage = () => {
                             </div>
                         </>
                     ) : show === "groups" ? (
-                        <div><Table data={GROUPS}/></div>
+                        <div><Table data={GROUPS} type={show}/></div>
                     ) : show ===  "users" ? (
-                        <div><Table data={GROUPS}/></div>
+                        <div><Table data={USERS}/></div>
                     ) : show === "issues" ? (
-                        <div><Table data={GROUPS}/></div>
+                        <div><Table data={ISSUES}/></div>
                     ) : (
-                        <div><Table data={GROUPS}/></div>
+                        <div><Table data={LOGS}/></div>
                     )}
                     </div>
                     

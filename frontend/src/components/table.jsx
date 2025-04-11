@@ -1,5 +1,8 @@
-const Table = ({data}) => {
+const Table = ({data, type}) => {
     const headings = Object.keys(data)
+    const users = data
+    const issues = data
+    const logs = data
     return (
         <table>
             <tr className="headings">
