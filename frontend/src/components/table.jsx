@@ -1,12 +1,11 @@
-const Table = ({data, type}) => {
+const Table = ({data}) => {
     const headings = Object.keys(data)
-    const users = data
-    const issues = data
-    const logs = data
+    const table_rows = Object.values(data)
+    
     return (
         <table>
             <tr className="headings">
-            {
+            { 
             headings.map((heading, i) => (
                 <th key={i}>
                     {heading}
@@ -14,10 +13,19 @@ const Table = ({data, type}) => {
             ))
             }                
             </tr>
-            <tr>
-                <td></td>
-                <td></td>
-            </tr>
+            {
+                table_rows.map((table_row, j) => (
+                    <tr key={j}>
+                        {
+                            table_row.map((table_data, k) => (
+                                <td key={k}>
+                                    {table_data}
+                                </td>
+                            ))
+                        }
+                    </tr>
+                ))
+            }
         </table>
     );
 };

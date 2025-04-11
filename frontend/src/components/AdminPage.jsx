@@ -8,9 +8,26 @@ const GROUPS = {
     lecturers: ['pierce', 'tracy', 'price']
 }
 
-const USERS = ['user1', 'user2', 'user3', 'user4']
-const ISSUES = ['issue1', 'issue2', 'issue3', 'issue4']
-const LOGS = ['action1', 'action2', 'action3', 'action4']
+const USERS = {
+    username:['skibidi', 'kizito', 'fred'],
+    email:['skibidi', 'kizito', 'fred'],
+    webmail:['skibidi', 'kizito', 'fred']
+}
+
+const ISSUES = {
+    title:['skibidi', 'kizito', 'fred'],
+    description:['skibidi', 'kizito', 'fred'],
+    assignedto:['skibidi', 'kizito', 'fred'],
+    createdby:['skibidi', 'kizito', 'fred']
+}
+
+const LOGS = {
+    id:['skibidi', 'kizito', 'fred'],
+    action:['skibidi', 'kizito', 'fred'],
+    timestamp:['skibidi', 'kizito', 'fred']
+}
+
+
 
 const AdminPage = () => {
 
@@ -74,7 +91,7 @@ const AdminPage = () => {
                             </div>
                         </>
                     ) : show === "groups" ? (
-                        <div><Table data={GROUPS} type={show}/></div>
+                        <div><Table data={GROUPS}/></div>
                     ) : show ===  "users" ? (
                         <div><Table data={USERS}/></div>
                     ) : show === "issues" ? (
