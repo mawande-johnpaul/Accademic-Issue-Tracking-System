@@ -9,13 +9,6 @@ const AssignedIssues = () => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const storedIssues = localStorage.getItem('assignedIssues');
-        if(storedIssues){setDisplayIssues(JSON.parse(storedIssues));
-
-        setLoading(false);
-    } else {fetchIssues();}
-    },[]);
-
     //fetch assigned issues from backend
     const fetchIssues = async() => {
         try{
@@ -25,42 +18,11 @@ const AssignedIssues = () => {
             localStorage.setItem('assignedIssues',JSON.stringify(data));
         } catch (error){
             console.error("Error Fetching Issues:",error);
-        
-        //setting mockdata incase backend fails.
-
-            setDisplayIssues([
-                {
-                    id:1,
-                    title:'Missing Marks For Exam',
-                    priority:'High',
-                    deadline:'04/10/25',
-                    category:'Grades',
-                    status:'pending',
-                    description:"Marks for previous paper are missing"   
-                },
-                {
-                    id:2,
-                    title:'Timetable Clash',
-                    priority:"Medium",
-                    deadline:"04/15/25",
-                    category:'Scheduling',
-                    status:'Inprogress',
-                    description:"Two exams at the same time"
-                },
-                {
-                    id:3,
-                    title:'Course Enrollment',
-                    priority:"Low",
-                    deadline:"04/20/25",
-                    category:'Enrollment',
-                    status:'Resolved',
-                    description:"Student Unable to register for a required course unit"
-                },                
-            ]);
+            setDisplayIssues([]);
         }finally{setLoading(false);}
     };
+    fetchIssues();},[]);
 
-   useEffect(() => {fetchIssues();},[]);
    const filteredIssues = priority === 'ALL' ? displayIssues:displayIssues.filter(issue => issue.priority === priority);
         
     return (
