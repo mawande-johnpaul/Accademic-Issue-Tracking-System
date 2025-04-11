@@ -1,31 +1,17 @@
 
 
-const Table = ({data}) => {
-    const headings = Object.keys(data);
+const Table = () => {
     return (
-    <>
-        <table className="table">
-            <thead>
-            <tr>
-                {
-                headings.map((heading, i) => (
-                <th key={i}>
-                    {heading}
-                </th>
-                ))
-            }
+        <table>
+            <tr className="headings">
+                <th className="admin">Admin</th>
+                <th className="name">Name</th>                  
             </tr>
-            
-            </thead>
-            <tbody>
-                <tr></tr>
-                <tr></tr>
-                <tr></tr>
-                <tr></tr>
-                <tr></tr>
-            </tbody>
+            <tr>
+                <td></td>
+                <td></td>
+            </tr>
         </table>
-    </>
     );
 };
 

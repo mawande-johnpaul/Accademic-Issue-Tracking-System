@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Table from "./table";
+import Table from "./Table";
 
 const GROUPS = {
     admin:['john', 'peter', 'paul'],
@@ -39,8 +39,9 @@ const AdminPage = () => {
                          )}
                         <button className="adminbutton">Admin username</button>
                     </div>
+                    <div className="recentcomp">
                     {show === "splash" ? (
-                        <div className="recentcomp">
+                        <>
                             <div className="user">
                                 <h2>Users</h2>
                                 <div className="actioncontainer">Student skibidi logged in.</div>
@@ -65,7 +66,7 @@ const AdminPage = () => {
                                 <div className="actioncontainer">Registrar kizito logged in.</div>
                                 <div className="actioncontainer">Registrar kizito logged out.</div>
                             </div>
-                        </div>
+                        </>
                     ) : show === "groups" ? (
                         <div><Table data={GROUPS} /></div>
                     ) : show === "users" ? (
@@ -75,6 +76,7 @@ const AdminPage = () => {
                     ) : (
                         <div><Table data={GROUPS} /></div>
                     )}
+                    </div>
                     
                     </div>
                 </section>  
