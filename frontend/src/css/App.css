@@ -1,0 +1,112 @@
+
+
+
+
+.App {
+  display: flex;
+  flex-direction: row;
+  height: 100vh;
+  width: 100%;
+  justify-content: center;
+  padding: 0px;
+  margin: 0px;
+  box-sizing: border-box;
+  font-family: 'Inter', 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+
+
+
+
+
+.login-button {
+  width: 100%;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+  cursor: pointer;
+  padding: 25px;
+  border-radius: 5px;
+  border: 0px;
+  justify-content: center;
+  background: linear-gradient(90deg, #009688 0%, #00796b 100%);
+  color: #FFFFFF;
+  font-family: 'Inter', 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  font-weight: bold;
+  font-size: larger;
+}
+
+
+
+.android-header{
+  display: none;
+}
+
+.android-body{
+  display: none;
+}
+
+.android-footer{
+  display: none;
+}
+@media screen and (max-width: 768px) {
+  .App {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .left-side{
+    display: none;
+  }
+
+  .content-section{
+    display: none;
+  }
+
+  .right-side{
+    display: none;
+  }
+
+  .android-display{
+    display: flex;
+    flex-direction: column;
+    height: auto;
+  }
+
+  .android-header {
+    height: auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 10px;
+    color: #00796b;
+    font-weight: bold;
+    font-size: 20px;
+    border: 1px solid;
+  }
+
+  .android-body {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    background-color: #d5d5d5;
+    height: auto;
+    border: 1px solid;
+  }
+
+  .android-footer {
+    height: auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 10px;
+    background-color: #009688;
+    color: #FFFFFF;
+    font-weight: bold;
+    font-size: 20px;
+    border: 1px solid;
+  }
+
+}
+
