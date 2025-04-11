@@ -1,21 +1,21 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 
-DEPARTMENT_CHOICES = [('cocis','CoCIS'), ('cobams','CoBAMS'), ('conas','CoNAS'), ('cedat','CEDAT')]
-COURSES = [('CC1000','Electrical'), ('CC1100','Civil'), ('CC1200','Mechanical'), ('CC1300','Chemical')]
-ROLES = [('student','Student'), ('lecturer','Lecturer'), ('registrar','Registrar'), ('admin','Admin')]
-ISSUE_CATEGORIES = [('marks','Missing Marks'), ('attendance','Attendance'), ('resources','Resources'), ('environment','Environmental'), ('conduct','Conduct'), ('schedules','Schedules')]
+DEPARTMENT_CHOICES = [('COCIS','COCIS'), ('COBAMS', 'COBAMS'), ('CONAS', 'CONAS')]
+ISSUE_CATEGORIES = [('Marks','Marks'), ('Attendance','Attendance'), ('Resources','Resources'), ('Environmental','Environmental'), ('Conduct','Conduct'), ('Schedules','Schedules'), ('Other','Other')]
 
 # Create your models here.
 class CustomUser(AbstractUser):
     id = models.AutoField(primary_key=True)
+    first_name = models.CharField(max_length=100, default='none')
+    last_name = models.CharField(max_length=100, default='none')
     username = models.CharField(max_length=100, unique=True)
     email = models.EmailField(max_length=100, unique=True)
     webmail = models.CharField(max_length=100, unique=True, blank=True, null=True)
     password = models.CharField(max_length=100)
-    role = models.CharField(max_length=100, choices=ROLES)
+    role = models.CharField(max_length=100, default='student')
     department = models.CharField(max_length=10, choices=DEPARTMENT_CHOICES)
-    course = models.CharField(max_length=100, choices=COURSES, default='none')
+    course = models.CharField(max_length=100, default='none')
 
     def __str__(self):
         return self.username
@@ -26,6 +26,9 @@ class Issue(models.Model):
     category = models.CharField(max_length=100, choices=ISSUE_CATEGORIES, default='student')
     description = models.TextField()
     department = models.CharField(max_length=10, choices=DEPARTMENT_CHOICES)
+    course_unit = models.CharField(max_length=100, default='none')
+    semester = models.CharField(max_length=100, default='none')
+    year = models.CharField(max_length=100, default='none')
     assigned_to = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='assigned_issue', null=True, blank=True)
     created_by = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)

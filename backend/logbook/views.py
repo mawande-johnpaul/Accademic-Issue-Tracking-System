@@ -8,10 +8,16 @@ from rest_framework.permissions import IsAuthenticated, AllowAny
 from django.contrib.auth import get_user_model, login
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.core.mail import send_mail
+from django.conf import settings
+from django.conf.urls.static import static
 
 User = get_user_model()
 
 # I changed from ModelViewSet to enerics because of its descriptive and ore specialied mrthods.
+
+def index(request):
+    return render(request, 'index.html')
+
 
 # User Registration
 class RegisterView(generics.CreateAPIView):
@@ -62,10 +68,29 @@ class IssueListCreate(generics.ListCreateAPIView): #View to list or create an is
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self): #Runs if the request method is GET
-        return super().get_queryset().filter(created_by=self.request.user)  # Ensure filtering works
+        if self.request.user.role == 'student':
+            return super().get_queryset().filter(created_by=self.request.user)  # Ensure filtering works
+        elif self.request.user.role == 'registrar':
+            return super().get_queryset().filter(status='Unseen')
 
     def perform_create(self, serializer): #Runs if request is POST
         serializer.save(created_by=self.request.user)
+
+class IssueList(generics.ListAPIView):
+    queryset = Issue.objects.all()
+    serializer_class = IssueSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self): #Runs if the request method is GET
+        return super().get_queryset(status='Unseen') 
+    
+class IssueList2(generics.ListAPIView):
+    queryset = Issue.objects.all()
+    serializer_class = IssueSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self, request): #Runs if the request method is GET
+        return super().get_queryset(status='Seen') 
 
 class IssueUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     queryset = Issue.objects.all()

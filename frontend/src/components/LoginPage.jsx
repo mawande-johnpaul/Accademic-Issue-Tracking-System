@@ -56,7 +56,7 @@ function LoginPage() {
                     />
                 </div>
 
-                <button type="submit" className='buttons'>Submit</button>
+                <button type="submit" className='buttons'>Log in</button>
             </form>
             {message && <div>{message}</div>}
         </div>

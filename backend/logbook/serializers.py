@@ -18,18 +18,24 @@ class RegisterSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):  # Corrected indentation
         webmail=validated_data['webmail']  #Create role based on webmail
-        webmail_suffix = webmail.split('@')[1]
-        if webmail_suffix == 'students.mak.ac.ug':
-            roles = 'student'
-        elif '@' not in webmail:
-            roles = 'registrar'
-        else:
-            roles = 'lecturer'
+        webmail_words = webmail.split('.')
+        for word in webmail_words:
+            if 'students' in word:
+                roles = 'student'
+                break
+            elif 'lecturers' in word:
+                roles = 'lecturer'
+                break
+            else:
+                roles = 'registrar'
+
         user = User.objects.create_user(
+            webmail=webmail,
             username=validated_data['username'],
             email=validated_data['email'],
             role=roles,
-            department=validated_data.get('department', None),
+            department=validated_data['department'],
+            course=validated_data['course'],
             password=validated_data['password']  # `create_user` automatically hashes the password
         )
         return user
