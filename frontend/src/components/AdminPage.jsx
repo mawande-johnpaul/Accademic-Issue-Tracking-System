@@ -3,7 +3,9 @@ import Table from "./Table";
 
 const GROUPS = {
     admin:['john', 'peter', 'paul'],
-    students: ['skibidi', 'kizito', 'fred']
+    students: ['skibidi', 'kizito', 'fred'],
+    registrars: ['dan', 'kim', 'james'],
+    lecturers: ['pierce', 'tracy', 'price']
 }
 
 const AdminPage = () => {
@@ -68,13 +70,13 @@ const AdminPage = () => {
                             </div>
                         </>
                     ) : show === "groups" ? (
-                        <div><Table data={GROUPS} /></div>
-                    ) : show === "users" ? (
-                        <div><Table data={GROUPS} /></div>
+                        <div><Table data={GROUPS}/></div>
+                    ) : show ===  "users" ? (
+                        <div><Table data={GROUPS}/></div>
                     ) : show === "issues" ? (
-                        <div><Table data={GROUPS} /></div>
+                        <div><Table data={GROUPS}/></div>
                     ) : (
-                        <div><Table data={GROUPS} /></div>
+                        <div><Table data={GROUPS}/></div>
                     )}
                     </div>
                     
