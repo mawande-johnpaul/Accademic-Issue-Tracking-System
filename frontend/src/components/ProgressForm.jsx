@@ -1,28 +1,23 @@
 import { useState } from "react";
 import "./FormStyles.css"; 
+import PropTypes from "prop-types";
 
-const ProgressForm = () => {
+// eslint-disable-next-line react/prop-types
+const ProgressForm = ({ issue, onClose }) => {
   const [formData, setFormData] = useState({
-    name: "",
-    department: "",
-    phone: "",
-    email: "",
-    total: "",
-    resolved: "",
-    pending: "",
-    overdue: "",
-    issueCategory: "",
-    challenges: "",
-    suggestions: "",
+    progressTitle:'',
+    description:'',
+    resolutionDate:'',
+    notes:'',
+    attachment:'null',
   });
 
-  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
+    const { name, value, type, files } = e.target;
     setFormData((prevData) => ({
       ...prevData,
-      [name]: value,
+      [name]: type ==='file'? files[0] : value,
     }));
   };
 
@@ -36,11 +31,8 @@ const ProgressForm = () => {
       alert("All fields are required.Please complete the form.");
       return;
     }
-    setLoading(true);
-    setTimeout(() => {
-      alert("Success! Progress Update sent.");
-      setLoading(false);
-    }, 2000);
+    alert(`Progress submitted for: ${issue.title}`);
+    onClose();
   };
   const handleKeyDown = (e) => {
     if(e.key === 'Enter'){e.preventDefault();
@@ -50,59 +42,32 @@ const ProgressForm = () => {
     }
 };
 
-  const handleCancel = () => {
-    setFormData({
-      name: "",
-      department: "",
-      phone: "",
-      email: "",
-      total: "",
-      resolved: "",
-      pending: "",
-      overdue: "",
-      issueCategory: "",
-      challenges: "",
-      suggestions: "",
-    });
-  };
-
   return (
     <div className="progress-form-container">
-      <h2>Progress Form</h2>
+      <h2>Progress Form for: { issue ?.title}</h2>
       <form onSubmit={handleSubmit} className="progress-form">
-        <label>Name</label>
-        <input type="text" name="name" value={formData.name} onChange={handleChange} onKeyDown={handleKeyDown} required />
-        <label>Department</label>
-        <input type="text" name="department" value={formData.department} onChange={handleChange} onKeyDown={handleKeyDown} required />
-        <label>Phone</label>
-        <input type="text" name="phone" value={formData.phone} onChange={handleChange} onKeyDown={handleKeyDown} required />
-        <label>Email</label>
-        <input type="email" name="email" value={formData.email} onChange={handleChange} onKeyDown={handleKeyDown} required />
-        <label>Total Issues</label>
-        <input type="number" name="total" value={formData.total} onChange={handleChange} onKeyDown={handleKeyDown} required />
-        <label>Resolved Issues</label>
-        <input type="number" name="resolved" value={formData.resolved} onChange={handleChange} onKeyDown={handleKeyDown} required />
-        <label>Pending Issues</label>
-        <input type="number" name="pending" value={formData.pending} onChange={handleChange} onKeyDown={handleKeyDown} required />
-        <label>Overdue Issues</label>
-        <input type="number" name="overdue" value={formData.overdue} onChange={handleChange} onKeyDown={handleKeyDown} required />
-        <label>Issue Category</label>
-        <input type="text" name="issueCategory" value={formData.issueCategory} onChange={handleChange} onKeyDown={handleKeyDown} required />
-        <label>Challenges</label>
-        <textarea name="challenges" value={formData.challenges} onChange={handleChange} onKeyDown={handleKeyDown} required />
-        <label>Suggestions</label>
-        <textarea name="suggestions" value={formData.suggestions} onChange={handleChange} onKeyDown={handleKeyDown} required />
+        <label>Progress Title</label>
+        <input type="tetx" name="progressTitle" value={formData.progressTitle} onChange={handleChange} onKeyDown={handleKeyDown}required/>
+        <label>Description</label>
+        <textarea name="description" placeholder="Describe Your Progress..." value={formData.description} onChange={handleChange} required></textarea>
+        <label>Expected Resolution Date</label>
+        <input type="date" name="resolutionDate" value={formData.resolutionDate} onChange={handleChange} onKeyDown={handleKeyDown}/>
+        <label>Additional Notes/Challenges</label>
+        <textarea name="notes" placeholder="Any Challenges or notes" value={formData.notes} onChange={handleChange}></textarea>
+        <label>Attachment(Optional)</label>
+        <input  type="file" name="attachment" onChange={handleChange}/>
         <div className="button-container">
-          <button type="submit" className='suBmit' disabled={!isFormValid() || loading}>
-            {loading ? "Submitting..." : "Submit"}
-          </button>
-          <button type="button" className="cancell" onClick={handleCancel}>
+          <button type="submit" className='suBmit' disabled={!isFormValid()}>Submit</button>
+          <button type="button" className="cancell" onClick={onClose}>
             Cancel
           </button>
         </div>
       </form>
     </div>
   );
+};
+ProgressForm.PropTypes = {
+  issue:PropTypes.object.isRequired, onClose:PropTypes.func.isRequired,
 };
 
 export default ProgressForm;
