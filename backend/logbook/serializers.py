@@ -58,8 +58,6 @@ class AdminCreateUserSerializer(serializers.ModelSerializer):
         validated_data['role'] = 'admin'  # Set the role to 'admin'
         return CustomUser.objects.create_user(**validated_data)
 
-
-
 class LoginSerializer(serializers.Serializer):
     username = serializers.CharField(max_length=255)
     password = serializers.CharField(write_only=True, max_length=128)
