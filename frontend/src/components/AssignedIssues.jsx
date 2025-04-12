@@ -11,14 +11,29 @@ const AssignedIssues = () => {
     useEffect(() => {
     //fetch assigned issues from backend
     const fetchIssues = async() => {
+        const token = localStorage.getItem('authToken');
         try{
-            const response = await fetch('http://127.0.0.1:8000/issues/');
+            const response = await fetch('http://127.0.0.1:8000/issues/',{
+                headers:{
+                    'Authorization':`Bearer ${token}`,
+                    'content-Type':'application/json'
+                }
+            });
+            if (!response.ok){
+                if(response.status === 401 || response.status === 403){
+                    console.error('Unauthorised. Token may be Missing or Expired.');
+                    localStorage.removeItem('authToken');
+                    window.location.href = '/login';
+                    return;
+                }
+                throw new Error('Failed to fetch Issues.');
+            }
             const data = await response.json();
             setDisplayIssues(data);
             localStorage.setItem('assignedIssues',JSON.stringify(data));
         } catch (error){
             console.error("Error Fetching Issues:",error);
-            setDisplayIssues([]);
+              setDisplayIssues([]);
         }finally{setLoading(false);}
     };
     fetchIssues();},[]);
@@ -27,8 +42,8 @@ const AssignedIssues = () => {
         
     return (
         <div className='assigned'>
-            <h2>Assigned Issues</h2>
             {loading ? (<div className='noissuescontainer'>
+                <h2>Assigned Issues</h2>
                 <p className='noissues'>Loading Assigned Issues,Please Wait...</p></div>):
                 filteredIssues.length === 0 ? (<div className='noissuescontainer'>
                     <p className='noissues'>Relax! You are not assigned any issues for now</p></div>):(
