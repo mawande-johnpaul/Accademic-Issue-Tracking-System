@@ -100,10 +100,21 @@ WSGI_APPLICATION = 'AITS.wsgi.application'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 DATABASE_URL = "postgresql://postgres:gdjOhQDdKfifPbjIynKQilrzOWNnLDPx@yamabiko.proxy.rlwy.net:29965/railway"
 
-DATABASES = {
-    'default': dj_database_url.parse(DATABASE_URL)
-}
-
+try:
+    DATABASES = {
+        'default': dj_database_url.parse(DATABASE_URL)
+    }
+except:
+    DATABASES={
+        'default':{
+            'ENGINE':'django.db.backends.postgresql',
+            'NAME':'postgres',
+            'USER':'postgres',
+            'PASSWORD':'admin12345',
+            'HOST':'localhost',
+            'PORT':'9000'
+        }
+    }
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
