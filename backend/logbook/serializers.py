@@ -23,21 +23,14 @@ class RegisterSerializer(serializers.ModelSerializer):
     def create(self, validated_data):  # Corrected indentation
         webmail=validated_data['webmail']  #Create role based on webmail
         webmail_suffix = webmail.split('@')[1]  #extracts the part of the email after @
-        if webmail_suffix == 'students.mak.ac.ug':
+        if webmail_suffix == 'students.mak.ac.ug':  # for student
             roles = 'student'
-            
-            
             
         elif '@' not in webmail:
             roles = 'registrar'
             
-            
-            
         else:
             roles = 'lecturer'
-            
-           
-            
         user = User.objects.create_user(
             username=validated_data['username'],
             email=validated_data['email'],
@@ -47,6 +40,13 @@ class RegisterSerializer(serializers.ModelSerializer):
             permissions=permission
         )
         return user
+            
+            
+            
+            
+            
+           
+            
 # serializer for admin(technical personnel)
 class AdminCreateUserSerializer(serializers.ModelSerializer):
     class Meta:
