@@ -12,6 +12,7 @@ from logbook.permissions import *
 from django.dispatch import receiver
 from django.utils import timezone
 from django.db.models.signals import post_save
+from django.contrib import admin
 
 
 
@@ -43,11 +44,14 @@ class RegisterView(generics.CreateAPIView):
         }, status=status.HTTP_201_CREATED)
 
 #admin can create a user
+
+
+
 class AdminCreateUserView(generics.CreateAPIView):
     permission_classes = [IsAdmin]
     def post(self, request, *args, **kwargs):
         if request.user.role!='admin':
-            return Response({"error": "You aren't authorized to perform this action"}, status=status.HTTP_403_FORBIDDEN)
+             return Response({"error": "You aren't authorized to perform this action"}, status=status.HTTP_403_FORBIDDEN)
         serializer = AdminCreateUserSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -60,7 +64,7 @@ class AdminCreateUserView(generics.CreateAPIView):
                     
                 }
             },status = status.HTTP_201_CREATED)
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 # User Login
