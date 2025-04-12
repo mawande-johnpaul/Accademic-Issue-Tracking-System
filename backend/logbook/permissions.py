@@ -11,14 +11,15 @@ class Command(BaseCommand):
         # Create groups
         student_group, _ = Group.objects.get_or_create(name="Students")
         registrar_group, _ = Group.objects.get_or_create(name="Registrars")
+        admin_group,_ = Group.objects.get_or_create(name='Lecturer')        
 
         # ContentType for Issue model
         content_type = ContentType.objects.get_for_model(Issue)
 
         # Create or get permissions
-        report_permission, _ = Permission.objects.get_or_create(
-            codename="report_issue",
-            name="Can report issue",
+        resolve_permission, _ = Permission.objects.get_or_create(
+            codename="resolve_issue",
+            name="Can resolve issue",
             content_type=content_type
         )
 
@@ -27,10 +28,15 @@ class Command(BaseCommand):
             name="Can assign issue",
             content_type=content_type
         )
+       
+        
 
         # Assign permissions to groups
-        student_group.permissions.add(report_permission)
+        lecturer_group.permissions.add(resolve_permission)
         registrar_group.permissions.add(assign_permission)
+        # assign admin to group
+        Group.objects.get(name="Admin")
+        user.groups.add(admin_group)
 
         self.stdout.write(self.style.SUCCESS("Roles and permissions have been set up!"))
 
