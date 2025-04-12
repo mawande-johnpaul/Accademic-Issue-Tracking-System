@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 
+
 DEPARTMENT_CHOICES = [('cocis','CoCIS'), ('cobams','CoBAMS'), ('conas','CoNAS'), ('cedat','CEDAT')]
 COURSES = [('CC1000','Electrical'), ('CC1100','Civil'), ('CC1200','Mechanical'), ('CC1300','Chemical')]
 ROLES = [('student','Student'), ('lecturer','Lecturer'), ('registrar','Registrar'), ('admin','Admin')]
