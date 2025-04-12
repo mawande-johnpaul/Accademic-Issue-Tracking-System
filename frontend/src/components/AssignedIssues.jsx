@@ -5,6 +5,7 @@ import ProgressForm from './ProgressForm';
 
 
 const AssignedIssues = () => {
+    //state declaration
     const [displayIssues,setDisplayIssues] = useState([]);
     const [priority,setPriority] = useState('ALL');
     const [loading, setLoading] = useState(true);
@@ -12,86 +13,59 @@ const AssignedIssues = () => {
     const [selectedIssue, setSelectedIssue] = useState(null);
     const [showProgressForm, setShowProgressForm] = useState(false);
 
-
-    useEffect(() => {
-    //fetch assigned issues from backend
+    ////fetch assigned issues from backend
+    useEffect(() => {    
     const fetchIssues = async() => {
         const token = localStorage.getItem('authToken');
         try{
             const response = await fetch('http://127.0.0.1:8000/issues/',{
                 headers:{
-                    'Authorization':`Bearer ${token}`,
-                    'content-Type':'application/json'
+                    'Authorization':`Bearer ${token}`,//send token to Authenticate
+                    'Content-Type':'application/json'//tell backkend that we are sending/expeecting a json
                 }
             });
+            //Handle failed fetch due to expired or missing token
             if (!response.ok){
                 if(response.status === 401 || response.status === 403){
                     console.error('Unauthorised. Token may be Missing or Expired.');
                     localStorage.removeItem('authToken');
-                    window.location.href = '/login';
+                    window.location.href = '/login';//redirect to login page
                     return;
                 }
                 throw new Error('Failed to fetch Issues.');
             }
-            const data = await response.json();
-            setDisplayIssues(data);
-            localStorage.setItem('assignedIssues',JSON.stringify(data));
+            const data = await response.json();//convert response to JSON
+            setDisplayIssues(data);//store real data(issues in state)
+            localStorage.setItem('assignedIssues',JSON.stringify(data));//cache 
         } catch (error){
             console.error("Error Fetching Issues:",error);
-            const mockData = [
-                {
-                    id:1,
-                    title:'Missing',
-                    priority:'High',
-                    deadline:'04/10/25',
-                    category:'Grades',
-                    status:'Pending',
-                    description:'Final...'
-                },
-                {
-                    id:2,
-                    title:'Exam Reschedule',
-                    priority:'Medium',
-                    deadline:'04/15/25',
-                    category:'Exams',
-                    status:'In Progress',
-                    description:'Exam...'
-                },
-                {
-                    id:3,
-                    title:'Course Enroll',
-                    priority:'Low',
-                    deadline:'04/20/25',
-                    category:'Enroll',
-                    status:'Resolved',
-                    description:'Student..'
-                }
-            ];
-              /*setDisplayIssues([]);*/
-              setDisplayIssues(mockData);
-              localStorage.setItem('assignedIssues',JSON.stringify(mockData));
-        }finally{setLoading(false);}
+            setDisplayIssues([]);//set empty list if fetch fails
+        }finally{setLoading(false);//stops loader once fetch is done
+            }
     };
-    fetchIssues();},[]);
+    fetchIssues();},[]);//Triggers fetch on mount
 
+//filter issues based on  priority
    const filteredIssues = priority === 'ALL' ? displayIssues:displayIssues.filter(issue => issue.priority === priority);
         
     return (
-        <div className='assigned'>
-            
-            {loading ? (<div className='noissuescontainer'>
-                
+        <div className='assigned'>  
+        {/*Loading State */}          
+            {loading ? (<div className='noissuescontainer'>                
                 <p className='noissues'>Loading Assigned Issues,Please Wait...</p></div>):(
                     <>
-                    {showProgressForm && selectedIssue ? (<h2>Submit Progress Report</h2>):(
-                    <h2>Assigned Issues</h2>)}
+                    {/*Dynamic heading */}
+                    {showProgressForm && selectedIssue ? (<h2>Submit Progress Report</h2>):
+                    filteredIssues.length> 0 ?(<h2>Assigned Issues</h2>):null}
+                    {/*Progress form when reporting*/}
                     {showProgressForm && selectedIssue ? (<ProgressForm issue={selectedIssue}
                     onClose={() => {setSelectedIssue(null);
                         setShowProgressForm(false);
-                    }}/>):
+                    }}/>):(//No issues found
                 filteredIssues.length === 0 ? (<div className='noissuescontainer'>
                     <p className='noissues'>Relax! You are not assigned any issues for now</p></div>):(
-            <>            
+            <>      
+            {/*Priority filter buttons*/}      
             <div className='bUTTONs'>                
                 <div className='Priority-DropDown'>
                     <button className='P-Btn'>Priority</button>
@@ -103,9 +77,8 @@ const AssignedIssues = () => {
                 </div>
                 <button className='AlL' onClick={() => setPriority('ALL')}>All</button>
             </div>           
-            
-                <div className='issues-gridd'>
-                    
+            {/*Assigned Issues card*/}
+                <div className='issues-gridd'>                    
                     {filteredIssues.map((issue) => (<div key={issue.id} className="isssue-cardd">
                     <div className='isssue-head'>
                         <h3>{issue.title}</h3>
@@ -125,13 +98,14 @@ const AssignedIssues = () => {
                     ))}
                 </div>  
                </>
-            )}
-            
+            )
+            )}            
             </>
             )}
         </div>
     );
 };
+//Receiving issues as props from a parent component
 AssignedIssues.propTypes = {
     issues:PropTypes.array.isRequired,
 };
