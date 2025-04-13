@@ -1,4 +1,4 @@
-import Card from "./IssueCard";
+sdsdcimport Card from "./IssueCard";
 
 const UserIssues = ({issues, type}) => {
   return (

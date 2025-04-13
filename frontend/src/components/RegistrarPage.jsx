@@ -140,3 +140,5 @@ const RegistrarPage = () => {
 };
 
 export default RegistrarPage;
+
+
