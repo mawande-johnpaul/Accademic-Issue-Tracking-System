@@ -7,22 +7,17 @@ const RequestAssistanceForm = () => {
     //state to hold form data
     const [formData, setFormData] = useState({
         lecturerName:'',
-        lecturerID:'',
         department:'',
         courseCode:'',
-        courseName:'',
         assistanceType:'',
         priorityLevel:'',
         description:'',
         attachment:'null',
         resolutionDate:'',
-        urgency:'',
-        email:'',
-        phone:'',
     });
 
     const [isFormValid, setIsFormValid] = useState(false);//state for form validity
-    const [departments, setDepartments] = useState([]);//
+    const [departments, setDepartments] = useState([]);//holds department
     const[filteredDepartments, setFilteredDepartments] = useState([]);
 
     useEffect(() => {
@@ -38,12 +33,9 @@ const RequestAssistanceForm = () => {
    //handle hanges in inputfields     
     const handleChange = (e) => {
         const {name,value,type,files} = e.target;
-        setFormData((prev) => {
-            const updatedForm = {...prev, [name]:type === 'file' ? files[0] || null:value,};//store file if uploaded
-            //console.log(`Updated Field: ${name} = `,value);
-            checkFormValidity(updatedForm);//validate form after updating
-            return updatedForm;
-        })
+        const updatedForm = {...formData, [name]:type === 'file' ? files[0] || null : value,};
+        setFormData(updatedForm);
+        checkFormValidity(updatedForm)
 
         if(name === 'department'){
             const filtered = departments.filter((dept) => 
@@ -52,10 +44,8 @@ const RequestAssistanceForm = () => {
     };
     //checking if all required fields are filled
     const checkFormValidity = (data) => {       
-        if (!data) return setIsFormValid(false);
-        const requiredFields = Object.keys(formData).filter(field => field !== 'attachment');
-        const isValid = requiredFields.every((field) => data[field] && data[field].trim() !== '');
-        //console.log('Form Validity state:',isValid,data);
+        const requiredFields = Object.keys(data).filter(field => field !== 'attachment');
+        const isValid = requiredFields.every((field) => data[field]?.trim() !== '');
         setIsFormValid(isValid);
     };
       //Enter key
@@ -83,18 +73,13 @@ const RequestAssistanceForm = () => {
     const handleCancel = () => {
         setFormData({
             lecturerName:"",
-            lecturerID:'',
             department:'',
             courseCode:'',
-            courseName:"",
             assistanceType:'',
             priorityLevel:'',
             description:'',
-            attachment:'',
+            attachment:'null',
             resolutionDate:'',
-            urgency:'',
-            email:'',
-            phone:''
         });
         setIsFormValid(false)
     };
@@ -106,10 +91,6 @@ const RequestAssistanceForm = () => {
                 <div className="form">
                     <label>Lecturer Name</label>
                     <input type="text" name="lecturerName" placeholder="Enter name" value={formData.lecturerName} onChange={handleChange} onKeyDown={handleKeyDown} required/>
-                </div>
-                <div className="form">
-                    <label>Lecturer ID</label>
-                    <input type="text" name="lecturerID" placeholder="Enter Your ID" value={formData.lecturerID} onChange={handleChange} onKeyDown={handleKeyDown}required/>
                 </div>
                 <div className="form">
                     <label>Department</label>
@@ -126,10 +107,6 @@ const RequestAssistanceForm = () => {
                 <div className="form">
                     <label>Course Code</label>
                     <input type="text" name="courseCode" placeholder="Enter course code" value={formData.courseCode} onChange={handleChange} onKeyDown={handleKeyDown} required/>
-                </div>
-                <div className="form">
-                    <label>Course Name</label>
-                    <input type="text" name="courseName" placeholder="Enter name for course..." value={formData.courseName} onChange={handleChange} onKeyDown={handleKeyDown}required/>
                 </div>
                 {/*Details for Issue*/}
                 <div className="form">
@@ -167,29 +144,6 @@ const RequestAssistanceForm = () => {
                 <div className="form">
                     <label>Prefered Resolution Date</label>
                     <input type="date" name="resolutionDate" value={formData.resolutionDate} onChange={handleChange} required/>
-                </div>
-                <div className="form">
-                    <label>Urgency</label>
-                    <select name="urgency" value={formData.urgency} onChange={handleChange} onKeyDown={handleKeyDown}>
-                        <option value=''>Select...</option>
-                        <option value='Immediate'>Immediate</option>
-                        <option value='Within a Week'>Within a Week</option>
-                        <option value='No Urgency'>No Urgency</option>
-                    </select>
-                </div>
-                {/*contact info*/}
-                <div className="form">
-                    <label>Email</label>
-                    <input type="email"  name='email' value={formData.email} onChange={handleChange} placeholder="name@gmail.com" onKeyDown={handleKeyDown} required/>
-                </div>
-                <div className="form">
-                    <label>Phone Number</label>
-                    <input type="tel" name="phone" placeholder="Enter Phone Number (0766870021)" 
-                    value={formData.phone} onChange={handleChange} onKeyDown={handleKeyDown}
-                    maxLength='10 || 11'
-                    title="Phone number should be between 1 to 10 atmost 11"
-                    pattern="\d{1,10}"
-                    required/>
                 </div>
                 {/*Buttons*/}
                 <div className="btn-grrp">
