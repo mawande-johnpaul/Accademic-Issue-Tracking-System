@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from logbook.views import *
+from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path('', index, name='index'),
@@ -16,4 +17,9 @@ urlpatterns = [
     path('notifications/', NotificationsListDestroy.as_view(), name='notifications'),
     path('notifications/create/', NotificationsCreate.as_view(), name='create_notification'),
     path('logs/', LogListUpdateDelete.as_view(), name='logs'),
+    # Password reset views
+    path('password-reset/', auth_views.PasswordResetView.as_view(), name='password_reset'),
+    path('password-reset/done/', auth_views.PasswordResetDoneView.as_view(), name='password_reset_done'),
+    path('reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
+    path('reset/done/', auth_views.PasswordResetCompleteView.as_view(), name='password_reset_complete'),
 ]
