@@ -18,8 +18,8 @@ const RequestAssistanceForm = () => {
 
     const [isFormValid, setIsFormValid] = useState(false);//state for form validity
     const [departments, setDepartments] = useState([]);//holds department
-    const[filteredDepartments, setFilteredDepartments] = useState([]);
-
+    const[filteredDepartments, setFilteredDepartments] = useState([]);//filtered as user types
+    //fetch departments from backend
     useEffect(() => {
     const fetchDepartments = async () => {
         try{
@@ -30,13 +30,13 @@ const RequestAssistanceForm = () => {
         }
     };fetchDepartments();},[]);
 
-   //handle hanges in inputfields     
+   //handle changes in inputfields     
     const handleChange = (e) => {
         const {name,value,type,files} = e.target;
         const updatedForm = {...formData, [name]:type === 'file' ? files[0] || null : value,};
         setFormData(updatedForm);
         checkFormValidity(updatedForm)
-
+        //filtering department list as user types
         if(name === 'department'){
             const filtered = departments.filter((dept) => 
             dept.toLowerCase().includes(value.toLowerCase()));setFilteredDepartments(filtered);
@@ -48,7 +48,7 @@ const RequestAssistanceForm = () => {
         const isValid = requiredFields.every((field) => data[field]?.trim() !== '');
         setIsFormValid(isValid);
     };
-      //Enter key
+      //Enter key to move to next input
       const handleKeyDown = (e) => {
         if(e.key === 'Enter'){e.preventDefault();
             const formElements = Array.from(e.target.form.elements);
@@ -56,6 +56,7 @@ const RequestAssistanceForm = () => {
             if (index !== -1 && index < formElements.length - 1){formElements[index + 1].focus();}
         }
     };
+    //submission
     const handleSubmit = async (e) => {
         e.preventDefault();
         if(!isFormValid) return;
@@ -92,6 +93,7 @@ const RequestAssistanceForm = () => {
                     <label>Lecturer Name</label>
                     <input type="text" name="lecturerName" placeholder="Enter name" value={formData.lecturerName} onChange={handleChange} onKeyDown={handleKeyDown} required/>
                 </div>
+                {/*Department with search suggestions */}
                 <div className="form">
                     <label>Department</label>
                     <input type="text" name ='department' placeholder='Search For Department'value={formData.department} onChange={handleChange} onKeyDown={handleKeyDown} required/>
@@ -112,7 +114,7 @@ const RequestAssistanceForm = () => {
                 <div className="form">
                     <label>Type of Assistance</label>
                     <select type="text" name="assistanceType" value={formData.assistanceType} onChange={handleChange} onKeyDown={handleKeyDown} required>
-                    <option value=''>Select...</option>
+                    <option value=''>--Select--</option>
                     <option value='Grading'>Grading System</option>
                     <option value='Student Issue'>Student Issue</option>
                     <option value='Course Content'>Course Content</option>
@@ -120,10 +122,11 @@ const RequestAssistanceForm = () => {
                     <option value='Other'>Other</option>
                     </select>
                 </div>
+                {/*Priority Level */}
                 <div className="form">
                     <label>Priority Level</label>
                     <select name="priorityLevel" value={formData.priorityLevel} onChange={handleChange} onKeyDown={handleKeyDown}required>
-                        <option value=''>Select...</option>
+                        <option value=''>--Select--</option>
                         <option value='High'>High</option>
                         <option value='Medium'>Medium</option>
                         <option value='Low'>Low</option>
