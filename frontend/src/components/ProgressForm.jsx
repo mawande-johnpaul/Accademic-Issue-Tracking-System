@@ -2,7 +2,6 @@ import { useState } from "react";
 import "./FormStyles.css"; 
 import PropTypes from "prop-types";
 
-// eslint-disable-next-line react/prop-types
 const ProgressForm = ({ issue, onClose }) => {
   const [formData, setFormData] = useState({
     progressTitle:'',
@@ -12,7 +11,7 @@ const ProgressForm = ({ issue, onClose }) => {
     attachment:'null',
   });
 
-
+//handle input and file changes
   const handleChange = (e) => {
     const { name, value, type, files } = e.target;
     setFormData((prevData) => ({
@@ -20,11 +19,12 @@ const ProgressForm = ({ issue, onClose }) => {
       [name]: type ==='file'? files[0] : value,
     }));
   };
-
+  
+// checking for form validity
   const isFormValid = () => {
     return Object.values(formData).every((field) => field.trim() !== "");
   };
-
+//  for form submission
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!isFormValid()) {
@@ -32,8 +32,9 @@ const ProgressForm = ({ issue, onClose }) => {
       return;
     }
     alert(`Progress submitted for: ${issue.title}`);
-    onClose();
+    onClose();// close form after submit
   };
+  //for enter button to take you to the next field
   const handleKeyDown = (e) => {
     if(e.key === 'Enter'){e.preventDefault();
         const formElements = Array.from(e.target.form.elements);
@@ -66,7 +67,7 @@ const ProgressForm = ({ issue, onClose }) => {
     </div>
   );
 };
-ProgressForm.PropTypes = {
+ProgressForm.propTypes = {
   issue:PropTypes.object.isRequired, onClose:PropTypes.func.isRequired,
 };
 
