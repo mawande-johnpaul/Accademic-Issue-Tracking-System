@@ -6,8 +6,14 @@ const IssueCard = ({ isssue, type }) => {
       headers: {
         'Authorization': `Bearer ${token}`,
       },
+    });}
+  const reject = async () => {
+    const response = axios.delete('http://127.0.0.1:8000/issues/setstatus/Removed', {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      },
     });
-  }
+}
   if (type === 'user'){
     return (
       <div className="issue-card">
@@ -24,7 +30,7 @@ const IssueCard = ({ isssue, type }) => {
         <div className="card-header">{isssue.title} . {isssue.created_at} . {isssue.created_by}</div>
         <div className="card-body" style={{fontWeight:"bold", fontSize: "12px"}}>{isssue.category}</div>
         <div className="card-body">{isssue.description}</div>
-        <button className="cardbuttons">Reject</button>
+        <button className="cardbuttons" onClick={reject}>Reject</button>
         <button className="cardbuttons" onClick={assign}>Assign</button>
       </div>
     );

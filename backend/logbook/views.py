@@ -81,6 +81,7 @@ class IssueList(generics.ListAPIView):
         status = self.kwargs['status']  # Get the status from the URL
         return Issue.objects.filter(status=status)  # Filter issues by status
 
+# What data exactly is returned, which function does what, notifications on successful action
 class IssueUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = IssueSerializer
     permission_classes = [AllowAny]
