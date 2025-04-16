@@ -19,3 +19,11 @@ admin.site.index_title = "Welcome to AITS Panel"
 @admin.register(CustomUser)
 class CustomUserAdmin(UserAdmin):
     pass
+
+#add notifications to admin panel
+admin.site.register(Notification)
+class NotificationAdmin(admin.ModelAdmin):
+    list_display = ('id', 'title', 'timestamp', 'user')  # optional: show nice fields
+    search_fields = ('title',)
+    list_filter = ('timestamp',)
+    
