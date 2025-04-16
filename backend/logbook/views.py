@@ -40,16 +40,17 @@ class RegisterView(generics.CreateAPIView):
 
         return Response({
             'token': access_token,
+            'timestamp':timezone.now(), #adds current date and time the user was created
             'user': RegisterSerializer(user).data
         }, status=status.HTTP_201_CREATED)
 
+
 #admin can create a user
-
-
-
 class AdminCreateUserView(generics.CreateAPIView):
+    # only users with 'admin'role can access this endpoint
     permission_classes = [IsAdmin]
     def post(self, request, *args, **kwargs):
+        #double checking if current user really has an admin role
         if request.user.role!='admin':
              return Response({"error": "You aren't authorized to perform this action"}, status=status.HTTP_403_FORBIDDEN)
         serializer = AdminCreateUserSerializer(data=request.data)
@@ -218,3 +219,4 @@ from django.dispatch import receiver
     def issue_post_save(sender, instance, created, **kwargs):
         if created:
             EmailView.send_email('New Issue', 'A new issue has been created', User'''
+
