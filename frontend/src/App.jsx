@@ -10,7 +10,7 @@ import Homepage from './components/HomePage';
 import SignupPage from './components/SignupPage';
 import LoginPage from './components/LoginPage';
 import StudentPage from './components/StudentPage';
-import LecturerPage from "./components/LecturerPage";
+import LecturerPage from './components/LecturerPage';
 import RegistrarPage from "./components/RegistrarPage";
   
 function App() {

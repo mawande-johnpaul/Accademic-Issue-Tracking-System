@@ -5,12 +5,11 @@ import SearchBar from "./SearchBar";
 import Button from "./Button";
 import DisplayPane from "./DisplayPane";
 import Logo from "./Logo"
-import Content from './LecturerContentSection'
-/*import IssueDisplayForm from "./IssueDisplayForm";
-/*import AssignedIssues from "./AssignedIssues";*/
+/*import IssueDisplayForm from "./IssueDisplayForm";*/
+import AssignedIssues from "./AssignedIssues";
+import ResolvingIssues from "./ResolvingIssues";
 
-
-/*const MESSAGES=[
+const MESSAGES=[
   {
       head: 'Messages',
       contents: [
@@ -63,16 +62,16 @@ import Content from './LecturerContentSection'
       ]
   }
   
-]*/
+]
 
 const LecturerPage = () => {
   const [issues, setIssues] = useState([]);
-  const [content, setContent] = useState('Splash');
+  const [activeSection , setActiveSection] = useState('welcome');
 
   useEffect(() => {
     const fetchIssues = async () => {
       try {
-        const user = JSON.parse(localStorage.getItem("user"));
+        /*const user = JSON.parse(localStorage.getItem("user"));*/
         const token = localStorage.getItem("token");
 
         const response = await axios.get('http://127.0.0.1:8000/issues/', {
@@ -89,7 +88,28 @@ const LecturerPage = () => {
     fetchIssues();
   }, []);
 
-function createnew(){
+  const Welcome = () => {
+    return (
+        <div className="form-holder">
+          <div className="content-section-header">
+          Hello! Welcome to AITS. Here are the issues you have posted:
+          </div>
+          <div className="content-section-body">
+            <ul >
+                {Array.isArray(issues) && issues.map(issue => (
+                <li key={issue.id}>{issue.title}</li>
+                ))}
+            </ul>
+            <div className="assigned-issues-wrapper">
+          {/*<AssignedIssues issues={issues}/>*/}
+        </div>
+            {/*<ResolvingIssues resolvingIssues={issues}/>*/}
+          </div>
+        </div>
+    );
+};
+
+{/*function createnew(){
   console.log("New Issue created");
 };
 
@@ -99,27 +119,34 @@ function otherlist(){
 
 function settings(){
   console.log("Settings selected");
-}
-
+}*/}
   return (
     <div className="bodyy">
       <div className="left-side">
         <Logo />
-        <Button text={"Assigned issues"} image={"new-issue.svg"} funct={createnew}/>
+        {/*<Button text={"Assigned issues"} image={"new-issue.svg"} funct={createnew}/>
         <Button text={"Resolved issues"} image={"posted-logo.svg"} funct={otherlist}/>
-        <Button text={"Settings"} image={"settings.svg"} funct={settings}/>
+        <Button text={"Settings"} image={"settings.svg"} funct={settings}/>*/}
+        <Button text={"Assigned issues"} image={"new-issue.svg"} funct={() => setActiveSection('assigned')}/>
+        <Button text={"Resolved issues"} image={"posted-logo.svg"} funct={() => setActiveSection('resolved')}/>
+        <Button text={"Settings"} image={"settings.svg"} funct={() => setActiveSection('settings')}/>
+        
 
       </div>
       <div className="content-section">
         <SearchBar />
-        <Content to_display_name={content} issues={issues} user={user}/>
+        {/*<Welcome />*/}
+        {activeSection === 'welcome' && <Welcome/>}
+        {activeSection === 'assigned' && <AssignedIssues issues={issues}/>}
+        {activeSection === 'resolved' && <ResolvingIssues resolvingIssues={issues}/>}
+        
       </div>
-      {/*<div className="right-side">
+      <div className="right-side">
         <ProfileDisplay text={"Lecturer"}/>
         <DisplayPane heading={MESSAGES[0].head} items={MESSAGES[0].contents} />
         <DisplayPane heading={MESSAGES[1].head} items={MESSAGES[1].contents} />
         <DisplayPane heading={MESSAGES[2].head} items={MESSAGES[2].contents} />
-      </div>*/}
+      </div>
     </div>
   );
 };
