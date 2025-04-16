@@ -1,0 +1,212 @@
+
+.assigned{
+    margin:0 auto;
+    padding: 15px;
+    background: #fff;
+    max-width: 1200px;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    width:93.9%;
+    height: 100vh;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column; 
+    justify-content: space-between;
+    align-items: flex-start;
+}
+.assigned h2{
+    text-align:center ;
+}
+.issues-gridd{
+    width:100% !important;
+    display:flex;
+    flex-direction: column;
+    gap: 15px;
+}
+.isssue-cardd{
+    background: #ebe6e6;
+    padding: 9px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);    
+    position: relative;
+    min-height: 90px;    
+    transition: transform 0.2s;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;    
+}
+.isssue-head{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: bold;
+    padding-bottom: 2px;
+    font-size: 1.1rem;
+    border-bottom: 1px solid #ddd;
+}
+.priority{
+    background: #e6c74e;
+    padding: 3px 8px;
+    border-radius: 5px;
+    font-size: 0.9rem;
+    color: #333;
+}
+.deadline{
+    color: #cf1e18;
+    font-size: 0.9em;
+    font-weight: bold;
+}
+.isssue-cardd:hover{
+    transform: scale(1.02);
+}
+.isssue-carddh3{
+    margin: 0;
+    color: #333;
+}
+.isssue-cardd p{
+    margin:5px 0;
+    color: #a37171;
+}
+.btn-container{
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+.report{
+    background:green;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    cursor: pointer;
+    border-radius: 4px;
+    display: inline-block;
+    font-size: 1rem;
+    text-align: center;
+}
+
+.report:hover{
+    background:rgb(5,63,5);
+}
+.details{
+    background: green;
+    border: none;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+    padding: 8px 12px;
+}
+.details:hover{
+    background: rgb(5, 63, 5);
+}
+.bUTTONs{
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 10px;
+    gap: 7px;
+    width: 100%;
+}
+.bUTTONs button{
+    padding: 10px 15px;
+    font-size: 1 rem;
+}
+
+.P-Btn{
+    background-color: rgb(224, 215, 215);
+    padding: 8px 12px;
+    border: none;
+    cursor: pointer;
+    margin-right: 10px;
+    position: relative;
+    border-radius: 2px;
+    font-size: 1 rem;
+}
+.dropcontent{
+    display:none;
+    position: absolute;
+    background: white;
+    box-shadow: 0px 4px 6px rgba(0,0,0,0.1);
+    min-width: 120px;
+    z-index: 1;
+    border-radius: 5px;
+}
+.Priority-DropDown:hover .dropcontent{
+    display: block;
+}
+.Priority-DropDown{
+    position: relative;
+    display: inline-block;
+}
+.noissues{
+    font-size: 18px;
+    font-weight: 500;
+    color: #555;
+    text-align: center;
+}
+.noissuescontainer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height:200px;
+}
+.dropcontent button{
+    display: block;
+    width:100%;
+    padding: 6px;
+    border: none;
+    background: white;
+    cursor: pointer;
+    text-align: left;
+}
+.dropcontent button:hover{
+    background-color: #f0f0f0;
+}
+.AlL{
+    background-color: rgb(9, 216, 9);
+    border: none;
+    border-radius: 2px;
+    color: white;
+    cursor:pointer;
+    padding: 8px 12px;
+}
+@media(max-width:768px){
+    .bUTTONs{
+        flex-direction:column;
+        align-items: center;
+    }
+    .issues-gridd{
+        grid-template-columns: 1fr;
+    }
+    .isssue-cardd{
+        width: 90%;
+    }
+    .report,.details{
+        width: 100%;
+    }
+}
+@media(max-width:480px){
+    .assigned{
+        padding:0 12px 0 0;
+    }
+    .issues-gridd{
+        align-items: center;    
+    }
+    .bUTTONs button,P-Btn{
+        font-size: 0.9rem;
+        padding: 8px 12px;
+    }
+    .report,.details{
+        font-size: 0.9rem;
+        padding:8px 12px;
+    }
+
+    .isssue-head{
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .priority{
+        margin-top: 5px;
+    }
+} 

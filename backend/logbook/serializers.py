@@ -2,6 +2,9 @@ from rest_framework import serializers
 from .models import *
 from django.contrib.auth import get_user_model
 from django.contrib.auth import authenticate
+from logbook.permissions import *
+from django.contrib.auth.models import Permission
+from django.contrib.auth.hashers import make_password
 
 User = get_user_model()
 
@@ -16,29 +19,37 @@ class RegisterSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError('Username already exists')
         return data
 
-    def create(self, validated_data):  # Corrected indentation
+   def create(self, validated_data):  # Corrected indentation
         webmail=validated_data['webmail']  #Create role based on webmail
-        webmail_words = webmail.split('.')
-        for word in webmail_words:
-            if 'students' in word:
-                roles = 'student'
-                break
-            elif 'lecturers' in word:
-                roles = 'lecturer'
-                break
-            else:
-                roles = 'registrar'
-
+        webmail_suffix = webmail.split('@')[1]  #extracts the part of the email after @
+        if webmail_suffix == 'students.mak.ac.ug':  # for student
+            roles = 'student'
+            
+        elif '@' not in webmail:
+            roles = 'registrar'
+            
+        else:
+            roles = 'lecturer'
         user = User.objects.create_user(
-            webmail=webmail,
             username=validated_data['username'],
             email=validated_data['email'],
             role=roles,
-            department=validated_data['department'],
-            course=validated_data['course'],
-            password=validated_data['password']  # `create_user` automatically hashes the password
+            department=validated_data.get('department', None),
+            password=validated_data['password'],  # `create_user` automatically hashes the password
+            permissions=permission
         )
         return user
+       # serializer for admin(technical personnel)
+class AdminCreateUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = '__all__'
+    def validate_password(self,value):
+        return make_password(value) #encrypts the password using Django's hashing system
+    def create(self, validated_data):
+        validated_data['role'] = 'admin'  # Set the role to 'admin'
+        return CustomUser.objects.create_user(**validated_data)
+
 
 
 class LoginSerializer(serializers.Serializer):
