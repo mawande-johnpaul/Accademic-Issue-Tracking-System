@@ -36,6 +36,17 @@ class RegisterSerializer(serializers.ModelSerializer):
             permissions=permission
         )
         return user
+       # serializer for admin(technical personnel)
+class AdminCreateUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = '__all__'
+    def validate_password(self,value):
+        return make_password(value) #encrypts the password using Django's hashing system
+    def create(self, validated_data):
+        validated_data['role'] = 'admin'  # Set the role to 'admin'
+        return CustomUser.objects.create_user(**validated_data)
+
 
 
 class LoginSerializer(serializers.Serializer):
