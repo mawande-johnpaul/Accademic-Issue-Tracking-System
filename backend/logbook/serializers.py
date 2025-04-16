@@ -16,27 +16,24 @@ class RegisterSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError('Username already exists')
         return data
 
-    def create(self, validated_data):  # Corrected indentation
+   def create(self, validated_data):  # Corrected indentation
         webmail=validated_data['webmail']  #Create role based on webmail
-        webmail_words = webmail.split('.')
-        for word in webmail_words:
-            if 'students' in word:
-                roles = 'student'
-                break
-            elif 'lecturers' in word:
-                roles = 'lecturer'
-                break
-            else:
-                roles = 'registrar'
-
+        webmail_suffix = webmail.split('@')[1]  #extracts the part of the email after @
+        if webmail_suffix == 'students.mak.ac.ug':  # for student
+            roles = 'student'
+            
+        elif '@' not in webmail:
+            roles = 'registrar'
+            
+        else:
+            roles = 'lecturer'
         user = User.objects.create_user(
-            webmail=webmail,
             username=validated_data['username'],
             email=validated_data['email'],
             role=roles,
-            department=validated_data['department'],
-            course=validated_data['course'],
-            password=validated_data['password']  # `create_user` automatically hashes the password
+            department=validated_data.get('department', None),
+            password=validated_data['password'],  # `create_user` automatically hashes the password
+            permissions=permission
         )
         return user
 
