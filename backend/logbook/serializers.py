@@ -19,6 +19,15 @@ class RegisterSerializer(serializers.ModelSerializer):
         if User.objects.filter(username=data['username']).exists():
             raise serializers.ValidationError('Username already exists')
         return data
+    
+    #ensures that password is more than 6 characters and that it is not entirely numeric
+    def validate_password(self, value):
+        if len(value) < 6:
+            raise serializers.ValidationError("Password must be at least 6 characters long.")
+        if value.isdigit():
+            raise serializers.ValidationError("Password cannot be entirely numeric.")
+        return make_password(value)  # Hash password after validating
+
 
     def create(self, validated_data):  # Corrected indentation
         webmail=validated_data['webmail']  #Create role based on webmail
@@ -43,9 +52,6 @@ class RegisterSerializer(serializers.ModelSerializer):
             
             
             
-            
-            
-           
             
 # serializer for admin(technical personnel)
 class AdminCreateUserSerializer(serializers.ModelSerializer):
@@ -107,3 +113,6 @@ class NotificationSerializer(serializers.ModelSerializer):  # Fixed typo in clas
     class Meta:
         model = Notification
         fields = '__all__'
+            
+           
+            
