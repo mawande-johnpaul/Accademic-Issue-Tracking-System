@@ -2,6 +2,9 @@ from rest_framework import serializers
 from .models import *
 from django.contrib.auth import get_user_model
 from django.contrib.auth import authenticate
+from logbook.permissions import *
+from django.contrib.auth.models import Permission
+from django.contrib.auth.hashers import make_password
 
 User = get_user_model()
 
