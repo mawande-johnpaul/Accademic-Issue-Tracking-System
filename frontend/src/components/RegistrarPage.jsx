@@ -53,19 +53,19 @@ const RegistrarPage = () => {
   const [content, setContent] = useState('Splash');
 
 
-  const user = JSON.parse(localStorage.getItem("user"));
-  const token = localStorage.getItem("token");
+  const user = JSON.parse(sessionStorage.getItem("user"));
+  const token = sessionStorage.getItem("token");
 
   useEffect(() => {
     const fetchIssues = async () => {
-      const response = await axios.get('http://127.0.0.1:8000/issues/', {
+      const response = await axios.get('http://127.0.0.1:8000/issues/Unseen', {
         headers: {
           'Authorization': `Bearer ${token}`,
         },
-      });
+      });  
       setNewIssues(response.data);
     };
-
+  
     const fetchNotifications = async () => {
       const response = await axios.get('http://127.0.0.1:8000/notifications/', {
         headers: {
@@ -74,17 +74,19 @@ const RegistrarPage = () => {
       });
       setNotifications(response.data);
     };
-
+  
     if (user) {
       fetchIssues();
-      /*fetchNotifications();*/
+      fetchAllIssues();
+      //fetchNotifications();  // If you want to include this
     }
-  }, [user]);
+  }, [user, token]);  // Added `token` to the dependency array
+  
 
   const no_operation = () => setContent("Splash");
 
   const fetchAllIssues = async() => {
-    const response = await axios.get('http://127.0.0.1:8000/issues/all/', {
+    const response = await axios.get('http://127.0.0.1:8000/issues/Seen', {
       headers: {
         'Authorization': `Bearer ${token}`,
       },

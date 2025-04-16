@@ -169,6 +169,11 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, '..', 'frontend', 'dist'),  # Correct path to the frontend build directory
 ]
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # For production use
+'''STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR.parent, 'frontend', 'dist'),
+]'''
+
 
 
 # Default primary key field type
@@ -188,3 +193,11 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticated',
     ],
 }
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'remoteplayjones@gmail.com'
+EMAIL_HOST_PASSWORD = 'jones181103'
+DEFAULT_FROM_EMAIL = 'AITS remoteplayjones@gmail.com'

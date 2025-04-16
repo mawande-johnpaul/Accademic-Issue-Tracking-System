@@ -19,9 +19,10 @@
     flex-direction: column;
     justify-content: center;
     height: 60vh;
-    gap:10px;
     flex-direction: column;
     font-family: Inter;
+    gap: 5px;
+    padding-top: 20px;
 }
 
 .row{

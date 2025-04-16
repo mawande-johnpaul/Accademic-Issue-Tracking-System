@@ -21,8 +21,15 @@ const Splash = () => {
             5. Enjoy your experience!
         </p>
         
+        {sessionStorage.getItem("user") ? (
+        <></>
+            ) : (
+            <><InPageLoginButton /></>
+            )}
     </div>
-    <InPageLoginButton />
+    
+
+    
     </>
   );
 };

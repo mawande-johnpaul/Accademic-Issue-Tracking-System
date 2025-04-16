@@ -1,4 +1,19 @@
-const Card = ({ isssue, type }) => {
+import axios from "axios";
+
+const IssueCard = ({ isssue, type }) => {
+  const assign = async () => {
+    const response = axios.patch('http://127.0.0.1:8000/issues/setstatus/Seen', {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      },
+    });}
+  const reject = async () => {
+    const response = axios.delete('http://127.0.0.1:8000/issues/setstatus/Removed', {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      },
+    });
+}
   if (type === 'user'){
     return (
       <div className="issue-card">
@@ -12,11 +27,11 @@ const Card = ({ isssue, type }) => {
   if (type === 'new'){
     return (
       <div className="issue-card">
-        <div className="card-header">{isssue.title} . {isssue.status} . {isssue.created_at}</div>
+        <div className="card-header">{isssue.title} . {isssue.created_at} . {isssue.created_by}</div>
         <div className="card-body" style={{fontWeight:"bold", fontSize: "12px"}}>{isssue.category}</div>
         <div className="card-body">{isssue.description}</div>
-        <button className="buttons">Reject</button>
-        <button className="buttons">Assign</button>
+        <button className="cardbuttons" onClick={reject}>Reject</button>
+        <button className="cardbuttons" onClick={assign}>Assign</button>
       </div>
     );
   }
@@ -27,14 +42,14 @@ const Card = ({ isssue, type }) => {
         <div className="card-header">{isssue.title} . {isssue.status} . {isssue.created_at}</div>
         <div className="card-body" style={{fontWeight:"bold", fontSize: "12px"}}>{isssue.category}</div>
         <div className="card-body">{isssue.description}</div>
-        <button className="buttons">Remove</button>
-        <button className="buttons">Reallocate</button>
-        <button className="buttons">Request Report</button>
+        <button className="cardbuttons">Remove</button>
+        <button className="cardbuttons">Reallocate</button>
+        <button className="cardbuttons">Request Report</button>
       </div>
     );
   }
   };
 
-  export default Card;
+  export default IssueCard;
   
   
