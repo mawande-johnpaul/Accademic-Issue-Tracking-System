@@ -136,8 +136,8 @@ const RequestAssistanceForm = () => {
                     <label>Description</label>
                     <textarea name="description" placeholder="Describe the Issue" 
                     value={formData.description} onChange={handleChange} required
-                    maxLength='500'
-                    title="Maximum 500 Characters are allowed"
+                    maxLength='310'
+                    title="Maximum 310 Characters are allowed"
                     ></textarea>
                 </div>
                 <div className="form">

@@ -110,6 +110,9 @@
     background-color:rgb(215, 221, 215);
     font-size: medium;
 }
+textarea{
+    overflow-y: hidden;
+}
 .button-container{
     display: flex;
     justify-content: space-between;
