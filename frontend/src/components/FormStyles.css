@@ -121,7 +121,7 @@ button:disabled{
 }
 .cancell{
     background-color: red;
-    color: white;
+    color: white;    
 }
 
 .cancell:hover{
@@ -133,7 +133,11 @@ button:disabled{
     border-radius: 4px;
     padding: 10px 15px;
     font-size: medium;
+    cursor: pointer;
 }
 .suBmit:enabled{
-    background-color: rgb(11, 150, 11);
+    background-color: rgb(99,211, 99);
+}
+.suBmit:hover{
+    background-color: rgb(24, 175, 24);
 }
