@@ -1,8 +1,9 @@
 import RegistrarIssues from "./RegistrarIssues";
 import Settings from "./Settings";
-import Splash from "./Splash";  
+import Splash from "./Splash"; 
+import AssignForm from "./AssignForm"; 
 
-const Content = ({to_display_name, newissues, assignedissues, username, token, department}) => {
+const Content = ({to_display_name, newissues, assignedissues, username, lecturers}) => {
     return (
         <div>
             <div className="content-section-header">
@@ -19,6 +20,8 @@ const Content = ({to_display_name, newissues, assignedissues, username, token, d
                     <RegistrarIssues issues={assignedissues} type={'assigned'}/>
                 ) : to_display_name === "Settings"? (
                     <Settings user={""} />
+                ) : to_display_name === "AssignForm"? (
+                    <AssignForm lecturers={lecturers}/>
                 ) : (
                     <Splash />
                 )}

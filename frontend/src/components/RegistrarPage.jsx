@@ -51,6 +51,7 @@ const RegistrarPage = () => {
   const [assignedIssues, setAssignedIssues] = useState([])
   const [notifications, setNotifications] = useState([]);
   const [content, setContent] = useState('Splash');
+  const [lecturers, setLecturers] = useState([]);
 
 
   const user = JSON.parse(sessionStorage.getItem("user"));
@@ -74,10 +75,20 @@ const RegistrarPage = () => {
       });
       setNotifications(response.data);
     };
+
+    const fetchLecturers = async () => {
+      const response = await axios.get('http://127.0.0.1:8000/lecturers/', {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
+      });
+      setLecturers(response.data);
+    };
   
     if (user) {
       fetchIssues();
       fetchAllIssues();
+      fetchLecturers();
       //fetchNotifications();  // If you want to include this
     }
   }, [user, token]);  // Added `token` to the dependency array
@@ -117,7 +128,7 @@ const RegistrarPage = () => {
           </div>
           <div className="content-section">
             <SearchBar />
-            <Content to_display_name={content} newissues={newIssues} assignedissues={assignedIssues} username={user.username} token={token} department={user.department}/>
+            <Content to_display_name={content} newissues={newIssues} assignedissues={assignedIssues} username={user.username} token={token} department={user.department} lecturers={lecturers} />
           </div>
           <div className="right-side">
             {user ? (

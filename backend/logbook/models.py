@@ -34,6 +34,7 @@ class Issue(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     status = models.CharField(max_length=10, default='Unseen')
+    priority = models.CharField(max_length=10, default='Low')
 
     def __str__(self):
         return self.title

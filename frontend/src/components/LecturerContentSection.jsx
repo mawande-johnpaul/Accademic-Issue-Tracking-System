@@ -1,5 +1,5 @@
 import IssueForm from "./IssueForm";
-import UserIssues from "./UserIssues";
+import LecturerIssues from "./LecturerIssues";
 import Settings from "./Settings";
 import Splash from "./Splash";  
 
@@ -14,10 +14,10 @@ const Content = ({to_display_name, issues, user}) => {
                 )}
             </div>
             <div className="content-section-body" style={{ textAlign: "center" }}>
-                {to_display_name === "IssueForm" && user ? (
-                    <IssueForm user={user} />
-                ) : to_display_name === "UserIssues" && issues ? (
-                    <UserIssues issues={issues} />
+                {to_display_name === "AssignedIssues" && user ? (
+                    <LecturerIssues issues={issues} type={'lecturer-assigned'} />
+                ) : to_display_name === "Resolved Issues" && issues ? (
+                    <LecturerIssues issues={issues} type={'lecturer-resolved'}  />
                 ) : to_display_name === "Settings" && user ? (
                     <Settings user={user} />
                 ) : (
