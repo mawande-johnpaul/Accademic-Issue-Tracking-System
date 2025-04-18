@@ -46,7 +46,7 @@ class RegisterSerializer(serializers.ModelSerializer):
             role=roles,
             department=validated_data.get('department', None),
             password=validated_data['password'],  # `create_user` automatically hashes the password
-            permissions=permission
+            
         )
         return user
             
