@@ -8,7 +8,7 @@ import Logo from "./Logo";
 import Content from "./StudentContentSection";
 import InPageLoginButton from "./InPageLoginButton";
 
-const StudentPage = () => {
+const StudentPage = ({content, setContent}) => {
 
   const MESSAGES = [
     {
@@ -49,9 +49,6 @@ const StudentPage = () => {
 
   const [issues, setIssues] = useState([]);
   const [notifications, setNotifications] = useState([]);
-  const [content, setContent] = useState('Splash');
-
-
   const user = JSON.parse(sessionStorage.getItem("user"));
   const token = sessionStorage.getItem("token");
 

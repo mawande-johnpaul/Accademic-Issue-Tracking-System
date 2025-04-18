@@ -8,7 +8,7 @@ import Logo from "./Logo";
 import Content from "./RegistrarContentSection";
 import InPageLoginButton from "./InPageLoginButton";
 
-const RegistrarPage = () => {
+const RegistrarPage = ({content, setContent}) => {
 
   const MESSAGES = [
     {
@@ -50,7 +50,6 @@ const RegistrarPage = () => {
   const [newIssues, setNewIssues] = useState([]);
   const [assignedIssues, setAssignedIssues] = useState([])
   const [notifications, setNotifications] = useState([]);
-  const [content, setContent] = useState('Splash');
   const [lecturers, setLecturers] = useState([]);
 
 
@@ -91,7 +90,7 @@ const RegistrarPage = () => {
       fetchLecturers();
       //fetchNotifications();  // If you want to include this
     }
-  }, [user, token]);  // Added `token` to the dependency array
+  }, [user, token, newIssues, assignedIssues, lecturers, notifications]);  // Added `token` to the dependency array
   
 
   const no_operation = () => setContent("Splash");

@@ -176,3 +176,11 @@ from django.dispatch import receiver
     def issue_post_save(sender, instance, created, **kwargs):
         if created:
             EmailView.send_email('New Issue', 'A new issue has been created', User'''
+
+
+class LecturerList(generics.ListAPIView):
+    serializer_class = LecturerSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):  # Runs if the request method is GET
+        return User.objects.filter(role='lecturer')  # Filter issues by status

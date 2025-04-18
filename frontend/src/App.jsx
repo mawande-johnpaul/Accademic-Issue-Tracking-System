@@ -12,17 +12,20 @@ import LoginPage from './components/LoginPage';
 import StudentPage from './components/StudentPage';
 import LecturerPage from "./components/LecturerPage";
 import RegistrarPage from "./components/RegistrarPage";
+import { useState } from 'react';
+
   
 function App() {
+  const [content, setContent] = useState('Splash');
   return (
     <Router>
         <Routes>
             <Route path='/' element={<Homepage />} />
             <Route path='/signup' element={<SignupPage />} />
             <Route path='/login' element={<LoginPage />} />
-            <Route path='/student' element={<StudentPage />} />
-            <Route path='/registrar' element={<RegistrarPage />} />
-            <Route path='/lecturer' element={<LecturerPage />} />
+            <Route path='/student' element={<StudentPage content={content} setContent={setContent}/>} />
+            <Route path='/registrar' element={<RegistrarPage  content={content} setContent={setContent}/>} />
+            <Route path='/lecturer' element={<LecturerPage  content={content} setContent={setContent}/>} />
         </Routes>
     </Router>
   );

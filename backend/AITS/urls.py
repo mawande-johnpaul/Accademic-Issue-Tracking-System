@@ -13,11 +13,12 @@ urlpatterns = [
     path('login/', LoginView.as_view(), name='login'),
     path('issues/', IssueListCreate.as_view(), name='issues'),
     path('issues/<str:status>/', IssueList.as_view(), name='issue_status'),
-    path('issues/assign/', IssueUpdateDestroy.as_view(), name='issue_assignment'),
+    path('assign/', IssueUpdateDestroy.as_view(), name='issue_assignment'),
     path('issues/setstatus/<int:pk>/<str:status>/', IssueUpdateDestroy.as_view(), name='update_issue_status'),
     path('notifications/', NotificationsListDestroy.as_view(), name='notifications'),
     path('notifications/create/', NotificationsCreate.as_view(), name='create_notification'),
     path('logs/', LogListUpdateDelete.as_view(), name='logs'),
+    path('lecturers/', LecturerList.as_view(), name='list_lecturers'),
     
     # Password reset views
     path('password-reset/', auth_views.PasswordResetView.as_view(), name='password_reset'),

@@ -49,10 +49,8 @@ const MESSAGES=[
   
 ]
 
-const LecturerPage = () => {
+const LecturerPage = ({content, setContent}) => {
   const [issues, setIssues] = useState([]);
-  const [content, setContent] = useState('Splash');
-
   const user = JSON.parse(sessionStorage.getItem("user")); // Moved inside useEffect
   const token = sessionStorage.getItem("token");
 

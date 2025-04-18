@@ -3,7 +3,7 @@ import Settings from "./Settings";
 import Splash from "./Splash"; 
 import AssignForm from "./AssignForm"; 
 
-const Content = ({to_display_name, newissues, assignedissues, username, lecturers}) => {
+const Content = ({to_display_name, newissues, assignedissues, username, lecturers, token}) => {
     return (
         <div>
             <div className="content-section-header">
@@ -15,13 +15,13 @@ const Content = ({to_display_name, newissues, assignedissues, username, lecturer
             </div>
             <div className="content-section-body" style={{ textAlign: "center" }}>
                 {to_display_name === "NewIssues"? (
-                    <RegistrarIssues issues={newissues} type={'new'}/>
+                    <RegistrarIssues issues={newissues} type={'new'} token={token}/>
                 ) : to_display_name === "AssignedIssues"? (
-                    <RegistrarIssues issues={assignedissues} type={'assigned'}/>
+                    <RegistrarIssues issues={assignedissues} type={'assigned'} token={token}/>
                 ) : to_display_name === "Settings"? (
                     <Settings user={""} />
                 ) : to_display_name === "AssignForm"? (
-                    <AssignForm lecturers={lecturers}/>
+                    <AssignForm lecturers={lecturers}  token={token}/>
                 ) : (
                     <Splash />
                 )}

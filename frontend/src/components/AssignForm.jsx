@@ -2,7 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 
 
-const AssignForm = ({ lecturers }) => {
+const AssignForm = ({ lecturers, token }) => {
 
   const [formData, setFormData] = useState({
     assigned_to: pk,
@@ -31,7 +31,7 @@ const AssignForm = ({ lecturers }) => {
 
     try {
       const response = await axios.put(
-        "http://127.0.0.1:8000/issues/assign",
+        "http://127.0.0.1:8000/assign",
         formDataToSend,
         {
           headers: {
