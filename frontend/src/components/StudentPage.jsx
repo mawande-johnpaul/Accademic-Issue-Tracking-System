@@ -92,7 +92,6 @@ const StudentPage = () => {
                 <Logo />
                 <Button text={"New issue"} image={"new-issue.svg"} funct={() => setContent("IssueForm")} />
                 <Button text={"Posted issues"} image={"posted-logo.svg"} funct={() => setContent("UserIssues")} />
-                <Button text={"Messages"} image={"posted-logo.svg"} funct={() => setContent("Settings")} />
                 <Button text={"Settings"} image={"settings.svg"} funct={no_operation} />
               </div>
             ) : (

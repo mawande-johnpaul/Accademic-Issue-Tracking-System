@@ -8,8 +8,8 @@ function SignupPage() {
                       /*'COBAMS': ['BSBA', 'BSCOMM', 'BSECON'],
                       'CONAS': ['BSN', 'BSHRM', 'BSED']}*/
     
-    const [firstName, setFirstName] = useState('');
-    const [lastName, setLastName] = useState('');
+    const [first_name, setFirstName] = useState('');
+    const [last_name, setLastName] = useState('');
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [message, setMessage] = useState('');
@@ -22,16 +22,16 @@ function SignupPage() {
     const signup = async (event) => {
       event.preventDefault();
       try {
-        const response = await axios.post('http://127.0.0.1:8000/signup/', { username, password, email, webmail, department, course });
-        sessionStorage.setItem('token', response.data.access);
-        sessionStorage.setItem('user', JSON.stringify(response.data.user));
-        if (response.data.user.role === "lecturer") {
-          navigate("/lecturer");
-        } else if (response.data.user.role === "registrar") {
-          navigate("/registrar");
-        } else {
-          navigate("/student");
-        }
+        const response = await axios.post('http://127.0.0.1:8000/signup/', { first_name, last_name, username, password, email, webmail, department, course });
+          sessionStorage.setItem('token', response.data.access);
+          sessionStorage.setItem('user', JSON.stringify(response.data.user));
+          if (response.data.user.role === "lecturer") {
+            navigate("/lecturer");
+          } else if (response.data.user.role === "registrar") {
+            navigate("/registrar");
+          } else {
+            navigate("/student");
+          }
         
       } catch (error) {
         setMessage('Signup failed. Please try again.');
@@ -45,14 +45,14 @@ function SignupPage() {
           <form onSubmit={signup} className='signuplower'>
             <div className='row'>
               <div className='labels'>First name</div>
-              <input type="text" className='inputs'
-                value={firstName}
+              <input type="text" className='inputs' name='first_name'
+                value={first_name}
                 onChange={(e) => setFirstName(e.target.value)} />
             </div>
             <div className='row'>
               <div className='labels'>Last name</div>
-              <input type="text" className='inputs'
-                value={lastName}
+              <input type="text" className='inputs' name='last_name'
+                value={last_name}
                 onChange={(e) => setLastName(e.target.value)} />
             </div>
             <div className='row'>

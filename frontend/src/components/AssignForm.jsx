@@ -15,12 +15,8 @@ const AssignForm = ({ lecturers }) => {
 
   // Handle input changes
   const handleChange = (e) => {
-    const { name, value, files } = e.target;
-    if (name === "attachments") {
-      setFormData({ ...formData, [name]: files[0] });
-    } else {
-      setFormData({ ...formData, [name]: value });
-    }
+    const { name, value} = e.target;
+    setFormData({ ...formData, [name]: value });
   };
 
   // Handle form submission
@@ -34,7 +30,7 @@ const AssignForm = ({ lecturers }) => {
     }
 
     try {
-      const response = await axios.post(
+      const response = await axios.put(
         "http://127.0.0.1:8000/issues/assign",
         formDataToSend,
         {
@@ -44,15 +40,16 @@ const AssignForm = ({ lecturers }) => {
           },
         }
       );
-      setMessage("Issue submitted successfully!");
+      setMessage("Issue assigned successfully!");
       console.log("Response:", response.data);
 
       setFormData({
         assigned_to: pk,
-        department: department
+        priority: "Low",
+        deadline: "",
       }); // Reset form
     } catch (error) {
-      setMessage("Failed to submit issue.");
+      setMessage("Failed to assign issue.");
       console.error("Error:", error.response ? error.response.data : error);
     }
     
@@ -64,21 +61,26 @@ const AssignForm = ({ lecturers }) => {
       <form onSubmit={handleSubmit} className="formcontainer">
 
         <div className="inputrows">
-          <label className="inputlabels">Semester</label>
+          <label className="inputlabels">Lecturer</label>
           <select
             type="text"
-            name="semester"
-            value={formData.semester}
+            name="lecturer"
+            value={formData.assigned_to}
             onChange={handleChange}
             required
-            placeholder="Enter the Semester"
+            placeholder="Select lecturer"
             className="inputinputs"
           >
-          <option value="">-- Select Semester --</option>
+          <option value="">-- Select Lecturer --</option>
+          {
+            lecturers.map((lecturer) => {
+              <option key={lecturer.pk} value={lecturer.pk}>{lecturer.first}</option>
+            })
+          }
           <option value="1">Semester 1</option>
-          <option value="2">Recess 1</option>
+          <option value="R1">Recess 1</option>
           <option value="2">Semester 2</option>
-          <option value="3">Recess 2</option>
+          <option value="R2">Recess 2</option>
           </select>
         </div>
 

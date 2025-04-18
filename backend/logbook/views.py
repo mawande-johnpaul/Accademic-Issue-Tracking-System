@@ -88,8 +88,10 @@ class IssueUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
 
     def put(self, request, *args, **kwargs):
         instance = self.get_object()
-        instance.state = request.data.get('state', instance.state)
+        instance.assigned_to = request.data.get('assigned_to', instance.assigned_to)
         instance.updated_at = timezone.now()
+        instance.deadline = request.data.get('deadline', instance.deadline)
+        instance.priority = request.data.get('priority', instance.priority)
         instance.save()
         serializer = self.get_serializer(instance)
         return Response(serializer.data)

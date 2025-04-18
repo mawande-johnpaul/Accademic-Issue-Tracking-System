@@ -177,9 +177,9 @@ const IssueForm = ({ cs, token, username, department, pk}) => {
           >
           <option value="">-- Select Semester --</option>
           <option value="1">Semester 1</option>
-          <option value="2">Recess 1</option>
+          <option value="R1">Recess 1</option>
           <option value="2">Semester 2</option>
-          <option value="3">Recess 2</option>
+          <option value="R2">Recess 2</option>
           </select>
         </div>
 
