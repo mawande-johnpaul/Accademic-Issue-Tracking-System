@@ -103,7 +103,7 @@
     background: rgb(12, 189, 12);
 }
 .remove:hover{
-    background-color: darkred;
+    background-color: rgb(185, 64, 85);
     color: black;
 }
 .reopen:hover{

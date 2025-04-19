@@ -26,6 +26,10 @@ const ResolvingIssues = () => {
     };
     fetchReolvingIssues();
     },[]);
+
+    const handleRemove = (id) => {const updatedIssues = resolvedIssues.filter((issue) =>
+        issue.id !== id); setResolvedIssues(updatedIssues);
+    };
     
     const filtered = filter === 'recent'?resolvedIssues.filter((issue) => issue.status === 'Resolved'): resolvedIssues;
 
@@ -50,7 +54,7 @@ const ResolvingIssues = () => {
                             </div>
                             <p><strong>Status:</strong>{issue.status}</p>
                             <div className='button-ccontainer'>
-                                <button className='remove'>Remove</button>
+                                <button className='remove' onClick={() => handleRemove(issue.id)}>Remove</button>
                                 <button className='reopen'>Re-Open</button>
                             </div>
                         </div>
