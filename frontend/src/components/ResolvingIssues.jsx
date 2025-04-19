@@ -1,8 +1,4 @@
 import {useState, useEffect} from 'react';
-import PropTypes from 'prop-types';
-//import ProgressForm from './ProgressForm';
-//import RequestAssistanceForm from './AssistanceForm';
-//import IssueDetails from './IssueDetails';
 import './ResolvingIssues.css';
 
 
@@ -29,8 +25,9 @@ const ResolvingIssues = () => {
         }
     };
     fetchReolvingIssues();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    },['#']);
+    },[]);
+    
+    const filtered = filter === 'recent'?resolvedIssues.filter((issue) => issue.status === 'Resolved'): resolvedIssues;
 
     return(
         <div className='resolving'>
@@ -42,17 +39,14 @@ const ResolvingIssues = () => {
                 </div>
             </div>
 
-            {resolvedIssues.length === 0 ? (
+            {filtered.length === 0 ? (
                 <p>No Resolved Issues Available.</p>
             ):(
                 <div className='issues-griid'>
-                    {resolvedIssues.filter((issue) => (filter === "recent" ? issue.status === "Resolved" : true))
-                    .map((issue) => (
+                    {filtered.map((issue) => (
                         <div key={issue.id} className='isuse-card'>
                             <div className='issue-Head'>
-                                <span className='isuse-title'>{issue.title}</span>
-                               {/* <span className='priOrity'>{issue.priority}</span>
-                                <span className='deaDline'>{issue.deadline}</span>*/}
+                                <span className='isuse-title'>{issue.title}</span>                              
                             </div>
                             <p><strong>Status:</strong>{issue.status}</p>
                             <div className='button-ccontainer'>
@@ -67,9 +61,5 @@ const ResolvingIssues = () => {
     );
 };
 
-ResolvingIssues.protoTypes = {
-    url:
-    PropTypes.string.isRequired,
-};
 
 export default ResolvingIssues;
