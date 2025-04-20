@@ -6,6 +6,7 @@ const ResolvingIssues = () => {
     const [allIssues, setAllIssues] = useState([]);
     const [visibleIssues, setVisibleIssues] = useState([])
     const [filter,setFilter] = useState('all');
+    const [confirmDelete, setConfirmDelete] = useState(null);
 
     useEffect(() => {
         const fetchReolvingIssues = async () => {
@@ -40,8 +41,9 @@ const ResolvingIssues = () => {
         setFilter(type);
         if (type==='all') {
             setVisibleIssues((prevVisible) => allIssues.filter((issue) => prevVisible.some((vis)=> vis.id === issue.id)));
-        }else if (type === 'recent'){setVisibleIssues(allIssues);            
+        }else {setVisibleIssues(allIssues);            
         }
+        setConfirmDelete(null);
     };
 
     return(
@@ -67,6 +69,12 @@ const ResolvingIssues = () => {
                             <div className='button-ccontainer'>
                                 <button className='remove' onClick={() => handleRemove(issue.id)}>Remove</button>
                                 <button className='reopen'>Re-Open</button>
+                                {confirmDelete === issue.id && (<div className='confirmBox'>
+                                    <p>Are You Sure You Want To Remove This Issue?</p>
+                                    <button className='yes-btn' onClick={() => handleRemove(issue.id)}>Yes</button>
+                                    <button className='no-btn' onClick={() => setConfirmDelete(null)}>No</button>
+                                    </div>
+                                )}
                             </div>
                         </div>
                     ))}
