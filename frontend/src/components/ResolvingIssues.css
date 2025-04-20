@@ -135,14 +135,14 @@
         padding: 8px 12px;
     }
 }
-.confirmbox{
+.confirmBox{
     margin-top: 10px;
     background-color: #fff3cd;
     border: 1px solid #ffc107;
     padding: 10px;
     border-radius: 5px;
 }
-.confirmbox p{
+.confirmBox p{
     margin-bottom: 8px;
     font-weight: bold;
 }

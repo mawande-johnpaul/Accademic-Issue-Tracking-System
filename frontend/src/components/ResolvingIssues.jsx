@@ -9,7 +9,7 @@ const ResolvingIssues = () => {
     const [confirmDelete, setConfirmDelete] = useState(null);
 
     useEffect(() => {
-        const fetchReolvingIssues = async () => {
+        const fetchResolvingIssues = async () => {
             try{
                 const response = await fetch(`${'#'}/resolved-issues`);
                     const data = await response.json();
@@ -30,13 +30,13 @@ const ResolvingIssues = () => {
         
         }
     };
-    fetchReolvingIssues();
+    fetchResolvingIssues();
     },[]);
 
-    const handleRemove = (id) => {const updatedVisibleIssues = visibleIssues.filter((issue) =>
-        issue.id !== id); setVisibleIssues(updatedVisibleIssues);
-    };
-    
+   const handleRemove = (id) => {
+    const updated = visibleIssues.filter((issue) => issue.id !== id);setVisibleIssues(updated);
+    setConfirmDelete(null); alert("Issue Deleted");
+   };
     const handleFilterChange = (type) => {
         setFilter(type);
         if (type==='all') {
@@ -67,7 +67,7 @@ const ResolvingIssues = () => {
                             </div>
                             <p><strong>Status:</strong>{issue.status}</p>
                             <div className='button-ccontainer'>
-                                <button className='remove' onClick={() => handleRemove(issue.id)}>Remove</button>
+                                <button className='remove' onClick={() => setConfirmDelete(issue.id)}>Remove</button>
                                 <button className='reopen'>Re-Open</button>
                                 {confirmDelete === issue.id && (<div className='confirmBox'>
                                     <p>Are You Sure You Want To Remove This Issue?</p>
