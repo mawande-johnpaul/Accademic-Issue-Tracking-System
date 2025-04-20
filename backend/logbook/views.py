@@ -84,7 +84,7 @@ class IssueList(generics.ListAPIView):
 # What data exactly is returned, which function does what, notifications on successful action
 class IssueUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = IssueSerializer
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]
 
     def put(self, request, *args, **kwargs):
         instance = self.get_object()

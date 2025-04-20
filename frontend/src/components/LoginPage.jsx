@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 function LoginPage() {
     const [username, setUsername] = useState('');
@@ -34,29 +34,33 @@ function LoginPage() {
 
     return (
         <div className='homepage'>
-            <h1 className='h1'>Log in</h1>
+            <img src='banner2.jpeg' alt='banner' className='banner'></img>
             <form onSubmit={login} className='signuplower'>
+                <h1 className='h1'>Log into your AITS account</h1>
                 <div className='row'>
-                    <div className='labels'>Username</div>
                     <input 
                         className='inputs'
                         type="text" 
                         value={username} 
+                        placeholder='Username'
                         onChange={(e) => setUsername(e.target.value)} 
                     />
                 </div>
 
                 <div className='row'>
-                    <div className='labels'>Password</div>
                     <input 
                         className='inputs'
                         type="password" 
                         value={password} 
+                        placeholder='Password..'
                         onChange={(e) => setPassword(e.target.value)} 
                     />
                 </div>
-
-                <button type="submit" className='buttons'>Log in</button>
+                <div className='choicearea'>
+                <button type="submit" className='buttons' style={{margin:"auto"}}>Log in</button>
+                </div>
+                <Link to='/signup'>Don't have an account?</Link>
+                <Link to='/signup'>Forgot password?</Link>
             </form>
             {message && <div>{message}</div>}
         </div>

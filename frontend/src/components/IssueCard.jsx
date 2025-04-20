@@ -3,8 +3,8 @@ import setContent from "./RegistrarPage";
 import { useState } from "react";
 
 const IssueCard = ({ isssue, type, token}) => {
-  const assign = async ({identifier}) => {
-    const response = await axios.patch(`http://127.0.0.1:8000/issues/setstatus/${identifier}/Seen`, {
+  const assign = async (identifier) => {
+    const response = await axios.patch(`http://127.0.0.1:8000/issues/setstatus/${identifier}/Seen/`, {
       headers: {
         'Authorization': `Bearer ${token}`,
       },
@@ -12,7 +12,7 @@ const IssueCard = ({ isssue, type, token}) => {
     setContent('AssignForm');
   }
   const reject = async (identifier) => {
-    const response = await axios.delete(`http://127.0.0.1:8000/issues/setstatus/${identifier}/Rejected`, {
+    const response = await axios.delete(`http://127.0.0.1:8000/issues/setstatus/${identifier}/Rejected/`, {
       headers: {
         'Authorization': `Bearer ${token}`,
       },
@@ -31,12 +31,12 @@ const IssueCard = ({ isssue, type, token}) => {
 
   if (type === 'new'){
     return (
-      <div className="issue-card">
+      <div className="issue-card" key={isssue.pk}>
         <div className="card-header">{isssue.title} . {isssue.created_at} . {isssue.created_by}</div>
         <div className="card-body" style={{fontWeight:"bold", fontSize: "12px"}}>{isssue.category}</div>
         <div className="card-body">{isssue.description}</div>
-        <button className="cardbuttons" onClick={() => reject(isssue.pk)}>Reject</button>
-        <button className="cardbuttons" onClick={() => console.log(isssue.pk)}>Assign</button>
+        <button className="cardbuttons" onClick={() => reject(isssue.id)}>Reject</button>
+        <button className="cardbuttons" onClick={() => assign(isssue.id)}>Assign</button>
       </div>
     );
   }

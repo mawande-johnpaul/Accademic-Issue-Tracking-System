@@ -3,8 +3,8 @@ import './css/App.css';
 import './css/homepage.css';
 import './css/signup.css';
 import './css/dashboard.css';
-import './css/form.css'
-import './css/loadingscreen.css'
+import './css/form.css';
+import './css/loadingscreen.css';
 import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 import Homepage from './components/HomePage';
 import SignupPage from './components/SignupPage';
@@ -13,6 +13,7 @@ import StudentPage from './components/StudentPage';
 import LecturerPage from "./components/LecturerPage";
 import RegistrarPage from "./components/RegistrarPage";
 import { useState } from 'react';
+
 
   
 function App() {

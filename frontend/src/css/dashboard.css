@@ -263,10 +263,10 @@
   }
   
   .logo-subtext {
-    font-size: 12px;
+    font-size: 1.5vh;
     text-align: left;
     padding-left: 10px;
-    padding-top: 14px;
+    padding: 14px 5px;
     white-space: normal; /* Allows text to wrap */
   }
   
