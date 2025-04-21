@@ -247,8 +247,14 @@ class ChangePasswordAPIView(APIView):
         user.set_password(new_password)
         user.save()
         #shows general events like changing password when they happen
-        logger.info(f"User {user.username} changed their password.")
+        logger.info(f"User {user.email} changed their password.")
 
+        Notification.objects.create(
+            user=user,
+            title="Password Changed",
+            message="Your password was successfully updated.",
+            type="account"
+)
         return Response({'success': 'Password updated successfully'}, status=status.HTTP_200_OK)
 
 def custom_404_redirect(request, exception):
@@ -257,3 +263,4 @@ def custom_404_redirect(request, exception):
 
 def home_view(request):
     return render(request, 'home.html')
+
