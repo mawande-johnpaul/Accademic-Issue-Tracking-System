@@ -234,7 +234,7 @@ class ChangePasswordAPIView(APIView):
 
         if not user.check_password(current_password):
             return Response({'error': 'Incorrect current password'}, status=status.HTTP_400_BAD_REQUEST)
-
+        #code to confirm the new password
         if new_password != confirm_password:
             return Response(
                 {"error": "New password and confirmation do not match"},
