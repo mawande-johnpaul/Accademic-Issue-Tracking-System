@@ -18,6 +18,7 @@ import logging
 from rest_framework.throttling import AnonRateThrottle
 
 
+
 logger = logging.getLogger(__name__)
 
 
@@ -94,6 +95,9 @@ class LoginView(generics.GenericAPIView):
             'refresh_token': str(refresh),
             'user': RegisterSerializer(user).data
         }, status=status.HTTP_200_OK)
+        
+    
+
 
 
 # Issue Management
