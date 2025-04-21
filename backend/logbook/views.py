@@ -77,7 +77,7 @@ class AdminCreateUserView(generics.CreateAPIView):
 class LoginView(generics.GenericAPIView):
     serializer_class = LoginSerializer
     permission_classes = [AllowAny]
-    throttle_classes = [AnonRateThrottle]
+    throttle_classes = [AnonRateThrottle] # regulation of login requests
 
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
