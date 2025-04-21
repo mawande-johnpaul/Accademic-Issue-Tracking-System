@@ -246,6 +246,7 @@ class ChangePasswordAPIView(APIView):
             )
         user.set_password(new_password)
         user.save()
+        #shows general events like changing password when they happen
         logger.info(f"User {user.username} changed their password.")
 
         return Response({'success': 'Password updated successfully'}, status=status.HTTP_200_OK)
