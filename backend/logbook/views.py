@@ -270,3 +270,18 @@ def custom_404_redirect(request, exception):
 def home_view(request):
     return render(request, 'home.html')
 
+class UpdateRecoveryInfoView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def put(self, request):
+        user = request.user
+        recovery_email = request.data.get("recovery_email")
+        recovery_phone = request.data.get("recovery_phone")
+
+        if recovery_email:
+            user.recovery_email = recovery_email
+        if recovery_phone:
+            user.recovery_phone = recovery_phone
+
+        user.save()
+        return Response({"success": "Recovery info updated successfully."}, status=200)
