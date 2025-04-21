@@ -4,7 +4,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from .serializers import *
 from .models import *
-from rest_framework.permissions import IsAuthenticated, AllowAny
+from rest_framework.permissions import AllowAny, AllowAny
 from django.contrib.auth import get_user_model, login
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.core.mail import send_mail
@@ -65,7 +65,7 @@ class LoginView(generics.GenericAPIView):
 class IssueListCreate(generics.ListCreateAPIView): #View to list or create an issue
     queryset = Issue.objects.all()
     serializer_class = IssueSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
 
     def get_queryset(self): #Runs if the request method is GET
         return super().get_queryset().filter(created_by=self.request.user)  # Ensure filtering works
@@ -75,7 +75,7 @@ class IssueListCreate(generics.ListCreateAPIView): #View to list or create an is
 
 class IssueList(generics.ListAPIView):
     serializer_class = IssueSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
 
     def get_queryset(self):  # Runs if the request method is GET
         status = self.kwargs['status']  # Get the status from the URL
@@ -84,12 +84,15 @@ class IssueList(generics.ListAPIView):
 # What data exactly is returned, which function does what, notifications on successful action
 class IssueUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = IssueSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
+    
+    def get_queryset(self):  # Runs if the request method is GET
+        pk = self.kwargs['pk']  # Get the status from the URL
+        return Issue.objects.filter(pk=pk)  # Filter issues by status
 
     def put(self, request, *args, **kwargs):
         instance = self.get_object()
         instance.assigned_to = request.data.get('assigned_to', instance.assigned_to)
-        instance.updated_at = timezone.now()
         instance.deadline = request.data.get('deadline', instance.deadline)
         instance.priority = request.data.get('priority', instance.priority)
         instance.save()
@@ -100,7 +103,6 @@ class IssueUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
         queryset = Issue.objects.all().filter(pk=self.kwargs['pk'])
         instance = self.get_object()
         instance.status = self.kwargs['status']
-        instance.updated_at = timezone.now()
         instance.save()
         serializer = self.get_serializer(instance)
         return Response(serializer.data)
@@ -114,7 +116,7 @@ class IssueUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
 # Notifications
 class NotificationsListDestroy(generics.RetrieveDestroyAPIView):
     serializer_class = NotificationSerializer  # Fixed typo
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
 
     def get(self, request, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)
@@ -125,7 +127,7 @@ class NotificationsListDestroy(generics.RetrieveDestroyAPIView):
 
 class NotificationsCreate(generics.CreateAPIView):
     serializer_class = NotificationSerializer  # Fixed typo
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
 
     def perform_create(self, serializer):
         return super().perform_create(serializer)
@@ -134,7 +136,7 @@ class NotificationsCreate(generics.CreateAPIView):
 # Logs
 class LogListUpdateDelete(generics.RetrieveUpdateAPIView):
     serializer_class = LogSerializer  # Fixed typo
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
 
     def delete(self, request, *args, **kwargs):
         instance = self.get_object()
@@ -155,7 +157,7 @@ class LogListUpdateDelete(generics.RetrieveUpdateAPIView):
     
 class LogCreate(generics.CreateAPIView):
     serializer_class = LogSerializer  # Fixed typo
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
 
     def perform_create(self, serializer):
         return super().perform_create(serializer)
@@ -180,7 +182,7 @@ from django.dispatch import receiver
 
 class LecturerList(generics.ListAPIView):
     serializer_class = LecturerSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
 
     def get_queryset(self):  # Runs if the request method is GET
         return User.objects.filter(role='lecturer')  # Filter issues by status

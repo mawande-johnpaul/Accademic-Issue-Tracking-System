@@ -49,11 +49,13 @@ function SignupPage() {
                   <input type="text" className='inputs' name='first_name'
                     value={first_name}
                     placeholder='First name.'
+                    required
                     onChange={(e) => setFirstName(e.target.value)} />
                 </div>
                 <div className='row'>
                   <input type="text" className='inputs' name='last_name'
                     value={last_name}
+                    required
                     placeholder='Last name.'
                     onChange={(e) => setLastName(e.target.value)} />
                 </div>
@@ -61,12 +63,14 @@ function SignupPage() {
                   <input type="text"  className='inputs'                   
                     value={username} 
                     placeholder='Username.'
+                    required
                     onChange={(e) => setUsername(e.target.value)} />
                 </div>
                 <div className='row'>
                   <input type="email" className='inputs'
                     value={email} 
                     placeholder='Email'
+                    required
                     onChange={(e) => setEmail(e.target.value)} />
                 </div>
             </div>
@@ -74,6 +78,7 @@ function SignupPage() {
               <div className='row'>
                 <input type="text" className='inputs'
                   value={webmail} 
+                  required
                   placeholder='Webmail e.g. xxxxxxx.mak.ac.ug'
                   onChange={(e) => {
                     const value = e.target.value;
@@ -90,11 +95,13 @@ function SignupPage() {
                 <input type="password" className='inputs'
                   value={password} 
                   placeholder='Password.'
+                  required
                   onChange={(e) => setPassword(e.target.value)} />
               </div>
               <div className='row'>
                 <select type="text" className='inputs'
                   value={department} 
+                  required
                   onChange={(e) => {
                     setDepartment(e.target.value);
                     setCourse('Select a course first'); // Reset course when department changes
@@ -108,6 +115,7 @@ function SignupPage() {
               <div className='row'>
                 <select type="text" className='inputs' choices={COLLEGES[department]}
                   value={course} 
+                  required
                   onChange={(e) => setCourse(e.target.value)}>
                   <option value="Select a course first">Select a course first</option>
                   {COLLEGES[department] && COLLEGES[department].map((course, index) => (

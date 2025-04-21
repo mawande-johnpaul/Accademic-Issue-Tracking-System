@@ -43,6 +43,7 @@ function LoginPage() {
                         type="text" 
                         value={username} 
                         placeholder='Username'
+                        required
                         onChange={(e) => setUsername(e.target.value)} 
                     />
                 </div>
@@ -53,6 +54,7 @@ function LoginPage() {
                         type="password" 
                         value={password} 
                         placeholder='Password..'
+                        required
                         onChange={(e) => setPassword(e.target.value)} 
                     />
                 </div>

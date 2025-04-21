@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import ProfileDisplay from "./ProfileDisplay";
 import SearchBar from "./SearchBar";
 import Button from "./Button";
 import DisplayPane from "./DisplayPane";
@@ -89,7 +88,12 @@ const StudentPage = ({content, setContent}) => {
                 <Logo />
                 <Button text={"New issue"} image={"new-issue.svg"} funct={() => setContent("IssueForm")} />
                 <Button text={"Posted issues"} image={"posted-logo.svg"} funct={() => setContent("UserIssues")} />
-                <Button text={"Settings"} image={"settings.svg"} funct={no_operation} />
+                {/*<Button text={"Settings"} image={"settings.svg"} funct={no_operation} />*/}
+                {user ? (
+                  <Button text={"Profile"} image={"posted-logo.svg"} funct={no_operation} />
+                ) : (
+                  <InPageLoginButton />
+                )}
               </div>
             ) : (
               <div>
@@ -101,17 +105,9 @@ const StudentPage = ({content, setContent}) => {
             )}
           </div>
           <div className="content-section">
-            <SearchBar />
-            <Content to_display_name={content} issues={issues} course={user.course} username={user.username} token={token} department={user.department} pk={user.id} type={'user'}/>
+            <Content to_display_name={content} issues={issues} course={user.course} username={user.username} token={token} department={user.department} pk={user.id} type={'user'} content={content} setContent={setContent}/>
           </div>
           <div className="right-side">
-            {user ? (
-              <ProfileDisplay
-                name={user.username}
-              />
-            ) : (
-              <InPageLoginButton />
-            )}
             <DisplayPane
               type={"notifications"}
               items={MESSAGES[0].contents}
@@ -120,9 +116,9 @@ const StudentPage = ({content, setContent}) => {
               type={"announcements"}
               items={MESSAGES[1].contents}
               user={user} />
-          </div> {/* Closing the right-side div */}
+          </div>
         </>
-      </div> // Closing the main div
+      </div>
   );
 };
 

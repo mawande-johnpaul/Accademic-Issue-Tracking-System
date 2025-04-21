@@ -1,7 +1,5 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import ProfileDisplay from "./ProfileDisplay";
-import SearchBar from "./SearchBar";
 import Button from "./Button";
 import DisplayPane from "./DisplayPane";
 import Logo from "./Logo";
@@ -51,6 +49,7 @@ const RegistrarPage = ({content, setContent}) => {
   const [assignedIssues, setAssignedIssues] = useState([])
   const [notifications, setNotifications] = useState([]);
   const [lecturers, setLecturers] = useState([]);
+  const [id, setid] = useState("");
 
 
   const user = JSON.parse(sessionStorage.getItem("user"));
@@ -114,7 +113,11 @@ const RegistrarPage = ({content, setContent}) => {
                 <Button text={"New issues"} image={"new-issue.svg"} funct={() => setContent("NewIssues")} />
                 <Button text={"Assigned issues"} image={"posted-logo.svg"} funct={() => setContent("AssignedIssues")} />
                 <Button text={"Messages"} image={"posted-logo.svg"} funct={no_operation} />
-                <Button text={"Settings"} image={"settings.svg"} funct={no_operation} />
+                {user ? (
+                  <Button text={"Profile"} image={"posted-logo.svg"} funct={no_operation} />
+                ) : (
+                  <InPageLoginButton />
+                )}
               </div>
             ) : (
               <div>
@@ -122,21 +125,14 @@ const RegistrarPage = ({content, setContent}) => {
                 <Button text={"New issues"} image={"new-issue.svg"} funct={no_operation} />
                 <Button text={"Assigned issues"} image={"posted-logo.svg"} funct={no_operation} />
                 <Button text={"Settings"} image={"settings.svg"} funct={no_operation} />
+                
               </div>
             )}
           </div>
           <div className="content-section">
-            <SearchBar />
-            <Content to_display_name={content} newissues={newIssues} assignedissues={assignedIssues} username={user.username} token={token} department={user.department} lecturers={lecturers} />
+            <Content to_display_name={content} newissues={newIssues} assignedissues={assignedIssues} username={user.username} token={token} department={user.department} lecturers={lecturers} content={content} setContent={setContent} setid={setid}/>
           </div>
           <div className="right-side">
-            {user ? (
-              <ProfileDisplay
-                name={user.username}
-              />
-            ) : (
-              <InPageLoginButton />
-            )}
             <DisplayPane
               type={"notifications"}
               items={MESSAGES[0].contents}

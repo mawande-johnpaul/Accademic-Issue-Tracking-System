@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import ProfileDisplay from "./ProfileDisplay";
 import SearchBar from "./SearchBar";
 import Button from "./Button";
 import DisplayPane from "./DisplayPane";
@@ -77,7 +76,7 @@ const LecturerPage = ({content, setContent}) => {
         <Logo />
         <Button text={"Assigned issues"} image={"new-issue.svg"} funct={() => setContent("AssignedIssues")}/>
         <Button text={"Resolved issues"} image={"posted-logo.svg"} funct={() => setContent("ResolvedIssues")}/>
-        <Button text={"Settings"} image={"settings.svg"} funct={() => setContent("Settings")}/>
+        <Button text={"Messages"} image={"settings.svg"} funct={() => setContent("Settings")}/>
 
       </div>
       <div className="content-section">
@@ -85,7 +84,6 @@ const LecturerPage = ({content, setContent}) => {
         <Content to_display_name={content} issues={issues} user={user}/>
       </div>
       <div className="right-side">
-        <ProfileDisplay text={"Lecturer"}/>
         <DisplayPane heading={MESSAGES[0].head} items={MESSAGES[0].contents} />
         <DisplayPane heading={MESSAGES[1].head} items={MESSAGES[1].contents} />
       </div>

@@ -1,15 +1,10 @@
 import axios from "axios";
-import setContent from "./RegistrarPage";
 import { useState } from "react";
 
-const IssueCard = ({ isssue, type, token}) => {
+const IssueCard = ({ isssue, type, token, content ,setContent, setid}) => {
   const assign = async (identifier) => {
-    const response = await axios.patch(`http://127.0.0.1:8000/issues/setstatus/${identifier}/Seen/`, {
-      headers: {
-        'Authorization': `Bearer ${token}`,
-      },
-    });
     setContent('AssignForm');
+    setid(identifier)
   }
   const reject = async (identifier) => {
     const response = await axios.delete(`http://127.0.0.1:8000/issues/setstatus/${identifier}/Rejected/`, {
@@ -23,8 +18,10 @@ const IssueCard = ({ isssue, type, token}) => {
     return (
       <div className="issue-card">
         <div className="card-header">{isssue.title} . {isssue.status} . {isssue.created_at}</div>
-        <div className="card-body" style={{fontWeight:"bold", fontSize: "12px"}}>{isssue.category}</div>
-        <div className="card-body">{isssue.description}</div>
+        <div className="card-body">
+          <div style={{fontWeight:"bold", fontSize: "12px", margin:"auto"}}>{isssue.category}</div>
+          <div>{isssue.description}</div>
+        </div>
       </div>
     );
   }
@@ -33,10 +30,12 @@ const IssueCard = ({ isssue, type, token}) => {
     return (
       <div className="issue-card" key={isssue.pk}>
         <div className="card-header">{isssue.title} . {isssue.created_at} . {isssue.created_by}</div>
-        <div className="card-body" style={{fontWeight:"bold", fontSize: "12px"}}>{isssue.category}</div>
-        <div className="card-body">{isssue.description}</div>
-        <button className="cardbuttons" onClick={() => reject(isssue.id)}>Reject</button>
-        <button className="cardbuttons" onClick={() => assign(isssue.id)}>Assign</button>
+        <div className="card-body">
+          <div style={{fontWeight:"bold", fontSize: "12px", margin:"auto"}}>{isssue.category}</div>
+          <div>{isssue.description}</div>
+          <button className="cardbuttons" style={{backgroundColor:"red"}} onClick={() => reject(isssue.id)}>Reject</button>
+          <button className="cardbuttons" style={{backgroundColor:"#00DF81"}} onClick={() => assign(isssue.id)}>View</button>
+        </div>
       </div>
     );
   }
@@ -45,11 +44,13 @@ const IssueCard = ({ isssue, type, token}) => {
     return (
       <div className="issue-card">
         <div className="card-header">{isssue.title} . {isssue.status} . {isssue.created_at}</div>
-        <div className="card-body" style={{fontWeight:"bold", fontSize: "12px"}}>{isssue.category}</div>
-        <div className="card-body">{isssue.description}</div>
-        <button className="cardbuttons">Remove</button>
-        <button className="cardbuttons">Reallocate</button>
-        <button className="cardbuttons">Request Report</button>
+        <div className="card-body">
+          <div style={{fontWeight:"bold", fontSize: "12px", margin:"auto"}}>{isssue.category}</div>
+          <div>{isssue.description}</div>
+          <button className="cardbuttons">Remove</button>
+          <button className="cardbuttons">Reallocate</button>
+          <button className="cardbuttons">Request Report</button>
+        </div>
       </div>
     );
   }
@@ -58,10 +59,13 @@ const IssueCard = ({ isssue, type, token}) => {
     return (
       <div className="issue-card">
         <div className="card-header">{isssue.title} . {isssue.status} . {isssue.created_at}</div>
-        <div className="card-body" style={{fontWeight:"bold", fontSize: "12px"}}>{isssue.category}</div>
-        <div className="card-body">{isssue.description}</div>
-        <button className="cardbuttons">Report</button>
-        <button className="cardbuttons">View</button>
+        <div className="card-body">
+          <div style={{fontWeight:"bold", fontSize: "12px", margin:"auto"}}>{isssue.category}</div>
+          <div>{isssue.description}</div>
+          <button className="cardbuttons">Report</button>
+          <button className="cardbuttons">View</button>
+        </div>
+        
       </div>
     );
   }
@@ -70,9 +74,12 @@ const IssueCard = ({ isssue, type, token}) => {
     return (
       <div className="issue-card">
         <div className="card-header">{isssue.title} . {isssue.status} . {isssue.created_at}</div>
-        <div className="card-body" style={{fontWeight:"bold", fontSize: "12px"}}>{isssue.category}</div>
-        <div className="card-body">{isssue.description}</div>
-        <button className="cardbuttons">Re open</button>
+        <div className="card-body">
+          <div style={{fontWeight:"bold", fontSize: "12px", margin:"auto"}}>{isssue.category}</div>
+          <div>{isssue.description}</div>
+          <button className="cardbuttons">Re open</button>
+        </div>
+        
       </div>
     );
   }
