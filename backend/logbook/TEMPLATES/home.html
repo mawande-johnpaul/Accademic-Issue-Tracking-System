@@ -1,0 +1,48 @@
+<!-- templates/home.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AITS Developer Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 30px;
+            background-color: #f5f5f5;
+        }
+        h1 {
+            color: #2c3e50;
+        }
+        ul {
+            line-height: 2;
+        }
+        a {
+            text-decoration: none;
+            color: #2980b9;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h1>Welcome to the AITS API Gateway</h1>
+    <p>This is the developer's home dashboard. Here are some important endpoints you may want to test:</p>
+    
+    <ul>
+        <li><a href="/admin/">Admin</a></li>
+        <li><a href="/tech_admin/create_user/">admin_create_user</a></li>
+        <li><a href="/token/">token_obtain_pair</a></li>
+        <li><a href="/token/refresh/">token_refresh</a></li>
+        <li><a href="/signup/">signup</a></li>
+        <li><a href="/issues/">issues</a></li>
+        <li><a href="/issues/<int:pk>/">issue_detail</a></li>
+        <li><a href="/notifications/">notifications</a></li>
+        <li><a href="/notifications/create/">create_notification</a></li>
+        <li><a href="/logs/">logs</a></li>
+        <li><a href="/api/settings/change-password/">change_password</a></li>
+        <li><a href="/media/issue_attachment/">List Issues</a></li>
+        <li><a href="/media/path_to_your_file.ext">View File</a></li>
+    </ul>
+</body>
+</html>
