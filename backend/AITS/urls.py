@@ -22,6 +22,8 @@ urlpatterns = [
     path('api/settings/change-password/', ChangePasswordAPIView.as_view(), name='api_change_password'),
     path('', home_view, name='home'),  # Root URL
     path('home/', home_view, name='home'),  # Optional, in case you want /home/ to work too
+    path("account/update-recovery/", UpdateRecoveryInfoView.as_view(), name="update_recovery"),
+
 
 
 
