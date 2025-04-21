@@ -19,6 +19,7 @@ urlpatterns = [
     path('notifications/', NotificationsListDestroy.as_view(), name='notifications'),
     path('notifications/create/', NotificationsCreate.as_view(), name='create_notification'),
     path('logs/', LogListUpdateDelete.as_view(), name='logs'),
+    path('api/settings/change-password/', ChangePasswordAPIView.as_view(), name='api_change_password'),
     path('', home_view, name='home'),  # Root URL
     path('home/', home_view, name='home'),  # Optional, in case you want /home/ to work too
 
