@@ -15,6 +15,7 @@ from django.db.models.signals import post_save
 from django.contrib import admin
 from django.http import HttpResponseNotFound
 import logging
+from rest_framework.throttling import AnonRateThrottle
 
 
 logger = logging.getLogger(__name__)
@@ -76,6 +77,7 @@ class AdminCreateUserView(generics.CreateAPIView):
 class LoginView(generics.GenericAPIView):
     serializer_class = LoginSerializer
     permission_classes = [AllowAny]
+    throttle_classes = [AnonRateThrottle]
 
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
@@ -248,7 +250,7 @@ class ChangePasswordAPIView(APIView):
         user.save()
         #shows general events like changing password when they happen
         logger.info(f"User {user.email} changed their password.")
-
+        # notifications for the change of password and should be inside the method(function) to avoid user not found error
         Notification.objects.create(
             user=user,
             title="Password Changed",
