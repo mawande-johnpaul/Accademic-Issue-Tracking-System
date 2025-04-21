@@ -14,6 +14,10 @@ from django.utils import timezone
 from django.db.models.signals import post_save
 from django.contrib import admin
 from django.http import HttpResponseNotFound
+import logging
+
+
+logger = logging.getLogger(__name__)
 
 
 
@@ -227,9 +231,9 @@ class ChangePasswordAPIView(APIView):
         user = request.user
         current_password = request.data.get("current_password")
         new_password = request.data.get("new_password")
-        confirm password = request.data.get("confirm password")
+        confirm_password = request.data.get("confirm password")
 
-        if not current_password or not new_password or not confirm password:
+        if not current_password or not new_password or not confirm-password:
             return Response({'error': 'All fields are required'}, status=status.HTTP_400_BAD_REQUEST)
 
         if not user.check_password(current_password):
@@ -242,6 +246,7 @@ class ChangePasswordAPIView(APIView):
             )
         user.set_password(new_password)
         user.save()
+        logger.info(f"User {user.username} changed their password.")
 
         return Response({'success': 'Password updated successfully'}, status=status.HTTP_200_OK)
 
