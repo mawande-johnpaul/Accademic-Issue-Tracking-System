@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from rest_framework import generics, permissions, status
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -13,7 +13,7 @@ from django.dispatch import receiver
 from django.utils import timezone
 from django.db.models.signals import post_save
 from django.contrib import admin
-
+from django.http import HttpResponseNotFound
 
 
 
@@ -238,3 +238,10 @@ class ChangePasswordAPIView(APIView):
         user.save()
 
         return Response({'success': 'Password updated successfully'}, status=status.HTTP_200_OK)
+
+def custom_404_redirect(request, exception):
+    return redirect('home')
+
+
+def home_view(request):
+    return render(request, 'home.html')
