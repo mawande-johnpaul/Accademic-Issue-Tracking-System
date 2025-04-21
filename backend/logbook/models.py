@@ -17,6 +17,9 @@ class CustomUser(AbstractUser):
     role = models.CharField(max_length=100, choices=ROLES)
     department = models.CharField(max_length=10, choices=DEPARTMENT_CHOICES)
     course = models.CharField(max_length=100, choices=COURSES, default='none')
+    recovery_email = models.EmailField(null=True, blank=True)
+    recovery_phone = models.CharField(max_length=15, null=True, blank=True)  
+
 
     def __str__(self):
         return self.username
