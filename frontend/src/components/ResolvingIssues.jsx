@@ -99,15 +99,25 @@ const ResolvingIssues = () => {
                                 <button className='remove' onClick={() => setConfirmDelete(issue.id)}>Remove</button>
                                 <button className='reopen'>Re-Open</button>
                             </div>
-                                {confirmDelete === issue.id && (<div className='confirmBox'>
+                               {/* {confirmDelete === issue.id && (<div className='confirmBox'>
+                                    
                                     <p>Are You Sure You Want To Remove This Issue?</p>
                                     <div className='coactions'>
                                     <button className='yes-btn' onClick={() => handleRemove(issue.id)}>Yes</button>
                                     <button className='no-btn' onClick={() => setConfirmDelete(null)}>No</button>
                                     </div>
                                     </div>
-                                )}
-                           
+                                )}*/}
+                                {confirmDelete === issue.id && (
+                                    <div className='floatingconfirm'>
+                                    <div className='floconfirm'><p className='confirmMessage'>Are you sure you want to remove this issue?</p>
+                                    <div className='confbuttons'>
+                                        <button className='yes-btn' onClick={() => handleRemove(issue.id)}>Yes</button>
+                                        <button className='no-btn' onClick={() =>setConfirmDelete(null)}>No</button>
+                                    </div>
+                                    </div>
+                                    </div>                                    
+                                    )}                           
                         </div>
                     ))}
                 </div>
