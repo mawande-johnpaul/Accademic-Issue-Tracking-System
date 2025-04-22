@@ -65,6 +65,7 @@ const ResolvingIssues = () => {
             setNoRecent('No recent issues found. Showing all resolved issues instead.');
             setVisibleIssues(allIssues);
             setFilter('all');
+            setTimeout(() => {setNoRecent('');},4000);
            }else{
             setVisibleIssues(recentIssues);
             setNoRecent('');
