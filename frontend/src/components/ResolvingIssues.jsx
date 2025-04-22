@@ -9,6 +9,7 @@ const ResolvingIssues = () => {
     const [filter,setFilter] = useState('all');
     const [confirmDelete, setConfirmDelete] = useState(null);
     const [noRecent, setNoRecent] = useState("");
+    const [toastMsg,setToastMsg] = useState('');
 
     useEffect(() => {
         const fetchResolvingIssues = async () => {
@@ -36,8 +37,11 @@ const ResolvingIssues = () => {
     },[]);
 
    const handleRemove = (id) => {
-    const updated = visibleIssues.filter((issue) => issue.id !== id);setVisibleIssues(updated);
-    setConfirmDelete(null); alert("Issue Deleted");
+    const updated = visibleIssues.filter((issue) => issue.id !== id);
+    setVisibleIssues(updated);
+    setConfirmDelete(null);
+    setToastMsg('Issue Deleted successfully');
+    setTimeout(()=> {setToastMsg('');},3000);
    };
     /*const handleFilterChange = (type) => {
         setFilter(type);
@@ -122,6 +126,7 @@ const ResolvingIssues = () => {
                     ))}
                 </div>
             )}
+            {toastMsg && (<div className='toast'>{toastMsg}</div>)}
         </div>
     );
 };
