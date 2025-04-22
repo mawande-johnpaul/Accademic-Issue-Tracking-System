@@ -51,6 +51,7 @@ const ResolvingIssues = () => {
         setFilter(type);
         if(type === 'all'){
             setVisibleIssues(allIssues);
+            setNoRecent('');
         } else if (type === 'recent'){
            const today = new Date();
            const recentIssues = allIssues.filter((issue) => {
@@ -61,7 +62,7 @@ const ResolvingIssues = () => {
            });
 
            if (recentIssues.length === 0){
-            alert('No recent issues found. Showing all resolved issues instead.');
+            setNoRecent('No recent issues found. Showing all resolved issues instead.');
             setVisibleIssues(allIssues);
             setFilter('all');
            }else{
@@ -81,7 +82,7 @@ const ResolvingIssues = () => {
                     <button className={filter === 'all' ? "active" : ""} onClick={() => handleFilterChange("all")}>All</button>
                 </div>
             </div>
-            
+            {noRecent && (<div className='infomsg'>{noRecent}</div>)}           
 
             {visibleIssues.length === 0 ? (
                 <p>No Resolved Issues Available.</p>
