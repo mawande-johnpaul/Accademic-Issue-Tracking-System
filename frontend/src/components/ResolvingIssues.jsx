@@ -2,6 +2,7 @@ import {useState, useEffect} from 'react';
 import './ResolvingIssues.css';
 
 
+
 const ResolvingIssues = () => {
     const [allIssues, setAllIssues] = useState([]);
     const [visibleIssues, setVisibleIssues] = useState([])
@@ -21,9 +22,9 @@ const ResolvingIssues = () => {
 
             //use mock data when error fetching occurs
             const mockdata = [
-                {id:1,title:'Exam Marks',priority:'High',deadline:'03/15/25',status:'Resolved',},
-                {id:2,title:'Enrollment',priority:'Medium',deadline:'02/28/25',status:'Resolved'},
-                {id:3,title:'Course-Registration',priority:'Low',deadline:'02/30/25',status:'Resolved'}
+                {id:1,title:'Exam Marks',priority:'High',deadline:'03/15/25',status:'Resolved',resolvedDate:'2025-03-28'},
+                {id:2,title:'Enrollment',priority:'Medium',deadline:'02/28/25',status:'Resolved',resolvedDate:'2025-03-20'},
+                {id:3,title:'Course-Registration',priority:'Low',deadline:'02/30/25',status:'Resolved',resolvedDate:'2025-02-01'}
             ]
             setAllIssues(mockdata);
             setVisibleIssues(mockdata);
@@ -37,14 +38,30 @@ const ResolvingIssues = () => {
     const updated = visibleIssues.filter((issue) => issue.id !== id);setVisibleIssues(updated);
     setConfirmDelete(null); alert("Issue Deleted");
    };
-    const handleFilterChange = (type) => {
+    /*const handleFilterChange = (type) => {
         setFilter(type);
         if (type==='all') {
             setVisibleIssues((prevVisible) => allIssues.filter((issue) => prevVisible.some((vis)=> vis.id === issue.id)));
         }else {setVisibleIssues(allIssues);            
         }
         setConfirmDelete(null);
-    };
+    };*/
+    const handleFilterChange = (type) => {
+        setFilter(type);
+        if(type === 'all'){
+            setVisibleIssues(allIssues);
+        } else if (type === 'recent'){
+            const recentIssues = allIssues.filter((issue) => {
+                const resolvedDate = new Date(issue.resolvedDate);
+                const today = new Date();
+                const diffTime = today - resolvedDate;
+                const diffdays = diffTime/(1000*60*60*24);
+                return diffdays <=7;
+            });
+            setVisibleIssues(recentIssues);
+        }
+        setConfirmDelete(null);
+    }
 
     return(
         <div className='resolving'>
