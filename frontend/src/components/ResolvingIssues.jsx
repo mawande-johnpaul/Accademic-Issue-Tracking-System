@@ -8,6 +8,7 @@ const ResolvingIssues = () => {
     const [visibleIssues, setVisibleIssues] = useState([])
     const [filter,setFilter] = useState('all');
     const [confirmDelete, setConfirmDelete] = useState(null);
+    const [noRecent, setNoRecent] = useState("");
 
     useEffect(() => {
         const fetchResolvingIssues = async () => {
@@ -51,17 +52,25 @@ const ResolvingIssues = () => {
         if(type === 'all'){
             setVisibleIssues(allIssues);
         } else if (type === 'recent'){
-            const recentIssues = allIssues.filter((issue) => {
-                const resolvedDate = new Date(issue.resolvedDate);
-                const today = new Date();
-                const diffTime = today - resolvedDate;
-                const diffdays = diffTime/(1000*60*60*24);
-                return diffdays <=7;
-            });
+           const today = new Date();
+           const recentIssues = allIssues.filter((issue) => {
+            if(!issue.resolvedDate) return false;
+            const resolvedDate = new Date(issue.resolvedDate);
+            const diffDays = (today - resolvedDate)/(1000*60*60*24);
+            return diffDays <= 7;
+           });
+
+           if (recentIssues.length === 0){
+            alert('No recent issues found. Showing all resolved issues instead.');
+            setVisibleIssues(allIssues);
+            setFilter('all');
+           }else{
             setVisibleIssues(recentIssues);
-        }
-        setConfirmDelete(null);
+            setNoRecent('');
+           }
     }
+    setConfirmDelete(null);
+};
 
     return(
         <div className='resolving'>
@@ -72,6 +81,7 @@ const ResolvingIssues = () => {
                     <button className={filter === 'all' ? "active" : ""} onClick={() => handleFilterChange("all")}>All</button>
                 </div>
             </div>
+            
 
             {visibleIssues.length === 0 ? (
                 <p>No Resolved Issues Available.</p>
