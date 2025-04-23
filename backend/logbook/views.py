@@ -184,5 +184,5 @@ class LecturerList(generics.ListAPIView):
     serializer_class = LecturerSerializer
     permission_classes = [AllowAny]
 
-    def get_queryset(self):  # Runs if the request method is GET
-        return User.objects.filter(role='lecturer')  # Filter issues by status
+    def get_queryset(self):  
+        return User.objects.filter(role='lecturer')  

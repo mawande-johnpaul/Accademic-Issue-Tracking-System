@@ -300,13 +300,37 @@
   }
 
   .viewcontainer{
-
+    margin: 0px;
+    justify-content: center;
+    height: auto;
   }
 
   .viewarea{
+    margin: auto;
+    text-align: left;
+    padding-left: 6vh;
+    height: auto;
+  }
 
+  .viewarea p{
+    font-size: 12px;
   }
 
   .assignarea{
-    
+    margin: auto;
+    justify-content: center;
+    height: auto;
+  }
+
+  .assignarea div{
+    margin: 3vh auto;
+    justify-self: center;
+    height: auto;
+  }
+
+  .h1{
+    font-size: 12px;
+    font-weight: bold;
+    margin: 10px 0px;
+    padding-right: 10px;
   }

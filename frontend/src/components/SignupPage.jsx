@@ -126,7 +126,7 @@ function SignupPage() {
             </div>
           </form>
           <div className='choicearea'>
-              <button type="submit" className='buttons' style={{margin:"auto"}}>Signup</button>
+              <button type="submit" className='buttons' style={{margin:"auto"}} onClick={() => signup(event)}>Signup</button>
           </div>
           <Link to='/login'>Already have an account?</Link>
           {message && <div style={{color:"red"}}>{message}</div>}

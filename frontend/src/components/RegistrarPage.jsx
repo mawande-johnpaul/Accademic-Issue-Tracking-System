@@ -13,15 +13,15 @@ const RegistrarPage = ({content, setContent}) => {
       head: 'Notifications',
       contents: [
         {
-          name: 'Jane Doe',
+          name: 'Jane',
           message: 'You have a new message.'
         },
         {
-          name: 'John Doe',
+          name: 'John',
           message: 'You have a new notification.'
         },
         {
-          name: 'Jane Doe',
+          name: 'Doe',
           message: 'You have a new message.'
         }
       ]
@@ -30,15 +30,15 @@ const RegistrarPage = ({content, setContent}) => {
       head: 'Announcements',
       contents: [
         {
-          name: 'John Doe',
+          name: 'John',
           message: 'You have a new request.'
         },
         {
-          name: 'Jane Doe',
+          name: 'Jane',
           message: 'You have a new request.'
         },
         {
-          name: 'John Doe',
+          name: 'Doe',
           message: 'You have a new request.'
         }
       ]
@@ -48,8 +48,7 @@ const RegistrarPage = ({content, setContent}) => {
   const [newIssues, setNewIssues] = useState([]);
   const [assignedIssues, setAssignedIssues] = useState([])
   const [notifications, setNotifications] = useState([]);
-  const [lecturers, setLecturers] = useState([]);
-  const [id, setid] = useState("");
+  const [id, setid] = useState();
 
 
   const user = JSON.parse(sessionStorage.getItem("user"));
@@ -74,34 +73,24 @@ const RegistrarPage = ({content, setContent}) => {
       setNotifications(response.data);
     };
 
-    const fetchLecturers = async () => {
-      const response = await axios.get('http://127.0.0.1:8000/lecturers/', {
+    const fetchAllIssues = async() => {
+      const response = await axios.get('http://127.0.0.1:8000/issues/Seen', {
         headers: {
           'Authorization': `Bearer ${token}`,
         },
       });
-      setLecturers(response.data);
-    };
+      setAssignedIssues(response.data);   
+    }
   
     if (user) {
       fetchIssues();
       fetchAllIssues();
-      fetchLecturers();
-      //fetchNotifications();  // If you want to include this
+      //fetchNotifications();
     }
-  }, [user, token, newIssues, assignedIssues, lecturers, notifications]);  // Added `token` to the dependency array
+  }, [user, token]);
   
 
   const no_operation = () => setContent("Splash");
-
-  const fetchAllIssues = async() => {
-    const response = await axios.get('http://127.0.0.1:8000/issues/Seen', {
-      headers: {
-        'Authorization': `Bearer ${token}`,
-      },
-    });
-    setAssignedIssues(response.data);   
-  }
 
   return (
     <div className="bodyy">
@@ -130,7 +119,7 @@ const RegistrarPage = ({content, setContent}) => {
             )}
           </div>
           <div className="content-section">
-            <Content to_display_name={content} newissues={newIssues} assignedissues={assignedIssues} username={user.username} token={token} department={user.department} lecturers={lecturers} content={content} setContent={setContent} setid={setid}/>
+            <Content to_display_name={content} newissues={newIssues} assignedissues={assignedIssues} username={user.username} token={token} department={user.department} content={content} setContent={setContent} id={id} setid={setid}/>
           </div>
           <div className="right-side">
             <DisplayPane

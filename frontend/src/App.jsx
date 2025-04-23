@@ -5,6 +5,7 @@ import './css/signup.css';
 import './css/dashboard.css';
 import './css/form.css';
 import './css/loadingscreen.css';
+import './css/styles.css'
 import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 import Homepage from './components/HomePage';
 import SignupPage from './components/SignupPage';

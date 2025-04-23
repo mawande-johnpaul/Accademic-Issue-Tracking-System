@@ -2,7 +2,7 @@ import RegistrarIssues from "./RegistrarIssues";
 import Splash from "./Splash"; 
 import IssueView from "./IssueView"; 
 
-const Content = ({to_display_name, newissues, assignedissues, username, lecturers, token, setContent, setid}) => {
+const Content = ({to_display_name, newissues, assignedissues, username, token, setContent, id, setid}) => {
     return (
         <div>
             <div className="content-section-header">
@@ -17,8 +17,8 @@ const Content = ({to_display_name, newissues, assignedissues, username, lecturer
                     <RegistrarIssues issues={newissues} type={'new'} token={token} setContent={setContent} setid={setid}/>
                 ) : to_display_name === "AssignedIssues"? (
                     <RegistrarIssues issues={assignedissues} type={'assigned'} token={token} setContent={setContent} setid={setid}/>
-                ) : to_display_name === "IssueView"? (
-                    <IssueView issue={id} lecturers={lecturers} token={token} />
+                ) : to_display_name === "AssignForm"? (
+                    <IssueView issue={id} token={token} setContent={setContent} issues={newissues}/>
                 ) : ( 
                     <Splash />
                 )}

@@ -2,10 +2,10 @@ import axios from "axios";
 import { useState } from "react";
 
 const IssueCard = ({ isssue, type, token, content ,setContent, setid}) => {
-  const assign = async (identifier) => {
+  const assign = async (identifier, setid, setContent) => {
     setContent('AssignForm');
-    setid(identifier)
-  }
+    setid(identifier);
+  };
   const reject = async (identifier) => {
     const response = await axios.delete(`http://127.0.0.1:8000/issues/setstatus/${identifier}/Rejected/`, {
       headers: {
@@ -33,8 +33,8 @@ const IssueCard = ({ isssue, type, token, content ,setContent, setid}) => {
         <div className="card-body">
           <div style={{fontWeight:"bold", fontSize: "12px", margin:"auto"}}>{isssue.category}</div>
           <div>{isssue.description}</div>
-          <button className="cardbuttons" style={{backgroundColor:"red"}} onClick={() => reject(isssue.id)}>Reject</button>
-          <button className="cardbuttons" style={{backgroundColor:"#00DF81"}} onClick={() => assign(isssue.id)}>View</button>
+          <button className="cardbuttons" style={{backgroundColor:"red"}} onClick={() => reject(isssue.id, setid, setContent)}>Reject</button>
+          <button className="cardbuttons" style={{backgroundColor:"#00DF81"}} onClick={() => assign(isssue.id, setid, setContent)}>View</button>
         </div>
       </div>
     );

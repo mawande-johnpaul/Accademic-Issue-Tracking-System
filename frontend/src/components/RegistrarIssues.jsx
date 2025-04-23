@@ -6,13 +6,13 @@ const RegistrarIssues = ({issues, type, token, content, setContent, setid}) => {
       {type === 'new' ?(
         <>
           {issues.map((issue) => (
-            <IssueCard key = {issue.pk} isssue={issue} type={type} token={token} content={content} setContent={setContent} setid={setid}/>
+            <IssueCard key = {issue.id} isssue={issue} type={type} token={token} content={content} setContent={setContent} setid={setid}/>
           ))}
         </>
       ) : type === 'assigned' ?(
         <>
           {issues.map((issue) => (
-            <IssueCard key = {issue.pk} isssue={issue} type={type} token={token} content={content} setContent={setContent} setid={setid}/>
+            <IssueCard key = {issue.id} isssue={issue} type={type} token={token} content={content} setContent={setContent} setid={setid}/>
           ))}        
         </>
       ): (

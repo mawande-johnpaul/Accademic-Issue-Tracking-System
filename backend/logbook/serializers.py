@@ -82,5 +82,5 @@ class NotificationSerializer(serializers.ModelSerializer):  # Fixed typo in clas
 
 class LecturerSerializer(serializers.ModelSerializer):
     class Meta:
-        moddel = User
+        model = User
         fields = '__all__'
