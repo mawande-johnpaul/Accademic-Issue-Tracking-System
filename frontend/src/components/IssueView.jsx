@@ -46,11 +46,7 @@ const IssueView = ({issue, token, setContent, issues}) => {
         }
       }
     )
-    const response2 = await axios.patch(`http://127.0.0.1:8000/issues/setstatus/${identifier}/Seen/`, {
-      headers: {
-        'Authorization': `Bearer ${token}`,
-      },
-    });
+    
     setContent("NewIssues")
   }
 

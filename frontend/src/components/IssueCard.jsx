@@ -6,12 +6,22 @@ const IssueCard = ({ isssue, type, token, content ,setContent, setid}) => {
     setContent('AssignForm');
     setid(identifier);
   };
-  const reject = async (identifier) => {
-    const response = await axios.delete(`http://127.0.0.1:8000/issues/setstatus/${identifier}/Rejected/`, {
+  const reject = async (identifier, setContent) => {
+    const response = await axios.delete(`http://127.0.0.1:8000/issues/remove/${identifier}/`, {
       headers: {
         'Authorization': `Bearer ${token}`,
       },
     });
+    setContent("NewIssues")
+}
+
+const notify = async (identifier, setContent) => {
+  const response = await axios.post(`http://127.0.0.1:8000/issues/notify/${identifier}/lecturer_notify/`, {
+    headers: {
+      'Authorization': `Bearer ${token}`,
+    },
+  });
+  setContent("NewIssues")
 }
 
   if (type === 'user'){
@@ -47,9 +57,9 @@ const IssueCard = ({ isssue, type, token, content ,setContent, setid}) => {
         <div className="card-body">
           <div style={{fontWeight:"bold", fontSize: "12px", margin:"auto"}}>{isssue.category}</div>
           <div>{isssue.description}</div>
-          <button className="cardbuttons">Remove</button>
-          <button className="cardbuttons">Reallocate</button>
-          <button className="cardbuttons">Request Report</button>
+          <button className="cardbuttons" onClick={() => reject(isssue.id, setid, setContent)}>Remove</button>
+          <button className="cardbuttons" onClick={() => assign(isssue.id, setid, setContent)}>Reallocate</button>
+          <button className="cardbuttons" onClick={() => notify(isssue.id, setid, setContent)}>Request Report</button>
         </div>
       </div>
     );

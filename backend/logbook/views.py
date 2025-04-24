@@ -91,24 +91,34 @@ class IssueUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
         return Issue.objects.filter(pk=pk)  # Filter issues by status
 
     def put(self, request, *args, **kwargs):
-        instance = self.get_object()
-        instance.assigned_to = request.data.get('assigned_to', instance.assigned_to)
+        pk = kwargs.get('pk')
+
+        try:
+            instance = Issue.objects.get(pk=pk)
+        except Issue.DoesNotExist:
+            return Response({'error': 'Issue not found.'}, status=status.HTTP_404_NOT_FOUND)
+
+        assigned_to_id = request.data.get('assigned_to')
+        if assigned_to_id:
+            try:
+                assigned_to_user = User.objects.get(id=assigned_to_id)
+                instance.assigned_to = assigned_to_user
+            except User.DoesNotExist:
+                return Response({'error': 'Assigned user not found.'}, status=status.HTTP_404_NOT_FOUND)
+
+        instance.status = "Seen"
         instance.deadline = request.data.get('deadline', instance.deadline)
         instance.priority = request.data.get('priority', instance.priority)
         instance.save()
         serializer = self.get_serializer(instance)
         return Response(serializer.data)
 
-    def patch(self, request, *args, **kwargs):
-        queryset = Issue.objects.all().filter(pk=self.kwargs['pk'])
-        instance = self.get_object()
-        instance.status = self.kwargs['status']
-        instance.save()
-        serializer = self.get_serializer(instance)
-        return Response(serializer.data)
-
     def delete(self, request, *args, **kwargs):
-        instance = self.get_object()
+        pk = kwargs.get('pk')
+        try:
+            instance = Issue.objects.get(pk=pk)
+        except Issue.DoesNotExist:
+            return Response({'error': 'Issue not found.'}, status=status.HTTP_404_NOT_FOUND)
         instance.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
@@ -126,11 +136,76 @@ class NotificationsListDestroy(generics.RetrieveDestroyAPIView):
 
 
 class NotificationsCreate(generics.CreateAPIView):
-    serializer_class = NotificationSerializer  # Fixed typo
+    serializer_class = NotificationSerializer
     permission_classes = [AllowAny]
 
     def perform_create(self, serializer):
-        return super().perform_create(serializer)
+        # Get the notification type from the frontend
+        notification_type = self.request.data.get('type')
+        
+        # Ensure the notification type is provided
+        if not notification_type:
+            return Response({'error': 'Notification type is required.'}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Handle the notification based on its type
+        if notification_type == 'lecturer_notify':
+            return self.create_lecturer_notification(serializer)
+        else:
+            return Response({'error': 'Unsupported notification type.'}, status=status.HTTP_400_BAD_REQUEST)
+
+    def create_lecturer_notification(self, serializer):
+        pk = self.request.data.get('pk')
+        if not pk:
+            return Response({'error': 'Issue ID is required.'}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            issue = Issue.objects.get(pk=pk)
+        except Issue.DoesNotExist:
+            return Response({'error': 'Issue not found.'}, status=status.HTTP_404_NOT_FOUND)
+
+        # Get the sender (authenticated user)
+        user_id_sender = self.request.user
+
+        # Get the receiver from the issue (assumed to be the user the issue is assigned to)
+        user_id_receiver = issue.assigned_to
+
+        # If no receiver is assigned to the issue, return an error
+        if not user_id_receiver:
+            return Response({'error': 'No receiver (user) assigned to this issue.'}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Derive content and category from the issue (adjust these according to your model's fields)
+        content = issue.title  # or some other field like issue.description
+        category = issue.category  # Assuming you have a category field in the Issue model
+
+        # Now save the notification for the "lecturer_notify" type
+        serializer.save(
+            user_id_receiver=user_id_receiver,
+            user_id_sender=user_id_sender,
+            content=content,
+            category=category
+        )
+
+        return Response({'message': 'Lecturer notification created successfully.'}, status=status.HTTP_201_CREATED)
+
+    def post(self, request, *args, **kwargs):
+        pk = kwargs.get('pk')
+        if not pk:
+            return Response({'error': 'Issue ID is required.'}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            issue = Issue.objects.get(pk=pk)
+        except Issue.DoesNotExist:
+            return Response({'error': 'Issue not found.'}, status=status.HTTP_404_NOT_FOUND)
+
+        # Check if the issue has an assigned lecturer
+        if issue.assigned_to and issue.assigned_to.role == 'lecturer':
+            Notification.objects.create(
+                user=issue.assigned_to,
+                message=f"You have been assigned a new issue: {issue.title}"
+            )
+            return Response({'message': 'Notification sent to the lecturer.'}, status=status.HTTP_201_CREATED)
+        else:
+            return Response({'error': 'No lecturer assigned to this issue.'}, status=status.HTTP_400_BAD_REQUEST)
 
 
 # Logs
@@ -185,4 +260,4 @@ class LecturerList(generics.ListAPIView):
     permission_classes = [AllowAny]
 
     def get_queryset(self):  
-        return User.objects.filter(role='lecturer')  
+        return User.objects.filter(role='lecturer')

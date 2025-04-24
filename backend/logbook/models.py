@@ -51,4 +51,4 @@ class Notification(models.Model):
     user_id_receiver = models.ForeignKey(CustomUser, on_delete=models.DO_NOTHING)
     user_id_sender = models.ForeignKey(CustomUser, related_name='sent_notifications', on_delete=models.DO_NOTHING)
     content = models.CharField(max_length=1000)
-    category = models.CharField(max_length=50, choices=[('message','Message'),('announcement','Announcement'),('notification','Notification')]) #message or announcement or notification
+    category = models.CharField(max_length=50, choices=[('announcement','Announcement'),('notification','Notification')]) #message or announcement or notification
