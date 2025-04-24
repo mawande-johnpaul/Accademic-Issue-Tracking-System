@@ -72,7 +72,7 @@ const notify = async (identifier, setContent) => {
         <div className="card-body">
           <div style={{fontWeight:"bold", fontSize: "12px", margin:"auto"}}>{isssue.category}</div>
           <div>{isssue.description}</div>
-          <button className="cardbuttons">Report</button>
+          <button className="cardbuttons"  onClick={() => setContent("LecturerView")}>Report</button>
           <button className="cardbuttons">View</button>
         </div>
         

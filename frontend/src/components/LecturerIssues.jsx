@@ -6,13 +6,13 @@ const LecturerIssues = ({issues, type}) => {
       {type === 'lecturer-assigned' ?(
         <>
           {issues.map((issue) => (
-            <IssueCard isssue={issue} type={type}/>
+            <IssueCard key={issue.id} isssue={issue} type={type} />
           ))}
         </>
       ) : type === 'lecturer-resolved' ?(
         <>
           {issues.map((issue) => (
-            <IssueCard isssue={issue} type={type}/>
+            <IssueCard key={issue.id} isssue={issue} type={type}/>
           ))}        
         </>
       ): (

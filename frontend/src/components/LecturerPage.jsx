@@ -15,15 +15,15 @@ const MESSAGES=[
       head: 'Notifications',
       contents: [
           {
-              name: 'Jane Doe',
+              name: 'Jane',
               message: 'You have a new message.'
           },
           {
-              name: 'John Doe',
+              name: 'John',
               message: 'You have a new notification.'
           },
           {
-              name: 'Jane Doe',
+              name: 'Doe',
               message: 'You have a new message.'
           }
       ]
@@ -32,15 +32,15 @@ const MESSAGES=[
       head: 'Announcements',
       contents: [
           {
-              name: 'John Doe',
+              name: 'John',
               message: 'You have a new request.'
           },
           {
-              name: 'Jane Doe',
+              name: 'Jane',
               message: 'You have a new request.'
           },
           {
-              name: 'John Doe',
+              name: 'Doe',
               message: 'You have a new request.'
           }
       ]
@@ -56,7 +56,7 @@ const LecturerPage = ({content, setContent}) => {
   useEffect(() => {
     const fetchIssues = async () => {
       try {
-        const response = await axios.get('http://127.0.0.1:8000/issues/', {
+        const response = await axios.get(`http://127.0.0.1:8000/issues/${user.id}/`, {
           headers: {
             'Authorization': `Bearer ${token}`
           }
@@ -66,6 +66,7 @@ const LecturerPage = ({content, setContent}) => {
         console.error(error);
       }
     };
+    console.log(issues)
 
     fetchIssues();
   }, [user, token]); // Removed user from dependency array
@@ -81,7 +82,7 @@ const LecturerPage = ({content, setContent}) => {
       </div>
       <div className="content-section">
         <SearchBar />
-        <Content to_display_name={content} issues={issues} user={user}/>
+        <Content to_display_name={content} issues={issues} user={user} token={token}/>
       </div>
       <div className="right-side">
         <DisplayPane heading={MESSAGES[0].head} items={MESSAGES[0].contents} />

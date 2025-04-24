@@ -12,8 +12,11 @@ urlpatterns = [
     path('signup/', RegisterView.as_view(), name='signup'),
     path('login/', LoginView.as_view(), name='login'),
     path('issues/', IssueListCreate.as_view(), name='issues'),
+    path('issues/<int:pk>/', IssueList2.as_view(), name='assigned_issues'),
     path('issues/<str:status>/', IssueList.as_view(), name='issue_status'),
     path('issues/assign/<int:pk>/', IssueUpdateDestroy.as_view(), name='update_issue_status'),
+    #dealing with second update
+    path('issues/progress/<int:pk>/', IssueUpdateDestroy.as_view(), name='update_issue_status'),
     path('issues/remove/<int:pk>/', IssueUpdateDestroy.as_view(), name='remove_issue'),
     path('issues/notify/<int:pk>/<str:type>', NotificationsCreate.as_view(), name='notify_lecturer'),
     path('notifications/', NotificationsListDestroy.as_view(), name='notifications'),

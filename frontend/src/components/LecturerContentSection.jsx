@@ -3,7 +3,7 @@ import LecturerIssues from "./LecturerIssues";
 import Settings from "./Settings";
 import Splash from "./Splash";  
 
-const Content = ({to_display_name, issues, user}) => {
+const Content = ({to_display_name, issues, user, token}) => {
     return (
         <div>
             <div className="content-section-header">
@@ -18,8 +18,8 @@ const Content = ({to_display_name, issues, user}) => {
                     <LecturerIssues issues={issues} type={'lecturer-assigned'} />
                 ) : to_display_name === "Resolved Issues" && issues ? (
                     <LecturerIssues issues={issues} type={'lecturer-resolved'}  />
-                ) : to_display_name === "Settings" && user ? (
-                    <Settings user={user} />
+                ) : to_display_name === "LecturerView" && user ? (
+                    <LecturerView />
                 ) : (
                     <Splash />
                 )}

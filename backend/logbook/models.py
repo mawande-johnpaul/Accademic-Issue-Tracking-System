@@ -36,6 +36,7 @@ class Issue(models.Model):
     status = models.CharField(max_length=10, default='Unseen')
     priority = models.CharField(max_length=10, default='Low')
     deadline = models.DateField(default="")
+    progress = models.CharField(default="", max_length=1000)
 
     def __str__(self):
         return self.title

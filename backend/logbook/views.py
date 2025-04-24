@@ -80,6 +80,14 @@ class IssueList(generics.ListAPIView):
     def get_queryset(self):  # Runs if the request method is GET
         status = self.kwargs['status']  # Get the status from the URL
         return Issue.objects.filter(status=status)  # Filter issues by status
+    
+class IssueList2(generics.ListAPIView):
+    serializer_class = IssueSerializer
+    permission_classes = [AllowAny]
+
+    def get_queryset(self):  # Runs if the request method is GET
+        pk = self.kwargs['pk']  # Get the status from the URL
+        return Issue.objects.filter(pk=pk)  # Filter issues by status
 
 # What data exactly is returned, which function does what, notifications on successful action
 class IssueUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
