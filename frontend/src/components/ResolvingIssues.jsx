@@ -5,7 +5,8 @@ import './ResolvingIssues.css';
 
 const ResolvingIssues = () => {
     const [allIssues, setAllIssues] = useState([]);
-    const [visibleIssues, setVisibleIssues] = useState([])
+    const [visibleIssues, setVisibleIssues] = useState([]);
+    const [recentlyRemoved, setRecentlyRemoved] = useState([]);
     const [filter,setFilter] = useState('all');
     const [confirmDelete, setConfirmDelete] = useState(null);
     const [noRecent, setNoRecent] = useState("");
@@ -36,12 +37,21 @@ const ResolvingIssues = () => {
     fetchResolvingIssues();
     },[]);
 
-   const handleRemove = (id) => {
+   const handleRemove = (id) => {/*
     const updated = visibleIssues.filter((issue) => issue.id !== id);
     setVisibleIssues(updated);
     setConfirmDelete(null);
     setToastMsg('Issue Deleted successfully');
     setTimeout(()=> {setToastMsg('');},3000);
+   };*/
+   const issueToRemove = visibleIssues.find(issue=> issue.id === id);
+   if (issueToRemove){
+    setVisibleIssues(visibleIssues.filter((issue) => issue.id !== id));
+    setRecentlyRemoved([...recentlyRemoved, issueToRemove]);
+    setConfirmDelete(null);
+    setToastMsg('Issue Deleted Successfully');
+    setTimeout(() => {setToastMsg('');},3000);
+   }
    };
     /*const handleFilterChange = (type) => {
         setFilter(type);
@@ -50,7 +60,7 @@ const ResolvingIssues = () => {
         }else {setVisibleIssues(allIssues);            
         }
         setConfirmDelete(null);
-    };*/
+    };
     const handleFilterChange = (type) => {
         setFilter(type);
         if(type === 'all'){
@@ -76,7 +86,22 @@ const ResolvingIssues = () => {
            }
     }
     setConfirmDelete(null);
-};
+};*/
+    const handleFilterChange = (type) => {
+        setFilter(type);
+
+        if (type == 'all'){
+            setVisibleIssues(allIssues);
+            setNoRecent('');
+        } else if (type === 'recent'){
+            if (recentlyRemoved.length === 0){setNoRecent('No Recently removed Issues.');
+                setTimeout(() => setNoRecent(''),3000);
+                setVisibleIssues(recentlyRemoved);
+                setNoRecent('');
+            }
+        }
+        setConfirmDelete(null);
+    };
 
     return(
         <div className='resolving'>
