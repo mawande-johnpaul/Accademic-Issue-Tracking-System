@@ -14,11 +14,17 @@ urlpatterns = [
     path('signup/', RegisterView.as_view(), name='signup'),
     path('login/', LoginView.as_view(), name='login'),
     path('issues/', IssueListCreate.as_view(), name='issues'),
+    path('issues/<int:pk>/', IssueList2.as_view(), name='assigned_issues'),
+    path('issues/<int:pk>/<str:status>/', IssueList3.as_view(), name='resolved_issues'),
     path('issues/<str:status>/', IssueList.as_view(), name='issue_status'),
-    path('issues/setstatus/<int:pk>/<str:status>/', IssueUpdateDestroy.as_view(), name='update_issue_status'),
+    path('issues/<str:action>/<int:pk>/', IssueUpdateDestroy.as_view(), name='edit_issue'),
+    path('issues/remove/<int:pk>/', IssueUpdateDestroy.as_view(), name='remove'),
+    path('issues/notify/<int:pk>/<str:type>', NotificationsCreate.as_view(), name='notify_lecturer'),
     path('notifications/', NotificationsListDestroy.as_view(), name='notifications'),
     path('notifications/create/', NotificationsCreate.as_view(), name='create_notification'),
     path('logs/', LogListUpdateDelete.as_view(), name='logs'),
+    path('lecturers/', LecturerList.as_view(), name='list_lecturers'),
+    
     # Password reset views
     path('password-reset/', auth_views.PasswordResetView.as_view(), name='password_reset'),
     path('password-reset/done/', auth_views.PasswordResetDoneView.as_view(), name='password_reset_done'),

@@ -34,8 +34,9 @@ class Issue(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     status = models.CharField(max_length=10, default='Unseen')
-    attachment = models.FileField(upload_to='issue_attachments/', null=True, blank=True)  #corrected typo
-    image = models.ImageField(upload_to='issue_images/', null=True, blank=True)
+    priority = models.CharField(max_length=10, default='Low')
+    deadline = models.DateField(auto_now=True)
+    progress = models.CharField(default="", max_length=1000)
 
     def __str__(self):
         return self.title
@@ -51,4 +52,4 @@ class Notification(models.Model):
     user_id_receiver = models.ForeignKey(CustomUser, on_delete=models.DO_NOTHING)
     user_id_sender = models.ForeignKey(CustomUser, related_name='sent_notifications', on_delete=models.DO_NOTHING)
     content = models.CharField(max_length=1000)
-    category = models.CharField(max_length=50, choices=[('message','Message'),('announcement','Announcement'),('notification','Notification')]) #message or announcement or notification
+    category = models.CharField(max_length=50, choices=[('announcement','Announcement'),('notification','Notification')]) #message or announcement or notification

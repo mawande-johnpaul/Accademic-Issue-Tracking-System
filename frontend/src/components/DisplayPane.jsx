@@ -9,7 +9,7 @@ const DisplayPane = ({items, type}) => {
                     <div className='pane-content'>
                     {
                     items.map(item1 => (
-                        <div key={item1.id}>
+                        <div key={item1.name}>
                             <div className='message-item'> 
                                 <div className='message-header'>{item1.name}</div>
                                 <div className='message-body'>{item1.message}</div>
@@ -25,12 +25,13 @@ const DisplayPane = ({items, type}) => {
                     <div className='pane-content'>
                     {
                     items.map(item => (
-                        <div key={item.id}>
+                        <div key={item.name}>
                             <div className='message-item'> 
                                 <div className='message-header'>{item.name}</div>
                                 <div className='message-body'>{item.message}</div>
                             </div>
                         </div>
+                        
                     ))
                     }
                     </div>                    

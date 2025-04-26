@@ -1,29 +1,27 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import ProfileDisplay from "./ProfileDisplay";
-import SearchBar from "./SearchBar";
 import Button from "./Button";
 import DisplayPane from "./DisplayPane";
 import Logo from "./Logo";
 import Content from "./RegistrarContentSection";
 import InPageLoginButton from "./InPageLoginButton";
 
-const RegistrarPage = () => {
+const RegistrarPage = ({content, setContent}) => {
 
   const MESSAGES = [
     {
       head: 'Notifications',
       contents: [
         {
-          name: 'Jane Doe',
+          name: 'Jane',
           message: 'You have a new message.'
         },
         {
-          name: 'John Doe',
+          name: 'John',
           message: 'You have a new notification.'
         },
         {
-          name: 'Jane Doe',
+          name: 'Doe',
           message: 'You have a new message.'
         }
       ]
@@ -32,15 +30,15 @@ const RegistrarPage = () => {
       head: 'Announcements',
       contents: [
         {
-          name: 'John Doe',
+          name: 'John',
           message: 'You have a new request.'
         },
         {
-          name: 'Jane Doe',
+          name: 'Jane',
           message: 'You have a new request.'
         },
         {
-          name: 'John Doe',
+          name: 'Doe',
           message: 'You have a new request.'
         }
       ]
@@ -50,8 +48,7 @@ const RegistrarPage = () => {
   const [newIssues, setNewIssues] = useState([]);
   const [assignedIssues, setAssignedIssues] = useState([])
   const [notifications, setNotifications] = useState([]);
-  const [content, setContent] = useState('Splash');
-
+  const [id, setid] = useState(0);
 
   const user = JSON.parse(sessionStorage.getItem("user"));
   const token = sessionStorage.getItem("token");
@@ -74,25 +71,25 @@ const RegistrarPage = () => {
       });
       setNotifications(response.data);
     };
+
+    const fetchAllIssues = async() => {
+      const response = await axios.get('http://127.0.0.1:8000/issues/Seen', {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
+      });
+      setAssignedIssues(response.data);   
+    }
   
     if (user) {
       fetchIssues();
       fetchAllIssues();
-      //fetchNotifications();  // If you want to include this
+      //fetchNotifications();
     }
-  }, [user, token]);  // Added `token` to the dependency array
+  }, [user, token]);
   
 
   const no_operation = () => setContent("Splash");
-
-  const fetchAllIssues = async() => {
-    const response = await axios.get('http://127.0.0.1:8000/issues/Seen', {
-      headers: {
-        'Authorization': `Bearer ${token}`,
-      },
-    });
-    setAssignedIssues(response.data);   
-  }
 
   return (
     <div className="bodyy">
@@ -104,7 +101,11 @@ const RegistrarPage = () => {
                 <Button text={"New issues"} image={"new-issue.svg"} funct={() => setContent("NewIssues")} />
                 <Button text={"Assigned issues"} image={"posted-logo.svg"} funct={() => setContent("AssignedIssues")} />
                 <Button text={"Messages"} image={"posted-logo.svg"} funct={no_operation} />
-                <Button text={"Settings"} image={"settings.svg"} funct={no_operation} />
+                {user ? (
+                  <Button text={"Profile"} image={"posted-logo.svg"} funct={no_operation} />
+                ) : (
+                  <InPageLoginButton />
+                )}
               </div>
             ) : (
               <div>
@@ -112,21 +113,14 @@ const RegistrarPage = () => {
                 <Button text={"New issues"} image={"new-issue.svg"} funct={no_operation} />
                 <Button text={"Assigned issues"} image={"posted-logo.svg"} funct={no_operation} />
                 <Button text={"Settings"} image={"settings.svg"} funct={no_operation} />
+                
               </div>
             )}
           </div>
           <div className="content-section">
-            <SearchBar />
-            <Content to_display_name={content} newissues={newIssues} assignedissues={assignedIssues} username={user.username} token={token} department={user.department}/>
+            <Content to_display_name={content} newissues={newIssues} assignedissues={assignedIssues} username={user.username} token={token} department={user.department} content={content} setContent={setContent} id={id} setid={setid}/>
           </div>
           <div className="right-side">
-            {user ? (
-              <ProfileDisplay
-                name={user.username}
-              />
-            ) : (
-              <InPageLoginButton />
-            )}
             <DisplayPane
               type={"notifications"}
               items={MESSAGES[0].contents}

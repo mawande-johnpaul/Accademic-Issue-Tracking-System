@@ -2,9 +2,6 @@ from rest_framework import serializers
 from .models import *
 from django.contrib.auth import get_user_model
 from django.contrib.auth import authenticate
-from logbook.permissions import *
-from django.contrib.auth.models import Permission
-from django.contrib.auth.hashers import make_password
 
 User = get_user_model()
 
@@ -19,37 +16,32 @@ class RegisterSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError('Username already exists')
         return data
 
-   def create(self, validated_data):  # Corrected indentation
+    def create(self, validated_data):  # Corrected indentation
         webmail=validated_data['webmail']  #Create role based on webmail
-        webmail_suffix = webmail.split('@')[1]  #extracts the part of the email after @
-        if webmail_suffix == 'students.mak.ac.ug':  # for student
-            roles = 'student'
-            
-        elif '@' not in webmail:
-            roles = 'registrar'
-            
-        else:
-            roles = 'lecturer'
+        webmail_words = webmail.split('.')
+        for word in webmail_words:
+            if 'students' in word:
+                roles = 'student'
+                break
+            elif 'lecturers' in word:
+                roles = 'lecturer'
+                break
+            else:
+
+                roles = 'registrar'
+
         user = User.objects.create_user(
+            first_name=validated_data['first_name'],
+            last_name=validated_data['last_name'],
+            webmail=webmail,
             username=validated_data['username'],
             email=validated_data['email'],
             role=roles,
-            department=validated_data.get('department', None),
-            password=validated_data['password'],  # `create_user` automatically hashes the password
-            permissions=permission
+            department=validated_data['department'],
+            course=validated_data['course'],
+            password=validated_data['password']  # `create_user` automatically hashes the password
         )
         return user
-       # serializer for admin(technical personnel)
-class AdminCreateUserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = '__all__'
-    def validate_password(self,value):
-        return make_password(value) #encrypts the password using Django's hashing system
-    def create(self, validated_data):
-        validated_data['role'] = 'admin'  # Set the role to 'admin'
-        return CustomUser.objects.create_user(**validated_data)
-
 
 
 class LoginSerializer(serializers.Serializer):
@@ -76,19 +68,6 @@ class IssueSerializer(serializers.ModelSerializer):
     class Meta:
         model = Issue
         fields = '__all__'
-        #Logic to ensure that students do not submit massive files 
-    def validate_attachment(self, value):
-        max_size = 10 * 1024 * 1024  # 10 MB
-        if value and value.size > max_size: 
-            raise serializers.ValidationError("Attachment file size must not exceed 10MB")
-        return value
-
-    def validate_image(self, value):
-        max_size = 10 * 1024 * 1024  # 10 MB
-        if value and value.size > max_size:
-            raise serializers.ValidationError("Image file size must not exceed 10MB")
-        return value
-
 
 
 class LogSerializer(serializers.ModelSerializer):  # Fixed typo in class name
@@ -100,4 +79,9 @@ class LogSerializer(serializers.ModelSerializer):  # Fixed typo in class name
 class NotificationSerializer(serializers.ModelSerializer):  # Fixed typo in class name
     class Meta:
         model = Notification
+        fields = '__all__'
+
+class LecturerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
         fields = '__all__'

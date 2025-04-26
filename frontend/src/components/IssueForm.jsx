@@ -2,7 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 
 
-const IssueForm = ({ cs, token, username, department, pk}) => {
+const IssueForm = ({ cs, token, username, department, pk, content, setContent}) => {
 
   const COURSES = {
     "BSCS": ["CS101", "CS102", "CS103"],
@@ -61,7 +61,7 @@ const IssueForm = ({ cs, token, username, department, pk}) => {
           },
         }
       );
-      setMessage("Issue submitted successfully!");
+      setContent("UserIssues");
       console.log("Response:", response.data);
 
       setFormData({
@@ -88,13 +88,13 @@ const IssueForm = ({ cs, token, username, department, pk}) => {
       <form onSubmit={handleSubmit} className="formcontainer">
 
       <div className="inputrows">
-          <label className="inputlabels">Category</label>
           <select
             name="category"
             value={formData.category}
             onChange={handleChange}
             required
             className="inputinputs"
+            placeholder="Category"
           >
             <option value="">-- Select-Category --</option>
             {ISSUE_CATEGORIES.map((category) => (
@@ -106,7 +106,6 @@ const IssueForm = ({ cs, token, username, department, pk}) => {
         </div>
 
         <div className="inputrows">
-          <label className="inputlabels">Title</label>
           <input
             type="text"
             name="title"
@@ -114,30 +113,31 @@ const IssueForm = ({ cs, token, username, department, pk}) => {
             onChange={handleChange}
             required
             className="inputinputs"
+            placeholder="Title"
           />
         </div>
 
         <div className="inputrows">
-          <label className="inputlabels">Description</label>
           <textarea
             name="description"
             value={formData.description}
             onChange={handleChange}
             required
             className="inputinputs"
+            placeholder="Description"
           ></textarea>
         </div>
 
         <div className="inputrows">
-          <label className="inputlabels">Course-Unit</label>
           <select
             type="text"
             name="courseCode"
             value={formData.courseCode}
             onChange={handleChange}
             className="inputinputs"
+            placeholder="Course Unit"
           >
-          <option value="">-- Select Course-Unit --</option>
+          <option value="">-- Select Course Unit --</option>
           {
             cse && COURSES[cse].map((unit) => (
               <option key={unit} value={unit}>{unit}</option>
@@ -147,14 +147,13 @@ const IssueForm = ({ cs, token, username, department, pk}) => {
         </div>
 
         <div className="inputrows">
-          <label className="inputlabels">Year Of Study</label>
           <select
             type="number"
             name="year"
             value={formData.year}
             onChange={handleChange}
             required
-            placeholder="Enter Year Of Study"
+            placeholder="Year Of Study"
             className="inputinputs"
           >
           <option value="">-- Select Year --</option>
@@ -165,37 +164,35 @@ const IssueForm = ({ cs, token, username, department, pk}) => {
         </div>
 
         <div className="inputrows">
-          <label className="inputlabels">Semester</label>
           <select
             type="text"
             name="semester"
             value={formData.semester}
             onChange={handleChange}
             required
-            placeholder="Enter the Semester"
+            placeholder="Semester"
             className="inputinputs"
           >
           <option value="">-- Select Semester --</option>
           <option value="1">Semester 1</option>
-          <option value="2">Recess 1</option>
+          <option value="R1">Recess 1</option>
           <option value="2">Semester 2</option>
-          <option value="3">Recess 2</option>
+          <option value="R2">Recess 2</option>
           </select>
         </div>
 
         <div className="inputrows">
-          <label className="inputlabels">Attachments</label>
           <input
             type="file"
             name="attachments"
             onChange={handleChange}
             className="fileinputinputs"
-            placeholder="Only Documents and Images are allowed"
+            placeholder="Related Documents"
             accept=".pdf, .doc, .docx, .jpg, .jpeg, .png, .gif, .pptx, .txt, .ppt"
           />
         </div>
 
-        <div className="inputrows">  
+        <div className="choicearea">  
         <button
           type="submit"
           disabled={loading}
