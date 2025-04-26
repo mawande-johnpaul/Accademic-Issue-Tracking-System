@@ -48,10 +48,12 @@ const MESSAGES=[
   
 ]
 
-const LecturerPage = ({content, setContent, id, setid}) => {
+const LecturerPage = ({content, setContent}) => {
   const [issues, setIssues] = useState([]);
+  const [resolvedIssues, setResolvedIssues] = useState([]);
   const user = JSON.parse(sessionStorage.getItem("user")); // Moved inside useEffect
   const token = sessionStorage.getItem("token");
+  const [id, setid] = useState(0);
 
   useEffect(() => {
     const fetchIssues = async () => {
@@ -67,6 +69,20 @@ const LecturerPage = ({content, setContent, id, setid}) => {
       }
     };
 
+    const fetchResolvedIssues = async () => {
+      try {
+        const response = await axios.get(`http://127.0.1:8000/issues/${user.id}/Resolved`, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+        setResolvedIssues(response.data);
+      }
+      catch (error) {
+        console.error(error);
+      }
+    }
+    fetchResolvedIssues();
     fetchIssues();
   }, [user, token]); // Removed user from dependency array
 
@@ -80,7 +96,7 @@ const LecturerPage = ({content, setContent, id, setid}) => {
 
       </div>
       <div className="content-section">
-        <Content to_display_name={content} issues={issues} user={user} token={token} id={id} setid={setid} setContent={setContent}/>
+        <Content to_display_name={content} issues={issues} resolvedIssues={resolvedIssues} user={user} token={token} id={id} setid={setid} setContent={setContent}/>
       </div>
       <div className="right-side">
         <DisplayPane heading={MESSAGES[0].head} items={MESSAGES[0].contents} />

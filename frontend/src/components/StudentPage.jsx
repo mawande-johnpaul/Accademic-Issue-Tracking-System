@@ -50,6 +50,7 @@ const StudentPage = ({content, setContent}) => {
   const [notifications, setNotifications] = useState([]);
   const user = JSON.parse(sessionStorage.getItem("user"));
   const token = sessionStorage.getItem("token");
+  const [id, setid] = useState(0);
 
   useEffect(() => {
     const fetchIssues = async () => {

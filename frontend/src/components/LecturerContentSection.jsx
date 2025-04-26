@@ -3,8 +3,10 @@ import LecturerIssues from "./LecturerIssues";
 import Settings from "./Settings";
 import Splash from "./Splash";  
 import LecturerView from "./LecturerView";
+import { useState } from "react";
 
-const Content = ({to_display_name, issues, user, token, id, setid, setContent}) => {
+
+const Content = ({to_display_name, issues, resolvedIssues, user, token, id, setid, setContent}) => {
     return (
         <div>
             <div className="content-section-header">
@@ -18,9 +20,9 @@ const Content = ({to_display_name, issues, user, token, id, setid, setContent}) 
                 {to_display_name === "AssignedIssues" && user ? (
                     <LecturerIssues issues={issues} type={'lecturer-assigned'} token={token} setContent={setContent} setid={setid}/>
                 ) : to_display_name === "ResolvedIssues" && issues ? (
-                    <LecturerIssues issues={issues} type={'lecturer-resolved'}  token={token} setContent={setContent} setid={setid}/>
+                    <LecturerIssues issues={resolvedIssues} type={'lecturer-resolved'}  token={token} setContent={setContent} setid={setid}/>
                 ) : to_display_name === "LecturerView" && user ? (
-                    <LecturerView id={id} token={token} setContent={setContent} issues={issues}/>
+                    <LecturerView issue={id} token={token} setContent={setContent} issues={issues}/>
                 ) : (
                     <Splash />
                 )}

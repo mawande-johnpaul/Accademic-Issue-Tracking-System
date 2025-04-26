@@ -48,8 +48,7 @@ const RegistrarPage = ({content, setContent}) => {
   const [newIssues, setNewIssues] = useState([]);
   const [assignedIssues, setAssignedIssues] = useState([])
   const [notifications, setNotifications] = useState([]);
-  const [id, setid] = useState();
-
+  const [id, setid] = useState(0);
 
   const user = JSON.parse(sessionStorage.getItem("user"));
   const token = sessionStorage.getItem("token");

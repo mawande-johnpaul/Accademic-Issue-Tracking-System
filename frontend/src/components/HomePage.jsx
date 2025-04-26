@@ -12,7 +12,6 @@ function HomePage() {
                     <Link to='/signup' button className='buttons'>Sign up</Link>
                     <Link to='/student' button className='buttons'>Guest</Link>
                 </div>
-                {alert("welcome")}
         </div>
         </>
     );

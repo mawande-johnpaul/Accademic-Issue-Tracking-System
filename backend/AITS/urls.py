@@ -13,6 +13,7 @@ urlpatterns = [
     path('login/', LoginView.as_view(), name='login'),
     path('issues/', IssueListCreate.as_view(), name='issues'),
     path('issues/<int:pk>/', IssueList2.as_view(), name='assigned_issues'),
+    path('issues/<int:pk>/<str:status>/', IssueList3.as_view(), name='resolved_issues'),
     path('issues/<str:status>/', IssueList.as_view(), name='issue_status'),
     path('issues/<str:action>/<int:pk>/', IssueUpdateDestroy.as_view(), name='edit_issue'),
     path('issues/remove/<int:pk>/', IssueUpdateDestroy.as_view(), name='remove'),

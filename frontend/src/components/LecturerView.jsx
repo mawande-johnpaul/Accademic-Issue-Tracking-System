@@ -2,8 +2,8 @@ import { useState } from "react";
 import axios from "axios";
 
 const LecturerView = ({issue, token, setContent, issues}) => {
-
-  const [isssue, setIssue] = useState(issues[issue]);
+  const isssue = issues.find((iss) => iss.id === issue);
+  if (!isssue) return null; // Handle case where issue is not found
   const [progress, setProgress] = useState("");
 
   const handleChange = (e) => {
