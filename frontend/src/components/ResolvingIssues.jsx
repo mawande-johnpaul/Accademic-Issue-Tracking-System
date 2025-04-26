@@ -47,11 +47,26 @@ const ResolvingIssues = () => {
    const issueToRemove = visibleIssues.find(issue=> issue.id === id);
    if (issueToRemove){
     setVisibleIssues(visibleIssues.filter((issue) => issue.id !== id));
-    setRecentlyRemoved([...recentlyRemoved, issueToRemove]);
+    setRecentlyRemoved(prev => [...prev, issueToRemove]);
     setConfirmDelete(null);
-    setToastMsg('Issue Deleted Successfully');
+    setToastMsg('Issue Moved To Recent');
     setTimeout(() => {setToastMsg('');},3000);
    }
+   };
+
+   const handleDelete = (id) => {
+    setRecentlyRemoved(prev => prev.filter(issue => issue.id !== id));
+    setToastMsg('Issue Permanently Deleted');
+    setTimeout(() => setToastMsg(''),3000);
+   }
+
+   const handleRestore = (id) => {
+    const issueToRestore = recentlyRemoved.find(issue => issue.id === id);
+    if(issueToRestore){setAllIssues(prev => [...prev, issueToRestore]);
+        setRecentlyRemoved(prev => prev.filter(issue => issue.id ! == id));
+        setToastMsg('Issue Restored successfully');
+        setTimeout(() => setToastMsg(''),3000);
+    }
    };
     /*const handleFilterChange = (type) => {
         setFilter(type);
@@ -93,13 +108,8 @@ const ResolvingIssues = () => {
         if (type == 'all'){
             setVisibleIssues(allIssues);
             setNoRecent('');
-        } else if (type === 'recent'){
-            if (recentlyRemoved.length === 0){setNoRecent('No Recently removed Issues.');
-                setTimeout(() => setNoRecent(''),3000);
-                setVisibleIssues(recentlyRemoved);
-                setNoRecent('');
-            }
-        }
+        } else if (type === 'recent'){setVisibleIssues(recentlyRemoved);}
+        setConfirmDelete
         setConfirmDelete(null);
     };
 
@@ -115,7 +125,7 @@ const ResolvingIssues = () => {
             {noRecent && (<div className='infomsg'>{noRecent}</div>)}           
 
             {visibleIssues.length === 0 ? (
-                <p>No Resolved Issues Available.</p>
+                <p>No Issues Available.</p>
             ):(
                 <div className='issues-griid'>
                     {visibleIssues.map((issue) => (
