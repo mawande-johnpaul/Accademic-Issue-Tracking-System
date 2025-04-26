@@ -5,7 +5,7 @@ import "react-datepicker/dist/react-datepicker.css";
 
 const IssueView = ({issue, token, setContent, issues}) => {
 
-  const [assigned_to, setAssignedTo] = useState([]); // Allow multiple lecturers
+  const [assigned_to, setAssignedTo] = useState(""); // Allow multiple lecturers
   const [deadline, setDeadline] = useState(null); // Use Date object for deadline
   const [priority, setPriority] = useState("")
   const [lecturers, setLecturers] = useState([]);
@@ -36,26 +36,28 @@ const IssueView = ({issue, token, setContent, issues}) => {
     setIssue(getIssue());
   }, [issues, issue]); // Update issue when issues or issue ID changes
 
-  const handleSubmit = async ({lecturer, priority, deadline}) => {
-    const response = await axios.put(
+  const handleSubmit = async ({assigned_to, priority, deadline}) => {
+    const response = await axios.patch(
       `http://127.0.0.1:8000/issues/assign/${issue}/`,
-      {lecturer, priority, deadline: deadline.toISOString().split('T')[0]}, // Format deadline as YYYY-MM-DD
+      {assigned_to, priority, deadline: deadline.toISOString().split('T')[0]}, // Format deadline as YYYY-MM-DD
       {
         headers:{
           Authorization: `Bearer ${token}`,
         }
       }
     )
-    
     setContent("NewIssues")
   }
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     if (name === "assigned-to") {
-      setAssignedTo(Array.from(e.target.selectedOptions, option => option.value));
+      setAssignedTo(value);
     } else if (name === "Priority") {
       setPriority(value);
+    }
+    else{
+      setDeadline(value)
     }
   };
 
@@ -68,7 +70,7 @@ const IssueView = ({issue, token, setContent, issues}) => {
         <p><span className="h1">Description: </span>{isssue.description}</p>
         <p><span className="h1">Course Unit: </span>{isssue.course_unit}</p>
         <p><span className="h1">Department: </span>{isssue.department}</p>
-        <p><span className="h1">Created on: </span>{isssue.created_by}</p>
+        <p><span className="h1">Created by: </span>{isssue.created_by}</p>
       </div>
       <div className="assignarea">
         <form className="formcontainer">
@@ -80,7 +82,7 @@ const IssueView = ({issue, token, setContent, issues}) => {
                 required
                 className="inputinputs"
                 placeholder="Lecturer">
-                  <option>All</option>
+                  <option value={""}>Select</option>
                     {lecturers.map((lect) => (
                         <option key={lect.id} value={lect.id}>
                             {lect.first_name} {lect.last_name}
@@ -110,7 +112,7 @@ const IssueView = ({issue, token, setContent, issues}) => {
               dateFormat="yyyy-MM-dd"
             />
           </div>
-          <button className="formbuttons" type="submit" onClick={() => handleSubmit({lecturer: assigned_to, priority, deadline})}>Assign</button>
+          <button className="formbuttons" type="submit" onClick={() => handleSubmit({assigned_to, priority, deadline})}>Assign</button>
         </form>
       </div>
     </div>

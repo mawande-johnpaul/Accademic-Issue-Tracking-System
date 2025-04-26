@@ -27,6 +27,7 @@ class RegisterSerializer(serializers.ModelSerializer):
                 roles = 'lecturer'
                 break
             else:
+
                 roles = 'registrar'
 
         user = User.objects.create_user(

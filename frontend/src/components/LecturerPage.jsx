@@ -48,7 +48,7 @@ const MESSAGES=[
   
 ]
 
-const LecturerPage = ({content, setContent}) => {
+const LecturerPage = ({content, setContent, id, setid}) => {
   const [issues, setIssues] = useState([]);
   const user = JSON.parse(sessionStorage.getItem("user")); // Moved inside useEffect
   const token = sessionStorage.getItem("token");
@@ -66,7 +66,6 @@ const LecturerPage = ({content, setContent}) => {
         console.error(error);
       }
     };
-    console.log(issues)
 
     fetchIssues();
   }, [user, token]); // Removed user from dependency array
@@ -81,8 +80,7 @@ const LecturerPage = ({content, setContent}) => {
 
       </div>
       <div className="content-section">
-        <SearchBar />
-        <Content to_display_name={content} issues={issues} user={user} token={token}/>
+        <Content to_display_name={content} issues={issues} user={user} token={token} id={id} setid={setid} setContent={setContent}/>
       </div>
       <div className="right-side">
         <DisplayPane heading={MESSAGES[0].head} items={MESSAGES[0].contents} />

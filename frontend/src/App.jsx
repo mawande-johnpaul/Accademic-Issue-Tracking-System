@@ -19,6 +19,7 @@ import { useState } from 'react';
   
 function App() {
   const [content, setContent] = useState('Splash');
+  const [id, setid] = useState(0)
   return (
     <Router>
         <Routes>
@@ -27,7 +28,7 @@ function App() {
             <Route path='/login' element={<LoginPage />} />
             <Route path='/student' element={<StudentPage content={content} setContent={setContent}/>} />
             <Route path='/registrar' element={<RegistrarPage  content={content} setContent={setContent}/>} />
-            <Route path='/lecturer' element={<LecturerPage  content={content} setContent={setContent}/>} />
+            <Route path='/lecturer' element={<LecturerPage  content={content} setContent={setContent} id={id} setid={setid}/>} />
         </Routes>
     </Router>
   );

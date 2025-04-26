@@ -34,7 +34,7 @@ function SignupPage() {
           }
         
       } catch (error) {
-        setMessage('Signup failed. Please try again.');
+        setMessage('Signup failed. Invalid credentials!');
         console.error(error);
       }
     }

@@ -17,7 +17,7 @@ const Content = ({to_display_name, issues, course, username, token, department, 
                 {to_display_name === "IssueForm" && course ? (
                     <IssueForm cs={course} token={token} username={username} department={department} pk={pk} content={content} setContent={setContent}/>
                 ) : to_display_name === "UserIssues" && issues ? (
-                    <UserIssues issues={issues}  type={type}/>
+                    <UserIssues issues={issues}  type={type} content={content} setContent={setContent}/>
                 ) : to_display_name === "Settings" && course ? (
                     <Settings user={""} />
                 ) : (

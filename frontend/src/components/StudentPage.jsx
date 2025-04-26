@@ -14,15 +14,15 @@ const StudentPage = ({content, setContent}) => {
       head: 'Notifications',
       contents: [
         {
-          name: 'Jane Doe',
+          name: 'Jane',
           message: 'You have a new message.'
         },
         {
-          name: 'John Doe',
+          name: 'John',
           message: 'You have a new notification.'
         },
         {
-          name: 'Jane Doe',
+          name: 'Doe',
           message: 'You have a new message.'
         }
       ]
@@ -31,15 +31,15 @@ const StudentPage = ({content, setContent}) => {
       head: 'Announcements',
       contents: [
         {
-          name: 'John Doe',
+          name: 'John',
           message: 'You have a new request.'
         },
         {
-          name: 'Jane Doe',
+          name: 'Jane',
           message: 'You have a new request.'
         },
         {
-          name: 'John Doe',
+          name: 'Doe',
           message: 'You have a new request.'
         }
       ]
@@ -59,7 +59,6 @@ const StudentPage = ({content, setContent}) => {
         },
       });
       setIssues(response.data);
-      console.log(user);
     };
 
     const fetchNotifications = async () => {

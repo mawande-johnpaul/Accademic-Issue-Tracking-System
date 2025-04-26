@@ -35,7 +35,7 @@ class Issue(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     status = models.CharField(max_length=10, default='Unseen')
     priority = models.CharField(max_length=10, default='Low')
-    deadline = models.DateField(default="")
+    deadline = models.DateField(auto_now=True)
     progress = models.CharField(default="", max_length=1000)
 
     def __str__(self):

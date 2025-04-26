@@ -87,7 +87,7 @@ class IssueList2(generics.ListAPIView):
 
     def get_queryset(self):  # Runs if the request method is GET
         pk = self.kwargs['pk']  # Get the status from the URL
-        return Issue.objects.filter(pk=pk)  # Filter issues by status
+        return Issue.objects.filter(assigned_to=pk)  # Filter issues by status
 
 # What data exactly is returned, which function does what, notifications on successful action
 class IssueUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
@@ -95,31 +95,41 @@ class IssueUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [AllowAny]
     
     def get_queryset(self):  # Runs if the request method is GET
-        pk = self.kwargs['pk']  # Get the status from the URL
-        return Issue.objects.filter(pk=pk)  # Filter issues by status
+        try: 
+            return Issue.objects.filter(status=self.kwargs['status'])  # Filter issues by status
+        except:
+            return Issue.objects.filter(assigned_to=self.kwargs['pk'])
 
-    def put(self, request, *args, **kwargs):
+    def patch(self, request, *args, **kwargs):
         pk = kwargs.get('pk')
-
+        action = kwargs.get('action')
         try:
             instance = Issue.objects.get(pk=pk)
         except Issue.DoesNotExist:
             return Response({'error': 'Issue not found.'}, status=status.HTTP_404_NOT_FOUND)
 
-        assigned_to_id = request.data.get('assigned_to')
-        if assigned_to_id:
-            try:
-                assigned_to_user = User.objects.get(id=assigned_to_id)
-                instance.assigned_to = assigned_to_user
-            except User.DoesNotExist:
-                return Response({'error': 'Assigned user not found.'}, status=status.HTTP_404_NOT_FOUND)
+        if action == "assign":
+            assigned_to_id = request.data.get('assigned_to')
+            if assigned_to_id:
+                try:
+                    instance.assigned_to = User.objects.get(pk=assigned_to_id)
+                except User.DoesNotExist:
+                    return Response({'error': 'Assigned user not found.'}, status=status.HTTP_404_NOT_FOUND)
 
-        instance.status = "Seen"
-        instance.deadline = request.data.get('deadline', instance.deadline)
-        instance.priority = request.data.get('priority', instance.priority)
-        instance.save()
-        serializer = self.get_serializer(instance)
-        return Response(serializer.data)
+            instance.status = "Seen"
+            instance.deadline = request.data.get('deadline', instance.deadline)
+            instance.priority = request.data.get('priority', instance.priority)
+            instance.save()
+            serializer = self.get_serializer(instance)
+            return Response(serializer.data)
+        
+        elif action == "progress":
+            instance.progress = request.data.get("progress", instance.progress)
+            instance.save()
+            serializer = self.get_serializer(instance)
+            return Response(serializer.data)
+        else:
+            return Response({'error': 'Invalid action'}, status=status.HTTP_404_NOT_FOUND)
 
     def delete(self, request, *args, **kwargs):
         pk = kwargs.get('pk')

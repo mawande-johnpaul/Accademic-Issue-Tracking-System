@@ -1,11 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import axios from "axios";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
 
-const LecturerView = ({issue, token, setContent, issues, setContent}) => {
+const LecturerView = ({issue, token, setContent, issues}) => {
 
-  const [isssue, setIssue] = useState(issue);
+  const [isssue, setIssue] = useState(issues[issue]);
   const [progress, setProgress] = useState("");
 
   const handleChange = (e) => {
@@ -13,9 +11,9 @@ const LecturerView = ({issue, token, setContent, issues, setContent}) => {
   };
 
     const handleSubmit = async ({progress}) => {
-        const response = await axios.put(
+        const response = await axios.patch(
         `http://127.0.0.1:8000/issues/progress/${issue}/`,
-        {progress}, // Format deadline as YYYY-MM-DD
+        {progress},
         {
             headers:{
             Authorization: `Bearer ${token}`,
