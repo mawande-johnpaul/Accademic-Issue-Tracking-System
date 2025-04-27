@@ -286,3 +286,30 @@
         transform: translate(-50%, -50%);
     }
 }
+.no-issues-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 200px;
+    background-color: #f7f8fa;
+    border-radius: 12px;
+    margin: 20px;
+    box-shadow: 0px 2px 8px rgba(0,0,0,0.1);
+    animation:fadeIn 0.8s ease-in;
+}
+.no-issues-msg{
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: #555;
+    text-align: center;
+}
+@keyframes fadeIn{
+    from{
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to{
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

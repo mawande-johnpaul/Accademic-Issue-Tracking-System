@@ -103,7 +103,12 @@ const ResolvingIssues = () => {
             </div>  
 
             {visibleIssues.length === 0 ? (
-                <p>No Issues Available.</p>
+                <div className='no-issues-container'>
+                    {filter === 'recent'? (<p className='no-issues-msg'>No recently removed Issues available</p>
+                    ):(
+                        <p className='no-issues-msg'>No Resolved Issues Available</p>
+                    )}
+                    </div>
             ):(
                 <div className='issues-griid'>
                     {visibleIssues.map((issue) => (
