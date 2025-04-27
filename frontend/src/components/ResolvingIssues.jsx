@@ -37,38 +37,44 @@ const ResolvingIssues = () => {
     },[]);
 
    const handleRemove = (id) => {
-   const issueToRemove = allIssues.find(issue=> issue.id === id);
+   const issueToRemove = allIssues.find(issue => issue.id === id);
    if (issueToRemove){
     setVisibleIssues(prev => prev.filter(issue => issue.id !== id));
     setAllIssues(prev => prev.filter(issue => issue.id !== id));
     setRecentlyRemoved(prev => [...prev, issueToRemove]);
     setConfirmDelete(null);
-    setToastMsg('Issue Moved To Recent');
-    setTimeout(() => setToastMsg(''),3000);
-   }
+    setTimeout(() =>{
+        setToastMsg('Issue Moved To Recent');
+        setTimeout(() => setToastMsg(''),3000);
+   },100);
+    }
    };
 
    const handleDelete = (id) => {
     setRecentlyRemoved(prev => prev.filter(issue => issue.id !== id));
-    setToastMsg('Issue Permanently Deleted');
-    setTimeout(() => setToastMsg(''),3000);
-   }
+    setTimeout(() => {
+        setToastMsg('Issue Permanently Deleted');
+        setTimeout(() => setToastMsg(''),3000);
+    },100);
+   };
 
    const handleRestore = (id) => {
     const issueToRestore = recentlyRemoved.find(issue => issue.id === id);
     if(issueToRestore){
         setAllIssues(prev => [...prev, issueToRestore]);
         setRecentlyRemoved(prev => prev.filter(issue => issue.id !== id));
-        setToastMsg('Issue Restored successfully');
-        setTimeout(() => setToastMsg(''),3000);
+        setToastMsg('Issue Restored successfully');        
         setFilter('all');
         setVisibleIssues(prev => [...prev, issueToRestore]);
+        setTimeout(() => {
+            setToastMsg('Issue Restored Successfully');
+            setTimeout(() => setToastMsg(''),3000);
+        },100);
     }
    };
    
     const handleFilterChange = (type) => {
         setFilter(type);
-
         if (type == 'all'){
             setVisibleIssues(allIssues);
         } else if (type === 'recent'){setVisibleIssues(recentlyRemoved);}
