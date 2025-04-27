@@ -38,6 +38,8 @@ const ResolvingIssues = () => {
 
     useEffect(() => {
         if(filter === 'recent'){
+            setVisibleIssues(recentlyRemoved);
+        }else if (filter === 'all'){
             setVisibleIssues(allIssues);
         }
     }, [recentlyRemoved, allIssues, filter]);
@@ -45,8 +47,8 @@ const ResolvingIssues = () => {
    const handleRemove = (id) => {
    const issueToRemove = allIssues.find(issue => issue.id === id);
    if (issueToRemove){
-    setVisibleIssues(prev => prev.filter(issue => issue.id !== id));
-    setAllIssues(prev => prev.filter(issue => issue.id !== id));
+    /*setVisibleIssues(prev => prev.filter(issue => issue.id !== id));
+    */setAllIssues(prev => prev.filter(issue => issue.id !== id));
     setRecentlyRemoved(prev => [...prev, issueToRemove]);
     setConfirmDelete(null);
     setTimeout(() =>{
@@ -78,11 +80,15 @@ const ResolvingIssues = () => {
     }
    };
    
-    const handleFilterChange = (type) => {
+    /*const handleFilterChange = (type) => {
         setFilter(type);
         if (type == 'all'){
             setVisibleIssues(allIssues);
         } else if (type === 'recent'){setVisibleIssues(recentlyRemoved);}
+        setConfirmDelete(null);
+    };*/
+    const handleFilterChange = (type) => {
+        setFilter(type);
         setConfirmDelete(null);
     };
 
