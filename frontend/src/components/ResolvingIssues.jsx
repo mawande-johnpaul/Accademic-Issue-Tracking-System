@@ -36,6 +36,12 @@ const ResolvingIssues = () => {
     fetchResolvingIssues();
     },[]);
 
+    useEffect(() => {
+        if(filter === 'recent'){
+            setVisibleIssues(allIssues);
+        }
+    }, [recentlyRemoved, allIssues, filter]);
+
    const handleRemove = (id) => {
    const issueToRemove = allIssues.find(issue => issue.id === id);
    if (issueToRemove){
@@ -52,6 +58,7 @@ const ResolvingIssues = () => {
 
    const handleDelete = (id) => {
     setRecentlyRemoved(prev => prev.filter(issue => issue.id !== id));
+    setConfirmDelete(null);
     setTimeout(() => {
         setToastMsg('Issue Permanently Deleted');
         setTimeout(() => setToastMsg(''),3000);
@@ -63,9 +70,7 @@ const ResolvingIssues = () => {
     if(issueToRestore){
         setAllIssues(prev => [...prev, issueToRestore]);
         setRecentlyRemoved(prev => prev.filter(issue => issue.id !== id));
-        setToastMsg('Issue Restored successfully');        
-        setFilter('all');
-        setVisibleIssues(prev => [...prev, issueToRestore]);
+        setConfirmDelete(null);
         setTimeout(() => {
             setToastMsg('Issue Restored Successfully');
             setTimeout(() => setToastMsg(''),3000);
@@ -104,21 +109,21 @@ const ResolvingIssues = () => {
                             <div className='button-ccontainer'>
                                 {filter === 'all' ? (
                                     <>
-                                <button className='remove' onClick={() => setConfirmDelete(issue.id)}>Remove</button>
+                                <button className='remove' onClick={() => handleRemove(issue.id)}>Remove</button>
                                 <button className='reopen'>Re-Open</button>
                                     </>
                                 ):(
                                 <>
-                                <button className='remove' onClick={() => handleDelete(issue.id)}>Delete</button>
+                                <button className='remove' onClick={() => setConfirmDelete(issue.id)}>Delete</button>
                                 <button className='reopen' onClick ={ () => handleRestore(issue.id)}>Restore</button>
                                 </>
                                 )}
                             </div>                               
-                                {confirmDelete === issue.id && filter === 'all' && (
+                                {confirmDelete === issue.id && filter === 'recent' && (
                                     <div className='floatingconfirm'>
-                                    <div className='floconfirm'><p className='confirmMessage'>Are you sure you want to move this to Recent?</p>
+                                    <div className='floconfirm'><p className='confirmMessage'>Are you sure you want to Permanently delete this issue?</p>
                                     <div className='confbuttons'>
-                                        <button className='yes-btn' onClick={() => handleRemove(issue.id)}>Yes</button>
+                                        <button className='yes-btn' onClick={() => handleDelete(issue.id)}>Yes</button>
                                         <button className='no-btn' onClick={() =>setConfirmDelete(null)}>No</button>
                                     </div>
                                     </div>
