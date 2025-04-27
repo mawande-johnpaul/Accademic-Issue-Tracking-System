@@ -1,9 +1,8 @@
 import IssueForm from "./IssueForm";
 import UserIssues from "./UserIssues";
-import Settings from "./Settings";
-import Splash from "./Splash";  
+import Splash2 from "./Splash2";  
 
-const Content = ({to_display_name, issues, course, username, token, department, pk, type, content, setContent}) => {
+const Content = ({to_display_name, issues, course, username, token, department, pk, type, content, setContent, role}) => {
     return (
         <div>
             <div className="content-section-header">
@@ -18,10 +17,8 @@ const Content = ({to_display_name, issues, course, username, token, department, 
                     <IssueForm cs={course} token={token} username={username} department={department} pk={pk} content={content} setContent={setContent}/>
                 ) : to_display_name === "UserIssues" && issues ? (
                     <UserIssues issues={issues}  type={type} content={content} setContent={setContent}/>
-                ) : to_display_name === "Settings" && course ? (
-                    <Settings user={""} />
                 ) : (
-                    <Splash />
+                    <Splash2 role={role} issues={issues}/>
                 )}
             </div>
         </div>

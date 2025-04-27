@@ -18,7 +18,7 @@ import { useState } from 'react';
 
   
 function App() {
-  const [content, setContent] = useState('Splash');
+  const [content, setContent] = useState('Splash2');
   const [id, setid] = useState(0)
   return (
     <Router>

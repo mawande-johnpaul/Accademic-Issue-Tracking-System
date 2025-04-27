@@ -3,26 +3,29 @@ import axios from "axios";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
-const IssueView = ({issue, token, setContent, issues}) => {
-
-  const [assigned_to, setAssignedTo] = useState(""); // Allow multiple lecturers
-  const [deadline, setDeadline] = useState(null); // Use Date object for deadline
-  const [priority, setPriority] = useState("")
+const IssueView = ({ issue, token, setContent, issues }) => {
+  const [assigned_to, setAssignedTo] = useState("");
+  const [deadline, setDeadline] = useState(null);
+  const [priority, setPriority] = useState("");
   const [lecturers, setLecturers] = useState([]);
   const [isssue, setIssue] = useState({});
 
   useEffect(() => {
     const fetchLecturers = async () => {
-      const response = await axios.get('http://127.0.0.1:8000/lecturers/', {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-        },
-      });
-      setLecturers(response.data);
+      try {
+        const response = await axios.get('http://127.0.0.1:8000/lecturers/', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setLecturers(response.data);
+      } catch (error) {
+        console.error("Failed to fetch lecturers", error);
+      }
     };
-  
+
     fetchLecturers();
-  }, [token]); // Fetch lecturers only when the token changes
+  }, [token]);
 
   useEffect(() => {
     function getIssue() {
@@ -31,23 +34,33 @@ const IssueView = ({issue, token, setContent, issues}) => {
           return isssue;
         }
       }
+      return {}; // fallback if not found
     }
-  
-    setIssue(getIssue());
-  }, [issues, issue]); // Update issue when issues or issue ID changes
 
-  const handleSubmit = async ({assigned_to, priority, deadline}) => {
-    const response = await axios.patch(
-      `http://127.0.0.1:8000/issues/assign/${issue}/`,
-      {assigned_to, priority, deadline: deadline.toISOString().split('T')[0]}, // Format deadline as YYYY-MM-DD
-      {
-        headers:{
-          Authorization: `Bearer ${token}`,
+    setIssue(getIssue());
+  }, [issues, issue]);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault(); // prevent form reload
+    try {
+      await axios.patch(
+        `http://127.0.0.1:8000/issues/assign/${issue}/`,
+        {
+          assigned_to,
+          priority,
+          deadline: deadline ? deadline.toISOString().split('T')[0] : null,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
-      }
-    )
-    setContent("NewIssues")
-  }
+      );
+      setContent("NewIssues");
+    } catch (error) {
+      console.error("Failed to assign issue", error);
+    }
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -55,9 +68,8 @@ const IssueView = ({issue, token, setContent, issues}) => {
       setAssignedTo(value);
     } else if (name === "Priority") {
       setPriority(value);
-    }
-    else{
-      setDeadline(value)
+    } else {
+      setDeadline(value);
     }
   };
 
@@ -72,47 +84,54 @@ const IssueView = ({issue, token, setContent, issues}) => {
         <p><span className="h1">Department: </span>{isssue.department}</p>
         <p><span className="h1">Created by: </span>{isssue.created_by}</p>
       </div>
+
       <div className="assignarea">
-        <form className="formcontainer">
+        <form className="formcontainer" onSubmit={handleSubmit}>
           <div className="inputrows">
             <select
-                name="assigned-to"
-                value={assigned_to}
-                onChange={handleChange}
-                required
-                className="inputinputs"
-                placeholder="Lecturer">
-                  <option value={""}>Select</option>
-                    {lecturers.map((lect) => (
-                        <option key={lect.id} value={lect.id}>
-                            {lect.first_name} {lect.last_name}
-                        </option>
-                    ))}                  
+              name="assigned-to"
+              value={assigned_to}
+              onChange={handleChange}
+              required
+              className="inputinputs"
+            >
+              <option value="">Select</option>
+              {lecturers.map((lect) => (
+                <option key={lect.id} value={lect.id}>
+                  {lect.first_name} {lect.last_name}
+                </option>
+              ))}
             </select>
           </div>
+
           <div className="inputrows">
             <select
-                name="Priority"
-                value={priority}
-                onChange={handleChange}
-                required
-                className="inputinputs"
-                placeholder="Priority">
-                    <option value={"Low"}>Low</option>      
-                    <option value={"Medium"}>Medium</option> 
-                    <option value={"High"}>High</option>          
+              name="Priority"
+              value={priority}
+              onChange={handleChange}
+              required
+              className="inputinputs"
+            >
+              <option value="">Select</option>
+              <option value="Low">Low</option>
+              <option value="Medium">Medium</option>
+              <option value="High">High</option>
             </select>
           </div>
+
           <div className="inputrows">
-            <DatePicker 
-              className="inputinputs" 
-              selected={deadline} 
-              onChange={(date) => setDeadline(date)} 
-              placeholderText="Select Deadline" 
+            <DatePicker
+              className="inputinputs"
+              selected={deadline}
+              onChange={(date) => setDeadline(date)}
+              placeholderText="Select Deadline"
               dateFormat="yyyy-MM-dd"
             />
           </div>
-          <button className="formbuttons" type="submit" onClick={() => handleSubmit({assigned_to, priority, deadline})}>Assign</button>
+
+          <button className="formbuttons" type="submit">
+            Assign
+          </button>
         </form>
       </div>
     </div>

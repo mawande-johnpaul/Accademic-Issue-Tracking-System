@@ -6,6 +6,8 @@ function LoginPage() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [message, setMessage] = useState('');
+    sessionStorage.removeItem('user');
+    sessionStorage.removeItem('token');
     const navigate = useNavigate();
 
     const login = async (event) => {
