@@ -9,7 +9,6 @@ const ResolvingIssues = () => {
     const [recentlyRemoved, setRecentlyRemoved] = useState([]);
     const [filter,setFilter] = useState('all');
     const [confirmDelete, setConfirmDelete] = useState(null);
-    const [noRecent, setNoRecent] = useState("");
     const [toastMsg,setToastMsg] = useState('');
 
     useEffect(() => {
@@ -37,20 +36,14 @@ const ResolvingIssues = () => {
     fetchResolvingIssues();
     },[]);
 
-   const handleRemove = (id) => {/*
-    const updated = visibleIssues.filter((issue) => issue.id !== id);
-    setVisibleIssues(updated);
-    setConfirmDelete(null);
-    setToastMsg('Issue Deleted successfully');
-    setTimeout(()=> {setToastMsg('');},3000);
-   };*/
+   const handleRemove = (id) => {
    const issueToRemove = visibleIssues.find(issue=> issue.id === id);
    if (issueToRemove){
     setVisibleIssues(visibleIssues.filter((issue) => issue.id !== id));
     setRecentlyRemoved(prev => [...prev, issueToRemove]);
     setConfirmDelete(null);
     setToastMsg('Issue Moved To Recent');
-    setTimeout(() => {setToastMsg('');},3000);
+    setTimeout(() => setToastMsg(''),3000);
    }
    };
 
@@ -63,53 +56,18 @@ const ResolvingIssues = () => {
    const handleRestore = (id) => {
     const issueToRestore = recentlyRemoved.find(issue => issue.id === id);
     if(issueToRestore){setAllIssues(prev => [...prev, issueToRestore]);
-        setRecentlyRemoved(prev => prev.filter(issue => issue.id ! == id));
+        setRecentlyRemoved(prev => prev.filter(issue => issue.id !== id));
         setToastMsg('Issue Restored successfully');
         setTimeout(() => setToastMsg(''),3000);
     }
    };
-    /*const handleFilterChange = (type) => {
-        setFilter(type);
-        if (type==='all') {
-            setVisibleIssues((prevVisible) => allIssues.filter((issue) => prevVisible.some((vis)=> vis.id === issue.id)));
-        }else {setVisibleIssues(allIssues);            
-        }
-        setConfirmDelete(null);
-    };
-    const handleFilterChange = (type) => {
-        setFilter(type);
-        if(type === 'all'){
-            setVisibleIssues(allIssues);
-            setNoRecent('');
-        } else if (type === 'recent'){
-           const today = new Date();
-           const recentIssues = allIssues.filter((issue) => {
-            if(!issue.resolvedDate) return false;
-            const resolvedDate = new Date(issue.resolvedDate);
-            const diffDays = (today - resolvedDate)/(1000*60*60*24);
-            return diffDays <= 7;
-           });
-
-           if (recentIssues.length === 0){
-            setNoRecent('No recent issues found. Showing all resolved issues instead.');
-            setVisibleIssues(allIssues);
-            setFilter('all');
-            setTimeout(() => {setNoRecent('');},4000);
-           }else{
-            setVisibleIssues(recentIssues);
-            setNoRecent('');
-           }
-    }
-    setConfirmDelete(null);
-};*/
+   
     const handleFilterChange = (type) => {
         setFilter(type);
 
         if (type == 'all'){
             setVisibleIssues(allIssues);
-            setNoRecent('');
         } else if (type === 'recent'){setVisibleIssues(recentlyRemoved);}
-        setConfirmDelete
         setConfirmDelete(null);
     };
 
@@ -121,8 +79,7 @@ const ResolvingIssues = () => {
                     <button className={filter === "recent" ? "active" : ""} onClick={() => handleFilterChange('recent')}>Recent</button>
                     <button className={filter === 'all' ? "active" : ""} onClick={() => handleFilterChange("all")}>All</button>
                 </div>
-            </div>
-            {noRecent && (<div className='infomsg'>{noRecent}</div>)}           
+            </div>  
 
             {visibleIssues.length === 0 ? (
                 <p>No Issues Available.</p>
@@ -135,21 +92,21 @@ const ResolvingIssues = () => {
                             </div>
                             <p><strong>Status:</strong>{issue.status}</p>
                             <div className='button-ccontainer'>
+                                {filter === 'all' ? (
+                                    <>
                                 <button className='remove' onClick={() => setConfirmDelete(issue.id)}>Remove</button>
                                 <button className='reopen'>Re-Open</button>
-                            </div>
-                               {/* {confirmDelete === issue.id && (<div className='confirmBox'>
-                                    
-                                    <p>Are You Sure You Want To Remove This Issue?</p>
-                                    <div className='coactions'>
-                                    <button className='yes-btn' onClick={() => handleRemove(issue.id)}>Yes</button>
-                                    <button className='no-btn' onClick={() => setConfirmDelete(null)}>No</button>
-                                    </div>
-                                    </div>
-                                )}*/}
-                                {confirmDelete === issue.id && (
+                                    </>
+                                ):(
+                                <>
+                                <button className='remove' onClick={() => handleDelete(issue.id)}>Delete</button>
+                                <button className='reopen' onClick ={ () => handleRestore(issue.id)}>Restore</button>
+                                </>
+                                )}
+                            </div>                               
+                                {confirmDelete === issue.id && filter === 'all' && (
                                     <div className='floatingconfirm'>
-                                    <div className='floconfirm'><p className='confirmMessage'>Are you sure you want to remove this issue?</p>
+                                    <div className='floconfirm'><p className='confirmMessage'>Are you sure you want to move this to Recent?</p>
                                     <div className='confbuttons'>
                                         <button className='yes-btn' onClick={() => handleRemove(issue.id)}>Yes</button>
                                         <button className='no-btn' onClick={() =>setConfirmDelete(null)}>No</button>
