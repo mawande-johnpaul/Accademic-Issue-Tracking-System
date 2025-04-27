@@ -37,9 +37,10 @@ const ResolvingIssues = () => {
     },[]);
 
    const handleRemove = (id) => {
-   const issueToRemove = visibleIssues.find(issue=> issue.id === id);
+   const issueToRemove = allIssues.find(issue=> issue.id === id);
    if (issueToRemove){
-    setVisibleIssues(visibleIssues.filter((issue) => issue.id !== id));
+    setVisibleIssues(prev => prev.filter(issue => issue.id !== id));
+    setAllIssues(prev => prev.filter(issue => issue.id !== id));
     setRecentlyRemoved(prev => [...prev, issueToRemove]);
     setConfirmDelete(null);
     setToastMsg('Issue Moved To Recent');
@@ -55,10 +56,13 @@ const ResolvingIssues = () => {
 
    const handleRestore = (id) => {
     const issueToRestore = recentlyRemoved.find(issue => issue.id === id);
-    if(issueToRestore){setAllIssues(prev => [...prev, issueToRestore]);
+    if(issueToRestore){
+        setAllIssues(prev => [...prev, issueToRestore]);
         setRecentlyRemoved(prev => prev.filter(issue => issue.id !== id));
         setToastMsg('Issue Restored successfully');
         setTimeout(() => setToastMsg(''),3000);
+        setFilter('all');
+        setVisibleIssues(prev => [...prev, issueToRestore]);
     }
    };
    
