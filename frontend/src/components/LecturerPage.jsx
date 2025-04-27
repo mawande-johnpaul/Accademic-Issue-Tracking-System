@@ -1,52 +1,12 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import SearchBar from "./SearchBar";
+import { useNavigate, Link } from 'react-router-dom';
 import Button from "./Button";
 import DisplayPane from "./DisplayPane";
 import Logo from "./Logo"
 import Content from './LecturerContentSection'
-/*import IssueDisplayForm from "./IssueDisplayForm";
-/*import AssignedIssues from "./AssignedIssues";*/
-
-
-const MESSAGES=[
-
-  {
-      head: 'Notifications',
-      contents: [
-          {
-              name: 'Jane',
-              message: 'You have a new message.'
-          },
-          {
-              name: 'John',
-              message: 'You have a new notification.'
-          },
-          {
-              name: 'Doe',
-              message: 'You have a new message.'
-          }
-      ]
-  },
-  {
-      head: 'Announcements',
-      contents: [
-          {
-              name: 'John',
-              message: 'You have a new request.'
-          },
-          {
-              name: 'Jane',
-              message: 'You have a new request.'
-          },
-          {
-              name: 'Doe',
-              message: 'You have a new request.'
-          }
-      ]
-  }
-  
-]
+import Splash2 from "./Splash2";
+import Splash from "./Splash";
 
 const LecturerPage = ({content, setContent}) => {
   const [issues, setIssues] = useState([]);
@@ -54,6 +14,8 @@ const LecturerPage = ({content, setContent}) => {
   const user = JSON.parse(sessionStorage.getItem("user")); // Moved inside useEffect
   const token = sessionStorage.getItem("token");
   const [id, setid] = useState(0);
+  const navigate = useNavigate();
+  const [notifications, setNotifications] = useState([]);
 
   useEffect(() => {
     const fetchIssues = async () => {
@@ -82,26 +44,50 @@ const LecturerPage = ({content, setContent}) => {
         console.error(error);
       }
     }
-    fetchResolvedIssues();
-    fetchIssues();
-  }, [user, token]); // Removed user from dependency array
+    const fetchNotifications = async () => {
+      const response = await axios.get(`http://127.0.0.1:8000/notifications/${user.id}`, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
+      });
+      setNotifications(response.data);
+    };
+
+    if (user){
+      fetchNotifications();
+      fetchResolvedIssues();
+      fetchIssues();
+      console.log(notifications)
+    }
+
+  }, []); // Removed user from dependency array
+
+  const logout = () => {
+    sessionStorage.removeItem('user');
+    sessionStorage.removeItem('token'); 
+    navigate("/login");  
+  }
 
   return (
     <div className="bodyy">
-      <div className="left-side">
-        <Logo />
-        <Button text={"Assigned issues"} image={"new-issue.svg"} funct={() => setContent("AssignedIssues")}/>
-        <Button text={"Resolved issues"} image={"posted-logo.svg"} funct={() => setContent("ResolvedIssues")}/>
-        <Button text={"Messages"} image={"settings.svg"} funct={() => setContent("Settings")}/>
-
-      </div>
-      <div className="content-section">
-        <Content to_display_name={content} issues={issues} resolvedIssues={resolvedIssues} user={user} token={token} id={id} setid={setid} setContent={setContent}/>
-      </div>
-      <div className="right-side">
-        <DisplayPane heading={MESSAGES[0].head} items={MESSAGES[0].contents} />
-        <DisplayPane heading={MESSAGES[1].head} items={MESSAGES[1].contents} />
-      </div>
+      {user? (
+        <>
+          <div className="left-side">
+            <Logo />
+            <Button text={"Assigned issues"} image={"new-issue.svg"} funct={() => setContent("AssignedIssues")}/>
+            <Button text={"Resolved issues"} image={"posted-logo.svg"} funct={() => setContent("ResolvedIssues")}/>
+            <Button text={"Logout"} image={"logout.svg"} funct={() => logout()} />
+          </div>
+          <div className="content-section">
+            <Content to_display_name={content} issues={issues} resolvedIssues={resolvedIssues} user={user} token={token} id={id} setid={setid} setContent={setContent}  role={user.role}/>
+          </div>
+          <div className="right-side">
+            <DisplayPane items={notifications} />
+          </div>
+        </>
+      ) : (
+        <Splash />
+      )}
     </div>
   );
 };

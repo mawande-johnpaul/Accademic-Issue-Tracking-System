@@ -13,10 +13,34 @@ from django.conf.urls.static import static
 
 User = get_user_model()
 
-# I changed from ModelViewSet to enerics because of its descriptive and ore specialied mrthods.
-
 def index(request):
     return render(request, 'index.html')
+
+from django.core.mail import send_mail
+from django.conf import settings
+
+def send_notification(sender, receiver, content, email=False):
+    Notification.objects.create(
+        sender=sender,
+        user_id_receiver=receiver,
+        content=content,
+    )
+
+
+    '''if email and receiver.email:
+        send_mail(
+            subject='New Notification',
+            message=content,
+            from_email=settings.DEFAULT_FROM_EMAIL,
+            recipient_list=[receiver.email],
+            fail_silently=False
+        )'''
+
+def log_action(user, action):
+    Log.objects.create(
+        user_id=user,
+        action=action
+    )
 
 
 # User Registration
@@ -32,6 +56,13 @@ class RegisterView(generics.CreateAPIView):
 
         refresh = RefreshToken.for_user(user)
         access_token = str(refresh.access_token)
+        log_action(user, "User registered successfully.")
+        send_notification(
+            sender='System',
+            receiver=user,
+            content=f"Welcome {user.first_name}, you have successfully registered.",
+            email=True
+        )
 
         return Response({
             'token': access_token,
@@ -50,6 +81,8 @@ class LoginView(generics.GenericAPIView):
         user = serializer.validated_data['user']
 
         login(request, user)
+        log_action(user, "User logged in.")
+
 
         refresh = RefreshToken.for_user(user)
         access_token = str(refresh.access_token)
@@ -70,8 +103,11 @@ class IssueListCreate(generics.ListCreateAPIView): #View to list or create an is
     def get_queryset(self): #Runs if the request method is GET
         return super().get_queryset().filter(created_by=self.request.user)  # Ensure filtering works
 
-    def perform_create(self, serializer): #Runs if request is POST
-        serializer.save(created_by=self.request.user)
+def perform_create(self, serializer):
+    issue = serializer.save(created_by=self.request.user)
+    log_action(self.request.user, f"Issue created.")
+
+        
 
 class IssueList(generics.ListAPIView):
     serializer_class = IssueSerializer
@@ -100,143 +136,112 @@ class IssueList3(generics.ListAPIView):
 # What data exactly is returned, which function does what, notifications on successful action
 class IssueUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = IssueSerializer
-    permission_classes = [AllowAny]
-    
-    def get_queryset(self):  # Runs if the request method is GET
-        try: 
-            return Issue.objects.filter(status=self.kwargs['status'])  # Filter issues by status
-        except:
-            return Issue.objects.filter(assigned_to=self.kwargs['pk'])
+    permission_classes = [permissions.AllowAny]
+
+    def get_queryset(self):
+        return Issue.objects.all()
 
     def patch(self, request, *args, **kwargs):
         pk = kwargs.get('pk')
         action = kwargs.get('action')
         try:
-            instance = Issue.objects.get(pk=pk)
+            issue = Issue.objects.get(pk=pk)
         except Issue.DoesNotExist:
             return Response({'error': 'Issue not found.'}, status=status.HTTP_404_NOT_FOUND)
 
         if action == "assign":
             assigned_to_id = request.data.get('assigned_to')
-            if assigned_to_id:
-                try:
-                    instance.assigned_to = User.objects.get(pk=assigned_to_id)
-                except User.DoesNotExist:
-                    return Response({'error': 'Assigned user not found.'}, status=status.HTTP_404_NOT_FOUND)
+            try:
+                user = User.objects.get(pk=assigned_to_id)
+                issue.assigned_to = user
+                issue.status = "Seen"
+                issue.deadline = request.data.get('deadline', issue.deadline)
+                issue.priority = request.data.get('priority', issue.priority)
+                issue.save()
+                log_action(request.user, f"Issue '{issue.title}' assigned to {user.username}.")
 
-            instance.status = "Seen"
-            instance.deadline = request.data.get('deadline', instance.deadline)
-            instance.priority = request.data.get('priority', instance.priority)
-            instance.save()
-            serializer = self.get_serializer(instance)
-            return Response(serializer.data)
-        
+
+                send_notification(
+                    sender='Registrar',
+                    receiver=user,
+                    content=f"You have been assigned a new issue: {issue.title}",
+                    email=True
+                )
+
+                serializer = self.get_serializer(issue)
+                return Response(serializer.data)
+            except User.DoesNotExist:
+                return Response({'error': 'Assigned user not found.'}, status=status.HTTP_404_NOT_FOUND)
+
         elif action == "progress":
-            instance.progress = request.data.get("progress", instance.progress)
-            instance.save()
-            serializer = self.get_serializer(instance)
+            issue.progress = request.data.get("progress", issue.progress)
+            issue.save()
+            log_action(request.user, f"Progress updated on issue '{issue.title}'.")
+
+
+            # Notify creator (student)
+            if issue.created_by:
+                send_notification(
+                    sender='System',
+                    receiver=issue.created_by,
+                    content=f"Progress updated on your issue: {issue.title}",
+                    email=True
+                )
+
+            serializer = self.get_serializer(issue)
             return Response(serializer.data)
-        else:
-            return Response({'error': 'Invalid action'}, status=status.HTTP_404_NOT_FOUND)
+
+        return Response({'error': 'Invalid action'}, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, *args, **kwargs):
         pk = kwargs.get('pk')
         try:
-            instance = Issue.objects.get(pk=pk)
+            issue = Issue.objects.get(pk=pk)
+            issue.delete()
+            log_action(request.user, f"Issue '{issue.title}' deleted.")
+            return Response(status=status.HTTP_204_NO_CONTENT)
         except Issue.DoesNotExist:
             return Response({'error': 'Issue not found.'}, status=status.HTTP_404_NOT_FOUND)
-        instance.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
-
 
 # Notifications
-class NotificationsListDestroy(generics.RetrieveDestroyAPIView):
+class NotificationsListCreate(generics.ListCreateAPIView):
     serializer_class = NotificationSerializer  # Fixed typo
     permission_classes = [AllowAny]
 
-    def get(self, request, *args, **kwargs):
-        return self.retrieve(request, *args, **kwargs)
+    def get_queryset(self):
+        pk=self.kwargs['pk']
+        return Notification.objects.filter(user_id_receiver=pk)
 
-    def delete(self, request, *args, **kwargs):
-        return self.destroy(request, *args, **kwargs)
+def post(self, request, *args, **kwargs):
+    pk = kwargs.get('pk')
+    if not pk:
+        return Response({'error': 'User ID is required.'}, status=status.HTTP_400_BAD_REQUEST)
 
+    try:
+        issue = Issue.objects.get(pk=pk)
+    except Issue.DoesNotExist:
+        return Response({'error': 'Issue not found.'}, status=status.HTTP_404_NOT_FOUND)
 
-class NotificationsCreate(generics.CreateAPIView):
-    serializer_class = NotificationSerializer
-    permission_classes = [AllowAny]
+    try:
+        user = User.objects.get(pk=pk)
+    except User.DoesNotExist:
+        return Response({'error': 'User not found.'}, status=status.HTTP_404_NOT_FOUND)
 
-    def perform_create(self, serializer):
-        # Get the notification type from the frontend
-        notification_type = self.request.data.get('type')
+    Notification.objects.create(
+        sender='Registrar',
+        user_id_receiver=user, 
+        content=f"You have been assigned a new issue: {issue.title}",
+    )
+    return Response({'message': 'Notification sent to the lecturer.'}, status=status.HTTP_201_CREATED)
+
         
-        # Ensure the notification type is provided
-        if not notification_type:
-            return Response({'error': 'Notification type is required.'}, status=status.HTTP_400_BAD_REQUEST)
-
-        # Handle the notification based on its type
-        if notification_type == 'lecturer_notify':
-            return self.create_lecturer_notification(serializer)
-        else:
-            return Response({'error': 'Unsupported notification type.'}, status=status.HTTP_400_BAD_REQUEST)
-
-    def create_lecturer_notification(self, serializer):
-        pk = self.request.data.get('pk')
-        if not pk:
-            return Response({'error': 'Issue ID is required.'}, status=status.HTTP_400_BAD_REQUEST)
-
-        try:
-            issue = Issue.objects.get(pk=pk)
-        except Issue.DoesNotExist:
-            return Response({'error': 'Issue not found.'}, status=status.HTTP_404_NOT_FOUND)
-
-        # Get the sender (authenticated user)
-        user_id_sender = self.request.user
-
-        # Get the receiver from the issue (assumed to be the user the issue is assigned to)
-        user_id_receiver = issue.assigned_to
-
-        # If no receiver is assigned to the issue, return an error
-        if not user_id_receiver:
-            return Response({'error': 'No receiver (user) assigned to this issue.'}, status=status.HTTP_400_BAD_REQUEST)
-
-        # Derive content and category from the issue (adjust these according to your model's fields)
-        content = issue.title  # or some other field like issue.description
-        category = issue.category  # Assuming you have a category field in the Issue model
-
-        # Now save the notification for the "lecturer_notify" type
-        serializer.save(
-            user_id_receiver=user_id_receiver,
-            user_id_sender=user_id_sender,
-            content=content,
-            category=category
-        )
-
-        return Response({'message': 'Lecturer notification created successfully.'}, status=status.HTTP_201_CREATED)
-
-    def post(self, request, *args, **kwargs):
-        pk = kwargs.get('pk')
-        if not pk:
-            return Response({'error': 'Issue ID is required.'}, status=status.HTTP_400_BAD_REQUEST)
-
-        try:
-            issue = Issue.objects.get(pk=pk)
-        except Issue.DoesNotExist:
-            return Response({'error': 'Issue not found.'}, status=status.HTTP_404_NOT_FOUND)
-
-        # Check if the issue has an assigned lecturer
-        if issue.assigned_to and issue.assigned_to.role == 'lecturer':
-            Notification.objects.create(
-                user=issue.assigned_to,
-                message=f"You have been assigned a new issue: {issue.title}"
-            )
-            return Response({'message': 'Notification sent to the lecturer.'}, status=status.HTTP_201_CREATED)
-        else:
-            return Response({'error': 'No lecturer assigned to this issue.'}, status=status.HTTP_400_BAD_REQUEST)
-
+class NotificationDestroy(generics.DestroyAPIView):
+    def destroy(self, request, *args, **kwargs):
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 # Logs
 class LogListUpdateDelete(generics.RetrieveUpdateAPIView):
-    serializer_class = LogSerializer  # Fixed typo
+    serializer_class = LogSerializer
     permission_classes = [AllowAny]
 
     def delete(self, request, *args, **kwargs):
@@ -257,7 +262,7 @@ class LogListUpdateDelete(generics.RetrieveUpdateAPIView):
         return Response(serializer.data)
     
 class LogCreate(generics.CreateAPIView):
-    serializer_class = LogSerializer  # Fixed typo
+    serializer_class = LogSerializer
     permission_classes = [AllowAny]
 
     def perform_create(self, serializer):
@@ -287,3 +292,35 @@ class LecturerList(generics.ListAPIView):
 
     def get_queryset(self):  
         return User.objects.filter(role='lecturer')
+    
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+
+@receiver(post_save, sender=Issue)
+def notify_on_issue_change(sender, instance, created, **kwargs):
+    if created:
+        # Notify all registrars
+        registrars = User.objects.filter(role='registrar')
+        for registrar in registrars:
+            send_notification(
+                sender='System',
+                receiver=registrar,
+                content=f"New issue submitted: {instance.title}",
+                email=True
+            )
+    else:
+        if instance.status == "Resolved" and instance.created_by:
+            send_notification(
+                sender='System',
+                receiver=instance.created_by,
+                content=f"Your issue '{instance.title}' has been marked as resolved.",
+                email=True
+            )
+
+        if instance.status == "Seen" and instance.assigned_to:
+            send_notification(
+                sender='System',
+                receiver=instance.assigned_to,
+                content=f"You've been assigned the issue: {instance.title}",
+                email=True
+            )

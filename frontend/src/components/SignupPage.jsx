@@ -4,9 +4,9 @@ import { useNavigate, Link } from 'react-router-dom';
 
 function SignupPage() {
 
-    const COLLEGES = {'COCIS': ['BSCS', 'BSEE', 'BLIS', 'BIST']}
-                      /*'COBAMS': ['BSBA', 'BSCOMM', 'BSECON'],
-                      'CONAS': ['BSN', 'BSHRM', 'BSED']}*/
+    const COLLEGES = {'COCIS': ['BSCS', 'BSEE', 'BLIS', 'BIST'],
+                      'COBAMS': ['BSBA', 'BSCOMM', 'BSECON'],
+                      'CONAS': ['BSN', 'BSHRM', 'BSED']}
     
     const [first_name, setFirstName] = useState('');
     const [last_name, setLastName] = useState('');
@@ -18,6 +18,8 @@ function SignupPage() {
     const [course, setCourse] = useState('Select a course first');
     const [department, setDepartment] = useState('');
     const navigate = useNavigate();
+    sessionStorage.removeItem('user');
+    sessionStorage.removeItem('token');
 
     const signup = async (event) => {
       event.preventDefault();

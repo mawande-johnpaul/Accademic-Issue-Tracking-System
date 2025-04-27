@@ -19,10 +19,9 @@ urlpatterns = [
     path('issues/<str:status>/', IssueList.as_view(), name='issue_status'),
     path('issues/<str:action>/<int:pk>/', IssueUpdateDestroy.as_view(), name='edit_issue'),
     path('issues/remove/<int:pk>/', IssueUpdateDestroy.as_view(), name='remove'),
-    path('issues/notify/<int:pk>/<str:type>', NotificationsCreate.as_view(), name='notify_lecturer'),
-    path('notifications/', NotificationsListDestroy.as_view(), name='notifications'),
-    path('notifications/create/', NotificationsCreate.as_view(), name='create_notification'),
-    path('logs/', LogListUpdateDelete.as_view(), name='logs'),
+    path('issues/notify/<int:pk>/', NotificationsListCreate.as_view(), name='notify_lecturer'),
+    path('notifications/<int:pk>/', NotificationsListCreate.as_view(), name='notifications'),
+    path('notifications/remove/<int:pk>', NotificationDestroy.as_view(), name='delete_notification'),
     path('lecturers/', LecturerList.as_view(), name='list_lecturers'),
     
     # Password reset views

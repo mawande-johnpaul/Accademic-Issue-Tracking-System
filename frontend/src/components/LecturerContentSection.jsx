@@ -1,12 +1,8 @@
-import IssueForm from "./IssueForm";
 import LecturerIssues from "./LecturerIssues";
-import Settings from "./Settings";
-import Splash from "./Splash";  
+import Splash2 from "./Splash2";  
 import LecturerView from "./LecturerView";
-import { useState } from "react";
 
-
-const Content = ({to_display_name, issues, resolvedIssues, user, token, id, setid, setContent}) => {
+const Content = ({to_display_name, issues, resolvedIssues, user, token, id, setid, setContent, role}) => {
     return (
         <div>
             <div className="content-section-header">
@@ -24,7 +20,7 @@ const Content = ({to_display_name, issues, resolvedIssues, user, token, id, seti
                 ) : to_display_name === "LecturerView" && user ? (
                     <LecturerView issue={id} token={token} setContent={setContent} issues={issues}/>
                 ) : (
-                    <Splash />
+                    <Splash2 role={role} assignedissues={resolvedIssues} newissues={issues}/>
                 )}
             </div>
         </div>

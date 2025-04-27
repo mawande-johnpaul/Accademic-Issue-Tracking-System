@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 function HomePage() {
+    sessionStorage.removeItem('user');
+    sessionStorage.removeItem('token');
     return (
         <>
         <img src='banner.jpg' alt='banner' className='banner'></img>
