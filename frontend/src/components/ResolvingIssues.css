@@ -77,15 +77,7 @@
 .isuse-card p{
     font-size: 0.85em;
     margin: 5px 0;
-}/*
-.button-ccontainer{
-    position: absolute;
-    bottom: 5px;
-    right: 10px;
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-}*/
+}
 .button-ccontainer{
     display: flex;
     justify-content: flex-end;
@@ -147,49 +139,6 @@
         padding: 8px 12px;
     }
 }
-/*.confirmBox{
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background: #fff8e1;
-    border: 1px solid #ffc107;
-    border-radius: 8px;
-    padding:8px;
-    width: 250px;
-    z-index: 10;
-    box-shadow: 0 0 8px rgba(0,0,0,0.15);
-}
-
-.confirmBox p{
-    margin: 0 0 10px;
-    font-weight: 500;
-    color: #333;    
-}
-.coactions{
-    display: flex;
-    justify-content: flex-end;
-    gap: 10px;
-}
-.yes-btn, .no-btn{
-    margin-right: 10px;
-    padding: 5px 10px;
-    cursor: pointer;
-    border: none;
-    border-radius: 4px;
-    white-space: nowrap;
-}
-
-.yes-btn{
-    background-color: #c7120c;
-    color: white;
-}
-.yes-btn:hover{
-    background-color: rgb(197, 19, 19);
-}
-.no-btn{
-    background-color: #6c757d;
-    color: white;
-}*/
 .infomsg{
     background-color: #fff3cd;
     color: #856404;
