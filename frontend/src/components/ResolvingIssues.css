@@ -155,7 +155,7 @@
     80%{opacity: 1;}
     100%{opacity: 0; display: none;}
 }
-/*.floatingconfirm{
+.floatingconfirm{
     position: absolute;
     top: 0;
     left: 0;
@@ -167,7 +167,7 @@
     justify-content: center;
     border-radius: 10px;
     z-index: 10;
-}*/
+}
 .floconfirm{
     background-color: #fff3cd;
     padding: 20px;
@@ -181,7 +181,7 @@
 .confirmMessage{
     font-size: 1rem;
     font-weight: 500;
-    color: #856404;
+    color: #302507;
     margin-bottom: 15px;
 }
 .confbuttons{
@@ -204,7 +204,6 @@
 .no-btn{
     background-color: #6c757d;
 }
-/*
 .toast{
     position: fixed;
     bottom: 25px;
@@ -226,65 +225,6 @@
 @keyframes fadeout{
     from{opacity: 1;}
     to{opacity: 0;}
-}*/
-
-.toast{
-    position:fixed;
-    bottom:30px;
-    right: 30px;
-    background-color: #333;
-    color: white;
-    padding: 12px 20px;
-    border-radius: 8px;
-    font-size: 16px;
-    z-index: 9999;
-    animation: slideIn 0.5s ease frowards, slideOut 0.5s ease 2.5s forwards;
-}
-
-@keyframes slideIn{
-    from{
-        opacity:0;
-        transform:translateX(100px);
-    }
-    to{
-        opacity: 1;
-        transform:translateX(0)
-    }
-}
-@keyframes slideout{
-    from{
-        opacity: 1;
-        transform: translateX(0);
-    }
-    to{
-        opacity: 0;
-        transform: translateX(100px);
-    }
-}
-
-.floatingconfirm{
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: white;
-    border: 2px solid #444;
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 0 20px rgba(0,0,0,0.2);
-    z-index: 9999;
-    animation: fadeIn 0.4s ease forwards;   
-}
-
-@keyframes fadeIn {
-    from{
-        opacity: 0;
-        transform: translate(-50%,-60%);
-    }
-    to{
-        opacity: 1;
-        transform: translate(-50%, -50%);
-    }
 }
 .no-issues-container{
     display: flex;
