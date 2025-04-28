@@ -14,6 +14,7 @@ const ProgressForm = ({ issue, onClose }) => {
 
   const [submitted, setSubmitted] = useState(false);
   const [loading,setLoading] = useState(false);
+  const [error, setError] = useState('');
 
 //handle input and file changes
   const handleChange = (e) => {
@@ -57,7 +58,8 @@ const ProgressForm = ({ issue, onClose }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if(!isFormValid()){
-      alert('All fields are required.Please complete the form');
+      setError('All fields are required.Please complete the form');
+      setTimeout(() => setError(''),4000);
       return;
     }
     try{
@@ -92,7 +94,8 @@ const ProgressForm = ({ issue, onClose }) => {
       },2000);
     } catch(error){
       console.error('Error Submitting Progress:',error);
-      alert('Failed to Submit Progress Please Try Again.');
+      setError('Failed to Submit Progress Please Try Again.');
+      setTimeout(() => setError(''), 4000);
     } finally{
       setLoading(false);
     }
@@ -114,12 +117,13 @@ const ProgressForm = ({ issue, onClose }) => {
       attachment:null,
     });
     onClose();
-  }
+  };
 
   return (
     <div className="progress-form-container">
       <h2>Progress Form for: { issue ?.title}</h2>
       {submitted && (<div className="submitted">Progress for {issue?.title} submitted successfully!</div>)}
+      {error && (<div className="errorcss">{error}</div>)}
       <form onSubmit={handleSubmit} className="progress-form">
         <label>Progress Title</label>
         <input type="tetx" name="progressTitle" value={formData.progressTitle} onChange={handleChange} onKeyDown={handleKeyDown}required/>
@@ -132,7 +136,7 @@ const ProgressForm = ({ issue, onClose }) => {
         <label>Attachment(Optional)</label>
         <input  type="file" name="attachment" onChange={handleChange}/>
         <div className="button-container">
-          <button type="submit" className='suBmit' disabled={!isFormValid()}>Submit</button>
+          <button type="submit" className='suBmit' disabled={!isFormValid() || loading}>{loading ? 'Submitting...':'Submit'}</button>
           <button type="button" className="cancell" onClick={handleCancel}>
             Cancel
           </button>

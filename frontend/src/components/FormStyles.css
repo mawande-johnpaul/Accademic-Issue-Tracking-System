@@ -166,3 +166,15 @@ button:disabled{
         transform: translateY(0);
     }
 }
+.errorcss{
+    background-color: #ffe6e6;
+    color: #cc0000;
+    padding: 12px 16px;
+    margin-bottom: 20px;
+    border: 1px solid #ffb3b3;
+    border-radius: 8px;
+    text-align: center;
+    font-weight: 600;
+    font-size: 1.1rem;
+    animation: fadeIn 0.6s ease-in;
+}
