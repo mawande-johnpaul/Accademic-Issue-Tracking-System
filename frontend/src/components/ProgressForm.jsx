@@ -1,6 +1,7 @@
 import { useState } from "react";
 import "./FormStyles.css"; 
 import PropTypes from "prop-types";
+import axios from "axios";
 
 const ProgressForm = ({ issue, onClose }) => {
   const [formData, setFormData] = useState({
@@ -12,6 +13,7 @@ const ProgressForm = ({ issue, onClose }) => {
   });
 
   const [submitted, setSubmitted] = useState(false);
+  const [loading,setLoading] = useState(false);
 
 //handle input and file changes
   const handleChange = (e) => {
@@ -33,7 +35,7 @@ const ProgressForm = ({ issue, onClose }) => {
     });
   };
 //  for form submission
-  const handleSubmit = (e) => {
+ /* const handleSubmit = (e) => {
     e.preventDefault();
     if (!isFormValid()) {
       alert("All fields are required.Please complete the form.");
@@ -51,7 +53,50 @@ const ProgressForm = ({ issue, onClose }) => {
       setSubmitted(false);
       onClose();
     },2000);
-  };
+  };*/
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if(!isFormValid()){
+      alert('All fields are required.Please complete the form');
+      return;
+    }
+    try{
+      setLoading(true);
+      const token = localStorage.getItem('authToken');
+      const formPayload = new FormData();
+      formPayload.append('issueId', issue.id);
+      formPayload.append('progressTitle', formData.progressTitle);
+      formPayload.append('description', formData.description);
+      formPayload.append('resolutionDate',formData.resolutionDate);
+      formPayload.append('notes',formData.notes);
+      if(formData.attachment){
+        formPayload.append('attachment',formData.attachment);
+      }
+      await axios.post('http.....',formPayload, {
+        headers:{
+          'Authorization':`Bearer ${token}`,
+          'Content-Type':'multipart/formData'
+        },
+      });
+      setSubmitted(true);
+      setTimeout(() => {
+        setFormData({
+          progressTitle:'',
+          description:'',
+          resolutionDate:'',
+          notes:'',
+          attachment:'',
+        });
+        setSubmitted(false);
+        onClose();
+      },2000);
+    } catch(error){
+      console.error('Error Submitting Progress:',error);
+      alert('Failed to Submit Progress Please Try Again.');
+    } finally{
+      setLoading(false);
+    }
+  }; 
   //for enter button to take you to the next field
   const handleKeyDown = (e) => {
     if(e.key === 'Enter'){e.preventDefault();
