@@ -11,6 +11,8 @@ const ProgressForm = ({ issue, onClose }) => {
     attachment:'null',
   });
 
+  const [succMessage, setSuccMessage] = useState('');
+
 //handle input and file changes
   const handleChange = (e) => {
     const { name, value, type, files } = e.target;
@@ -31,8 +33,7 @@ const ProgressForm = ({ issue, onClose }) => {
       alert("All fields are required.Please complete the form.");
       return;
     }
-    alert(`Progress submitted for: ${issue.title}`);
-    onClose();// close form after submit
+    setSuccMessage(`Progress submitted for: ${issue.title}`);
   };
   //for enter button to take you to the next field
   const handleKeyDown = (e) => {
@@ -42,6 +43,17 @@ const ProgressForm = ({ issue, onClose }) => {
         if (index !== -1 && index < formElements.length - 1){formElements[index + 1].focus();}
     }
 };
+  const handleCancel = () => {
+    setFormData({
+      progressTitle:'',
+      description:'',
+      resolutionDate:'',
+      notes:'',
+      attachment:null,
+    });
+    setSuccMessage('');
+    onClose();
+  }
 
   return (
     <div className="progress-form-container">
@@ -59,7 +71,7 @@ const ProgressForm = ({ issue, onClose }) => {
         <input  type="file" name="attachment" onChange={handleChange}/>
         <div className="button-container">
           <button type="submit" className='suBmit' disabled={!isFormValid()}>Submit</button>
-          <button type="button" className="cancell" onClick={onClose}>
+          <button type="button" className="cancell" onClick={handleCancel}>
             Cancel
           </button>
         </div>
