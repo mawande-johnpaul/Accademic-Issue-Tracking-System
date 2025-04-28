@@ -11,7 +11,7 @@ const ProgressForm = ({ issue, onClose }) => {
     attachment:'null',
   });
 
-  const [succMessage, setSuccMessage] = useState('');
+  const [submitted, setSubmitted] = useState(false);
 
 //handle input and file changes
   const handleChange = (e) => {
@@ -23,8 +23,14 @@ const ProgressForm = ({ issue, onClose }) => {
   };
   
 // checking for form validity
-  const isFormValid = () => {
+  /*const isFormValid = () => {
     return Object.values(formData).every((field) => field.trim() !== "");
+  };*/
+  const isFormValid = () => {
+    return Object.entries(formData).every(([key, field]) => {
+      if(key === 'attachment') return true;
+      return typeof field === 'string' && field.trim() !== '';
+    });
   };
 //  for form submission
   const handleSubmit = (e) => {
@@ -33,7 +39,18 @@ const ProgressForm = ({ issue, onClose }) => {
       alert("All fields are required.Please complete the form.");
       return;
     }
-    setSuccMessage(`Progress submitted for: ${issue.title}`);
+    setSubmitted(true);
+    setTimeout(() => {
+      setFormData({
+        progressTitle:'',
+        description:'',
+        resolutionDate:'',
+        notes:'',
+        attachment:'',
+      });
+      setSubmitted(false);
+      onClose();
+    },2000);
   };
   //for enter button to take you to the next field
   const handleKeyDown = (e) => {
@@ -51,13 +68,13 @@ const ProgressForm = ({ issue, onClose }) => {
       notes:'',
       attachment:null,
     });
-    setSuccMessage('');
     onClose();
   }
 
   return (
     <div className="progress-form-container">
       <h2>Progress Form for: { issue ?.title}</h2>
+      {submitted && (<div className="submitted">Progress for {issue?.title} submitted successfully!</div>)}
       <form onSubmit={handleSubmit} className="progress-form">
         <label>Progress Title</label>
         <input type="tetx" name="progressTitle" value={formData.progressTitle} onChange={handleChange} onKeyDown={handleKeyDown}required/>
