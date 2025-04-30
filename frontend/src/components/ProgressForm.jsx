@@ -26,35 +26,12 @@ const ProgressForm = ({ issue, onClose }) => {
   };
   
 // checking for form validity
-  /*const isFormValid = () => {
-    return Object.values(formData).every((field) => field.trim() !== "");
-  };*/
   const isFormValid = () => {
     return Object.entries(formData).every(([key, field]) => {
       if(key === 'attachment') return true;
       return typeof field === 'string' && field.trim() !== '';
     });
   };
-//  for form submission
- /* const handleSubmit = (e) => {
-    e.preventDefault();
-    if (!isFormValid()) {
-      alert("All fields are required.Please complete the form.");
-      return;
-    }
-    setSubmitted(true);
-    setTimeout(() => {
-      setFormData({
-        progressTitle:'',
-        description:'',
-        resolutionDate:'',
-        notes:'',
-        attachment:'',
-      });
-      setSubmitted(false);
-      onClose();
-    },2000);
-  };*/
   const handleSubmit = async (e) => {
     e.preventDefault();
     if(!isFormValid()){
@@ -126,7 +103,9 @@ const ProgressForm = ({ issue, onClose }) => {
       {error && (<div className="errorcss">{error}</div>)}
       <form onSubmit={handleSubmit} className="progress-form">
         <label>Progress Title</label>
-        <input type="tetx" name="progressTitle" value={formData.progressTitle} onChange={handleChange} onKeyDown={handleKeyDown}required/>
+        <input type="tetx" name="progressTitle" value={formData.progressTitle} 
+        placeholder="e.g. Follow-up on Missing Marks"
+        onChange={handleChange} onKeyDown={handleKeyDown}required/>
         <label>Description</label>
         <textarea name="description" placeholder="Describe Your Progress..." value={formData.description} onChange={handleChange} required></textarea>
         <label>Expected Resolution Date</label>
