@@ -38,8 +38,8 @@ const AssignedIssues = () => {
             setDisplayIssues(data);//store real data(issues in state)
             localStorage.setItem('assignedIssues',JSON.stringify(data));//cache 
         } catch (error){
-            console.error("Error Fetching Issues:",error);
-            setDisplayIssues([]);//set empty list if fetch fails
+            console.error("Error Fetching Issues:",error);          
+                setDisplayIssues([]);//set empty list if fetch fails
         }finally{setLoading(false);//stops loader once fetch is done
             }
     };
