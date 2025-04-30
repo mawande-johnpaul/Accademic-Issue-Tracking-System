@@ -21,16 +21,8 @@ const ResolvingIssues = () => {
                     setVisibleIssues(data);
             } catch(error) {
             console.error("Error Fetching Resolved Issues:",error);
-
-            //use mock data when error fetching occurs
-            const mockdata = [
-                {id:1,title:'Exam Marks',priority:'High',deadline:'03/15/25',status:'Resolved',resolvedDate:'2025-03-28'},
-                {id:2,title:'Enrollment',priority:'Medium',deadline:'02/28/25',status:'Resolved',resolvedDate:'2025-03-20'},
-                {id:3,title:'Course-Registration',priority:'Low',deadline:'02/30/25',status:'Resolved',resolvedDate:'2025-02-01'}
-            ]
-            setAllIssues(mockdata);
-            setVisibleIssues(mockdata);
-        
+            setAllIssues([]);
+            setVisibleIssues([]);        
         }
     };
     fetchResolvingIssues();
@@ -47,8 +39,7 @@ const ResolvingIssues = () => {
    const handleRemove = (id) => {
    const issueToRemove = allIssues.find(issue => issue.id === id);
    if (issueToRemove){
-    /*setVisibleIssues(prev => prev.filter(issue => issue.id !== id));
-    */setAllIssues(prev => prev.filter(issue => issue.id !== id));
+    setAllIssues(prev => prev.filter(issue => issue.id !== id));
     setRecentlyRemoved(prev => [...prev, issueToRemove]);
     setConfirmDelete(null);
     setTimeout(() =>{
@@ -80,13 +71,6 @@ const ResolvingIssues = () => {
     }
    };
    
-    /*const handleFilterChange = (type) => {
-        setFilter(type);
-        if (type == 'all'){
-            setVisibleIssues(allIssues);
-        } else if (type === 'recent'){setVisibleIssues(recentlyRemoved);}
-        setConfirmDelete(null);
-    };*/
     const handleFilterChange = (type) => {
         setFilter(type);
         setConfirmDelete(null);
