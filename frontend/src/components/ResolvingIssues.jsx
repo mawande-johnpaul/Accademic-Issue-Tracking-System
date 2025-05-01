@@ -4,13 +4,15 @@ import './ResolvingIssues.css';
 
 
 const ResolvingIssues = () => {
-    const [allIssues, setAllIssues] = useState([]);
-    const [visibleIssues, setVisibleIssues] = useState([]);
-    const [recentlyRemoved, setRecentlyRemoved] = useState([]);
-    const [filter,setFilter] = useState('all');
-    const [confirmDelete, setConfirmDelete] = useState(null);
-    const [toastMsg,setToastMsg] = useState('');
+    //state variables
+    const [allIssues, setAllIssues] = useState([]);//all resolved issues
+    const [visibleIssues, setVisibleIssues] = useState([]);//issues currently shown on screen
+    const [recentlyRemoved, setRecentlyRemoved] = useState([]);//issues moved to recent
+    const [filter,setFilter] = useState('all');//current filter view
+    const [confirmDelete, setConfirmDelete] = useState(null);//for confirming delete
+    const [toastMsg,setToastMsg] = useState('');//message display for feedback
 
+    //fetch issues from backend
     useEffect(() => {
         const fetchResolvingIssues = async () => {
             try{
@@ -28,6 +30,7 @@ const ResolvingIssues = () => {
     fetchResolvingIssues();
     },[]);
 
+    //update visible issues when filter or issue list changes
     useEffect(() => {
         if(filter === 'recent'){
             setVisibleIssues(recentlyRemoved);
@@ -36,6 +39,7 @@ const ResolvingIssues = () => {
         }
     }, [recentlyRemoved, allIssues, filter]);
 
+    //move issues to recent list
    const handleRemove = (id) => {
    const issueToRemove = allIssues.find(issue => issue.id === id);
    if (issueToRemove){
@@ -49,6 +53,7 @@ const ResolvingIssues = () => {
     }
    };
 
+   //Permanently delete issue from recent
    const handleDelete = (id) => {
     setRecentlyRemoved(prev => prev.filter(issue => issue.id !== id));
     setConfirmDelete(null);
@@ -58,6 +63,7 @@ const ResolvingIssues = () => {
     },100);
    };
 
+    //Restore issue back all list
    const handleRestore = (id) => {
     const issueToRestore = recentlyRemoved.find(issue => issue.id === id);
     if(issueToRestore){
@@ -71,6 +77,7 @@ const ResolvingIssues = () => {
     }
    };
    
+   //Handle tab switching ie ALL / Recent
     const handleFilterChange = (type) => {
         setFilter(type);
         setConfirmDelete(null);
@@ -78,6 +85,7 @@ const ResolvingIssues = () => {
 
     return(
         <div className='resolving'>
+            {/* Header with filter buttons */}
             <div className='resolved-header'>
                 <h2>Resolved Issues</h2>
                 <div className='F-btns'>
@@ -85,7 +93,8 @@ const ResolvingIssues = () => {
                     <button className={filter === 'all' ? "active" : ""} onClick={() => handleFilterChange("all")}>All</button>
                 </div>
             </div>  
-
+            
+            {/* Display message when no issues to show */}
             {visibleIssues.length === 0 ? (
                 <div className='no-issues-container'>
                     {filter === 'recent'? (<p className='no-issues-msg'>No recently removed Issues available</p>
@@ -94,6 +103,7 @@ const ResolvingIssues = () => {
                     )}
                     </div>
             ):(
+                //Issue list cards
                 <div className='issues-griid'>
                     {visibleIssues.map((issue) => (
                         <div key={issue.id} className='isuse-card'>
@@ -101,6 +111,7 @@ const ResolvingIssues = () => {
                                 <span className='isuse-title'>{issue.title}</span>                              
                             </div>
                             <p><strong>Status:</strong>{issue.status}</p>
+                            {/* Action buttons based on filter */}
                             <div className='button-ccontainer'>
                                 {filter === 'all' ? (
                                     <>
@@ -113,7 +124,9 @@ const ResolvingIssues = () => {
                                 <button className='reopen' onClick ={ () => handleRestore(issue.id)}>Restore</button>
                                 </>
                                 )}
-                            </div>                               
+                            </div>
+
+                            {/* confirm delete box for recent tab */}                               
                                 {confirmDelete === issue.id && filter === 'recent' && (
                                     <div className='floatingconfirm'>
                                     <div className='floconfirm'><p className='confirmMessage'>Are you sure you want to Permanently delete this issue?</p>
@@ -128,6 +141,7 @@ const ResolvingIssues = () => {
                     ))}
                 </div>
             )}
+            {/* Toast feedback message */}
             {toastMsg && (<div className='toast'>{toastMsg}</div>)}
         </div>
     );
