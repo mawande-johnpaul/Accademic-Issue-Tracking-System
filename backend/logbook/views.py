@@ -5,11 +5,19 @@ from rest_framework.response import Response
 from .serializers import *
 from .models import *
 from rest_framework.permissions import AllowAny, AllowAny
+from rest_framework.decorators import api_view
 from django.contrib.auth import get_user_model, login
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.core.mail import send_mail
 from django.conf import settings
+from django.urls import reverse
+from django.http import JsonResponse
 from django.conf.urls.static import static
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.utils.encoding import force_bytes
+from django.shortcuts import get_object_or_404
+from django.contrib.auth.tokens import default_token_generator
+
 
 User = get_user_model()
 
@@ -25,16 +33,32 @@ def send_notification(sender, receiver, content, email=False):
         user_id_receiver=receiver,
         content=content,
     )
+    
+def send_verification_email(id, **kwargs):
+    user = get_object_or_404(CustomUser, pk=id)
+    token = default_token_generator.make_token(user)
+    uid = urlsafe_base64_encode(force_bytes(user.pk))
+    verify_url = f"http://127.0.0.1:8000/verify-email/{uid}/{token}"
+    send_mail(
+        subject="Verify your email",
+        message=f"Click here to verify: {verify_url}",
+        from_email=settings.DEFAULT_FROM_EMAIL,
+        recipient_list=[user.email],
+    )
 
+@api_view(["GET"])
+def verify_email(request, uid, token):
+    try:
+        id = urlsafe_base64_decode(uid).decode()
+        user = CustomUser.objects.get(pk=id)
+    except Exception:
+        return JsonResponse({"error": "Invalid UID"}, status=400)
 
-    '''if email and receiver.email:
-        send_mail(
-            subject='New Notification',
-            message=content,
-            from_email=settings.DEFAULT_FROM_EMAIL,
-            recipient_list=[receiver.email],
-            fail_silently=False
-        )'''
+    if default_token_generator.check_token(user, token):
+        user.is_email_verified = True
+        user.save()
+        return JsonResponse({"message": "Email verified successfully"})
+    return JsonResponse({"error": "Invalid or expired token"}, status=400)
 
 def log_action(user, action):
     Log.objects.create(
@@ -63,6 +87,10 @@ class RegisterView(generics.CreateAPIView):
             content=f"Welcome {user.first_name}, you have successfully registered.",
             email=True
         )
+        send_verification_email(id=user.id)
+
+        # Automatically log in the user after signup
+        login(request, user)
 
         return Response({
             'token': access_token,
@@ -92,6 +120,36 @@ class LoginView(generics.GenericAPIView):
             'refresh_token': str(refresh),
             'user': RegisterSerializer(user).data
         }, status=status.HTTP_200_OK)
+    
+class UserDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = User.objects.all()
+    serializer_class = RegisterSerializer
+    permission_classes = [AllowAny]
+
+    def get(self, request, *args, **kwargs):
+        pk = kwargs.get('pk')
+        if not pk:
+            return Response({'error': 'User ID is required.'}, status=status.HTTP_400_BAD_REQUEST)
+        try:
+            user = User.objects.get(pk=pk)
+        except User.DoesNotExist:
+            return Response({'error': 'User not found.'}, status=status.HTTP_404_NOT_FOUND)
+        serializer = self.get_serializer(user)
+        return Response(serializer.data)
+
+    def put(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        log_action(request.user, "User details updated.")
+        return Response(serializer.data)
+
+    def delete(self, request, *args, **kwargs):
+        instance = self.get_object()
+        instance.delete()
+        log_action(request.user, "User deleted.")
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 # Issue Management

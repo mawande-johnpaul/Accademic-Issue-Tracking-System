@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
 
@@ -27,14 +27,42 @@ function SignupPage() {
         const response = await axios.post('http://127.0.0.1:8000/signup/', { first_name, last_name, username, password, email, webmail, department, course });
           sessionStorage.setItem('token', response.data.access);
           sessionStorage.setItem('user', JSON.stringify(response.data.user));
-          if (response.data.user.role === "lecturer") {
-            navigate("/lecturer");
-          } else if (response.data.user.role === "registrar") {
-            navigate("/registrar");
-          } else {
-            navigate("/student");
-          }
-        
+          const token = response.data.access;
+          const user = response.data.user;
+
+          const pollVerificationStatus = async () => {
+            try {
+              const intervalId = setInterval(async () => {
+                const updatedUserResponse = await axios.get(
+                  `http://127.0.0.1:8000/user/${user.id}/`,
+                  {
+                    headers: {
+                      'Authorization': `Bearer ${token}`
+                    }
+                  }
+                );
+                const updatedUser = updatedUserResponse.data;
+
+                if (updatedUser.is_email_verified) {
+                  clearInterval(intervalId); // Stop polling once verified
+                  sessionStorage.setItem('user', JSON.stringify(updatedUser));
+
+                  if (updatedUser.role === "lecturer") {
+                    navigate("/lecturer");
+                  } else if (updatedUser.role === "registrar") {
+                    navigate("/registrar");
+                  } else {
+                    navigate("/student");
+                  }
+                }
+              }, 5000); // Poll every 5 seconds
+            } catch (error) {
+              console.error('Error while polling verification status:', error);
+            }
+          };
+
+          setMessage('Please verify your email. Waiting for verification... Check spam folder as well :)');
+          pollVerificationStatus();
       } catch (error) {
         setMessage('Signup failed. Invalid credentials!');
         console.error(error);

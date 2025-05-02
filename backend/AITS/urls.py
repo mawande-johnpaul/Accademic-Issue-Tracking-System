@@ -11,6 +11,7 @@ urlpatterns = [
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('signup/', RegisterView.as_view(), name='signup'),
     path('login/', LoginView.as_view(), name='login'),
+    path('user/<int:pk>/', UserDetail.as_view(), name='user_detail'),
     path('issues/', IssueListCreate.as_view(), name='issues'),
     path('issues/<int:pk>/', IssueList2.as_view(), name='assigned_issues'),
     path('issues/<int:pk>/<str:status>/', IssueList3.as_view(), name='resolved_issues'),
@@ -21,6 +22,9 @@ urlpatterns = [
     path('notifications/<int:pk>/', NotificationsListCreate.as_view(), name='notifications'),
     path('notifications/remove/<int:pk>', NotificationDestroy.as_view(), name='delete_notification'),
     path('lecturers/', LecturerList.as_view(), name='list_lecturers'),
+    path('verify/<id>/<token>/', verify_email, name='verify_email'),
+    path('verify-email/<uid')
+
     
     # Password reset views
     path('password-reset/', auth_views.PasswordResetView.as_view(), name='password_reset'),
