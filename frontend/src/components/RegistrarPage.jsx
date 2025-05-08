@@ -1,134 +1,90 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
-import ProfileDisplay from "./ProfileDisplay";
-import SearchBar from "./SearchBar";
 import Button from "./Button";
 import DisplayPane from "./DisplayPane";
-import ChatDisplayPane from "./ChatDiaplayPane"
-import Logo from "./Logo"
-import IssueForm from "./IssueForm";
-import UserIssues from "./UserIssues";
+import Logo from "./Logo";
+import Content from "./RegistrarContentSection";
+import { useNavigate, Link } from 'react-router-dom';
+import Splash from "./Splash";
+import Splash2 from "./Splash2";
 
+const RegistrarPage = ({content, setContent}) => {
 
-const MESSAGES=[
-  {
-      head: 'Messages',
-      contents: [
-          {
-              name: 'John Doe',
-              message: 'Hello, how are you?'
-          },
-          {
-              name: 'Jane Doe',
-              message: 'I am good, thank you.'
-          },
-          {
-              name: 'John Doe',
-              message: 'That is good to hear.'
-          }
-      ]
-  },
-  {
-      head: 'Notifications',
-      contents: [
-          {
-              name: 'Jane Doe',
-              message: 'You have a new message.'
-          },
-          {
-              name: 'John Doe',
-              message: 'You have a new notification.'
-          },
-          {
-              name: 'Jane Doe',
-              message: 'You have a new message.'
-          }
-      ]
-  },
-  {
-      head: 'Announcements',
-      contents: [
-          {
-              name: 'John Doe',
-              message: 'You have a new request.'
-          },
-      ]
-  }
-  
-]
+  const [newIssues, setNewIssues] = useState([]);
+  const [assignedIssues, setAssignedIssues] = useState([])
+  const [notifications, setNotifications] = useState([]);
+  const [id, setid] = useState(0);
+  const navigate = useNavigate();
 
-const RegistrarPage = () => {
-  const [issues, setIssues] = useState([]);
+  const user = JSON.parse(sessionStorage.getItem("user"));
+  const token = sessionStorage.getItem("token");
 
   useEffect(() => {
     const fetchIssues = async () => {
-      try {
-        const user = JSON.parse(localStorage.getItem("user"));
-        const token = localStorage.getItem("token");
-
-        const response = await axios.get('http://127.0.0.1:8000/issues/', {
-          headers: {
-            'Authorization': `Bearer ${token}`
-          }
-        });
-        setIssues(response.data);
-      } catch (error) {
-        console.error(error);
-      }
+      const response = await axios.get('http://127.0.0.1:8000/issues/Unseen', {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
+      });  
+      setNewIssues(response.data);
     };
 
-    fetchIssues();
+    const fetchNotifications = async () => {
+      const response = await axios.get(`http://127.0.0.1:8000/notifications/${user.id}`, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
+      });
+      setNotifications(response.data);
+    };
+
+    const fetchAllIssues = async() => {
+      const response = await axios.get('http://127.0.0.1:8000/issues/Seen', {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
+      });
+      setAssignedIssues(response.data);   
+    }
+  
+    if (user) {
+      fetchIssues();
+      fetchAllIssues();
+      fetchNotifications();
+    }
   }, []);
+  
 
-  const Welcome = () => {
-    return (
-        <div className="form-holder">
-          <div className="content-section-header">
-          Hello! Welcome to AITS. Here are the issues you have posted:
-          </div>
-          <div className="content-section-body">
-            <ul >
-                {Array.isArray(issues) && issues.map(issue => (
-                <li key={issue.id}>{issue.title}</li>
-                ))}
-            </ul>
-          </div>
-        </div>
-    );
-};
-
-function createnew(){
-  console.log("New Issue created");
-};
-
-function otherlist(){
-  console.log("Others selected");
-}
-
-function settings(){
-  console.log("Settings selected");
-}
+  const no_operation = () => setContent("Splash");
+  const logout = () => {
+    sessionStorage.removeItem('user');
+    sessionStorage.removeItem('token'); 
+    navigate("/login");  
+  }
 
   return (
     <div className="bodyy">
-      <div className="left-side">
-        <Logo />
-        <Button text={"New issues"} image={"new-issue.svg"} funct={createnew}/>
-        <Button text={"Overdue issues"} image={"posted-logo.svg"} funct={otherlist}/>
-        <Button text={"Settings"} image={"settings.svg"} funct={settings}/>
-
-      </div>
-      <div className="content-section">
-        <SearchBar />
-        <Welcome />
-      </div>
-      <div className="right-side">
-        <ProfileDisplay text={"Registrar"}/>
-        <DisplayPane heading={MESSAGES[0].head} items={MESSAGES[0].contents} />
-        <DisplayPane heading={MESSAGES[1].head} items={MESSAGES[1].contents} />
-        <ChatDisplayPane heading={MESSAGES[2].head} items={MESSAGES[2].contents} />
-      </div>
-    </div>
+        {user? (
+          <>
+          <div className="left-side">
+          <Logo />
+          <Button text={"New issues"} image={"new-issue.svg"} funct={() => setContent("NewIssues")} />
+          <Button text={"Assigned issues"} image={"posted-logo.svg"} funct={() => setContent("AssignedIssues")} />
+          <Button text={"Logout"} image={"logout.svg"} funct={() => logout()} />
+        </div>
+        <div className="content-section">
+          <Content to_display_name={content} newissues={newIssues} assignedissues={assignedIssues} username={user.username} token={token} department={user.department} content={content} setContent={setContent} id={id} setid={setid} role={user.role}/>
+        </div>
+        <div className="right-side">
+            <DisplayPane items={notifications} />
+        </div>
+        </>
+        ) : (
+          <>
+          <Splash />
+          </>
+        )}
+    </div> // Closing the main div
   );
 };
 

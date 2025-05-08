@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            background-color: #000000;
+            align-content: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif ;
+        }
+        .logincard{
+            display: flex;
+            flex-direction: column;
+            border: 1px solid;
+            width: 60%;
+            height: 70vh;
+            margin: 0 auto;
+            margin-top: 100px;
+            border-radius: 10px;
+            background-color: rgb(255, 255, 255);
+            text-align: center;
+        }
+        .userlabel{
+            text-align: left;
+            padding-left: 20px;
+            margin-bottom: 5px;
+            font-size: small;
+
+        }
+        .textinput{
+            padding-left: 10px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            border: 0px;
+            width: 80%;
+            height: 30px;
+            box-shadow: 0px 0px 5px 0px #414141
+
+        }
+        button{
+            width: 100px;
+            align-self: center;
+            margin-bottom: 30px;
+            background-color: rgb(35, 131, 57);
+            border: 0px;
+            border-radius: 5px;
+            padding: 10px;
+            font-weight: bold;
+            cursor: pointer;
+
+        }
+        button:hover{
+            box-shadow: 0px 0px 10px 0px rgb(35, 131, 57)
+        }
+        .linktext{
+            cursor: pointer;
+            color: blue;
+            text-decoration: underline;
+        }
+
+
+    </style>
+
+</head>
+<body>
+    <div class="logincard">
+        <h1>ATIS admin</h1>
+        <div>
+            <div class="userlabel">Username</div>
+            <input type="text" class="textinput">
+        </div>
+        <div>
+            <div class="userlabel">Password</div>
+            <input type="password" class="textinput">
+        </div>
+        <button>Login</button>
+        <a class="linktext">Forgot password</a>
+    </div>
+    
+</body>
+</html>

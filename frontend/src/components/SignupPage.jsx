@@ -1,74 +1,137 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 function SignupPage() {
 
+    const COLLEGES = {'COCIS': ['BSCS', 'BSEE', 'BLIS', 'BIST'],
+                      'COBAMS': ['BSBA', 'BSCOMM', 'BSECON'],
+                      'CONAS': ['BSN', 'BSHRM', 'BSED']}
+    
+    const [first_name, setFirstName] = useState('');
+    const [last_name, setLastName] = useState('');
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [message, setMessage] = useState('');
     const [email, setEmail] = useState('');
-    const [role, setRole] = useState('');
+    const [webmail, setWebmail] = useState('');
+    const [course, setCourse] = useState('Select a course first');
     const [department, setDepartment] = useState('');
     const navigate = useNavigate();
+    sessionStorage.removeItem('user');
+    sessionStorage.removeItem('token');
 
     const signup = async (event) => {
       event.preventDefault();
       try {
-        const response = await axios.post('http://127.0.0.1:8000/signup/', { username, password, email, role, department });
-        localStorage.setItem('token', response.data.access);
-        localStorage.setItem('user', JSON.stringify(response.data.user));
-        if (response.data.user.role === "lecturer") {
-          navigate("/lecturer");
-        } else if (response.data.user.role === "registrar") {
-          navigate("/registrar");
-        } else {
-          navigate("/student");
-        }
+        const response = await axios.post('http://127.0.0.1:8000/signup/', { first_name, last_name, username, password, email, webmail, department, course });
+          sessionStorage.setItem('token', response.data.access);
+          sessionStorage.setItem('user', JSON.stringify(response.data.user));
+          if (response.data.user.role === "lecturer") {
+            navigate("/lecturer");
+          } else if (response.data.user.role === "registrar") {
+            navigate("/registrar");
+          } else {
+            navigate("/student");
+          }
         
       } catch (error) {
-        setMessage('Signup failed. Please try again.');
+        setMessage('Signup failed. Invalid credentials!');
         console.error(error);
       }
     }
 
     return (
       <div className='homepage'>
-          <h1 className='h1'>Sign up</h1>
-          <form onSubmit={signup} className='signuplower'>
-            <div className='row'>
-              <div className='labels'>Username</div>
-              <input type="text"  className='inputs'                   
-                value={username} 
-                onChange={(e) => setUsername(e.target.value)} />
+        <img src='banner2.jpeg' alt='banner2'></img>
+          <h1 className='h1'>Create your free AITS account</h1>
+          <form onSubmit={signup} className='congested-signuplower'>
+            <div className='lower'>
+                <div className='row'>
+                  <input type="text" className='inputs' name='first_name'
+                    value={first_name}
+                    placeholder='First name.'
+                    required
+                    onChange={(e) => setFirstName(e.target.value)} />
+                </div>
+                <div className='row'>
+                  <input type="text" className='inputs' name='last_name'
+                    value={last_name}
+                    required
+                    placeholder='Last name.'
+                    onChange={(e) => setLastName(e.target.value)} />
+                </div>
+                <div className='row'>
+                  <input type="text"  className='inputs'                   
+                    value={username} 
+                    placeholder='Username.'
+                    required
+                    onChange={(e) => setUsername(e.target.value)} />
+                </div>
+                <div className='row'>
+                  <input type="email" className='inputs'
+                    value={email} 
+                    placeholder='Email'
+                    required
+                    onChange={(e) => setEmail(e.target.value)} />
+                </div>
             </div>
-            <div className='row'>
-              <div className='labels'>Email</div>
-              <input type="email" className='inputs'
-                value={email} 
-                onChange={(e) => setEmail(e.target.value)} />
+            <div className='lower'>
+              <div className='row'>
+                <input type="text" className='inputs'
+                  value={webmail} 
+                  required
+                  placeholder='Webmail e.g. xxxxxxx.mak.ac.ug'
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    if (value.includes('mak.ac.ug')) {
+                      setWebmail(value);
+                      setMessage(''); // Clear any previous error message
+                    } else {
+                      setWebmail(value);
+                      setMessage('Webmail must contain "mak.ac.ug".');
+                    }
+                  }} />
+              </div>
+              <div className='row'>
+                <input type="password" className='inputs'
+                  value={password} 
+                  placeholder='Password.'
+                  required
+                  onChange={(e) => setPassword(e.target.value)} />
+              </div>
+              <div className='row'>
+                <select type="text" className='inputs'
+                  value={department} 
+                  required
+                  onChange={(e) => {
+                    setDepartment(e.target.value);
+                    setCourse('Select a course first'); // Reset course when department changes
+                  }}>
+                  <option value="">Select a college</option>
+                  {Object.keys(COLLEGES).map((college, index) => (
+                    <option key={index} value={college}>{college}</option>
+                  ))}
+                </select>
+              </div>
+              <div className='row'>
+                <select type="text" className='inputs' choices={COLLEGES[department]}
+                  value={course} 
+                  required
+                  onChange={(e) => setCourse(e.target.value)}>
+                  <option value="Select a course first">Select a course first</option>
+                  {COLLEGES[department] && COLLEGES[department].map((course, index) => (
+                    <option key={index} value={course}>{course}</option>
+                  ))}
+                </select> 
+              </div>
             </div>
-            <div className='row'>
-              <div className='labels'>Password</div>
-              <input type="password" className='inputs'
-                value={password} 
-                onChange={(e) => setPassword(e.target.value)} />
-            </div>
-            <div className='row'>
-              <div className='labels'>Role</div>
-              <input type="text" className='inputs' choices={['student', 'lecturer', 'registrar']}
-                value={role} 
-                onChange={(e) => setRole(e.target.value)} />
-            </div>
-            <div className='row'>
-              <div className='labels'>Department</div>
-              <input type="text" className='inputs' choices={['cocis', 'cobams', 'conas']}
-                value={department} 
-                onChange={(e) => setDepartment(e.target.value)} />
-            </div>
-            <button type="submit" className='buttons'>Submit</button>
           </form>
-          {message && <div>{message}</div>}
+          <div className='choicearea'>
+              <button type="submit" className='buttons' style={{margin:"auto"}} onClick={() => signup(event)}>Signup</button>
+          </div>
+          <Link to='/login'>Already have an account?</Link>
+          {message && <div style={{color:"red"}}>{message}</div>}
       </div>
     );
   }
