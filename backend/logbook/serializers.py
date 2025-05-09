@@ -62,6 +62,11 @@ class LoginSerializer(serializers.Serializer):
 
         data['user'] = user
         return data
+    
+class UserDetailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = '__all__'
 
 
 class IssueSerializer(serializers.ModelSerializer):

@@ -17,9 +17,13 @@ function SignupPage() {
     const [webmail, setWebmail] = useState('');
     const [course, setCourse] = useState('Select a course first');
     const [department, setDepartment] = useState('');
+    const [verificationPending, setVerificationPending] = useState(false);
+
     const navigate = useNavigate();
-    sessionStorage.removeItem('user');
-    sessionStorage.removeItem('token');
+    useEffect(() => {
+      sessionStorage.removeItem('user');
+      sessionStorage.removeItem('token');
+    }, []);
 
     const signup = async (event) => {
       event.preventDefault();
@@ -27,47 +31,61 @@ function SignupPage() {
         const response = await axios.post('http://127.0.0.1:8000/signup/', { first_name, last_name, username, password, email, webmail, department, course });
           sessionStorage.setItem('token', response.data.access);
           sessionStorage.setItem('user', JSON.stringify(response.data.user));
-          const token = response.data.access;
-          const user = response.data.user;
 
-          const pollVerificationStatus = async () => {
-            try {
-              const intervalId = setInterval(async () => {
-                const updatedUserResponse = await axios.get(
-                  `http://127.0.0.1:8000/user/${user.id}/`,
-                  {
-                    headers: {
-                      'Authorization': `Bearer ${token}`
-                    }
-                  }
-                );
-                const updatedUser = updatedUserResponse.data;
+          setMessage('Signup successful! Please verify your email and then click "Verify Email" below.');
+          setVerificationPending(true);
 
-                if (updatedUser.is_email_verified) {
-                  clearInterval(intervalId); // Stop polling once verified
-                  sessionStorage.setItem('user', JSON.stringify(updatedUser));
-
-                  if (updatedUser.role === "lecturer") {
-                    navigate("/lecturer");
-                  } else if (updatedUser.role === "registrar") {
-                    navigate("/registrar");
-                  } else {
-                    navigate("/student");
-                  }
-                }
-              }, 5000); // Poll every 5 seconds
-            } catch (error) {
-              console.error('Error while polling verification status:', error);
-            }
-          };
-
-          setMessage('Please verify your email. Waiting for verification... Check spam folder as well :)');
-          pollVerificationStatus();
-      } catch (error) {
-        setMessage('Signup failed. Invalid credentials!');
-        console.error(error);
-      }
+        } catch (error) {
+          setMessage('Signup failed. Invalid credentials!');
+          console.error(error);
+        }
     }
+
+    const verifyEmail = async () => {
+      const token = sessionStorage.getItem('token');
+      const userString = sessionStorage.getItem('user');
+    
+      if (!userString) {
+        console.error("No user found in session storage.");
+        setMessage("User not found. Please sign up again.");
+        return;
+      }
+    
+      const user = JSON.parse(userString);
+    
+      if (!user || !user.id) {
+        console.error("Invalid user object:", user);
+        setMessage("Invalid user data. Please sign up again.");
+        return;
+      }
+    
+      try {
+        const response = await axios.get(
+          `http://127.0.0.1:8000/user/${user.id}/`,
+        );
+        const updatedUser = response.data;
+    
+        if (updatedUser.is_email_verified) {
+          sessionStorage.setItem('user', JSON.stringify(updatedUser));
+          setMessage('Email verified successfully! Redirecting...');
+    
+          if (updatedUser.role === "lecturer") {
+            navigate("/lecturer");
+          } else if (updatedUser.role === "registrar") {
+            navigate("/registrar");
+          } else {
+            navigate("/student");
+          }
+        } else {
+          setMessage('Email is not verified yet. Please check your inbox or spam folder.');
+        }
+      } catch (error) {
+        console.error('Error checking verification:', error);
+        setMessage('An error occurred while checking verification.');
+      }
+    };
+    
+    
 
     return (
       <div className='homepage'>
@@ -155,9 +173,17 @@ function SignupPage() {
               </div>
             </div>
           </form>
-          <div className='choicearea'>
+          {verificationPending ? (
+            <div className='choicearea'>
+              <button className='buttons' style={{ marginTop: '10px' }} onClick={verifyEmail}>
+                Verify Email
+              </button>
+            </div>
+          ) : (
+            <div className='choicearea'>
               <button type="submit" className='buttons' style={{margin:"auto"}} onClick={() => signup(event)}>Signup</button>
-          </div>
+            </div>
+          )}
           <Link to='/login'>Already have an account?</Link>
           {message && <div style={{color:"red"}}>{message}</div>}
       </div>

@@ -4,8 +4,8 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from .serializers import *
 from .models import *
-from rest_framework.permissions import AllowAny, AllowAny
-from rest_framework.decorators import api_view
+from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.decorators import api_view, permission_classes
 from django.contrib.auth import get_user_model, login
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.core.mail import send_mail
@@ -26,6 +26,14 @@ def index(request):
 
 from django.core.mail import send_mail
 from django.conf import settings
+from django.contrib.auth.tokens import PasswordResetTokenGenerator
+
+class EmailVerificationTokenGenerator(PasswordResetTokenGenerator):
+    def _make_hash_value(self, user, timestamp):
+        return f"{user.pk}{timestamp}{user.is_email_verified}"  # Removed last_login
+
+email_verification_token = EmailVerificationTokenGenerator()
+
 
 def send_notification(sender, receiver, content, email=False):
     Notification.objects.create(
@@ -36,7 +44,7 @@ def send_notification(sender, receiver, content, email=False):
     
 def send_verification_email(id, **kwargs):
     user = get_object_or_404(CustomUser, pk=id)
-    token = default_token_generator.make_token(user)
+    token = email_verification_token.make_token(user)  # Custom token generator
     uid = urlsafe_base64_encode(force_bytes(user.pk))
     verify_url = f"http://127.0.0.1:8000/verify-email/{uid}/{token}"
     send_mail(
@@ -46,19 +54,26 @@ def send_verification_email(id, **kwargs):
         recipient_list=[user.email],
     )
 
+
 @api_view(["GET"])
+@permission_classes([AllowAny])
 def verify_email(request, uid, token):
     try:
-        id = urlsafe_base64_decode(uid).decode()
-        user = CustomUser.objects.get(pk=id)
+        uid_decoded = urlsafe_base64_decode(uid).decode()
+        user = CustomUser.objects.get(pk=uid_decoded)
     except Exception:
         return JsonResponse({"error": "Invalid UID"}, status=400)
 
-    if default_token_generator.check_token(user, token):
+    # Use the custom token generator for validation
+    if email_verification_token.check_token(user, token):
         user.is_email_verified = True
         user.save()
-        return JsonResponse({"message": "Email verified successfully"})
+        login(request, user)  # Log the user in after email verification
+        log_action(user, "Email verified successfully.")
+        return JsonResponse({"message": "Email verified successfully. You can now return to the signup Page"}, status=200)
+
     return JsonResponse({"error": "Invalid or expired token"}, status=400)
+
 
 def log_action(user, action):
     Log.objects.create(
@@ -88,10 +103,6 @@ class RegisterView(generics.CreateAPIView):
             email=True
         )
         send_verification_email(id=user.id)
-
-        # Automatically log in the user after signup
-        login(request, user)
-
         return Response({
             'token': access_token,
             'user': RegisterSerializer(user).data
@@ -123,7 +134,7 @@ class LoginView(generics.GenericAPIView):
     
 class UserDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = User.objects.all()
-    serializer_class = RegisterSerializer
+    serializer_class = UserDetailSerializer
     permission_classes = [AllowAny]
 
     def get(self, request, *args, **kwargs):
