@@ -55,10 +55,7 @@ button:hover{
 h2{
     text-align: center;
    
-    cursor: pointer;
-    flex-direction: column;
-    border-radius: 10px;
-    margin-top: 10px;
+    
     background-color: black;
     font-family: 'Courier New', Courier, monospace;
     font-size: large;
