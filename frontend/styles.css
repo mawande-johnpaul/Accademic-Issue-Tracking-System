@@ -60,6 +60,7 @@ h2{
     border-radius: 10px;
     margin-top: 10px;
     background-color: black;
+    font-family: 'Courier New', Courier, monospace;
 }
 nav{
     display: flex;
