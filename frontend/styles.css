@@ -46,11 +46,10 @@ button:hover{
     background-color: white;
     border-radius: 5px;
     cursor: pointer;
-    border: #f4f4f4s;
+    border: none;
     text-align: center;
         
 }
-
 .submit:hover{
     background-color: red;
 }
