@@ -309,5 +309,13 @@ class ChangeUsernameAPIView(APIView):
         if not new_username:
             return Response({"error":"New user name is required"})
         
-        
+        from django.contrib.auth import get_user_model
+        User = get_user_model()
+        if User.objects.filter(username=new_username).exclude(id=user.id).exists():
+            return Response({"error": "Username is already taken"}, status=status.HTTP_400_BAD_REQUEST)
+
+        user.username = new_username
+        user.save()
+
+        return Response({"success": "Username changed successfully"}, status=status.HTTP_200_OK)
     
