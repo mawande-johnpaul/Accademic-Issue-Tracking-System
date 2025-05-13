@@ -333,6 +333,7 @@ class UpdateEmailView(APIView):
             validate_email(new_email)
         except ValidationError:
             return Response({"error":"Invalid email format"},status=status.HTTP_400_BAD_REQUEST)
+        #logic to ensure that one doesn't enter the old email they had as the new one
         if user.email == new_email:
             return Response({"error":"This is your current email.Please get a new one"},status=status.HTTP_400_BAD_REQUEST)
         user.email = new_email
