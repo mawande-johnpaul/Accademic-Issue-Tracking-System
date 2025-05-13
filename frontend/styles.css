@@ -50,15 +50,5 @@ button:hover{
         
 }
 
-.submit:hover{
-    background-color: red;
-}
-h2{
-    text-align: center;
-}
-nav{
-    display: flex;
-    flex-direction: column;
-
 }
 
