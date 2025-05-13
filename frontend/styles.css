@@ -54,6 +54,7 @@ button:hover{
 }
 h2{
     text-align: center;
+    border: 1px solid;
 }
 nav{
     display: flex;
