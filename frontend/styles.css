@@ -22,7 +22,8 @@ form{
 .remember{
     margin-bottom: 1px;
 }
-
+label{
+    margin-top: 10px;
 }
 input,textarea,button{
     margin-top: 5px;
