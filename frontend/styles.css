@@ -61,6 +61,7 @@ h2{
     margin-top: 10px;
     background-color: black;
     font-family: 'Courier New', Courier, monospace;
+    font-size: large;
 }
 nav{
     display: flex;
