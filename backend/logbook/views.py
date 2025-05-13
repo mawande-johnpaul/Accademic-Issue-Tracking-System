@@ -344,3 +344,32 @@ class UpdateEmailView(APIView):
         user.save()
 
         return Response({"success": "Email updated successfully"}, status=status.HTTP_200_OK)
+    
+class UpdateThemeView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def put(self, request):
+        user = request.user
+        new_theme = request.data.get("theme")
+
+        if new_theme not in ['light', 'dark']:
+            return Response({"error": "Invalid theme selected."}, status=400)
+
+        user.theme = new_theme
+        user.save()
+
+        # create  log & notify
+        Log.objects.create(
+            user=user,
+            action="Changed theme",
+            description=f"{user.username} changed theme to {new_theme}"
+        )
+
+        Notification.objects.create(
+            user=user,
+            title="Theme Changed",
+            message=f"Your theme has been changed to {new_theme}.",
+            type="account"
+        )
+
+        return Response({"success": f"Theme updated to {new_theme}"}, status=200)
