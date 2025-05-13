@@ -286,12 +286,13 @@ class UpdateRecoveryInfoView(APIView):
                 user.recovery_email = recovery_email
             except ValidationError:
                 return Response({"error":"Invalid email format"},status=400)
-        
-                
-                
-                
-        if recovery_phone:
+        if recovery_phone and recovery_phone.isdigit():
             user.recovery_phone = recovery_phone
-
         user.save()
         return Response({"success": "Recovery info updated successfully."}, status=200)
+            
+                
+                
+                
+        
+    
