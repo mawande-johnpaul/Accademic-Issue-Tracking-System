@@ -319,3 +319,17 @@ class ChangeUsernameAPIView(APIView):
 
         return Response({"success": "Username changed successfully"}, status=status.HTTP_200_OK)
     
+class UpdateEmailView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def put(self, request):
+        user = request.user
+        new_email = request.data.get("new_email")
+
+        if not new_email:
+            return Response({"error": "Email is required."}, status=status.HTTP_400_BAD_REQUEST)
+
+        user.email = new_email
+        user.save()
+
+        return Response({"success": "Email updated successfully"}, status=status.HTTP_200_OK)
