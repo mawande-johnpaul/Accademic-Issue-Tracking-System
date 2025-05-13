@@ -16,7 +16,8 @@ from django.contrib import admin
 from django.http import HttpResponseNotFound
 import logging
 from rest_framework.throttling import AnonRateThrottle
-
+from django.core.validators import validate_email
+from django.core.exceptions import ValidationError
 
 
 logger = logging.getLogger(__name__)
@@ -279,7 +280,16 @@ class UpdateRecoveryInfoView(APIView):
         recovery_phone = request.data.get("recovery_phone")
 
         if recovery_email:
-            user.recovery_email = recovery_email
+            #validate recovery email
+            try:
+                validate_email(recovery_email)
+                user.recovery_email = recovery_email
+            except ValidationError:
+                return Response({"error":"Invalid email format"},status=400)
+        
+                
+                
+                
         if recovery_phone:
             user.recovery_phone = recovery_phone
 
