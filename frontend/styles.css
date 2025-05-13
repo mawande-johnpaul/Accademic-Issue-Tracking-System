@@ -63,6 +63,7 @@ h2{
     font-family: 'Courier New', Courier, monospace;
     font-size: large;
     font-weight: 100px;
+    text-align: center;
 }
 nav{
     display: flex;
