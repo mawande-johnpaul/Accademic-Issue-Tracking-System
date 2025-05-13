@@ -11,7 +11,8 @@ body{
     padding:20px;
     background:white;
     border-radius: 4px;
-    box-shadow: 0px 0px 10px;
+    box-shadow: 5px 10PX 7PX;
+
 }
 form{
     display:flex;
