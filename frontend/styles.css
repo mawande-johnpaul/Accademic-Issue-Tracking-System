@@ -44,6 +44,7 @@ button:hover{
 .submit{
     background-color: white;
     border-radius: 5px;
+    cursor: pointer;
     border: none;
     text-align: center;
         
