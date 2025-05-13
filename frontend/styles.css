@@ -57,6 +57,7 @@ h2{
     border: 1px solid;
     cursor: pointer;
     flex-direction: column;
+    border-radius: 10px;
 }
 nav{
     display: flex;
