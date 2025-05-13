@@ -55,6 +55,7 @@ button:hover{
 h2{
     text-align: center;
     border: 1px solid;
+    cursor: pointer;
 }
 nav{
     display: flex;
