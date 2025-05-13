@@ -328,7 +328,10 @@ class UpdateEmailView(APIView):
 
         if not new_email:
             return Response({"error": "Email is required."}, status=status.HTTP_400_BAD_REQUEST)
-
+        try:
+            validate_email(new_email)
+        except ValidationError:
+            return Response({"error":"Invalid email format"},status=status.HTTP_400_BAD_REQUEST)
         user.email = new_email
         user.save()
 
