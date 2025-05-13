@@ -54,7 +54,7 @@ button:hover{
 }
 h2{
     text-align: center;
-    border: 1px solid;
+   
     cursor: pointer;
     flex-direction: column;
     border-radius: 10px;
