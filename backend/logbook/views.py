@@ -20,7 +20,7 @@ from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
-
+from rest_framework import status
 
 logger = logging.getLogger(__name__)
 
@@ -299,7 +299,15 @@ class UpdateRecoveryInfoView(APIView):
         return Response({"success": "Recovery info updated successfully."}, status=200)
             
                 
-                
-                
+
+class ChangeUsernameAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+    
+    def put(self,request):
+        user = request.user
+        new_username = request.data.get("new_username")
+        if not new_username:
+            return Response({"error":"New user name is required"})
+        
         
     
