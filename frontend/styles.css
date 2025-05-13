@@ -48,7 +48,6 @@ button:hover{
     cursor: pointer;
     border: none;
     text-align: center;
-        
 }
 .submit:hover{
     background-color: red;
