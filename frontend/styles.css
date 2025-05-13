@@ -64,6 +64,7 @@ h2{
     font-size: large;
     font-weight: 100px;
     text-align: center;
+    text-shadow: none;
 }
 nav{
     display: flex;
