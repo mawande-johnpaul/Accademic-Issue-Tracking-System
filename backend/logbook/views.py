@@ -18,6 +18,8 @@ import logging
 from rest_framework.throttling import AnonRateThrottle
 from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
+from django.contrib.auth.password_validation import validate_password
+from django.core.exceptions import ValidationError
 
 
 logger = logging.getLogger(__name__)
@@ -251,6 +253,10 @@ class ChangePasswordAPIView(APIView):
                 {"error": "New password and confirmation do not match"},
                 status=status.HTTP_400_BAD_REQUEST
             )
+            try: 
+                validate_password(new_password,user)
+            except ValidationError as e:
+                return Response({"error":list(e)},status=400)
         user.set_password(new_password)
         user.save()
         #shows general events like changing password when they happen
