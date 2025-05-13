@@ -46,7 +46,7 @@ button:hover{
     background-color: white;
     border-radius: 5px;
     cursor: pointer;
-    border: none;
+    border: #f4f4f4s;
     text-align: center;
         
 }
