@@ -13,7 +13,7 @@ const AssignedIssues = () => {
     const [selectedIssue, setSelectedIssue] = useState(null);
     const [showProgressForm, setShowProgressForm] = useState(false);
 
-    ////fetch assigned issues from backend
+    //fetch assigned issues from backend
     useEffect(() => {    
     const fetchIssues = async() => {
         const token = localStorage.getItem('authToken');
