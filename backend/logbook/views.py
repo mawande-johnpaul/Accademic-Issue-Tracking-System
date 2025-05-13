@@ -328,6 +328,7 @@ class UpdateEmailView(APIView):
 
         if not new_email:
             return Response({"error": "Email is required."}, status=status.HTTP_400_BAD_REQUEST)
+        # logic for verifying the updated email
         try:
             validate_email(new_email)
         except ValidationError:
