@@ -336,9 +336,10 @@ class UpdateEmailView(APIView):
         #logic to ensure that one doesn't enter the old email they had as the new one
         if user.email == new_email:
             return Response({"error":"This is your current email.Please get a new one"},status=status.HTTP_400_BAD_REQUEST)
-        
+        #logic to prevent duplicate updated email entry 
         if User.objects.filter(email=new_email).exclude(id=user.id).exists():
             return Response({"error":"This email is already taken by another user"})
+        #save 
         user.email = new_email
         user.save()
 
