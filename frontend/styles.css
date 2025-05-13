@@ -24,7 +24,11 @@ form{
 label{
     margin-top: 10px;
 }
-
+input,textarea,button{
+    margin-top: 5px;
+    padding:10px;
+    font-size:16px;
+    border-radius: 5px;
 }
 button{
     background-color:rgb(36, 219, 36);
