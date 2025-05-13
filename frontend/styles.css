@@ -55,7 +55,16 @@ button:hover{
 h2{
     text-align: center;
     border: 1px solid;
-    
+    cursor: pointer;
+    flex-direction: column;
+    border-radius: 10px;
+    margin-top: 10px;
+    background-color: black;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: large;
+    font-weight: 100px;
+    text-align: center;
+    text-shadow: none;
 }
 nav{
     display: flex;
