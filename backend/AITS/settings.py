@@ -205,7 +205,7 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'aitsystem0@gmail.com'
 EMAIL_HOST_PASSWORD = 'kzbq fwxu unbj ohip'
-DEFAULT_FROM_EMAIL = 'aitsystem@gmail.com'
+DEFAULT_FROM_EMAIL = 'aitsystem0@gmail.com'
 
 from datetime import timedelta
 
