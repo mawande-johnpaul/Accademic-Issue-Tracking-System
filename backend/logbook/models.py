@@ -6,7 +6,7 @@ DEPARTMENT_CHOICES = [('cocis','CoCIS'), ('cobams','CoBAMS'), ('conas','CoNAS'),
 COURSES = [('CC1000','Electrical'), ('CC1100','Civil'), ('CC1200','Mechanical'), ('CC1300','Chemical')]
 ROLES = [('student','Student'), ('lecturer','Lecturer'), ('registrar','Registrar'), ('admin','Admin')]
 ISSUE_CATEGORIES = [('marks','Missing Marks'), ('attendance','Attendance'), ('resources','Resources'), ('environment','Environmental'), ('conduct','Conduct'), ('schedules','Schedules')]
-THEME_CHOICES=[('light','Light'),('dark','Dark')]
+# THEME_CHOICES=[('light','Light'),('dark','Dark')]
 # Create your models here.
 class CustomUser(AbstractUser):
     id = models.AutoField(primary_key=True)
