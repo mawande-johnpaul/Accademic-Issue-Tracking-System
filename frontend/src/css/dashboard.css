@@ -28,25 +28,23 @@
   .left-side, .content-section, .right-side {
     display: flex;
     flex-direction: column;
-    padding: 0px;
     height: 98vh;
   }
   
   .left-side {
-    width: 20%;
+    width: 25%;
     background-color: #06302B;
-    border-radius: 8px 0px 0px 8px;
+    border-radius: 8px;
   }
   
   .content-section {
     display: flex;
     flex-direction: column;
-    width: 60%;
+    width: 80%;
     background-color: #ffffff;
     margin-left: 10px;
     margin-right: 10px;
     border-color: #808080;
-    height: 97.5vh;
   }
 
   .form-holder{
@@ -59,27 +57,28 @@
     border-bottom: 0px;
     border-radius: 5px 5px 0px 0px;
     border-color: #808080;
-    height: 4.5%;
+    height: 3vh;
     font-size: 20px;
     font-weight: bold;
+    padding: 5px;
     padding-left: 10px;
-    padding-top: 5px;
-    background-color: #d5d5d5;
+    background-color:rgb(240, 240, 153);
     cursor: pointer;
   }
   
   .content-section-body {
-    border: 1px solid;
-    border-color: #d5d5d5;
-    height: 94.5%;
+    border: 2px solid;
+    border-color: rgb(240, 240, 153);
+    height: 90.5vh;
     padding: 10px;
     border-top: 0px;
     border-radius: 0px 0px 5px 5px;
+    overflow-y: scroll;
   }
   
   .right-side {
     width: 20%;
-    align-items: center;
+    gap: 1vh;
   }
 
   .left-buttons {
@@ -90,43 +89,22 @@
     margin-bottom: 15px;
     cursor: pointer;
     transition: background-color 0.3s, color 0.3s;
-    padding-left: 30px;
+    justify-content: left;
+    padding-left: 20%;
     border-radius: 5px;
-    border: 0px;
+    border: 2px transparent;
     background-color: #ffffff;
     font-weight: 600;
     font-size: 14px;
+    justify-self: center;
     margin: 10px;
     font-family: 'Inter', 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     color: #333333;
   }
   
   .left-buttons:hover {
-    background-color: #00DF81;
+    border: 2px solid #00DF81;
     color: #032221;
-  }
-  
-  .profile-area {
-    width: 99%;
-    display: flex;
-    gap: 5px;
-    height: 7.2%;
-    margin-bottom: 7px;
-    background-color: beige;
-    border-radius: 5px;
-    align-content: center;
-  }
-
-  .profile-picture{
-    align-content: center;
-    padding-left: 20px;
-    padding-right: 10px;
-    padding-top: 4px;
-  }
-
-  .profile{
-    width: 40px;
-    height: 40px;
   }
 
   .logo-profile{
@@ -134,11 +112,17 @@
     height: 50px;
   }
 
-  .profile-name{
-    font-size: 22px;
-    font-weight: bolder;
-    align-content: center;
-    color: #333333;
+  .InPageLoginButton{
+    background-color: #00DF81;
+    padding: 10px;
+    text-align: center;
+    color: black;
+    text-decoration: none;
+    border-radius: 10px;
+    border: 0px;
+    cursor: pointer; 
+    font-family:"Inter"; 
+    font-weight:bold;
   }
 
   .search-bar {
@@ -167,7 +151,7 @@
     width: 20%;
     background-color: #032221;
     color: #FFFFFF;
-    font-size: 20px;
+    font-size: 18px;
     font-family: 'Inter', 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     font-weight: bold;
     border: none;
@@ -176,8 +160,8 @@
   }
   
   .display-pane {
-    width: 100%;
-    height: 30vh;
+    height: auto;
+    margin-bottom: 10px;
     display: flex;
     flex-direction: column;
   }
@@ -187,22 +171,22 @@
     border-bottom: 0px;
     border-radius: 5px 5px 0px 0px;
     border-color: #808080;
-    height: 13%;
+    height: auto;
     font-size: 16px;
     padding-left: 10px;
     padding-top: 5px;
     background: #d5d5d5;
-    background-color: #d5d5d5;
+    background-color: rgb(240, 240, 153);
     cursor: pointer;
     font-weight: bold;
+    padding-bottom: 5px;
   }
   
   .pane-content {
-    border: 0px solid;
+    border: 2px solid rgb(240, 240, 153);
     border-radius: 0px 0px 5px 5px;
-    border-color: #808080;
-    background-color: beige;
-    height: 75%;
+    height: 91.5vh;
+    max-height: 91.5vh;
     padding: 5px;
     border-top: 0px;
     font-size: 10px;
@@ -214,21 +198,21 @@
     display: flex;
     flex-direction: column;
     align-items: flex-start; /* Align items to the left */
-    border: 0px solid;
+    border: 2px solid #808080;
     border-radius: 5px;
-    border-color: #808080;
+    border-color: rgb(240, 240, 153);
     margin: 5px 0px;
     padding: 5px;
     cursor: pointer;
-    white-space: nowrap;
-    overflow: hidden;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
     text-overflow: ellipsis;
-    background-color: #FFFFFF;
+    gap:5px;
   }
 
   .message-header{
     font-weight: bold;
-    font-size: 18;
+    font-size: 14px;
   }
   
   .message-body{
@@ -243,17 +227,17 @@
     background-color: #032221;
     margin-bottom: 20px;
     padding-left: 5px;
-    border-radius: 10px 0px 0px 0px;
+    border-radius: 10px 10px 0px 0px;
     display: flex;
     color: #FFFFFF;
     flex-direction: row;
   }
   
   .logo-subtext {
-    font-size: 12px;
+    font-size: 1.5vh;
     text-align: left;
     padding-left: 10px;
-    padding-top: 14px;
+    padding: 14px 5px;
     white-space: normal; /* Allows text to wrap */
   }
   
@@ -275,21 +259,79 @@
   }
 
   .issue-card{
-    border: 1px solid;
-    margin-bottom: 10px;
     border-radius: 5px;
     border-color: beige;
+    margin: auto;
+    margin-bottom: 10px;
+    height: auto;
   }
 
   .card-header{
     font-weight: bold;
     font-size: 12px;
     padding: 5px;
-    background-color:beige;
+    background-color:#06302B;
+    border-radius: 5px 5px 0px 0px;
+    color: #FFFFFF;
+    text-align: left;
   }
 
   .card-body{
+    padding: 5px 10px;
+    font-size: 12px;
+    border: 2px solid #06302B;
+    border-radius: 0px 0px 5px 5px;
+    justify-items: right;
+    text-align: left;
+  }
+  
+.card-body div{
+  justify-self: left;
+  margin: 10px 0px;
+}
+
+  .cardbuttons{
+    border: 0px;
+    cursor: pointer;
     padding: 10px;
-    font-size: 14px;
+    margin: 10px;
+    border-radius: 5px;
+    font-family: inherit;
+    font-weight: bold;
   }
 
+  .viewcontainer{
+    margin: 0px;
+    justify-content: center;
+    height: auto;
+  }
+
+  .viewarea{
+    margin: auto;
+    text-align: left;
+    padding-left: 6vh;
+    height: auto;
+  }
+
+  .viewarea p{
+    font-size: 12px;
+  }
+
+  .assignarea{
+    margin: auto;
+    justify-content: center;
+    height: auto;
+  }
+
+  .assignarea div{
+    margin: 3vh auto;
+    justify-self: center;
+    height: auto;
+  }
+
+  .h1{
+    font-size: 12px;
+    font-weight: bold;
+    margin: 10px 0px;
+    padding-right: 10px;
+  }
