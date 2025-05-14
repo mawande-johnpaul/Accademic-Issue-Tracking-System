@@ -1,11 +1,11 @@
-# Use Python base image
+# Use official Python image
 FROM python:3.10-slim
 
 # Set environment variables
-ENV PYTHONDONTWRITEBYTECODE 1
-ENV PYTHONUNBUFFERED 1
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
 
-# Set working directory
+# Set work directory
 WORKDIR /app
 
 # Install system dependencies
@@ -14,30 +14,27 @@ RUN apt-get update && apt-get install -y \
     libpq-dev \
     && rm -rf /var/lib/apt/lists/*
 
-# Install pip and pipenv
+# Upgrade pip
 RUN pip install --upgrade pip
-RUN pip install pipenv
 
-# Copy Pipfile (from backend folder)
-COPY backend/Pipfile /app/
-# Optional: if you have Pipfile.lock
-# COPY backend/Pipfile.lock /app/
+# Copy requirements.txt
+COPY backend/requirements.txt /app/
 
-# Install Python dependencies
-RUN pipenv install --skip-lock
+# Install dependencies
+RUN pip install -r requirements.txt
 
-# Copy the whole project
+# Copy project files
 COPY . /app/
 
-# Set working directory to backend
+# Change directory to backend
 WORKDIR /app/backend
 
-# Run Django setup commands
-RUN pipenv run python manage.py collectstatic --noinput
-RUN pipenv run python manage.py migrate
+# Collect static files and migrate
+RUN python manage.py collectstatic --noinput
+RUN python manage.py migrate
 
-# Expose port
+# Expose the port
 EXPOSE 8000
 
-# Start the app
-CMD ["pipenv", "run", "gunicorn", "AITS.wsgi:application", "--bind", "0.0.0.0:8000"]
+# Start server
+CMD ["gunicorn", "AITS.wsgi:application", "--bind", "0.0.0.0:8000"]
