@@ -11,7 +11,7 @@ const IssueCard = ({ isssue, type, token, setContent, setid}) => {
     setContent('LecturerView');
   };
   const reject = async (identifier, setContent) => {
-    const response = await axios.delete(`http://aitsysten.up.railway.app/issues/remove/${identifier}/`, {
+    const response = await axios.delete(`http://aitsmak.up.railway.app/issues/remove/${identifier}/`, {
       headers: {
         'Authorization': `Bearer ${token}`,
       },
@@ -19,7 +19,7 @@ const IssueCard = ({ isssue, type, token, setContent, setid}) => {
     setContent("NewIssues")
 }
 const markAsDone = async (identifier, setContent) => {
-  const response = await axios.delete(`http://aitsysten.up.railway.app/issues/remove/${identifier}/`, {
+  const response = await axios.delete(`http://aitsmak.up.railway.app/issues/remove/${identifier}/`, {
     headers: {
       'Authorization': `Bearer ${token}`,
     },
@@ -28,7 +28,7 @@ const markAsDone = async (identifier, setContent) => {
 }
 
 const notify = async (identifier, setContent) => {
-  const response = await axios.post(`http://aitsysten.up.railway.app/issues/notify/${identifier}/lecturer_notify/`, {
+  const response = await axios.post(`http://aitsmak.up.railway.app/issues/notify/${identifier}/lecturer_notify/`, {
     headers: {
       'Authorization': `Bearer ${token}`,
     },

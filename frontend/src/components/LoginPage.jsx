@@ -14,7 +14,7 @@ function LoginPage() {
         event.preventDefault(); // Prevent the form from refreshing the page
 
         try {
-            const response = await axios.post('http://aitsysten.up.railway.app/login/', { username, password });
+            const response = await axios.post('http://aitsmak.up.railway.app/login/', { username, password });
             sessionStorage.setItem('token', response.data.access_token); // Store the token in the browser
             sessionStorage.setItem('user', JSON.stringify(response.data.user)); // Store the user data in the browser
             if (response.data.user.is_email_verified === false) {

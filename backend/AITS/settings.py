@@ -26,12 +26,11 @@ SECRET_KEY = 'django-insecure-=)^=tl^%$nw&ip#(^ch%@d(&24f%@ul)6m%4dbso4aj$%e-u64
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['aitsysten.up.railway.app', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['aitsmak.up.railway.app', 'localhost', '127.0.0.1']
 
 # CORS settings
 CORS_ALLOWED_ORIGINS = [
-    'http://aitsysten.up.railway.app',
-    'http://127.0.0.1:8000',
+    'http://aitsmak.up.railway.app',
     'http://localhost:5173',
 ]
 CORS_ALLOW_METHODS = [
@@ -39,8 +38,8 @@ CORS_ALLOW_METHODS = [
 ]
 
 CSRF_TRUSTED_ORIGINS = [
-    "http://aitsysten.up.railway.app",
-    'http://localhost:8000',
+    'http://aitsmak.up.railway.app',
+    'http://localhost:5173',
 ]
 
 # Application definition

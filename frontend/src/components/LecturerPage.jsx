@@ -20,7 +20,7 @@ const LecturerPage = ({content, setContent}) => {
   useEffect(() => {
     const fetchIssues = async () => {
       try {
-        const response = await axios.get(`http://aitsysten.up.railway.app/issues/${user.id}/`, {
+        const response = await axios.get(`http://aitsmak.up.railway.app/issues/${user.id}/`, {
           headers: {
             'Authorization': `Bearer ${token}`
           }
@@ -33,7 +33,7 @@ const LecturerPage = ({content, setContent}) => {
 
     const fetchResolvedIssues = async () => {
       try {
-        const response = await axios.get(`http://127.0.1:8000/issues/${user.id}/Resolved`, {
+        const response = await axios.get(`http://aitsmak.up.railway.app/issues/${user.id}/Resolved`, {
           headers: {
             'Authorization': `Bearer ${token}`
           }
@@ -45,7 +45,7 @@ const LecturerPage = ({content, setContent}) => {
       }
     }
     const fetchNotifications = async () => {
-      const response = await axios.get(`http://aitsysten.up.railway.app/notifications/${user.id}`, {
+      const response = await axios.get(`http://aitsmak.up.railway.app/notifications/${user.id}`, {
         headers: {
           'Authorization': `Bearer ${token}`,
         },
