@@ -19,8 +19,8 @@ class CustomUser(AbstractUser):
     course = models.CharField(max_length=100, choices=COURSES, default='none')
     recovery_email = models.EmailField(null=True, blank=True)
     recovery_phone = models.CharField(max_length=15, null=True, blank=True)
-    theme = models.CharField(max_length=10,choices=THEME_CHOICES,default='light')
-    profile_picture = models.ImageField(upload_to='profile_pictures/', blank=True, null=True)
+    # theme = models.CharField(max_length=10,choices=THEME_CHOICES,default='light')
+    # profile_picture = models.ImageField(upload_to='profile_pictures/', blank=True, null=True)
 
 
 
