@@ -5,8 +5,11 @@ comm==0.2.2
 debugpy==1.8.9
 decorator==5.1.1
 distlib==0.3.9
-Django==5.1.5
+Django==5.1.6
+django-cors-headers==4.7.0
+django-environ==0.12.0
 djangorestframework==3.15.2
+djangorestframework_simplejwt==5.4.0
 executing==2.1.0
 filelock==3.17.0
 gunicorn==23.0.0
@@ -24,7 +27,7 @@ prompt_toolkit==3.0.48
 psutil==6.1.0
 psycopg2-binary==2.9.10
 pure_eval==0.2.3
-Pygments==2.18.0
+Pygments==2.19.1
 python-dateutil==2.9.0.post0
 pywin32==308
 pyzmq==26.2.0
