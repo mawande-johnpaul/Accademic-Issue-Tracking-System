@@ -1,0 +1,26 @@
+table {
+    margin: 10px;
+     width: auto;
+     border-collapse: collapse;
+     font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+     font-size: 16px;
+     text-align: left;
+     border-radius: 8px;
+     overflow: hidden;
+     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+     padding: 10px;
+  }
+  
+  th, td {
+     padding: 12px 15px;
+  }
+  
+  th {
+     background-color: #4CAF50;
+     color: white;
+     font-weight: bold;
+  }
+  
+  tr:nth-child() {
+     background-color: #f2f2f2;
+  }
