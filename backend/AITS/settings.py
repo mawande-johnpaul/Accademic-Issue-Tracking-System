@@ -30,12 +30,17 @@ ALLOWED_HOSTS = ['aitsmak.up.railway.app', 'localhost', '127.0.0.1']
 
 # CORS settings
 CORS_ALLOWED_ORIGINS = [
-    'https://aitsmak.up.railway.app',
-    'http://localhost:5173',
+    'https://aitsmak.up.railway.app',  # For local development
+    'http://127.0.0.1:8000',  # Local dev server
+    'http://localhost:5173',  # For local dev
+    'https://accademic-issue-tracking-system-hz4i.vercel.app',  # Add your Vercel frontend URL
 ]
+
+
 CORS_ALLOW_METHODS = [
     'DELETE', 'GET', 'OPTIONS', 'PATCH', 'POST', 'PUT'
 ]
+
 
 CSRF_TRUSTED_ORIGINS = [
     'https://aitsmak.up.railway.app',
