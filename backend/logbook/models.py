@@ -20,6 +20,8 @@ class CustomUser(AbstractUser):
     recovery_email = models.EmailField(null=True, blank=True)
     recovery_phone = models.CharField(max_length=15, null=True, blank=True)
     theme = models.CharField(max_length=10,choices=THEME_CHOICES,default='light')
+    profile_picture = models.ImageField(upload_to='profile_pictures/', blank=True, null=True)
+
 
 
     def __str__(self):
