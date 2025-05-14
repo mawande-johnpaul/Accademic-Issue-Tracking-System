@@ -19,10 +19,10 @@ RUN pip install --upgrade pip
 RUN pip install pipenv
 
 # Copy Pipfile and Pipfile.lock
-COPY Pipfile Pipfile.lock /app/
+COPY Pipfile /app/
 
 # Install Python dependencies
-RUN pipenv install --deploy --ignore-pipfile
+RUN pipenv install --deploy --ignore-pipfile --skip-lock
 
 # Copy the entire project
 COPY . /app/
