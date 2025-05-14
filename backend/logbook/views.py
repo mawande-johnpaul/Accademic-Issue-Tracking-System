@@ -83,6 +83,13 @@ def log_action(user, action):
 
 
 # User Registration
+from rest_framework.permissions import BasePermission
+
+class IsRegistrar(BasePermission):
+    """Custom permission to grant full admin privileges to registrars."""
+    def has_permission(self, request, view):
+        return request.user.is_authenticated and request.user.role == 'registrar'
+
 class RegisterView(generics.CreateAPIView):
     queryset = User.objects.all() #Focus on all user objects
     serializer_class = RegisterSerializer
@@ -135,7 +142,7 @@ class LoginView(generics.GenericAPIView):
 class UserDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = User.objects.all()
     serializer_class = UserDetailSerializer
-    permission_classes = [AllowAny]
+    permission_classes = [IsRegistrar]  # Only registrars can access this view
 
     def get(self, request, *args, **kwargs):
         pk = kwargs.get('pk')
@@ -203,9 +210,28 @@ class IssueList3(generics.ListAPIView):
         return Issue.objects.filter(assigned_to=pk, status='Resolved')  # Filter issues by assigned_to and status
 
 # What data exactly is returned, which function does what, notifications on successful action
+class IsStudent(BasePermission):
+    """Custom permission to restrict students from removing or assigning issues."""
+    def has_permission(self, request, view):
+        return request.user.is_authenticated and request.user.role == 'student'
+
+class IsLecturer(BasePermission):
+    """Custom permission to grant lecturers specific privileges."""
+    def has_permission(self, request, view):
+        return request.user.is_authenticated and request.user.role == 'lecturer'
+
 class IssueUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = IssueSerializer
-    permission_classes = [permissions.AllowAny]
+
+    def get_permissions(self):
+        if self.request.method in ['DELETE', 'PATCH']:
+            if self.request.user.role == 'student':
+                return [permissions.IsAuthenticated(), IsStudent()]
+            elif self.request.user.role == 'lecturer':
+                return [permissions.IsAuthenticated(), IsLecturer()]
+            elif self.request.user.role == 'registrar':
+                return [permissions.IsAuthenticated(), IsRegistrar()]
+        return [permissions.AllowAny()]
 
     def get_queryset(self):
         return Issue.objects.all()
@@ -219,6 +245,8 @@ class IssueUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
             return Response({'error': 'Issue not found.'}, status=status.HTTP_404_NOT_FOUND)
 
         if action == "assign":
+            if request.user.role != 'registrar':
+                return Response({'error': 'Permission denied.'}, status=status.HTTP_403_FORBIDDEN)
             assigned_to_id = request.data.get('assigned_to')
             try:
                 user = User.objects.get(pk=assigned_to_id)
@@ -228,7 +256,6 @@ class IssueUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
                 issue.priority = request.data.get('priority', issue.priority)
                 issue.save()
                 log_action(request.user, f"Issue '{issue.title}' assigned to {user.username}.")
-
 
                 send_notification(
                     sender='Registrar',
@@ -247,7 +274,6 @@ class IssueUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
             issue.save()
             log_action(request.user, f"Progress updated on issue '{issue.title}'.")
 
-
             # Notify creator (student)
             if issue.created_by:
                 send_notification(
@@ -263,6 +289,8 @@ class IssueUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
         return Response({'error': 'Invalid action'}, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, *args, **kwargs):
+        if request.user.role == 'student':
+            return Response({'error': 'Permission denied.'}, status=status.HTTP_403_FORBIDDEN)
         pk = kwargs.get('pk')
         try:
             issue = Issue.objects.get(pk=pk)

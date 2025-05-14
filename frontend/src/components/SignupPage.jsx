@@ -20,29 +20,24 @@ function SignupPage() {
     const [verificationPending, setVerificationPending] = useState(false);
 
     const navigate = useNavigate();
-    useEffect(() => {
-      sessionStorage.removeItem('user');
-      sessionStorage.removeItem('token');
-    }, []);
 
     const signup = async (event) => {
       event.preventDefault();
       try {
         const response = await axios.post('http://127.0.0.1:8000/signup/', { first_name, last_name, username, password, email, webmail, department, course });
-          sessionStorage.setItem('token', response.data.access);
-          sessionStorage.setItem('user', JSON.stringify(response.data.user));
+        sessionStorage.setItem('token', response.data.token); // Fixed key for token
+        sessionStorage.setItem('user', JSON.stringify(response.data.user));
 
-          setMessage('Signup successful! Please verify your email and then click "Verify Email" below.');
-          setVerificationPending(true);
+        setMessage('Signup successful! Please verify your email and then click "Verify Email" above.');
+        setVerificationPending(true);
 
-        } catch (error) {
-          setMessage('Signup failed. Invalid credentials!');
-          console.error(error);
-        }
-    }
+      } catch (error) {
+        setMessage('Signup failed. Invalid credentials!');
+        console.error(error);
+      }
+    };
 
     const verifyEmail = async () => {
-      const token = sessionStorage.getItem('token');
       const userString = sessionStorage.getItem('user');
     
       if (!userString) {
@@ -61,7 +56,7 @@ function SignupPage() {
     
       try {
         const response = await axios.get(
-          `http://127.0.0.1:8000/user/${user.id}/`,
+          `http://127.0.0.1:8000/user/${user.id}/` // Ensure the endpoint matches the backend
         );
         const updatedUser = response.data;
     

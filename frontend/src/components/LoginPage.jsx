@@ -19,6 +19,7 @@ function LoginPage() {
             sessionStorage.setItem('user', JSON.stringify(response.data.user)); // Store the user data in the browser
             if (response.data.user.is_email_verified === false) {
                 setMessage('Please verify your email before logging in.');
+                
                 return;
             }
             if (response.data.user.role === "lecturer") {
