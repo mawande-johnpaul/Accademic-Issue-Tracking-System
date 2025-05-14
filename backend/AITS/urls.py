@@ -25,6 +25,7 @@ urlpatterns = [
     path("account/update-recovery/", UpdateRecoveryInfoView.as_view(), name="update_recovery"),
     path("api/settings/change-username/",ChangeUsernameAPIView.as_view(),name='api_change_username'),
     path("api/settings/change-email/",UpdateEmailView.as_view(),name='change_email'),
+    
     # path('api/settings/change-theme/', UpdateThemeView.as_view(), name='change_theme'),
     # path('api/settings/profile-picture/', UpdateProfilePictureView.as_view(), name='update_profile_picture'),
     
