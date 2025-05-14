@@ -114,10 +114,10 @@ class NotificationSerializer(serializers.ModelSerializer):  # Fixed typo in clas
         model = Notification
         fields = '__all__'
 #handles user profile
-class UserProfileSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = CustomUser
-        fields = ['username', 'email', 'profile_picture', ...]
+# class UserProfileSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = CustomUser
+#         fields = ['username', 'email', 'profile_picture', ...]
 
            
             
