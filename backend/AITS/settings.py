@@ -26,13 +26,13 @@ SECRET_KEY = 'django-insecure-=)^=tl^%$nw&ip#(^ch%@d(&24f%@ul)6m%4dbso4aj$%e-u64
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['aits-hya6gmbke7buahd3.canadacentral-01.azurewebsites.net', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['aitsysten.up.railway.app', 'localhost', '127.0.0.1']
 
 # CORS settings
 CORS_ALLOWED_ORIGINS = [
     'http://aitsysten.up.railway.app',
     'http://127.0.0.1:8000',
-    'http://aits-hya6gmbke7buahd3.canadacentral-01.azurewebsites.net'
+    'http://localhost:5173',
 ]
 CORS_ALLOW_METHODS = [
     'DELETE', 'GET', 'OPTIONS', 'PATCH', 'POST', 'PUT'
@@ -40,7 +40,7 @@ CORS_ALLOW_METHODS = [
 
 CSRF_TRUSTED_ORIGINS = [
     "http://aitsysten.up.railway.app",
-    'http://aits-hya6gmbke7buahd3.canadacentral-01.azurewebsites.net'
+    'http://localhost:8000',
 ]
 
 # Application definition
@@ -95,16 +95,50 @@ WSGI_APPLICATION = 'AITS.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'railway',
-        'USER': 'postgres',
-        'PASSWORD': 'HYejQKZIHGhSyXYaYYtUpXnjrmKuMKwv',
-        'HOST': 'shortline.proxy.rlwy.net',
-        'PORT': '38482',
+import socket
+import psycopg2
+from psycopg2 import OperationalError
+
+def can_connect_to_railway():
+    try:
+        # Try to connect to the Railway DB directly
+        connection = psycopg2.connect(
+            dbname='railway',
+            user='postgres',
+            password='HYejQKZIHGhSyXYaYYtUpXnjrmKuMKwv',
+            host='shortline.proxy.rlwy.net',
+            port='38482',
+            connect_timeout=2  # fail fast
+        )
+        connection.close()
+        return True
+    except OperationalError:
+        return False
+
+if can_connect_to_railway():
+    print("✅ Using Railway DB")
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': 'railway',
+            'USER': 'postgres',
+            'PASSWORD': 'HYejQKZIHGhSyXYaYYtUpXnjrmKuMKwv',
+            'HOST': 'shortline.proxy.rlwy.net',
+            'PORT': '38482',
+        }
     }
-}
+else:
+    print("💻 Using Local DB")
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': 'postgres',
+            'USER': 'postgres',
+            'PASSWORD': 'postgres',
+            'HOST': 'localhost',
+            'PORT': '5432',
+        }
+    }
 
 
 
@@ -171,7 +205,7 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'aitsystem0@gmail.com'
 EMAIL_HOST_PASSWORD = 'kzbq fwxu unbj ohip'
-DEFAULT_FROM_EMAIL = 'aitsystem0@gmail.com'
+DEFAULT_FROM_EMAIL = 'aitsystem@gmail.com'
 
 from datetime import timedelta
 
