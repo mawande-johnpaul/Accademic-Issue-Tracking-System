@@ -52,7 +52,7 @@ const IssueForm = ({ cs, token, username, department, pk, content, setContent}) 
 
     try {
       const response = await axios.post(
-        "http://aitsmak.up.railway.app/issues/",
+        "https://aitsmak.up.railway.app/issues/",
         formDataToSend,
         {
           headers: {

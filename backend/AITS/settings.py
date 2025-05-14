@@ -30,7 +30,7 @@ ALLOWED_HOSTS = ['aitsmak.up.railway.app', 'localhost', '127.0.0.1']
 
 # CORS settings
 CORS_ALLOWED_ORIGINS = [
-    'http://aitsmak.up.railway.app',
+    'https://aitsmak.up.railway.app',
     'http://localhost:5173',
 ]
 CORS_ALLOW_METHODS = [
@@ -38,7 +38,7 @@ CORS_ALLOW_METHODS = [
 ]
 
 CSRF_TRUSTED_ORIGINS = [
-    'http://aitsmak.up.railway.app',
+    'https://aitsmak.up.railway.app',
     'http://localhost:5173',
 ]
 
