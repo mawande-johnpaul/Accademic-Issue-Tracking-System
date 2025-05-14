@@ -30,7 +30,7 @@ ALLOWED_HOSTS = ['aits-hya6gmbke7buahd3.canadacentral-01.azurewebsites.net', 'lo
 
 # CORS settings
 CORS_ALLOWED_ORIGINS = [
-    'http://localhost:5173',
+    'http://aitsysten.up.railway.app',
     'http://127.0.0.1:8000',
     'http://aits-hya6gmbke7buahd3.canadacentral-01.azurewebsites.net'
 ]
@@ -39,7 +39,7 @@ CORS_ALLOW_METHODS = [
 ]
 
 CSRF_TRUSTED_ORIGINS = [
-    "http://localhost:5173",
+    "http://aitsysten.up.railway.app",
     'http://aits-hya6gmbke7buahd3.canadacentral-01.azurewebsites.net'
 ]
 

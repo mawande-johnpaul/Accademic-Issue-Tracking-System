@@ -13,7 +13,7 @@ const IssueView = ({ issue, token, setContent, issues }) => {
   useEffect(() => {
     const fetchLecturers = async () => {
       try {
-        const response = await axios.get('http://127.0.0.1:8000/lecturers/', {
+        const response = await axios.get('http://aitsysten.up.railway.app/lecturers/', {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -44,7 +44,7 @@ const IssueView = ({ issue, token, setContent, issues }) => {
     e.preventDefault(); // prevent form reload
     try {
       await axios.patch(
-        `http://127.0.0.1:8000/issues/assign/${issue}/`,
+        `http://aitsysten.up.railway.app/issues/assign/${issue}/`,
         {
           assigned_to,
           priority,

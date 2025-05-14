@@ -21,7 +21,7 @@ const RegistrarPage = ({content, setContent}) => {
 
   useEffect(() => {
     const fetchIssues = async () => {
-      const response = await axios.get('http://127.0.0.1:8000/issues/Unseen', {
+      const response = await axios.get('http://aitsysten.up.railway.app/issues/Unseen', {
         headers: {
           'Authorization': `Bearer ${token}`,
         },
@@ -30,7 +30,7 @@ const RegistrarPage = ({content, setContent}) => {
     };
 
     const fetchNotifications = async () => {
-      const response = await axios.get(`http://127.0.0.1:8000/notifications/${user.id}`, {
+      const response = await axios.get(`http://aitsysten.up.railway.app/notifications/${user.id}`, {
         headers: {
           'Authorization': `Bearer ${token}`,
         },
@@ -39,7 +39,7 @@ const RegistrarPage = ({content, setContent}) => {
     };
 
     const fetchAllIssues = async() => {
-      const response = await axios.get('http://127.0.0.1:8000/issues/Seen', {
+      const response = await axios.get('http://aitsysten.up.railway.app/issues/Seen', {
         headers: {
           'Authorization': `Bearer ${token}`,
         },
