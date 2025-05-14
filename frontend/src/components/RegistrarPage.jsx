@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import Button from "./Button";
 import DisplayPane from "./DisplayPane";
-import Logo from "./Logo";
+import Logo from "./logo";
 import Content from "./RegistrarContentSection";
 import { useNavigate, Link } from 'react-router-dom';
 import Splash from "./Splash";

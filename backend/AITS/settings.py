@@ -11,15 +11,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
-from environ import Env
-import dj_database_url
 import os
-
-env = Env()
-
-Env.read_env()
-
-ENVIRONMENT = env('ENVIRONMENT', default='production')
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -29,21 +21,18 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env('SECRET_KEY')
+SECRET_KEY = 'django-insecure-=)^=tl^%$nw&ip#(^ch%@d(&24f%@ul)6m%4dbso4aj$%e-u64'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-if ENVIRONMENT == 'production':
-    DEBUG = False
-else:
-    DEBUG = True
+DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1','accademic-issue-tracking-system-production.up.railway.app']
+ALLOWED_HOSTS = ['aits-hya6gmbke7buahd3.canadacentral-01.azurewebsites.net', 'localhost', '127.0.0.1']
 
 # CORS settings
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:5173',
     'http://127.0.0.1:8000',
-    'https://accademic-issue-tracking-system-production.up.railway.app',
+    'http://aits-hya6gmbke7buahd3.canadacentral-01.azurewebsites.net'
 ]
 CORS_ALLOW_METHODS = [
     'DELETE', 'GET', 'OPTIONS', 'PATCH', 'POST', 'PUT'
@@ -51,7 +40,7 @@ CORS_ALLOW_METHODS = [
 
 CSRF_TRUSTED_ORIGINS = [
     "http://localhost:5173",
-    'https://accademic-issue-tracking-system-production.up.railway.app',
+    'http://aits-hya6gmbke7buahd3.canadacentral-01.azurewebsites.net'
 ]
 
 # Application definition
@@ -63,7 +52,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'backend.logbook',
+    'logbook',
     'rest_framework',
     'corsheaders',
     'rest_framework_simplejwt',
@@ -87,7 +76,7 @@ ROOT_URLCONF = 'AITS.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, '/staticfiles'),],
+        'DIRS': [],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -100,34 +89,24 @@ TEMPLATES = [
     },
 ]
 
-TEMPLATES[0]['DIRS'] = [
-    os.path.join(BASE_DIR, '..', 'frontend', 'dist'),  # Correct path to the frontend build directory
-]
-
 WSGI_APPLICATION = 'AITS.wsgi.application'
 
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-POSTGRES_LOCALLY = False
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'railway',
+        'USER': 'postgres',
+        'PASSWORD': 'HYejQKZIHGhSyXYaYYtUpXnjrmKuMKwv',
+        'HOST': 'shortline.proxy.rlwy.net',
+        'PORT': '38482',
+    }
+}
 
-if ENVIRONMENT == 'production' or not POSTGRES_LOCALLY:
-    # Use PostgreSQL database in production or remotely
-    DATABASES = {
-        'default': dj_database_url.config(
-            default=env('DATABASE_URL'),
-            engine='django.db.backends.postgresql'
-        )
-    }
-else:
-    # Use SQLite for local development
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
-        }
-    }
+
 
 
 # Password validation
@@ -165,15 +144,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, '..', 'frontend', 'dist'),  # Correct path to the frontend build directory
-]
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # For production use
-'''STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR.parent, 'frontend', 'dist'),
-]'''
-
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 
 # Default primary key field type
@@ -201,3 +172,20 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'aitsystem0@gmail.com'
 EMAIL_HOST_PASSWORD = 'kzbq fwxu unbj ohip'
 DEFAULT_FROM_EMAIL = 'aitsystem0@gmail.com'
+
+from datetime import timedelta
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    'ROTATE_REFRESH_TOKENS': False,
+    'BLACKLIST_AFTER_ROTATION': True,
+    'ALGORITHM': 'HS256',
+    'SIGNING_KEY': SECRET_KEY,
+    'VERIFYING_KEY': None,
+    'AUTH_HEADER_TYPES': ('Bearer',),
+    'USER_ID_FIELD': 'id',
+    'USER_ID_CLAIM': 'user_id',
+    'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken',),
+    'TOKEN_TYPE_CLAIM': 'token_type',
+}

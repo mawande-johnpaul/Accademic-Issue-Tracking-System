@@ -106,9 +106,10 @@ const Splash2 = ({ role, issues = [], newissues = [], assignedissues = [] }) => 
       padding: '20px',
       borderRadius: '10px',
       margin: '10px',
-      color: '#fff',
+      color: 'auto',
       textAlign: 'center',
-      flex: '1'
+      flex: '1',
+      boxShadow:"0px 0px 5px 0px #808080"
     }}>
       <h2 style={{ fontSize: '2.5rem', margin: 0 }}>{count}</h2>
       <p style={{ fontSize: '1rem', margin: 0 }}>{label}</p>
@@ -122,23 +123,23 @@ const Splash2 = ({ role, issues = [], newissues = [], assignedissues = [] }) => 
           <div style={{ display: 'flex', gap: '20px', flexWrap: 'wrap' }}>
             {role === 'student' && (
               <>
-                <StatCard count={seen.length} label="Seen Issues" color="#4caf50" />
-                <StatCard count={unseen.length} label="Unseen Issues" color="#f44336" />
-                <StatCard count={resolved.length} label="Resolved Issues" color="#2196f3" />
+                <StatCard count={seen.length} label="Seen Issues" color="#fff" />
+                <StatCard count={unseen.length} label="Unseen Issues" color="#fff" />
+                <StatCard count={resolved.length} label="Resolved Issues" color="#fff" />
               </>
             )}
             {role === 'lecturer' && (
               <>
-                <StatCard count={assignedissues.length} label="Assigned Issues" color="#3f51b5" />
-                <StatCard count={overdue.length} label="Overdue Issues" color="#e91e63" />
-                <StatCard count={upcoming.length} label="Upcoming Deadlines" color="#ffc107" />
+                <StatCard count={assignedissues.length} label="Assigned Issues" color="#fff" />
+                <StatCard count={overdue.length} label="Overdue Issues" color="#fff" />
+                <StatCard count={upcoming.length} label="Upcoming Deadlines" color="#fff" />
               </>
             )}
             {role === 'registrar' && (
               <>
-                <StatCard count={seen.length} label="Seen Issues" color="#009688" />
-                <StatCard count={unseen.length} label="Unseen Issues" color="#9c27b0" />
-                <StatCard count={overdue.length} label="Overdue Issues" color="#f44336" />
+                <StatCard count={seen.length} label="Seen Issues" color="#fff" />
+                <StatCard count={unseen.length} label="Unseen Issues" color="#fff" />
+                <StatCard count={overdue.length} label="Overdue Issues" color="##fff" />
               </>
             )}
           </div>

@@ -3,7 +3,7 @@ import axios from "axios";
 import { useNavigate, Link } from 'react-router-dom';
 import Button from "./Button";
 import DisplayPane from "./DisplayPane";
-import Logo from "./Logo"
+import Logo from "./logo"
 import Content from './LecturerContentSection'
 import Splash2 from "./Splash2";
 import Splash from "./Splash";

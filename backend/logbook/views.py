@@ -4,12 +4,20 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from .serializers import *
 from .models import *
-from rest_framework.permissions import AllowAny, AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.decorators import api_view, permission_classes
 from django.contrib.auth import get_user_model, login
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.core.mail import send_mail
 from django.conf import settings
+from django.urls import reverse
+from django.http import JsonResponse
 from django.conf.urls.static import static
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.utils.encoding import force_bytes
+from django.shortcuts import get_object_or_404
+from django.contrib.auth.tokens import default_token_generator
+
 
 User = get_user_model()
 
@@ -18,6 +26,14 @@ def index(request):
 
 from django.core.mail import send_mail
 from django.conf import settings
+from django.contrib.auth.tokens import PasswordResetTokenGenerator
+
+class EmailVerificationTokenGenerator(PasswordResetTokenGenerator):
+    def _make_hash_value(self, user, timestamp):
+        return f"{user.pk}{timestamp}{user.is_email_verified}"  # Removed last_login
+
+email_verification_token = EmailVerificationTokenGenerator()
+
 
 def send_notification(sender, receiver, content, email=False):
     Notification.objects.create(
@@ -25,16 +41,39 @@ def send_notification(sender, receiver, content, email=False):
         user_id_receiver=receiver,
         content=content,
     )
+    
+def send_verification_email(id, **kwargs):
+    user = get_object_or_404(CustomUser, pk=id)
+    token = email_verification_token.make_token(user)  # Custom token generator
+    uid = urlsafe_base64_encode(force_bytes(user.pk))
+    verify_url = f"http://127.0.0.1:8000/verify-email/{uid}/{token}"
+    send_mail(
+        subject="Verify your email",
+        message=f"Click here to verify: {verify_url}",
+        from_email=settings.DEFAULT_FROM_EMAIL,
+        recipient_list=[user.email],
+    )
 
 
-    '''if email and receiver.email:
-        send_mail(
-            subject='New Notification',
-            message=content,
-            from_email=settings.DEFAULT_FROM_EMAIL,
-            recipient_list=[receiver.email],
-            fail_silently=False
-        )'''
+@api_view(["GET"])
+@permission_classes([AllowAny])
+def verify_email(request, uid, token):
+    try:
+        uid_decoded = urlsafe_base64_decode(uid).decode()
+        user = CustomUser.objects.get(pk=uid_decoded)
+    except Exception:
+        return JsonResponse({"error": "Invalid UID"}, status=400)
+
+    # Use the custom token generator for validation
+    if email_verification_token.check_token(user, token):
+        user.is_email_verified = True
+        user.save()
+        login(request, user)  # Log the user in after email verification
+        log_action(user, "Email verified successfully.")
+        return JsonResponse({"message": "Email verified successfully. You can now return to the signup Page"}, status=200)
+
+    return JsonResponse({"error": "Invalid or expired token"}, status=400)
+
 
 def log_action(user, action):
     Log.objects.create(
@@ -44,6 +83,13 @@ def log_action(user, action):
 
 
 # User Registration
+from rest_framework.permissions import BasePermission
+
+class IsRegistrar(BasePermission):
+    """Custom permission to grant full admin privileges to registrars."""
+    def has_permission(self, request, view):
+        return request.user.is_authenticated and request.user.role == 'registrar'
+
 class RegisterView(generics.CreateAPIView):
     queryset = User.objects.all() #Focus on all user objects
     serializer_class = RegisterSerializer
@@ -63,7 +109,7 @@ class RegisterView(generics.CreateAPIView):
             content=f"Welcome {user.first_name}, you have successfully registered.",
             email=True
         )
-
+        send_verification_email(id=user.id)
         return Response({
             'token': access_token,
             'user': RegisterSerializer(user).data
@@ -92,6 +138,36 @@ class LoginView(generics.GenericAPIView):
             'refresh_token': str(refresh),
             'user': RegisterSerializer(user).data
         }, status=status.HTTP_200_OK)
+    
+class UserDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserDetailSerializer
+    permission_classes = [IsRegistrar]  # Only registrars can access this view
+
+    def get(self, request, *args, **kwargs):
+        pk = kwargs.get('pk')
+        if not pk:
+            return Response({'error': 'User ID is required.'}, status=status.HTTP_400_BAD_REQUEST)
+        try:
+            user = User.objects.get(pk=pk)
+        except User.DoesNotExist:
+            return Response({'error': 'User not found.'}, status=status.HTTP_404_NOT_FOUND)
+        serializer = self.get_serializer(user)
+        return Response(serializer.data)
+
+    def put(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        log_action(request.user, "User details updated.")
+        return Response(serializer.data)
+
+    def delete(self, request, *args, **kwargs):
+        instance = self.get_object()
+        instance.delete()
+        log_action(request.user, "User deleted.")
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 # Issue Management
@@ -134,9 +210,28 @@ class IssueList3(generics.ListAPIView):
         return Issue.objects.filter(assigned_to=pk, status='Resolved')  # Filter issues by assigned_to and status
 
 # What data exactly is returned, which function does what, notifications on successful action
+class IsStudent(BasePermission):
+    """Custom permission to restrict students from removing or assigning issues."""
+    def has_permission(self, request, view):
+        return request.user.is_authenticated and request.user.role == 'student'
+
+class IsLecturer(BasePermission):
+    """Custom permission to grant lecturers specific privileges."""
+    def has_permission(self, request, view):
+        return request.user.is_authenticated and request.user.role == 'lecturer'
+
 class IssueUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = IssueSerializer
-    permission_classes = [permissions.AllowAny]
+
+    def get_permissions(self):
+        if self.request.method in ['DELETE', 'PATCH']:
+            if self.request.user.role == 'student':
+                return [permissions.IsAuthenticated(), IsStudent()]
+            elif self.request.user.role == 'lecturer':
+                return [permissions.IsAuthenticated(), IsLecturer()]
+            elif self.request.user.role == 'registrar':
+                return [permissions.IsAuthenticated(), IsRegistrar()]
+        return [permissions.AllowAny()]
 
     def get_queryset(self):
         return Issue.objects.all()
@@ -150,6 +245,8 @@ class IssueUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
             return Response({'error': 'Issue not found.'}, status=status.HTTP_404_NOT_FOUND)
 
         if action == "assign":
+            if request.user.role != 'registrar':
+                return Response({'error': 'Permission denied.'}, status=status.HTTP_403_FORBIDDEN)
             assigned_to_id = request.data.get('assigned_to')
             try:
                 user = User.objects.get(pk=assigned_to_id)
@@ -159,7 +256,6 @@ class IssueUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
                 issue.priority = request.data.get('priority', issue.priority)
                 issue.save()
                 log_action(request.user, f"Issue '{issue.title}' assigned to {user.username}.")
-
 
                 send_notification(
                     sender='Registrar',
@@ -178,7 +274,6 @@ class IssueUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
             issue.save()
             log_action(request.user, f"Progress updated on issue '{issue.title}'.")
 
-
             # Notify creator (student)
             if issue.created_by:
                 send_notification(
@@ -194,6 +289,8 @@ class IssueUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
         return Response({'error': 'Invalid action'}, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, *args, **kwargs):
+        if request.user.role == 'student':
+            return Response({'error': 'Permission denied.'}, status=status.HTTP_403_FORBIDDEN)
         pk = kwargs.get('pk')
         try:
             issue = Issue.objects.get(pk=pk)
