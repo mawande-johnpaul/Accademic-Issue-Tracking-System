@@ -274,11 +274,11 @@ def custom_404_redirect(request, exception):
     return redirect('home')
 
 
-def home_view(request):
+def home_view(request):   # direct to the home view once server runs
     return render(request, 'home.html')
 
 class UpdateRecoveryInfoView(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated] #only allows authenticated users
 
     def put(self, request):
         user = request.user
