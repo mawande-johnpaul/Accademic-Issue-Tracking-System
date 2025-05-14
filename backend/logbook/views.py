@@ -114,7 +114,8 @@ class IssueListCreate(generics.ListCreateAPIView): #View to list or create an is
 
     def perform_create(self, serializer): #Runs if request is POST
         serializer.save(created_by=self.request.user)
-
+        
+#editing and deleting issues
 class IssueUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     queryset = Issue.objects.all()
     serializer_class = IssueSerializer
@@ -177,7 +178,7 @@ def create_log_entry(sender, instance, created, **kwargs):
         Log.objects.create(
             user_id=instance.created_by,
             action="Issue updated",
-            timestamp=timezone.now()
+            timestamp=timezone.now() #adds the current time
         )
 
 
