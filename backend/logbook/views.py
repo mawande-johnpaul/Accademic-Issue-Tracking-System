@@ -373,3 +373,20 @@ class UpdateThemeView(APIView):
         )
 
         return Response({"success": f"Theme updated to {new_theme}"}, status=200)
+
+from rest_framework.parsers import MultiPartParser
+
+class UpdateProfilePictureView(APIView):
+    permission_classes = [IsAuthenticated]
+    parser_classes = [MultiPartParser]
+
+    def patch(self, request):
+        user = request.user
+        profile_picture = request.FILES.get('profile_picture')
+    
+        if profile_picture:
+            user.profile_picture = profile_picture
+            user.save()
+            return Response({"success":"Profile picture updated"},status=200)
+        return Response({"error":"no file uploaded"},status=400)
+        
