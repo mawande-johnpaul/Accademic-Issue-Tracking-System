@@ -1,0 +1,88 @@
+body{
+    font-family: Arial, sans-serif;
+    background-color: rgb(94, 59, 59);
+    margin: 0;
+    padding: 0;
+}
+.container{
+    max-width: 900px;
+    margin: 50px auto;
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+h1{
+    text-align: center;    
+}
+label{
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+input,textarea,select{
+    width: 95%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid rgb(170, 136, 136);
+}
+textarea{
+    height: 150px;
+}
+button{
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+button:disabled{
+    background-color: rgb(204, 204, 204);
+    cursor: not-allowed;
+}
+button:hover:enabled{
+    background-color:rgb(69, 160, 73);
+}
+.lecturer-container{
+    position: relative;
+    display: flex;
+    align-items: center;
+    border: 1px solid rgb(204, 204, 204);
+    padding: 5px;
+    background: white;
+    width: 100%;
+}
+.lecturer-container input{
+    flex: 1;
+    border: none;
+    outline:none;
+    font-size: 14px;    
+    padding: 4px;
+}
+.search-text{
+    background:rgb(0, 128, 0);
+    padding: 5px 10px;
+    border-left: 1px solid rgb(204, 204, 204);
+    font-size: 14px;
+    color:red;
+    text-align: center;
+    cursor: pointer;
+}
+.search-text:hover{
+    background-color: rgb(3, 22, 3);
+}
+.footer{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.back{
+    text-decoration: none;
+    color: rgb(76, 175, 80);
+    font-weight: bold;
+}
+.back:hover{
+    color: rgb(69,160,73);
+}
