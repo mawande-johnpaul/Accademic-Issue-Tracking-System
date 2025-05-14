@@ -1,0 +1,337 @@
+@font-face {
+  font-family: 'CactronBold';
+  src: url('/CactronBold.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Inter';
+  src: url('/Inter.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.bodyy {
+    font-family: 'Inter', 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    overflow: hidden; /* Prevent scrolling */
+    display: flex;
+    flex-direction: row;
+    height: 100vh;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0px;
+    margin: 0px;
+
+  }
+
+  .left-side, .content-section, .right-side {
+    display: flex;
+    flex-direction: column;
+    height: 98vh;
+  }
+  
+  .left-side {
+    width: 25%;
+    background-color: #06302B;
+    border-radius: 8px;
+  }
+  
+  .content-section {
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    background-color: #ffffff;
+    margin-left: 10px;
+    margin-right: 10px;
+    border-color: #808080;
+  }
+
+  .form-holder{
+    width: 100%;
+    height: 89%;
+  }
+
+  .content-section-header {
+    border: 0px solid;
+    border-bottom: 0px;
+    border-radius: 5px 5px 0px 0px;
+    border-color: #808080;
+    height: 3vh;
+    font-size: 20px;
+    font-weight: bold;
+    padding: 5px;
+    padding-left: 10px;
+    background-color:rgb(240, 240, 153);
+    cursor: pointer;
+  }
+  
+  .content-section-body {
+    border: 2px solid;
+    border-color: rgb(240, 240, 153);
+    height: 90.5vh;
+    padding: 10px;
+    border-top: 0px;
+    border-radius: 0px 0px 5px 5px;
+    overflow-y: scroll;
+  }
+  
+  .right-side {
+    width: 20%;
+    gap: 1vh;
+  }
+
+  .left-buttons {
+    width: 90%;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+    justify-content: left;
+    padding-left: 20%;
+    border-radius: 5px;
+    border: 2px transparent;
+    background-color: #ffffff;
+    font-weight: 600;
+    font-size: 14px;
+    justify-self: center;
+    margin: 10px;
+    font-family: 'Inter', 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    color: #333333;
+  }
+  
+  .left-buttons:hover {
+    border: 2px solid #00DF81;
+    color: #032221;
+  }
+
+  .logo-profile{
+    width: 50px;
+    height: 50px;
+  }
+
+  .InPageLoginButton{
+    background-color: #00DF81;
+    padding: 10px;
+    text-align: center;
+    color: black;
+    text-decoration: none;
+    border-radius: 10px;
+    border: 0px;
+    cursor: pointer; 
+    font-family:"Inter"; 
+    font-weight:bold;
+  }
+
+  .search-bar {
+    width: 100%;
+    height: 50px;
+    display: flex;
+    flex-direction: row;
+    margin: 0px 0px 5px 0px;
+    gap: 0px;
+  }
+  
+  .search-input {
+    width: 80%;
+    border: 2px solid;
+    border-radius: 5px 0px 0px 5px;
+    border: 2px solid;
+    padding-left: 10px;
+    font-family: 'Inter', 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-weight: 600;
+    border-color: #032221;
+    border-right: 0px;
+    font-size: 14px;
+  }
+  
+  .search-button {
+    width: 20%;
+    background-color: #032221;
+    color: #FFFFFF;
+    font-size: 18px;
+    font-family: 'Inter', 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-weight: bold;
+    border: none;
+    border-radius: 0px 5px 5px 0px;
+    cursor: pointer;
+  }
+  
+  .display-pane {
+    height: auto;
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .pane-header {
+    border: 0px solid;
+    border-bottom: 0px;
+    border-radius: 5px 5px 0px 0px;
+    border-color: #808080;
+    height: auto;
+    font-size: 16px;
+    padding-left: 10px;
+    padding-top: 5px;
+    background: #d5d5d5;
+    background-color: rgb(240, 240, 153);
+    cursor: pointer;
+    font-weight: bold;
+    padding-bottom: 5px;
+  }
+  
+  .pane-content {
+    border: 2px solid rgb(240, 240, 153);
+    border-radius: 0px 0px 5px 5px;
+    height: 91.5vh;
+    max-height: 91.5vh;
+    padding: 5px;
+    border-top: 0px;
+    font-size: 10px;
+  }
+  
+  .message-item {
+    width: auto;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Align items to the left */
+    border: 2px solid #808080;
+    border-radius: 5px;
+    border-color: rgb(240, 240, 153);
+    margin: 5px 0px;
+    padding: 5px;
+    cursor: pointer;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    text-overflow: ellipsis;
+    gap:5px;
+  }
+
+  .message-header{
+    font-weight: bold;
+    font-size: 14px;
+  }
+  
+  .message-body{
+    font-size: 14px;
+  }
+  .logo {
+    height: 8vh;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: bolder;
+    font-size: 40px;
+    cursor: pointer;
+    background-color: #032221;
+    margin-bottom: 20px;
+    padding-left: 5px;
+    border-radius: 10px 10px 0px 0px;
+    display: flex;
+    color: #FFFFFF;
+    flex-direction: row;
+  }
+  
+  .logo-subtext {
+    font-size: 1.5vh;
+    text-align: left;
+    padding-left: 10px;
+    padding: 14px 5px;
+    white-space: normal; /* Allows text to wrap */
+  }
+  
+  .icon-left {
+    width: 20px;
+    height: 20px;
+    padding-right: 10px;
+  }
+  
+  .sender {
+    font-weight: bold;
+    text-align: left;
+    font-size: normal;
+  }
+  
+  .message-content {
+    text-align: left;
+    font-size: small;
+  }
+
+  .issue-card{
+    border-radius: 5px;
+    border-color: beige;
+    margin: auto;
+    margin-bottom: 10px;
+    height: auto;
+  }
+
+  .card-header{
+    font-weight: bold;
+    font-size: 12px;
+    padding: 5px;
+    background-color:#06302B;
+    border-radius: 5px 5px 0px 0px;
+    color: #FFFFFF;
+    text-align: left;
+  }
+
+  .card-body{
+    padding: 5px 10px;
+    font-size: 12px;
+    border: 2px solid #06302B;
+    border-radius: 0px 0px 5px 5px;
+    justify-items: right;
+    text-align: left;
+  }
+  
+.card-body div{
+  justify-self: left;
+  margin: 10px 0px;
+}
+
+  .cardbuttons{
+    border: 0px;
+    cursor: pointer;
+    padding: 10px;
+    margin: 10px;
+    border-radius: 5px;
+    font-family: inherit;
+    font-weight: bold;
+  }
+
+  .viewcontainer{
+    margin: 0px;
+    justify-content: center;
+    height: auto;
+  }
+
+  .viewarea{
+    margin: auto;
+    text-align: left;
+    padding-left: 6vh;
+    height: auto;
+  }
+
+  .viewarea p{
+    font-size: 12px;
+  }
+
+  .assignarea{
+    margin: auto;
+    justify-content: center;
+    height: auto;
+  }
+
+  .assignarea div{
+    margin: 3vh auto;
+    justify-self: center;
+    height: auto;
+  }
+
+  .h1{
+    font-size: 12px;
+    font-weight: bold;
+    margin: 10px 0px;
+    padding-right: 10px;
+  }

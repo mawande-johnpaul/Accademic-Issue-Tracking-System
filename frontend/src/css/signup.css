@@ -1,0 +1,47 @@
+.inputs{
+    width: 60%;
+    height: 4vh;
+    border: 2px solid #747474;
+    border-radius: 5px;
+    font-family: inherit;
+    padding: 5px;
+}
+
+.congested-signuplower{
+    display:flex;
+    justify-content: center;
+    height: auto;
+    font-family: Inter;
+}
+
+.signuplower{
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    height: auto;
+    font-family: Inter;
+    gap: auto;
+}
+
+.lower{
+    width: 40%;
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    height: auto;
+    font-family: Inter;
+}
+
+.lower input select{
+    width: 90%;
+    height: 4vh;
+    border: 2px solid #747474;
+    border-radius: 5px;
+    font-family: inherit;
+    padding: 5px;
+}
+
+.row{
+    margin: 10px;
+    height: auto;
+}
