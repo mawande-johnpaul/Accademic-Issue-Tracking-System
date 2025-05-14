@@ -98,13 +98,15 @@ WSGI_APPLICATION = 'AITS.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'railway',  # Replace with your Railway database name
-        'USER': 'your_username',  # Replace with your Railway database username
-        'PASSWORD': 'your_password',  # Replace with your Railway database password
-        'HOST': 'your_host',  # Replace with your Railway database host
-        'PORT': 'your_port',  # Replace with your Railway database port
+        'NAME': 'railway',
+        'USER': 'postgres',
+        'PASSWORD': 'HYejQKZIHGhSyXYaYYtUpXnjrmKuMKwv',
+        'HOST': 'shortline.proxy.rlwy.net',
+        'PORT': '38482',
     }
 }
+
+
 
 
 # Password validation

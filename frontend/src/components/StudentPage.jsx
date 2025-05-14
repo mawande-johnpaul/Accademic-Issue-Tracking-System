@@ -4,7 +4,7 @@ import Splash from "./Splash";
 import Splash2 from "./Splash2";
 import Button from "./Button";
 import DisplayPane from "./DisplayPane";
-import Logo from "./Logo";
+import Logo from "./logo";
 import Content from "./StudentContentSection";
 import { useNavigate, Link } from 'react-router-dom';
 
