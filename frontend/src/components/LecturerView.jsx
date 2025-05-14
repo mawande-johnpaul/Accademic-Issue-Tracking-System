@@ -12,7 +12,7 @@ const LecturerView = ({issue, token, setContent, issues}) => {
 
     const handleSubmit = async ({progress}) => {
         const response = await axios.patch(
-        `http://127.0.0.1:8000/issues/progress/${issue}/`,
+        `http://aitsysten.up.railway.app/issues/progress/${issue}/`,
         {progress},
         {
             headers:{

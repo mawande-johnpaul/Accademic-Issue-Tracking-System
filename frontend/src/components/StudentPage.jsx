@@ -18,7 +18,7 @@ const StudentPage = ({content, setContent}) => {
 
   useEffect(() => {
     const fetchIssues = async () => {
-      const response = await axios.get('http://127.0.0.1:8000/issues/', {
+      const response = await axios.get('http://aitsysten.up.railway.app/issues/', {
         headers: {
           'Authorization': `Bearer ${token}`,
         },
@@ -27,7 +27,7 @@ const StudentPage = ({content, setContent}) => {
     };
 
     const fetchNotifications = async () => {
-      const response = await axios.get(`http://127.0.0.1:8000/notifications/${user.id}`, {
+      const response = await axios.get(`http://aitsysten.up.railway.app/notifications/${user.id}`, {
         headers: {
           'Authorization': `Bearer ${token}`,
         },

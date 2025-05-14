@@ -24,7 +24,7 @@ function SignupPage() {
     const signup = async (event) => {
       event.preventDefault();
       try {
-        const response = await axios.post('http://127.0.0.1:8000/signup/', { first_name, last_name, username, password, email, webmail, department, course });
+        const response = await axios.post('http://aitsysten.up.railway.app/signup/', { first_name, last_name, username, password, email, webmail, department, course });
         sessionStorage.setItem('token', response.data.token); // Fixed key for token
         sessionStorage.setItem('user', JSON.stringify(response.data.user));
 
@@ -56,7 +56,7 @@ function SignupPage() {
     
       try {
         const response = await axios.get(
-          `http://127.0.0.1:8000/user/${user.id}/` // Ensure the endpoint matches the backend
+          `http://aitsysten.up.railway.app/user/${user.id}/` // Ensure the endpoint matches the backend
         );
         const updatedUser = response.data;
     
