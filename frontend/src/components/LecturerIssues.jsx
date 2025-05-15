@@ -1,24 +1,26 @@
 import IssueCard from "./IssueCard";
 
-const LecturerIssues = ({issues, type, token, setContent, setid}) => {
+const LecturerIssues = ({ issues, type, token, setContent, setid }) => {
+  if (type !== 'lecturer-assigned' && type !== 'lecturer-resolved') {
+    return <p>No issues to display.</p>;
+  }
+
+  if (!issues || issues.length === 0) {
+    return <p>No issues found.</p>;
+  }
+
   return (
     <div className="max-w-2xl mx-auto mt-6">
-      {type === 'lecturer-assigned' ?(
-        <>
-          {issues.map((issue) => (
-            <IssueCard key={issue.id} isssue={issue} type={type} token={token} setContent={setContent} setid={setid}/>
-          ))}
-        </>
-      ) : type === 'lecturer-resolved' ?(
-        <>
-          {issues.map((issue) => (
-            <IssueCard key={issue.id} isssue={issue} type={type} token={token} setContent={setContent} setid={setid}/>
-          ))}        
-        </>
-      ): (
-        <></>
-      )}
-
+      {issues.map((issue) => (
+        <IssueCard
+          key={issue.id}
+          issue={issue}        // Fixed typo here
+          type={type}
+          token={token}
+          setContent={setContent}
+          setid={setid}
+        />
+      ))}
     </div>
   );
 };

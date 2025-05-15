@@ -1,93 +1,113 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Button from "./Button";
 import DisplayPane from "./DisplayPane";
-import Logo from "./logo"
-import Content from './LecturerContentSection'
-import Splash2 from "./Splash2";
+import Logo from "./logo";
+import Content from './LecturerContentSection';
 import Splash from "./Splash";
 
-const LecturerPage = ({content, setContent}) => {
+const LecturerPage = ({ content, setContent }) => {
   const [issues, setIssues] = useState([]);
   const [resolvedIssues, setResolvedIssues] = useState([]);
-  const user = JSON.parse(sessionStorage.getItem("user")); // Moved inside useEffect
-  const token = sessionStorage.getItem("token");
+  const [notifications, setNotifications] = useState([]);
+  const [error, setError] = useState(null);
   const [id, setid] = useState(0);
   const navigate = useNavigate();
-  const [notifications, setNotifications] = useState([]);
+
+  const token = sessionStorage.getItem("token");
+  const userRaw = sessionStorage.getItem("user");
+  const user = userRaw ? JSON.parse(userRaw) : null;
 
   useEffect(() => {
+    if (!user || !token) return;
+
     const fetchIssues = async () => {
       try {
-        const response = await axios.get(`https://aitsmak.up.railway.app/issues/${user.id}/`, {
-          headers: {
-            'Authorization': `Bearer ${token}`
-          }
-        });
+        const response = await axios.get(
+          `https://aitsmak.up.railway.app/issues/${user.id}/`,
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
         setIssues(response.data);
-      } catch (error) {
-        console.error(error);
+      } catch {
+        setError("Failed to fetch assigned issues.");
       }
     };
 
     const fetchResolvedIssues = async () => {
       try {
-        const response = await axios.get(`https://aitsmak.up.railway.app/issues/${user.id}/Resolved`, {
-          headers: {
-            'Authorization': `Bearer ${token}`
-          }
-        });
+        const response = await axios.get(
+          `https://aitsmak.up.railway.app/issues/${user.id}/Resolved`,
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
         setResolvedIssues(response.data);
+      } catch {
+        setError("Failed to fetch resolved issues.");
       }
-      catch (error) {
-        console.error(error);
-      }
-    }
-    const fetchNotifications = async () => {
-      const response = await axios.get(`https://aitsmak.up.railway.app/notifications/${user.id}`, {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-        },
-      });
-      setNotifications(response.data);
     };
 
-    if (user){
-      fetchNotifications();
-      fetchResolvedIssues();
-      fetchIssues();
-      console.log(notifications)
-    }
+    const fetchNotifications = async () => {
+      try {
+        const response = await axios.get(
+          `https://aitsmak.up.railway.app/notifications/${user.id}`,
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+        setNotifications(response.data);
+      } catch {
+        setError("Failed to fetch notifications.");
+      }
+    };
 
-  }, []); // Removed user from dependency array
+    fetchNotifications();
+    fetchResolvedIssues();
+    fetchIssues();
+  }, [user, token]);
 
   const logout = () => {
-    sessionStorage.removeItem('user');
-    sessionStorage.removeItem('token'); 
-    navigate("/login");  
-  }
+    sessionStorage.removeItem("user");
+    sessionStorage.removeItem("token");
+    navigate("/login");
+  };
+
+  if (!user) return <Splash />;
 
   return (
     <div className="bodyy">
-      {user? (
-        <>
-          <div className="left-side">
-            <Logo />
-            <Button text={"Assigned issues"} image={"new-issue.svg"} funct={() => setContent("AssignedIssues")}/>
-            <Button text={"Resolved issues"} image={"posted-logo.svg"} funct={() => setContent("ResolvedIssues")}/>
-            <Button text={"Logout"} image={"logout.svg"} funct={() => logout()} />
-          </div>
-          <div className="content-section">
-            <Content to_display_name={content} issues={issues} resolvedIssues={resolvedIssues} user={user} token={token} id={id} setid={setid} setContent={setContent}  role={user.role}/>
-          </div>
-          <div className="right-side">
-            <DisplayPane items={notifications} />
-          </div>
-        </>
-      ) : (
-        <Splash />
-      )}
+      <div className="left-side">
+        <Logo />
+        <Button
+          text={"Assigned issues"}
+          image={"new-issue.svg"}
+          funct={() => setContent("AssignedIssues")}
+        />
+        <Button
+          text={"Resolved issues"}
+          image={"posted-logo.svg"}
+          funct={() => setContent("ResolvedIssues")}
+        />
+        <Button
+          text={"Logout"}
+          image={"logout.svg"}
+          funct={logout}
+        />
+      </div>
+      <div className="content-section">
+        {error && <div className="error-message">{error}</div>}
+        <Content
+          to_display_name={content}
+          issues={issues}
+          resolvedIssues={resolvedIssues}
+          user={user}
+          token={token}
+          id={id}
+          setid={setid}
+          setContent={setContent}
+          role={user.role}
+        />
+      </div>
+      <div className="right-side">
+        <DisplayPane items={notifications} />
+      </div>
     </div>
   );
 };

@@ -48,100 +48,134 @@ const Splash2 = ({ role, issues = [], newissues = [], assignedissues = [] }) => 
   ];
 
 
-  useEffect(() => {
+ useEffect(() => {
+  const today = new Date();
+
+  // Helper function to separate issues by status
+  const categorizeIssues = (list) => {
     const seenIssues = [];
     const unseenIssues = [];
     const resolvedIssues = [];
+
+    for (const issue of list) {
+      if (issue.status === "Seen") seenIssues.push(issue);
+      else if (issue.status === "Unseen") unseenIssues.push(issue);
+      else if (issue.status === "Resolved") resolvedIssues.push(issue);
+    }
+
+    return { seenIssues, unseenIssues, resolvedIssues };
+  };
+
+  // Helper to classify overdue and upcoming from a list
+  const categorizeDeadlines = (list) => {
     const overdueIssues = [];
     const upcomingIssues = [];
 
-    const today = new Date();
-
-    for (const issue of issues) {
-      if (issue.status === "Seen") {
-        seenIssues.push(issue);
-      } else if (issue.status === "Unseen") {
-        unseenIssues.push(issue);
-      } else if (issue.status === "Resolved") {
-        resolvedIssues.push(issue);
+    for (const issue of list) {
+      const deadline = new Date(issue.deadline);
+      if (deadline < today && issue.status !== "Resolved") {
+        overdueIssues.push(issue);
+      } else {
+        upcomingIssues.push(issue);
       }
     }
+    return { overdueIssues, upcomingIssues };
+  };
 
-    const getRandomQuote = () => {
-        let quotes;
-        if (role === "student") quotes = studentQuotes;
-        else if (role === "lecturer") quotes = lecturerQuotes;
-        else if (role === "registrar") quotes = registrarQuotes;
-        else quotes = ["Keep pushing — you're doing great!"];
-        return quotes[Math.floor(Math.random() * quotes.length)];
-      };
+  let seenIssues = [];
+  let unseenIssues = [];
+  let resolvedIssues = [];
+  let overdueIssues = [];
+  let upcomingIssues = [];
 
-    const checkOverdue = (issueList) => {
-      for (const issue of issueList) {
-        const deadline = new Date(issue.deadline);
-        if (deadline < today && issue.status !== "Resolved") {
-          overdueIssues.push(issue);
-        } else {
-          upcomingIssues.push(issue);
-        }
-      }
-    };
+  if (role === "student") {
+    // Use main issues list for student
+    const categorized = categorizeIssues(issues);
+    seenIssues = categorized.seenIssues;
+    unseenIssues = categorized.unseenIssues;
+    resolvedIssues = categorized.resolvedIssues;
+  } else if (role === "lecturer") {
+    // Lecturer sees assigned + new issues for deadlines
+    // Combine newissues and assignedissues for deadlines
+    const combinedIssues = [...newissues, ...assignedissues];
 
-    if (role === "lecturer" || role === "registrar") {
-      checkOverdue(newissues);
-      checkOverdue(assignedissues);
-    }
+    // Use assignedissues count for Assigned Issues card
+    ({ overdueIssues, upcomingIssues } = categorizeDeadlines(combinedIssues));
+  } else if (role === "registrar") {
+    // Registrar uses main issues for seen/unseen and deadlines
+    const categorized = categorizeIssues(issues);
+    seenIssues = categorized.seenIssues;
+    unseenIssues = categorized.unseenIssues;
 
-    setSeen(seenIssues);
-    setUnseen(unseenIssues);
-    setResolved(resolvedIssues);
-    setOverdue(overdueIssues);
-    setUpcoming(upcomingIssues);
-    setQuote(getRandomQuote());
-  }, []);
+    const { overdueIssues: regOverdue, upcomingIssues: regUpcoming } = categorizeDeadlines(issues);
+    overdueIssues = regOverdue;
+    upcomingIssues = regUpcoming;
+  }
 
-  const StatCard = ({ count, label, color }) => (
-    <div style={{
+  const getRandomQuote = () => {
+    let quotes;
+    if (role === "student") quotes = studentQuotes;
+    else if (role === "lecturer") quotes = lecturerQuotes;
+    else if (role === "registrar") quotes = registrarQuotes;
+    else quotes = ["Keep pushing — you're doing great!"];
+    return quotes[Math.floor(Math.random() * quotes.length)];
+  };
+
+  setSeen(seenIssues);
+  setUnseen(unseenIssues);
+  setResolved(resolvedIssues);
+  setOverdue(overdueIssues);
+  setUpcoming(upcomingIssues);
+  setQuote(getRandomQuote());
+}, [role, issues, newissues, assignedissues]);
+
+ const StatCard = ({ count, label, color, textColor }) => (
+  <div
+    style={{
       background: color,
-      padding: '20px',
-      borderRadius: '10px',
-      margin: '10px',
-      color: 'auto',
-      textAlign: 'center',
-      flex: '1',
-      boxShadow:"0px 0px 5px 0px #808080"
-    }}>
-      <h2 style={{ fontSize: '2.5rem', margin: 0 }}>{count}</h2>
-      <p style={{ fontSize: '1rem', margin: 0 }}>{label}</p>
-    </div>
-  );
+      padding: "20px",
+      borderRadius: "10px",
+      margin: "10px",
+      color: textColor || "#000", // default black text if not provided
+      textAlign: "center",
+      flex: "1",
+      boxShadow: "0px 0px 5px 0px #808080",
+    }}
+  >
+    <h2 style={{ fontSize: "2.5rem", margin: 0 }}>{count}</h2>
+    <p style={{ fontSize: "1rem", margin: 0 }}>{label}</p>
+  </div>
+);
 
   return (
     <>
       {(role === "student" || role === "lecturer" || role === "registrar") ? (
         <>
           <div style={{ display: 'flex', gap: '20px', flexWrap: 'wrap' }}>
-            {role === 'student' && (
-              <>
-                <StatCard count={seen.length} label="Seen Issues" color="#fff" />
-                <StatCard count={unseen.length} label="Unseen Issues" color="#fff" />
-                <StatCard count={resolved.length} label="Resolved Issues" color="#fff" />
-              </>
-            )}
-            {role === 'lecturer' && (
-              <>
-                <StatCard count={assignedissues.length} label="Assigned Issues" color="#fff" />
-                <StatCard count={overdue.length} label="Overdue Issues" color="#fff" />
-                <StatCard count={upcoming.length} label="Upcoming Deadlines" color="#fff" />
-              </>
-            )}
-            {role === 'registrar' && (
-              <>
-                <StatCard count={seen.length} label="Seen Issues" color="#fff" />
-                <StatCard count={unseen.length} label="Unseen Issues" color="#fff" />
-                <StatCard count={overdue.length} label="Overdue Issues" color="##fff" />
-              </>
-            )}
+            {role === "student" && (
+  <>
+    <StatCard count={seen.length} label="Seen Issues" color="#e0f7fa" textColor="#00796b" />
+    <StatCard count={unseen.length} label="Unseen Issues" color="#fff3e0" textColor="#ef6c00" />
+    <StatCard count={resolved.length} label="Resolved Issues" color="#e8f5e9" textColor="#388e3c" />
+  </>
+)}
+
+{role === "lecturer" && (
+  <>
+    <StatCard count={assignedissues.length} label="Assigned Issues" color="#bbdefb" textColor="#0d47a1" />
+    <StatCard count={overdue.length} label="Overdue Issues" color="#ffcdd2" textColor="#b71c1c" />
+    <StatCard count={upcoming.length} label="Upcoming Deadlines" color="#d1c4e9" textColor="#4a148c" />
+  </>
+)}
+
+{role === "registrar" && (
+  <>
+    <StatCard count={seen.length} label="Seen Issues" color="#c8e6c9" textColor="#2e7d32" />
+    <StatCard count={unseen.length} label="Unseen Issues" color="#ffe0b2" textColor="#ef6c00" />
+    <StatCard count={overdue.length} label="Overdue Issues" color="#ffcdd2" textColor="#b71c1c" />
+  </>
+)}
+
           </div>
 
           {/* Motivational Quote */}

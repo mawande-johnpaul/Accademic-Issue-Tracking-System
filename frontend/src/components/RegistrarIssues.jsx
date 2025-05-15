@@ -1,24 +1,23 @@
 import IssueCard from "./IssueCard";
 
-const RegistrarIssues = ({issues, type, token, content, setContent, setid}) => {
+const RegistrarIssues = ({ issues = [], type, token, content, setContent, setid }) => {
+  if (type !== 'new' && type !== 'assigned') {
+    return null;
+  }
+
   return (
     <div className="max-w-2xl mx-auto mt-6">
-      {type === 'new' ?(
-        <>
-          {issues.map((issue) => (
-            <IssueCard key = {issue.id} isssue={issue} type={type} token={token} content={content} setContent={setContent} setid={setid}/>
-          ))}
-        </>
-      ) : type === 'assigned' ?(
-        <>
-          {issues.map((issue) => (
-            <IssueCard key = {issue.id} isssue={issue} type={type} token={token} content={content} setContent={setContent} setid={setid}/>
-          ))}        
-        </>
-      ): (
-        <></>
-      )}
-
+      {issues.map((issue) => (
+        <IssueCard
+          key={issue.id}
+          issue={issue}  // Fixed typo here
+          type={type}
+          token={token}
+          content={content}
+          setContent={setContent}
+          setid={setid}
+        />
+      ))}
     </div>
   );
 };

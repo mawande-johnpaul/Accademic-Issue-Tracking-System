@@ -18,11 +18,22 @@ function SignupPage() {
     const [course, setCourse] = useState('Select a course first');
     const [department, setDepartment] = useState('');
     const [verificationPending, setVerificationPending] = useState(false);
+    const [isWebmailValid, setIsWebmailValid] = useState(false); // Track webmail validity
+    const [isSubmitting, setIsSubmitting] = useState(false); // Track submission state
 
     const navigate = useNavigate();
 
     const signup = async (event) => {
       event.preventDefault();
+
+      // Check for empty fields
+      if (!first_name || !last_name || !username || !password || !email || !webmail || !department || !course) {
+        setMessage('All fields are required. Please fill in all the details.');
+        return;
+      }
+
+      setIsSubmitting(true); // Disable the submit button
+
       try {
         const response = await axios.post('https://aitsmak.up.railway.app/signup/', { first_name, last_name, username, password, email, webmail, department, course });
         sessionStorage.setItem('token', response.data.token); // Fixed key for token
@@ -30,10 +41,11 @@ function SignupPage() {
 
         setMessage('Signup successful! Please verify your email and then click "Verify Email" above.');
         setVerificationPending(true);
-
       } catch (error) {
         setMessage('Signup failed. Invalid credentials!');
         console.error(error);
+      } finally {
+        setIsSubmitting(false); // Re-enable the submit button
       }
     };
 
@@ -76,11 +88,23 @@ function SignupPage() {
         }
       } catch (error) {
         console.error('Error checking verification:', error);
-        setMessage('An error occurred while checking verification.');
+        setMessage('An error occurred while checking verification. Login Instead!');
       }
     };
     
-    
+    const handleWebmailChange = (e) => {
+      const value = e.target.value;
+      setWebmail(value);
+
+      // Check if 'students' is in the webmail
+      if (value.includes('mak.ac.ug')) {
+        setIsWebmailValid(true);
+        setMessage(''); // Clear any previous error message
+      } else {
+        setIsWebmailValid(false);
+        setMessage('Webmail must contain "mak.ac.ug".');
+      }
+    };
 
     return (
       <div className='homepage'>
@@ -122,17 +146,8 @@ function SignupPage() {
                 <input type="text" className='inputs'
                   value={webmail} 
                   required
-                  placeholder='Webmail e.g. xxxxxxx.mak.ac.ug'
-                  onChange={(e) => {
-                    const value = e.target.value;
-                    if (value.includes('mak.ac.ug')) {
-                      setWebmail(value);
-                      setMessage(''); // Clear any previous error message
-                    } else {
-                      setWebmail(value);
-                      setMessage('Webmail must contain "mak.ac.ug".');
-                    }
-                  }} />
+                  placeholder='Webmail e.g. xxxxxxx.students.mak.ac.ug'
+                  onChange={handleWebmailChange} />
               </div>
               <div className='row'>
                 <input type="password" className='inputs'
@@ -145,6 +160,7 @@ function SignupPage() {
                 <select type="text" className='inputs'
                   value={department} 
                   required
+                  disabled={!isWebmailValid} // Disable if webmail is invalid
                   onChange={(e) => {
                     setDepartment(e.target.value);
                     setCourse('Select a course first'); // Reset course when department changes
@@ -159,6 +175,7 @@ function SignupPage() {
                 <select type="text" className='inputs' choices={COLLEGES[department]}
                   value={course} 
                   required
+                  disabled={!isWebmailValid || !department} // Disable if webmail or department is invalid
                   onChange={(e) => setCourse(e.target.value)}>
                   <option value="Select a course first">Select a course first</option>
                   {COLLEGES[department] && COLLEGES[department].map((course, index) => (
@@ -176,7 +193,9 @@ function SignupPage() {
             </div>
           ) : (
             <div className='choicearea'>
-              <button type="submit" className='buttons' style={{margin:"auto"}} onClick={() => signup(event)}>Signup</button>
+              <button type="submit" className='buttons' style={{ margin: "auto" }} onClick={signup} disabled={isSubmitting}>
+                {isSubmitting ? 'Submitting...' : 'Signup'}
+              </button>
             </div>
           )}
           <Link to='/login'>Already have an account?</Link>

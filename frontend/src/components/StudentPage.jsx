@@ -1,74 +1,109 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import Splash from "./Splash";
-import Splash2 from "./Splash2";
 import Button from "./Button";
 import DisplayPane from "./DisplayPane";
 import Logo from "./logo";
 import Content from "./StudentContentSection";
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
-const StudentPage = ({content, setContent}) => {
+const StudentPage = ({ content, setContent }) => {
   const [issues, setIssues] = useState([]);
   const [notifications, setNotifications] = useState([]);
-  const user = JSON.parse(sessionStorage.getItem("user"));
-  const token = sessionStorage.getItem("token");
-  const [id, setid] = useState(0);
+  const [loadingIssues, setLoadingIssues] = useState(false);
+  const [loadingNotifications, setLoadingNotifications] = useState(false);
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
 
+  const token = sessionStorage.getItem("token");
+  const userRaw = sessionStorage.getItem("user");
+  const user = userRaw ? JSON.parse(userRaw) : null;
+
   useEffect(() => {
+    if (!user || !token) return;
+
     const fetchIssues = async () => {
-      const response = await axios.get('https://aitsmak.up.railway.app/issues/', {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-        },
-      });
-      setIssues(response.data);
+      setLoadingIssues(true);
+      try {
+        const response = await axios.get("https://aitsmak.up.railway.app/issues/", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        setIssues(response.data);
+      } catch (err) {
+        setError("Failed to fetch issues. Please try again later.");
+      } finally {
+        setLoadingIssues(false);
+      }
     };
 
     const fetchNotifications = async () => {
-      const response = await axios.get(`https://aitsmak.up.railway.app/notifications/${user.id}`, {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-        },
-      });
-      setNotifications(response.data);
+      setLoadingNotifications(true);
+      try {
+        const response = await axios.get(`https://aitsmak.up.railway.app/notifications/${user.id}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        setNotifications(response.data);
+      } catch (err) {
+        setError("Failed to fetch notifications. Please try again later.");
+      } finally {
+        setLoadingNotifications(false);
+      }
     };
 
-    if (user) {
-      fetchIssues();
-      fetchNotifications();
-    }
-  }, []);
+    fetchIssues();
+    fetchNotifications();
+  }, [user, token]);
 
-  const no_operation =  () => setContent("Splash");
   const logout = () => {
-    sessionStorage.removeItem('user');
-    sessionStorage.removeItem('token');   
+    sessionStorage.removeItem("user");
+    sessionStorage.removeItem("token");
     navigate("/login");
+  };
+
+  if (!user) {
+    return <Splash />;
   }
 
   return (
     <div className="bodyy">
-      {user? (
-        <>
-          <div className="left-side">
-            <Logo />
-            <Button text={"New issue"} image={"new-issue.svg"} funct={() => setContent("IssueForm")} />
-            <Button text={"Posted issues"} image={"posted-logo.svg"} funct={() => setContent("UserIssues")} />
-            <Button text={"Logout"} image={"logout.svg"} funct={() => logout()} />
-          </div>
-          <div className="content-section">
-            <Content to_display_name={content} issues={issues} course={user.course} username={user.username} token={token} department={user.department} pk={user.id} type={'user'} content={content} setContent={setContent} role={user.role}/>
-          </div>
-          <div className="right-side">
-            <DisplayPane items={notifications} />
-          </div>
-          </>
-        ) : (
-          <Splash />
-        )}
+      <div className="left-side">
+        <Logo />
+        <Button
+          text={"New issue"}
+          image={"new-issue.svg"}
+          funct={() => setContent("IssueForm")}
+        />
+        <Button
+          text={"Posted issues"}
+          image={"posted-logo.svg"}
+          funct={() => setContent("UserIssues")}
+        />
+        <Button
+          text={"Logout"}
+          image={"logout.svg"}
+          funct={logout}
+        />
       </div>
+      <div className="content-section">
+        {error && <div className="error-message">{error}</div>}
+        <Content
+          to_display_name={content}
+          issues={issues}
+          course={user.course}
+          username={user.username}
+          token={token}
+          department={user.department}
+          pk={user.id}
+          type={"user"}
+          content={content}
+          setContent={setContent}
+          role={user.role}
+        />
+      </div>
+      <div className="right-side">
+        <DisplayPane items={notifications} />
+      </div>
+    </div>
   );
 };
 

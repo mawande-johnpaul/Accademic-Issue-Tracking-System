@@ -16,6 +16,8 @@ import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+MEDIA_ROOT = os.path.join(BASE_DIR, 'data')  # Store all media files here
+MEDIA_URL = '/media/'
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
@@ -28,13 +30,10 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['aitsmak.up.railway.app', 'localhost', '127.0.0.1']
 
+
 # CORS settings
-CORS_ALLOWED_ORIGINS = [
-    'https://aitsmak.up.railway.app',  # For local development
-    'http://127.0.0.1:8000',  # Local dev server
-    'http://localhost:5173',  # For local dev
-    'https://accademic-issue-tracking-system-hz4i.vercel.app',  # Add your Vercel frontend URL
-]
+CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_CREDENTIALS = True
 
 
 CORS_ALLOW_METHODS = [
@@ -99,7 +98,6 @@ WSGI_APPLICATION = 'AITS.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-import socket
 import psycopg2
 from psycopg2 import OperationalError
 

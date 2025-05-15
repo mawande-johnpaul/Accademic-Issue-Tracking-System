@@ -6,12 +6,21 @@ function LoginPage() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [message, setMessage] = useState('');
+    const [isSubmitting, setIsSubmitting] = useState(false); // Track submission state
     sessionStorage.removeItem('user');
     sessionStorage.removeItem('token');
     const navigate = useNavigate();
 
     const login = async (event) => {
         event.preventDefault(); // Prevent the form from refreshing the page
+
+        // Check for empty fields
+        if (!username || !password) {
+            setMessage('Username and password are required.');
+            return;
+        }
+
+        setIsSubmitting(true); // Disable the submit button
 
         try {
             const response = await axios.post('https://aitsmak.up.railway.app/login/', { username, password });
@@ -36,6 +45,8 @@ function LoginPage() {
                 setMessage('Login failed. Please check your credentials.');
             }
             console.error(error);
+        } finally {
+            setIsSubmitting(false); // Re-enable the submit button
         }
     };
 
@@ -66,7 +77,9 @@ function LoginPage() {
                     />
                 </div>
                 <div className='choicearea'>
-                <button type="submit" className='buttons' style={{margin:"auto"}}>Log in</button>
+                <button type="submit" className='buttons' style={{margin:"auto"}} disabled={isSubmitting}>
+                    {isSubmitting ? 'Logging in...' : 'Log in'}
+                </button>
                 </div>
                 <Link to='/signup'>Don't have an account?</Link>
                 <Link to='/signup'>Forgot password?</Link>

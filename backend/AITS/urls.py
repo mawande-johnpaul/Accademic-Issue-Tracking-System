@@ -2,7 +2,9 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from logbook.views import *
+from django.conf import settings
 from django.contrib.auth import views as auth_views
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('', index, name='index'),
@@ -11,7 +13,7 @@ urlpatterns = [
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('signup/', RegisterView.as_view(), name='signup'),
     path('login/', LoginView.as_view(), name='login'),
-    path('user/<int:pk>/', UserDetail.as_view(), name='user_detail'),
+    path('user/<int:pk>/', UserDetailView.as_view(), name='user_detail'),
     path('issues/', IssueListCreate.as_view(), name='issues'),
     path('issues/<int:pk>/', IssueList2.as_view(), name='assigned_issues'),
     path('issues/<int:pk>/<str:status>/', IssueList3.as_view(), name='resolved_issues'),
@@ -29,4 +31,4 @@ urlpatterns = [
     path('password-reset/done/', auth_views.PasswordResetDoneView.as_view(), name='password_reset_done'),
     path('reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
     path('reset/done/', auth_views.PasswordResetCompleteView.as_view(), name='password_reset_complete'),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
