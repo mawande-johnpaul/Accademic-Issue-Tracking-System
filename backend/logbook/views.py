@@ -46,7 +46,7 @@ def send_verification_email(id, **kwargs):
     user = get_object_or_404(CustomUser, pk=id)
     token = email_verification_token.make_token(user)  # Custom token generator
     uid = urlsafe_base64_encode(force_bytes(user.pk))
-    verify_url = f"http://aitsysten.up.railway.app/verify-email/{uid}/{token}"
+    verify_url = f"http://aitsmak.up.railway.app/verify-email/{uid}/{token}"
     send_mail(
         subject="Verify your email",
         message=f"Click here to verify: {verify_url}",
