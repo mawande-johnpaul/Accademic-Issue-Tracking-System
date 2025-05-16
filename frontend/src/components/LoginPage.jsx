@@ -82,7 +82,7 @@ function LoginPage() {
                 </button>
                 </div>
                 <Link to='/signup'>Don't have an account?</Link>
-                <Link to='/signup'>Forgot password?</Link>
+                <Link to='/reset'>Forgot password?</Link>
             </form>
             {message && <div>{message}</div>}
         </div>

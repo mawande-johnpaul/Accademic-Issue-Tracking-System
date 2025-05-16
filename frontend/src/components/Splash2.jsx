@@ -127,7 +127,7 @@ const Splash2 = ({ role, issues = [], newissues = [], assignedissues = [] }) => 
   setOverdue(overdueIssues);
   setUpcoming(upcomingIssues);
   setQuote(getRandomQuote());
-}, [role, issues, newissues, assignedissues]);
+}, []);
 
  const StatCard = ({ count, label, color, textColor }) => (
   <div

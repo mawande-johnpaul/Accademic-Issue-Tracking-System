@@ -39,14 +39,7 @@ function SignupPage() {
         sessionStorage.setItem('token', response.data.token); // Fixed key for token
         sessionStorage.setItem('user', JSON.stringify(response.data.user));
 
-        setMessage('Signup successful! Please verify your email and then click "Verify Email" above.');
-        if (response.data.user.role === "lecturer") {
-            navigate("/lecturer");
-          } else if (response.data.user.role === "registrar") {
-            navigate("/registrar");
-          } else {
-            navigate("/student");
-          }
+        navigate("/login");
 
       } catch (error) {
         if (error.response && error.response.data) {
@@ -129,7 +122,7 @@ function SignupPage() {
     return (
       <div className='homepage'>
         <img src='banner2.jpeg' alt='banner2'></img>
-          <h1 className='h1'>Create your free AITS account</h1>
+          <h1 className='h2'>Create your free AITS account</h1>
           <form onSubmit={signup} className='congested-signuplower'>
             <div className='lower'>
                 <div className='row'>

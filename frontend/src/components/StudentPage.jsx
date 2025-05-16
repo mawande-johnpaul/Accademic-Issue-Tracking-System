@@ -52,7 +52,7 @@ const StudentPage = ({ content, setContent }) => {
 
     fetchIssues();
     fetchNotifications();
-  }, [user, token]);
+  }, []);
 
   const logout = () => {
     sessionStorage.removeItem("user");

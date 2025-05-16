@@ -13,8 +13,8 @@ import LoginPage from './components/LoginPage';
 import StudentPage from './components/StudentPage';
 import LecturerPage from "./components/LecturerPage";
 import RegistrarPage from "./components/RegistrarPage";
+import PasswordReset from './components/PasswordReset';
 import { useState } from 'react';
-
 
   
 function App() {
@@ -29,6 +29,7 @@ function App() {
             <Route path='/student' element={<StudentPage content={content} setContent={setContent}/>} />
             <Route path='/registrar' element={<RegistrarPage  content={content} setContent={setContent}/>} />
             <Route path='/lecturer' element={<LecturerPage  content={content} setContent={setContent} id={id} setid={setid}/>} />
+            <Route path='/reset' element={<PasswordReset />} />
         </Routes>
     </Router>
   );

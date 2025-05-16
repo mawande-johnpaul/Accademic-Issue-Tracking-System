@@ -52,6 +52,21 @@
     .congested-signuplower{
         flex-direction: column;
         gap: 5px;
+        width: 100%;
+        padding: 0px;
+        margin: 0px;
     }
+    .lower{
+        width: 100%;
+        padding: 0px;
+        margin: 0px;
+    }
+    .lower input select{
+    width: 100%;
+    }
+    .row{
+    margin: 10px;
+    height: auto;
+}
   }
 }
