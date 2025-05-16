@@ -50,7 +50,7 @@ def send_notification(sender, receiver, content, email=False):
     except Exception as e:
         log_error(f"Notification error: {str(e)}")
 
-def send_verification_email(id, **kwargs):
+'''def send_verification_email(id, **kwargs):
     try:
         user = get_object_or_404(CustomUser, pk=id)
         token = email_verification_token.make_token(user)
@@ -85,7 +85,7 @@ def verify_email(request, uid, token):
         return JsonResponse({"error": "invalid_uid"}, status=400)
     except Exception as e:
         log_error(f"Verification error: {str(e)}")
-        return JsonResponse({"error": "internal_server_error"}, status=500)
+        return JsonResponse({"error": "internal_server_error"}, status=500)'''
 
 def log_action(user, action):
     try:
@@ -121,7 +121,7 @@ class RegisterView(generics.CreateAPIView):
                 content=f"Welcome {user.first_name}, you have successfully registered.",
                 email=True
             )
-            send_verification_email(id=user.id)
+            '''send_verification_email(id=user.id)'''
             return Response({
                 'token': access_token,
                 'user': RegisterSerializer(user).data

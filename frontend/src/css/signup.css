@@ -45,3 +45,13 @@
     margin: 10px;
     height: auto;
 }
+
+@media screen {
+  @media (max-width: 768px) {
+
+    .congested-signuplower{
+        flex-direction: column;
+        gap: 5px;
+    }
+  }
+}

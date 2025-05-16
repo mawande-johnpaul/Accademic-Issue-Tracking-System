@@ -40,16 +40,36 @@ function SignupPage() {
         sessionStorage.setItem('user', JSON.stringify(response.data.user));
 
         setMessage('Signup successful! Please verify your email and then click "Verify Email" above.');
-        setVerificationPending(true);
+        if (response.data.user.role === "lecturer") {
+            navigate("/lecturer");
+          } else if (response.data.user.role === "registrar") {
+            navigate("/registrar");
+          } else {
+            navigate("/student");
+          }
+
       } catch (error) {
-        setMessage('Signup failed. Invalid credentials!');
+        if (error.response && error.response.data) {
+          const errors = error.response.data;
+          if (errors.non_field_errors) {
+            setMessage(errors.non_field_errors[0]);
+          } else if (errors.email) {
+            setMessage(errors.email[0]);
+          } else if (errors.webmail) {
+            setMessage(errors.webmail[0]);
+          } else {
+            setMessage('Signup failed. Please check your input and try again.');
+          }
+        } else {
+          setMessage('Signup failed. An unexpected error occurred.');
+        }
         console.error(error);
       } finally {
         setIsSubmitting(false); // Re-enable the submit button
       }
     };
 
-    const verifyEmail = async () => {
+    /*const verifyEmail = async () => {
       const userString = sessionStorage.getItem('user');
     
       if (!userString) {
@@ -90,7 +110,7 @@ function SignupPage() {
         console.error('Error checking verification:', error);
         setMessage('An error occurred while checking verification. Login Instead!');
       }
-    };
+    };*/
     
     const handleWebmailChange = (e) => {
       const value = e.target.value;
