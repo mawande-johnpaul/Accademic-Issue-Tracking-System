@@ -114,6 +114,7 @@ class RegisterView(generics.CreateAPIView):
 
             refresh = RefreshToken.for_user(user)
             access_token = str(refresh.access_token)
+            login(request, user)
             log_action(user, "User registered successfully.")
             send_notification(
                 sender='System',

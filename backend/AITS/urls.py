@@ -24,7 +24,7 @@ urlpatterns = [
     path('notifications/<int:pk>/', NotificationsListCreate.as_view(), name='notifications'),
     path('notifications/remove/<int:pk>', NotificationDestroy.as_view(), name='delete_notification'),
     path('lecturers/', LecturerList.as_view(), name='list_lecturers'),
-    path('verify-email/<uid>/<token>/', verify_email, name='verify_email'),
+    #path('verify-email/<uid>/<token>/', verify_email, name='verify_email'),
     
     # Password reset views
     path('password-reset/', auth_views.PasswordResetView.as_view(), name='password_reset'),

@@ -117,19 +117,19 @@ def can_connect_to_railway():
     except OperationalError:
         return False
 
-if can_connect_to_railway():
-    print("✅ Using Railway DB")
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql_psycopg2',
-            'NAME': 'railway',
-            'USER': 'postgres',
-            'PASSWORD': 'HYejQKZIHGhSyXYaYYtUpXnjrmKuMKwv',
-            'HOST': 'shortline.proxy.rlwy.net',
-            'PORT': '38482',
-        }
+#if can_connect_to_railway():
+    #print("✅ Using Railway DB")
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'railway',
+        'USER': 'postgres',
+        'PASSWORD': 'HYejQKZIHGhSyXYaYYtUpXnjrmKuMKwv',
+        'HOST': 'shortline.proxy.rlwy.net',
+        'PORT': '38482',
     }
-else:
+}
+'''else:
     print("💻 Using Local DB")
     DATABASES = {
         'default': {
@@ -140,7 +140,7 @@ else:
             'HOST': 'localhost',
             'PORT': '5432',
         }
-    }
+    }'''
 
 
 

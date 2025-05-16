@@ -35,7 +35,6 @@ class CustomUser(AbstractUser):
     role = models.CharField(max_length=100, default='student')
     department = models.CharField(max_length=100, choices=DEPARTMENT_CHOICES)
     course = models.CharField(max_length=100, default='none')
-    is_email_verified = models.BooleanField(default=False)
 
     def __str__(self):
         return self.username
