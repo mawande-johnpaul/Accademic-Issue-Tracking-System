@@ -17,7 +17,7 @@ const StudentPage = ({ content, setContent }) => {
 
   const token = sessionStorage.getItem("token");
   const userRaw = sessionStorage.getItem("user");
-  const user = userRaw ? JSON.parse(userRaw) : null;
+  const user = JSON.parse(userRaw);
 
   useEffect(() => {
     if (!user || !token) return;
