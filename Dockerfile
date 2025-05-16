@@ -29,6 +29,10 @@ COPY . /app/
 # Change directory to backend
 WORKDIR /app/backend
 
+# Collect static files and migrate
+RUN python manage.py collectstatic --noinput
+RUN python manage.py migrate
+
 # Expose the port
 EXPOSE 8000
 
