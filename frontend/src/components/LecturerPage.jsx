@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 import Button from "./Button";
-import DisplayPane from "./DisplayPane";
 import Logo from "./logo";
 import Content from './LecturerContentSection';
 import Splash from "./Splash";
@@ -86,6 +85,11 @@ const LecturerPage = ({ content, setContent }) => {
           funct={() => setContent("ResolvedIssues")}
         />
         <Button
+          text={"Notifications"}
+          image={"notifications.svg"}
+          funct={() => setContent("Notifications")}
+        />
+        <Button
           text={"Logout"}
           image={"logout.svg"}
           funct={logout}
@@ -103,10 +107,8 @@ const LecturerPage = ({ content, setContent }) => {
           setid={setid}
           setContent={setContent}
           role={user.role}
+          notifications={notifications }
         />
-      </div>
-      <div className="right-side">
-        <DisplayPane items={notifications} />
       </div>
     </div>
   );

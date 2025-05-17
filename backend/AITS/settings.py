@@ -28,23 +28,17 @@ SECRET_KEY = r'django-insecure-=)^=tl^%$nw&ip#(^ch%@d(&24f%@ul)6m%4dbso4aj$%e-u6
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['aitsmak.up.railway.app', 'localhost', '127.0.0.1']
-
+ALLOWED_HOSTS = ['*']
 
 # CORS settings
 CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOW_METHODS = ['DELETE', 'GET', 'OPTIONS', 'PATCH', 'POST', 'PUT']
+CORS_ALLOW_HEADERS = ['*']
 
-
-CORS_ALLOW_METHODS = [
-    'DELETE', 'GET', 'OPTIONS', 'PATCH', 'POST', 'PUT'
-]
-
-
-CSRF_TRUSTED_ORIGINS = [
-    'https://aitsmak.up.railway.app',
-    'http://localhost:5173',
-]
+# CSRF settings
+CSRF_TRUSTED_ORIGINS = ['*']
+CSRF_COOKIE_SECURE = False
 
 # Application definition
 
@@ -208,7 +202,7 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'aitsystem0@gmail.com'
 EMAIL_HOST_PASSWORD = 'kzbq fwxu unbj ohip'
-DEFAULT_FROM_EMAIL = 'aitsystem0@gmail.com'
+DEFAULT_FROM_EMAIL = 'AITS'
 
 from datetime import timedelta
 

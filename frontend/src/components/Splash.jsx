@@ -2,7 +2,7 @@ import InPageLoginButton from './InPageLoginButton';
 
 const Splash = () => {
   return (
-    <div style={{ paddingBottom: "10px", margin: "0 auto", justifyItems: "center", fontFamily:"Inter" }}>
+    <div style={{ paddingBottom: "10px", margin: "auto auto", justifyItems: "center", fontFamily:"Inter" }}>
       <img src="bookmark.svg" alt="logo" style={{ width: "30%" }} />
       <h1>This is how it works:</h1>
       <p>1. Sign up or log in to your account.</p>

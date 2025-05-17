@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const DisplayPane = ({ items = [] }) => {
+const Notifications = ({ items = [] }) => {
   if (!items.length) {
     return (
       <div className='display-pane'>
@@ -28,7 +28,7 @@ const DisplayPane = ({ items = [] }) => {
   );
 };
 
-DisplayPane.propTypes = {
+Notifications.propTypes = {
   items: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
@@ -38,4 +38,4 @@ DisplayPane.propTypes = {
   ),
 };
 
-export default DisplayPane;
+export default Notifications;

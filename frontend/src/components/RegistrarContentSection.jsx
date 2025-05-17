@@ -1,6 +1,7 @@
 import RegistrarIssues from "./RegistrarIssues";
 import Splash2 from "./Splash2"; 
 import IssueView from "./IssueView"; 
+import Notifications from "./Notifications";
 
 const Content = ({
   to_display_name,
@@ -46,13 +47,10 @@ const Content = ({
             setContent={setContent}
             issues={newissues}
           />
+        ) : to_display_name === "Notifications"? (
+          <Notifications items={notifications} />
         ) : (
-          <Splash2
-            role={role}
-            newissues={newissues}
-            assignedissues={assignedissues}
-            username={username}
-          />
+          <Splash2 role={role} assignedissues={resolvedIssues} newissues={issues} />
         )}
       </div>
     </div>

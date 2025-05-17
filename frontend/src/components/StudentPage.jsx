@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import Splash from "./Splash";
 import Button from "./Button";
-import DisplayPane from "./DisplayPane";
 import Logo from "./logo";
 import Content from "./StudentContentSection";
 import { useNavigate } from 'react-router-dom';
@@ -16,8 +15,8 @@ const StudentPage = ({ content, setContent }) => {
   const navigate = useNavigate();
 
   const token = sessionStorage.getItem("token");
-  const userRaw = sessionStorage.getItem("user");
-  const user = JSON.parse(userRaw);
+  const user = JSON.parse(sessionStorage.getItem("user"));
+
 
   useEffect(() => {
     if (!user || !token) return;
@@ -79,6 +78,11 @@ const StudentPage = ({ content, setContent }) => {
           funct={() => setContent("UserIssues")}
         />
         <Button
+          text={"Notifications"}
+          image={"notifications.svg"}
+          funct={() => setContent("Notifications")}
+        />
+        <Button
           text={"Logout"}
           image={"logout.svg"}
           funct={logout}
@@ -98,10 +102,8 @@ const StudentPage = ({ content, setContent }) => {
           content={content}
           setContent={setContent}
           role={user.role}
+          notifications={notifications }
         />
-      </div>
-      <div className="right-side">
-        <DisplayPane items={notifications} />
       </div>
     </div>
   );

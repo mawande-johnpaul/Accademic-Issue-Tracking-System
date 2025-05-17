@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import Button from "./Button";
-import DisplayPane from "./DisplayPane";
 import Logo from "./logo";
 import Content from "./RegistrarContentSection";
 import Splash from "./Splash";
@@ -74,6 +73,11 @@ const RegistrarPage = ({ content, setContent }) => {
           funct={() => setContent("AssignedIssues")}
         />
         <Button
+          text={"Notifications"}
+          image={"notifications.svg"}
+          funct={() => setContent("Notifications")}
+        />
+        <Button
           text={"Logout"}
           image={"logout.svg"}
           funct={logout}
@@ -93,10 +97,8 @@ const RegistrarPage = ({ content, setContent }) => {
           id={id}
           setid={setid}
           role={user.role}
+          notifications={notifications }
         />
-      </div>
-      <div className="right-side">
-        <DisplayPane items={notifications} />
       </div>
     </div>
   );

@@ -7,8 +7,6 @@ function LoginPage() {
     const [password, setPassword] = useState('');
     const [message, setMessage] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false); // Track submission state
-    sessionStorage.removeItem('user');
-    sessionStorage.removeItem('token');
     const navigate = useNavigate();
 
     const login = async (event) => {
@@ -26,11 +24,7 @@ function LoginPage() {
             const response = await axios.post('https://aitsmak.up.railway.app/login/', { username, password });
             sessionStorage.setItem('token', response.data.access_token); // Store the token in the browser
             sessionStorage.setItem('user', JSON.stringify(response.data.user)); // Store the user data in the browser
-            if (response.data.user.is_email_verified === false) {
-                setMessage('Please verify your email before logging in.');
-                
-                return;
-            }
+            console.log(response.data.user);
             if (response.data.user.role === "lecturer") {
                 navigate("/lecturer");
               } else if (response.data.user.role === "registrar") {

@@ -90,7 +90,7 @@
     cursor: pointer;
     transition: background-color 0.3s, color 0.3s;
     justify-content: left;
-    padding-left: 20%;
+    padding: 0% 20%;
     border-radius: 5px;
     border: 2px transparent;
     background-color: #ffffff;
@@ -176,14 +176,13 @@
     padding-left: 10px;
     padding-top: 5px;
     background: #d5d5d5;
-    background-color: rgb(240, 240, 153);
+    background-color: #fff;
     cursor: pointer;
     font-weight: bold;
     padding-bottom: 5px;
   }
   
   .pane-content {
-    border: 2px solid rgb(240, 240, 153);
     border-radius: 0px 0px 5px 5px;
     height: 91.5vh;
     max-height: 91.5vh;
@@ -341,3 +340,46 @@
     padding-right: 10px;
   }
 
+@media screen and (max-width: 768px) {
+    .bodyy {
+      flex-direction: column;
+      height: auto; /* Allow height to adjust based on content */
+    }
+  
+    .left-side, .content-section, .right-side {
+      width: 100%; /* Full width for smaller screens */
+      height: auto; /* Allow height to adjust based on content */
+    }
+  
+    .left-buttons {
+      width: 100%; /* Full width for smaller screens */
+    }
+  
+    .search-bar {
+      flex-direction: column; /* Stack search input and button */
+    }
+  
+    .search-input, .search-button {
+      width: 100%; /* Full width for smaller screens */
+    }
+  
+    .pane-content {
+      max-height: 50vh; /* Limit height for smaller screens */
+    }
+  
+    .logo-profile {
+      width: 30px; /* Adjust logo size for smaller screens */
+      height: 30px;
+    }
+  
+}
+
+@media screen and (max-width: 1190px) {
+  .logo-subtext {
+    display: none;
+  }
+  .left-buttons{
+    padding: 0% 10%;
+    font-size: 12px;
+  }
+}

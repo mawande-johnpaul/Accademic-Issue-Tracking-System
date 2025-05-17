@@ -1,6 +1,7 @@
 import IssueForm from "./IssueForm";
 import UserIssues from "./UserIssues";
 import Splash2 from "./Splash2";
+import Notifications from "./Notifications";
 
 const Content = ({
   to_display_name,
@@ -47,6 +48,19 @@ const Content = ({
         </div>
         <div className="content-section-body" style={{ textAlign: "center" }}>
           <UserIssues issues={issues} type={type} content={content} setContent={setContent} />
+        </div>
+      </div>
+    );
+  }
+
+  if (to_display_name === "Notifications") {
+    return (
+      <div>
+        <div className="content-section-header">
+          {username ? `Welcome ${username}!` : "Welcome Guest! Login or Signup to view and submit issues."}
+        </div>
+        <div className="content-section-body" style={{ textAlign: "center" }}>
+          <Notifications items={notifications} />
         </div>
       </div>
     );

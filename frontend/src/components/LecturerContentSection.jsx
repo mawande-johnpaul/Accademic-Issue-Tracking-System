@@ -1,6 +1,7 @@
 import LecturerIssues from "./LecturerIssues";
 import Splash2 from "./Splash2";  
 import LecturerView from "./LecturerView";
+import Notifications from "./Notifications";
 
 const Content = ({ to_display_name, issues, resolvedIssues, user, token, id, setid, setContent, role }) => {
   return (
@@ -36,6 +37,8 @@ const Content = ({ to_display_name, issues, resolvedIssues, user, token, id, set
             setContent={setContent}
             issues={issues}
           />
+        ) : to_display_name === "Notifications"? (
+          <Notifications items={notifications} />
         ) : (
           <Splash2 role={role} assignedissues={resolvedIssues} newissues={issues} />
         )}

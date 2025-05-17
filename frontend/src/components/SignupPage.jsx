@@ -36,8 +36,6 @@ function SignupPage() {
 
       try {
         const response = await axios.post('https://aitsmak.up.railway.app/signup/', { first_name, last_name, username, password, email, webmail, department, course });
-        sessionStorage.setItem('token', response.data.token); // Fixed key for token
-        sessionStorage.setItem('user', JSON.stringify(response.data.user));
 
         navigate("/login");
 
