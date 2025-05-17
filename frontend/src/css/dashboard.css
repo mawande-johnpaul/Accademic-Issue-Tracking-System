@@ -123,6 +123,23 @@
     cursor: pointer; 
     font-family:"Inter"; 
     font-weight:bold;
+    margin-top: 10px;
+  }
+
+  .splash{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100%;
+    background-color: aliceblue;
+    font-family: Inter;
+  }
+
+  .splash p{
+    font-size: 12px;
+    font-weight: bold;
   }
 
   .search-bar {
