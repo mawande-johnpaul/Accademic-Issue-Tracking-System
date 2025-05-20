@@ -28,17 +28,24 @@ SECRET_KEY = r'django-insecure-=)^=tl^%$nw&ip#(^ch%@d(&24f%@ul)6m%4dbso4aj$%e-u6
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['aitsmak.up.railway.app', 'localhost', '127.0.0.1']
+
 
 # CORS settings
 CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_CREDENTIALS = True
-CORS_ALLOW_METHODS = ['DELETE', 'GET', 'OPTIONS', 'PATCH', 'POST', 'PUT']
-CORS_ALLOW_HEADERS = ['*']
 
-# CSRF settings
-CSRF_TRUSTED_ORIGINS = ['*']
+
+CORS_ALLOW_METHODS = [
+    'DELETE', 'GET', 'OPTIONS', 'PATCH', 'POST', 'PUT'
+]
+
 CSRF_COOKIE_SECURE = False
+
+CSRF_TRUSTED_ORIGINS = [
+    'https://accademic-issue-tracking-system-hz4i.vercel.app/',
+    'http://localhost:5173'
+]
 
 # Application definition
 
@@ -113,7 +120,7 @@ def can_connect_to_railway():
         return False
 
 #if can_connect_to_railway():
-    #print("✅ Using Railway DB")
+print("✅ Using Railway DB")
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -124,18 +131,19 @@ DATABASES = {
         'PORT': '38482',
     }
 }
-'''else:
+'''
+else:
     print("💻 Using Local DB")
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql_psycopg2',
-            'NAME': 'postgres',
-            'USER': 'postgres',
-            'PASSWORD': 'postgres',
-            'HOST': 'localhost',
-            'PORT': '5432',
-        }
-    }'''
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'postgres',
+        'USER': 'postgres',
+        'PASSWORD': 'admin',
+        'HOST': 'localhost',
+        'PORT': '9000',
+    }
+}'''
 
 
 
