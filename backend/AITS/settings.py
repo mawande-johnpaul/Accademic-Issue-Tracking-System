@@ -44,7 +44,7 @@ CSRF_COOKIE_SECURE = False
 
 CSRF_TRUSTED_ORIGINS = [
     'https://accademic-issue-tracking-system-hz4i.vercel.app/',
-    'http://localhost:5173'
+    'http://localhost:5173/'
 ]
 
 # Application definition
