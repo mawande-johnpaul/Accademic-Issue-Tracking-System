@@ -13,6 +13,7 @@ const StudentPage = ({ content, setContent }) => {
   const [loadingNotifications, setLoadingNotifications] = useState(false);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
+  const [isVisible, setIsVisible] = useState(true);
 
   const token = sessionStorage.getItem("token");
   const user = JSON.parse(sessionStorage.getItem("user"));
@@ -71,21 +72,25 @@ const StudentPage = ({ content, setContent }) => {
           text={"New issue"}
           image={"new-issue.svg"}
           funct={() => setContent("IssueForm")}
+          isVisible={isVisible}
         />
         <Button
           text={"Posted issues"}
           image={"posted-logo.svg"}
           funct={() => setContent("UserIssues")}
+          isVisible={isVisible}
         />
         <Button
           text={"Notifications"}
           image={"notifications.svg"}
           funct={() => setContent("Notifications")}
+          isVisible={isVisible}
         />
         <Button
           text={"Logout"}
           image={"logout.svg"}
           funct={logout}
+          isVisible={isVisible}
         />
       </div>
       <div className="content-section">

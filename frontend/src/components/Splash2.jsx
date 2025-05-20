@@ -133,14 +133,8 @@ const Splash2 = ({ role, issues = [], newissues = [], assignedissues = [] }) => 
   <div
     style={{
       background: color,
-      padding: "20px",
-      borderRadius: "10px",
-      margin: "10px",
-      color: textColor || "#000", // default black text if not provided
-      textAlign: "center",
-      flex: "1",
-      boxShadow: "0px 0px 5px 0px #808080",
     }}
+    className = "statcard"
   >
     <h2 style={{ fontSize: "2.5rem", margin: 0 }}>{count}</h2>
     <p style={{ fontSize: "1rem", margin: 0 }}>{label}</p>
@@ -153,11 +147,11 @@ const Splash2 = ({ role, issues = [], newissues = [], assignedissues = [] }) => 
         <>
           <div style={{ display: 'flex', gap: '20px', flexWrap: 'wrap' }}>
             {role === "student" && (
-  <>
+  <div className="statcards">
     <StatCard count={seen.length} label="Seen Issues" color="#e0f7fa" textColor="#00796b" />
     <StatCard count={unseen.length} label="Unseen Issues" color="#fff3e0" textColor="#ef6c00" />
     <StatCard count={resolved.length} label="Resolved Issues" color="#e8f5e9" textColor="#388e3c" />
-  </>
+  </div>
 )}
 
 {role === "lecturer" && (

@@ -13,6 +13,7 @@ const LecturerPage = ({ content, setContent }) => {
   const [error, setError] = useState(null);
   const [id, setid] = useState(0);
   const navigate = useNavigate();
+  const [isVisible, setIsVisible] = useState(true);
 
   const token = sessionStorage.getItem("token");
   const userRaw = sessionStorage.getItem("user");
@@ -78,21 +79,25 @@ const LecturerPage = ({ content, setContent }) => {
           text={"Assigned issues"}
           image={"new-issue.svg"}
           funct={() => setContent("AssignedIssues")}
+          isVisible={isVisible}
         />
         <Button
           text={"Resolved issues"}
           image={"posted-logo.svg"}
           funct={() => setContent("ResolvedIssues")}
+          isVisible={isVisible}
         />
         <Button
           text={"Notifications"}
           image={"notifications.svg"}
           funct={() => setContent("Notifications")}
+          isVisible={isVisible}
         />
         <Button
           text={"Logout"}
           image={"logout.svg"}
           funct={logout}
+          isVisible={isVisible}
         />
       </div>
       <div className="content-section">

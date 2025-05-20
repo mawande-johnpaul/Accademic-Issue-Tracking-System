@@ -13,6 +13,7 @@ const RegistrarPage = ({ content, setContent }) => {
   const [id, setid] = useState(0);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
 
   const navigate = useNavigate();
   const token = sessionStorage.getItem("token");
@@ -66,21 +67,25 @@ const RegistrarPage = ({ content, setContent }) => {
           text={"New issues"}
           image={"new-issue.svg"}
           funct={() => setContent("NewIssues")}
+          isVisible={isVisible}
         />
         <Button
           text={"Assigned issues"}
           image={"posted-logo.svg"}
           funct={() => setContent("AssignedIssues")}
+          isVisible={isVisible}
         />
         <Button
           text={"Notifications"}
           image={"notifications.svg"}
           funct={() => setContent("Notifications")}
+          isVisible={isVisible}
         />
         <Button
           text={"Logout"}
           image={"logout.svg"}
           funct={logout}
+          isVisible={isVisible}
         />
       </div>
       <div className="content-section">
