@@ -21,6 +21,17 @@ from django.core.exceptions import ValidationError
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
 from rest_framework import status
+from django.core.mail import send_mail
+from django.conf import settings
+from django.urls import reverse
+from django.http import JsonResponse
+from django.conf.urls.static import static
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.utils.encoding import force_bytes
+from django.shortcuts import get_object_or_404
+from django.contrib.auth.tokens import default_token_generator
+from rest_framework.decorators import api_view, permission_classes
+
 
 logger = logging.getLogger(__name__)
 
@@ -30,6 +41,66 @@ logger = logging.getLogger(__name__)
 
 
 User = get_user_model()
+def index(request):
+    return render(request, 'index.html')
+
+from django.core.mail import send_mail
+from django.conf import settings
+from django.contrib.auth.tokens import PasswordResetTokenGenerator
+
+class EmailVerificationTokenGenerator(PasswordResetTokenGenerator):
+    def _make_hash_value(self, user, timestamp):
+        return f"{user.pk}{timestamp}{user.is_email_verified}"  # Removed last_login
+
+email_verification_token = EmailVerificationTokenGenerator()
+
+
+def send_notification(sender, receiver, content, email=False):
+    Notification.objects.create(
+        sender=sender,
+        user_id_receiver=receiver,
+        content=content,
+    )
+    
+def send_verification_email(id, **kwargs):
+    user = get_object_or_404(CustomUser, pk=id)
+    token = email_verification_token.make_token(user)  # Custom token generator
+    uid = urlsafe_base64_encode(force_bytes(user.pk))
+    verify_url = f"http://aitsysten.up.railway.app/verify-email/{uid}/{token}"
+    send_mail(
+        subject="Verify your email",
+        message=f"Click here to verify: {verify_url}",
+        from_email=settings.DEFAULT_FROM_EMAIL,
+        recipient_list=[user.email],
+    )
+
+
+@api_view(["GET"])
+@permission_classes([AllowAny])
+def verify_email(request, uid, token):
+    try:
+        uid_decoded = urlsafe_base64_decode(uid).decode()
+        user = CustomUser.objects.get(pk=uid_decoded)
+    except Exception:
+        return JsonResponse({"error": "Invalid UID"}, status=400)
+
+    # Use the custom token generator for validation
+    if email_verification_token.check_token(user, token):
+        user.is_email_verified = True
+        user.save()
+        login(request, user)  # Log the user in after email verification
+        log_action(user, "Email verified successfully.")
+        return JsonResponse({"message": "Email verified successfully. You can now return to the signup Page"}, status=200)
+
+    return JsonResponse({"error": "Invalid or expired token"}, status=400)
+
+
+def log_action(user, action):
+    Log.objects.create(
+        user_id=user,
+        action=action
+    )
+
 
 # I changed from ModelViewSet to generics because of its descriptive and more specialized methods.
 
