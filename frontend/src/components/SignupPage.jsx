@@ -4,9 +4,20 @@ import { useNavigate, Link } from 'react-router-dom';
 
 function SignupPage() {
 
-    const COLLEGES = {'COCIS': ['BSCS', 'BSEE', 'BLIS', 'BIST'],
-                      'COBAMS': ['BSBA', 'BSCOMM', 'BSECON'],
-                      'CONAS': ['BSN', 'BSHRM', 'BSED']}
+    // Updated college/department and course structure to match backend DEPARTMENT_CHOICES
+    const COLLEGES = {
+        'COCIS': ['BSCS', 'BSEE', 'BLIS', 'BIST'],
+        'COBAMS': ['BSBA', 'BSCOMM', 'BSECON'],
+        'CONAS': ['BSN', 'BSHRM', 'BSED'],
+        'CEDAT': ['BSC CIVIL', 'BSC MECH', 'BSC ELEC', 'BSC TELECOM', 'BSC SURVEY'],
+        'CAES': ['BSC AGRIC', 'BSC FOOD SCI', 'BSC FORESTRY', 'BSC AGRIBUSINESS'],
+        'CHUSS': ['BA LIT', 'BA LING', 'BA HIST', 'BA PHIL'],
+        'CHS': ['MBCHB', 'BDS', 'BNS', 'BPHARM'],
+        'LAW': ['LLB'],
+        'SCHOOL_OF_EDUCATION': ['BED ARTS', 'BED SCI', 'BED PRIMARY'],
+        'SCHOOL_OF_BUSINESS': ['BBA', 'BCOM', 'BIB'],
+        'SCHOOL_OF_BUILT_ENVIRONMENT': ['BSC LAND ECON', 'BSC QUANTITY SURVEY', 'BSC CONSTRUCTION MGT']
+    }
     
     const [first_name, setFirstName] = useState('');
     const [last_name, setLastName] = useState('');
@@ -36,6 +47,8 @@ function SignupPage() {
 
       try {
         const response = await axios.post('https://aitsmak.up.railway.app/signup/', { first_name, last_name, username, password, email, webmail, department, course });
+        sessionStorage.setItem('token', response.data.token); // Fixed key for token
+        sessionStorage.setItem('user', JSON.stringify(response.data.user));
 
         navigate("/login");
 

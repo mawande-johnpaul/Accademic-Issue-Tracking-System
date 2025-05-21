@@ -3,7 +3,7 @@ import Splash2 from "./Splash2";
 import LecturerView from "./LecturerView";
 import Notifications from "./Notifications";
 
-const Content = ({ to_display_name, issues, resolvedIssues, user, token, id, setid, setContent, role }) => {
+const Content = ({ to_display_name, issues, resolvedIssues, user, token, id, setid, setContent, role, notifications }) => {
   return (
     <div>
       <div className="content-section-header">

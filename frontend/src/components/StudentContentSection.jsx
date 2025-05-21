@@ -17,6 +17,7 @@ const Content = ({
   role,
   newissues = [],
   assignedissues = [],
+  notifications
 }) => {
   // Determine what to render
   if (to_display_name === "IssueForm" && course) {

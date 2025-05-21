@@ -12,7 +12,7 @@ const Content = ({
   setContent,
   id,
   setid,
-  role
+  role, notifications
 }) => {
   return (
     <div>

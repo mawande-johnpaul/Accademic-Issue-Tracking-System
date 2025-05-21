@@ -17,13 +17,13 @@ urlpatterns = [
     path('issues/', IssueListCreate.as_view(), name='issues'),
     path('issues/<int:pk>/', IssueList2.as_view(), name='assigned_issues'),
     path('issues/<int:pk>/<str:status>/', IssueList3.as_view(), name='resolved_issues'),
-    path('issues/<str:status>/', IssueList.as_view(), name='issue_status'),
+    path('issues/<str:status>/<str:college>', IssueList.as_view(), name='issue_status'),
     path('issues/<str:action>/<int:pk>/', IssueUpdateDestroy.as_view(), name='edit_issue'),
     path('issues/remove/<int:pk>/', IssueUpdateDestroy.as_view(), name='remove'),
     path('issues/notify/<int:pk>/', NotificationsListCreate.as_view(), name='notify_lecturer'),
     path('notifications/<int:pk>/', NotificationsListCreate.as_view(), name='notifications'),
     path('notifications/remove/<int:pk>', NotificationDestroy.as_view(), name='delete_notification'),
-    path('lecturers/', LecturerList.as_view(), name='list_lecturers'),
+    path('lecturers/<str:college>', LecturerList.as_view(), name='list_lecturers'),
     #path('verify-email/<uid>/<token>/', verify_email, name='verify_email'),
     
     # Password reset views

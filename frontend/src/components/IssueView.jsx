@@ -12,10 +12,10 @@ const IssueView = ({ issue, token, setContent, issues }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
-    const fetchLecturers = async () => {
+    const fetchLecturers = async (issue) => {
       try {
         const response = await axios.get(
-          "https://aitsmak.up.railway.app/lecturers/",
+          `https://aitsmak.up.railway.app/lecturers/${issue.department}`,
           {
             headers: { Authorization: `Bearer ${token}` },
           }

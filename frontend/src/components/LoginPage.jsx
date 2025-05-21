@@ -37,9 +37,9 @@ function LoginPage() {
               }
         } catch (error) {
             if (error.response && error.response.data) {
-                setMessage(`Login failed: ${error.response.data.detail}`);
+                setMessage(`Oops! ${error.response.data.detail}`);
             } else {
-                setMessage('Login failed. Please check your credentials.');
+                setMessage('Invalid credentials. Please try again.');
             }
             console.error(error);
         } finally {

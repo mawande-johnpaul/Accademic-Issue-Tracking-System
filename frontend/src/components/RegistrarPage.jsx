@@ -17,8 +17,7 @@ const RegistrarPage = ({ content, setContent }) => {
 
   const navigate = useNavigate();
   const token = sessionStorage.getItem("token");
-  const userRaw = sessionStorage.getItem("user");
-  const user = userRaw ? JSON.parse(userRaw) : null;
+  const user = JSON.parse(sessionStorage.getItem("user"));
 
   useEffect(() => {
     if (!user || !token) return;
@@ -27,10 +26,10 @@ const RegistrarPage = ({ content, setContent }) => {
       setLoading(true);
       try {
         const [unseenRes, seenRes, notificationsRes] = await Promise.all([
-          axios.get("https://aitsmak.up.railway.app/issues/Unseen", {
+          axios.get(`https://aitsmak.up.railway.app/issues/Unseen/${user.department}`, {
             headers: { Authorization: `Bearer ${token}` },
           }),
-          axios.get("https://aitsmak.up.railway.app/issues/Seen", {
+          axios.get(`https://aitsmak.up.railway.app/issues/Seen/${user.department}`, {
             headers: { Authorization: `Bearer ${token}` },
           }),
           axios.get(`https://aitsmak.up.railway.app/notifications/${user.id}`, {

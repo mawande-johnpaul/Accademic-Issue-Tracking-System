@@ -208,7 +208,7 @@ class IssueList(generics.ListAPIView):
 
     def get_queryset(self):  # Runs if the request method is GET
         status = self.kwargs['status']  # Get the status from the URL
-        return Issue.objects.filter(status=status)  # Filter issues by status
+        return Issue.objects.filter(status=status, department=self.kwargs['college'])  # Filter issues by status
     
 class IssueList2(generics.ListAPIView):
     serializer_class = IssueSerializer
@@ -423,7 +423,7 @@ class LecturerList(generics.ListAPIView):
     permission_classes = [AllowAny]
 
     def get_queryset(self):  
-        return User.objects.filter(role='lecturer')
+        return User.objects.filter(role='lecturer', department=self.kwargs['college'])
     
 from django.db.models.signals import post_save
 from django.dispatch import receiver

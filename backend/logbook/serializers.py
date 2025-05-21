@@ -5,6 +5,109 @@ from django.contrib.auth import authenticate
 
 User = get_user_model()
 
+# Add a mapping of accepted lecturers and registrars per college, using all colleges from models.py
+ACCEPTED_USERS = {
+    'COCIS': {
+        'lecturers': [
+            {'first_name': 'Lecturer1', 'last_name': 'lecturer1', 'email': 'lecturer1@gmail.com', 'webmail': 'lecturer1.lecturer1@mak.ac.ug'},
+            {'first_name': 'lecturer2', 'last_name': 'lecturer2', 'email': 'lecturer2@gmail.com', 'webmail': 'lecturer2.lecturer2@mak.ac.ug'},
+        ],
+        'registrars': [
+            {'first_name': 'John', 'last_name': 'Kiggundu', 'email': 'jkiggundu@gmail.com', 'webmail': 'jkiggundu@mak.ac.ug'},
+        ]
+    },
+    'COBAMS': {
+        'lecturers': [
+            {'first_name': 'lecturer3', 'last_name': 'lecturer3', 'email': 'lecturer3@gmail.com', 'webmail': 'lecturer3.lecturer3@mak.ac.ug'},
+            {'first_name': 'lecturer4', 'last_name': 'lecturer4', 'email': 'lecturer4@gmail.com', 'webmail': 'lecturer4.lecturer4@mak.ac.ug'},
+        ],
+        'registrars': [
+            {'first_name': 'Grace', 'last_name': 'Namubiru', 'email': 'gnamubiru@gmail.com', 'webmail': 'gnamubiru@mak.ac.ug'},
+        ]
+    },
+    'CONAS': {
+        'lecturers': [
+            {'first_name': 'lecturer5', 'last_name': 'lecturer5', 'email': 'lecturer5@gmail.com', 'webmail': 'lecturer5.lecturer5@mak.ac.ug'},
+            {'first_name': 'lecturer6', 'last_name': 'lecturer6', 'email': 'lecturer6@gmail.com', 'webmail': 'lecturer6.lecturer6@mak.ac.ug'},
+        ],
+        'registrars': [
+            {'first_name': 'Stephen', 'last_name': 'Ssewanyana', 'email': 'sssewanyana@gmail.com', 'webmail': 'sssewanyana@mak.ac.ug'},
+        ]
+    },
+    'CEDAT': {
+        'lecturers': [
+            {'first_name': 'lecturer7', 'last_name': 'lecturer7', 'email': 'lecturer7@gmail.com', 'webmail': 'lecturer7.lecturer7@mak.ac.ug'},
+            {'first_name': 'lecturer8', 'last_name': 'lecturer8', 'email': 'lecturer8@gmail.com', 'webmail': 'lecturer8.lecturer8@mak.ac.ug'},
+        ],
+        'registrars': [
+            {'first_name': 'Isaac', 'last_name': 'Nabimanya', 'email': 'inabimanya@gmail.com', 'webmail': 'inabimanya@mak.ac.ug'},
+        ]
+    },
+    'CAES': {
+        'lecturers': [
+            {'first_name': 'lecturer9', 'last_name': 'lecturer9', 'email': 'lecturer9@gmail.com', 'webmail': 'lecturer9.lecturer9@mak.ac.ug'},
+            {'first_name': 'lecturer10', 'last_name': 'lecturer10', 'email': 'lecturer10@gmail.com', 'webmail': 'lecturer10.lecturer10@mak.ac.ug'},
+        ],
+        'registrars': [
+            {'first_name': 'Ruth', 'last_name': 'Mbabazi', 'email': 'rmbabazi@gmail.com', 'webmail': 'rmbabazi@mak.ac.ug'},
+        ]
+    },
+    'CHUSS': {
+        'lecturers': [
+            {'first_name': 'lecturer11', 'last_name': 'lecturer11', 'email': 'lecturer11@gmail.com', 'webmail': 'lecturer11.lecturer11@mak.ac.ug'},
+            {'first_name': 'lecturer12', 'last_name': 'lecturer12', 'email': 'lecturer12@gmail.com', 'webmail': 'lecturer12.lecturer12@mak.ac.ug'},
+        ],
+        'registrars': [
+            {'first_name': 'Charles', 'last_name': 'Wana-Etyem', 'email': 'cwanaetyem@gmail.com', 'webmail': 'cwanaetyem@mak.ac.ug'},
+        ]
+    },
+    'CHS': {
+        'lecturers': [
+            {'first_name': 'lecturer13', 'last_name': 'lecturer13', 'email': 'lecturer13@gmail.com', 'webmail': 'lecturer1.lecturer13@mak.ac.ug'},
+            {'first_name': 'lecturer14', 'last_name': 'lecturer14', 'email': 'lecturer14@gmail.com', 'webmail': 'lecturer1.lecturer14@mak.ac.ug'},
+        ],
+        'registrars': [
+            {'first_name': 'Sarah', 'last_name': 'Nabunya', 'email': 'snabunya@gmail.com', 'webmail': 'snabunya@mak.ac.ug'},
+        ]
+    },
+    'LAW': {
+        'lecturers': [
+            {'first_name': 'lecturer15', 'last_name': 'lecturer15', 'email': 'lecturer15@gmail.com', 'webmail': 'lecturer1.lecturer15@mak.ac.ug'},
+            {'first_name': 'lecturer16', 'last_name': 'lecturer16', 'email': 'lecturer16@gmail.com', 'webmail': 'lecturer1.lecturer16@mak.ac.ug'},
+        ],
+        'registrars': [
+            {'first_name': 'Harriet', 'last_name': 'Lwanga', 'email': 'hlwanga@gmail.com', 'webmail': 'hlwanga@mak.ac.ug'},
+        ]
+    },
+    'SCHOOL_OF_EDUCATION': {
+        'lecturers': [
+            {'first_name': 'lecturer17', 'last_name': 'lecturer17', 'email': 'lecturer17@gmail.com', 'webmail': 'lecturer1.lecturer17@mak.ac.ug'},
+            {'first_name': 'lecturer18', 'last_name': 'lecturer18', 'email': 'lecturer18@gmail.com', 'webmail': 'lecturer1.lecturer18@mak.ac.ug'},
+        ],
+        'registrars': [
+            {'first_name': 'Joseph', 'last_name': 'Mukasa', 'email': 'jmukasa@gmail.com', 'webmail': 'jmukasa@mak.ac.ug'},
+        ]
+    },
+    'SCHOOL_OF_BUSINESS': {
+        'lecturers': [
+            {'first_name': 'lecturer19', 'last_name': 'lecturer19', 'email': 'lecturer19@gmail.com', 'webmail': 'lecturer1.lecturer19@mak.ac.ug'},
+            {'first_name': 'lecturer20', 'last_name': 'lecturer20', 'email': 'lecturer20@gmail.com', 'webmail': 'lecturer1.lecturer20@mak.ac.ug'},
+        ],
+        'registrars': [
+            {'first_name': 'Emily', 'last_name': 'Nabakka', 'email': 'enabakka@gmail.com', 'webmail': 'enabakka@mak.ac.ug'},
+        ]
+    },
+    'SCHOOL_OF_BUILT_ENVIRONMENT': {
+        'lecturers': [
+            {'first_name': 'lecturer21', 'last_name': 'lecturer21', 'email': 'lecturer21@gmail.com', 'webmail': 'lecturer1.lecturer21@mak.ac.ug'},
+            {'first_name': 'lecturer22', 'last_name': 'lecturer22', 'email': 'lecturer22@gmail.com', 'webmail': 'lecturer1.lecturer22@mak.ac.ug'},
+        ],
+        'registrars': [
+            {'first_name': 'Patrick', 'last_name': 'Okello', 'email': 'pokello@gmail.com', 'webmail': 'pokello@mak.ac.ug'},
+        ]
+    },
+}
+
 class RegisterSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
@@ -16,32 +119,43 @@ class RegisterSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError('Username already exists')
         return data
 
-    def create(self, validated_data):  # Corrected indentation
-        webmail=validated_data['webmail']  #Create role based on webmail
-        webmail_words = webmail.split('.')
-        for word in webmail_words:
-            if 'students' in word:
-                roles = 'student'
-                break
-            elif 'lecturers' in word:
-                roles = 'lecturer'
-                break
-            else:
+    def create(self, validated_data):
+        webmail = validated_data['webmail']
+        email = validated_data['email']
+        role = 'registrar'  # Default
 
-                roles = 'registrar'
+        if '@students.mak.ac.ug' in webmail:
+            role = 'student'
+        else:
+            if '.' in webmail.split('@')[0]:
+                role = 'lecturer'
+
+        if role in ['lecturer', 'registrar']:
+            college = validated_data['department']
+            accepted = ACCEPTED_USERS.get(college, {}).get(role + 's', [])
+            found = any(
+                user['first_name'] == validated_data['first_name'] and
+                user['last_name'] == validated_data['last_name'] and
+                user['email'] == validated_data['email'] and
+                user['webmail'] == validated_data['webmail']
+                for user in accepted
+            )
+            if not found:
+                raise serializers.ValidationError(f"{role} not recognized for {college}. Contact admin.")
 
         user = User.objects.create_user(
             first_name=validated_data['first_name'],
             last_name=validated_data['last_name'],
             webmail=webmail,
             username=validated_data['username'],
-            email=validated_data['email'],
-            role=roles,
+            email=email,
+            role=role,
             department=validated_data['department'],
             course=validated_data['course'],
-            password=validated_data['password']  # `create_user` automatically hashes the password
+            password=validated_data['password']
         )
         return user
+
 
 
 class LoginSerializer(serializers.Serializer):

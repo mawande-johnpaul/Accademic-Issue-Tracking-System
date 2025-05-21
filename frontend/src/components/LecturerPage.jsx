@@ -16,8 +16,7 @@ const LecturerPage = ({ content, setContent }) => {
   const [isVisible, setIsVisible] = useState(true);
 
   const token = sessionStorage.getItem("token");
-  const userRaw = sessionStorage.getItem("user");
-  const user = userRaw ? JSON.parse(userRaw) : null;
+  const user = JSON.parse(sessionStorage.getItem("user"));
 
   useEffect(() => {
     if (!user || !token) return;
