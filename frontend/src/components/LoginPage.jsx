@@ -29,8 +29,11 @@ function LoginPage() {
                 navigate("/lecturer");
               } else if (response.data.user.role === "registrar") {
                 navigate("/registrar");
-              } else {
+              } else if (response.data.user.role === "student"){
                 navigate("/student");
+              }
+              else{
+                setMessage('An error occured. Please contact support.');
               }
         } catch (error) {
             if (error.response && error.response.data) {
