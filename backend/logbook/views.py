@@ -31,14 +31,6 @@ def validate_attachment(file: UploadedFile):
         # If it's not an image
         pass 
 
-class EmailVerificationTokenGenerator(PasswordResetTokenGenerator):
-    def _make_hash_value(self, user, timestamp):
-        return f"{user.pk}{timestamp}{user.is_email_verified}"
-
-email_verification_token = EmailVerificationTokenGenerator()
-
-def index(request):
-    return render(request, 'index.html')
 
 def send_notification(sender, receiver, content, email=False):
     try:
@@ -49,43 +41,6 @@ def send_notification(sender, receiver, content, email=False):
         )
     except Exception as e:
         log_error(f"Notification error: {str(e)}")
-
-'''def send_verification_email(id, **kwargs):
-    try:
-        user = get_object_or_404(CustomUser, pk=id)
-        token = email_verification_token.make_token(user)
-        uid = urlsafe_base64_encode(force_bytes(user.pk))
-        verify_url = f"http://aitsmak.up.railway.app/verify-email/{uid}/{token}"
-        send_mail(
-            subject="Verify your email",
-            message=f"Click here to verify: {verify_url}",
-            from_email=settings.DEFAULT_FROM_EMAIL,
-            recipient_list=[user.email],
-        )
-    except Exception as e:
-        log_error(f"Email verification error: {str(e)}")
-
-@api_view(["GET"])
-@permission_classes([AllowAny])
-def verify_email(request, uid, token):
-    try:
-        uid_decoded = urlsafe_base64_decode(uid).decode()
-        user = CustomUser.objects.get(pk=uid_decoded)
-
-        if email_verification_token.check_token(user, token):
-            user.is_email_verified = True
-            user.save()
-            login(request, user)
-            log_action(user, "Email verified successfully.")
-            return JsonResponse({"message": "Email verified successfully. You can now return to the signup Page"}, status=200)
-        else:
-            return JsonResponse({"error": "invalid_or_expired_token"}, status=400)
-    except CustomUser.DoesNotExist:
-        log_error("Verification error: invalid_uid")
-        return JsonResponse({"error": "invalid_uid"}, status=400)
-    except Exception as e:
-        log_error(f"Verification error: {str(e)}")
-        return JsonResponse({"error": "internal_server_error"}, status=500)'''
 
 def log_action(user, action):
     try:

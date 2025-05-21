@@ -7,7 +7,6 @@ from django.contrib.auth import views as auth_views
 from django.conf.urls.static import static
 
 urlpatterns = [
-    path('', index, name='index'),
     path('admin/', admin.site.urls),
     path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
@@ -24,7 +23,6 @@ urlpatterns = [
     path('notifications/<int:pk>/', NotificationsListCreate.as_view(), name='notifications'),
     path('notifications/remove/<int:pk>', NotificationDestroy.as_view(), name='delete_notification'),
     path('lecturers/<str:college>', LecturerList.as_view(), name='list_lecturers'),
-    #path('verify-email/<uid>/<token>/', verify_email, name='verify_email'),
     
     # Password reset views
     path('password-reset/', auth_views.PasswordResetView.as_view(), name='password_reset'),
