@@ -9,7 +9,7 @@ from logbook.views import custom_404_redirect
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-     path('tech_admin/create_user/',AdminCreateUserView.as_view(),name='admin_create_user'),
+    path('tech_admin/create_user/',AdminCreateUserView.as_view(),name='admin_create_user'),
     path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('signup/', RegisterView.as_view(), name='signup'),
@@ -28,17 +28,17 @@ urlpatterns = [
     
     # path('api/settings/change-theme/', UpdateThemeView.as_view(), name='change_theme'),
     # path('api/settings/profile-picture/', UpdateProfilePictureView.as_view(), name='update_profile_picture'),
-    
-
-
-
-
-
-
-    
-    
 ] + static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT) # handles the url for submitting media files
 
 handler404 = 'logbook.views.custom_404_redirect'
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    
+
+
+
+
+
+
+    
+    
