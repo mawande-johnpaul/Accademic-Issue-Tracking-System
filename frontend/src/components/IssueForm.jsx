@@ -91,9 +91,9 @@ const IssueForm = ({ cs, token, department, pk, content, setContent, backend }) 
           },
         }
       );
-
+      if (response){
       setContent("UserIssues");
-      resetForm();
+      resetForm();}
     } catch (error) {
       setMessage(
         error.response?.data?.detail ||
@@ -153,7 +153,7 @@ const IssueForm = ({ cs, token, department, pk, content, setContent, backend }) 
         value={formData.courseCode}
         onChange={handleChange}
         className="inputinputs"
-        disabled={!["Marks", "Attendance", "Resources"].includes(formData.category)}
+        disabled={!["Marks", "Attendance", "Resources", "Other"].includes(formData.category)}
       >
         <option value="">-- Select Course Unit --</option>
         {cse &&

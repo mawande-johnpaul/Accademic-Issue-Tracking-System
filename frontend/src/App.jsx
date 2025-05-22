@@ -21,16 +21,17 @@ import { useState } from 'react';
 function App() {
   const [content, setContent] = useState('Splash2');
   const [id, setid] = useState(0)
-  const [backend, setBackend] = useState("https://accademic-issue-tracking-system.onrender.com")
+  const [backend, setBackend] = useState("http://127.0.0.1:8000")
+  const [isVisible, setIsVisible] = (true)
   return (
     <Router>
         <Routes>
-            <Route path='/' element={<Homepage backend={backend}/>} />
+            <Route path='/' element={<Homepage backend={backend} />} />
             <Route path='/signup' element={<SignupPage backend={backend}/>} />
             <Route path='/login' element={<LoginPage backend={backend}/>} />
-            <Route path='/student' element={<StudentPage content={content} setContent={setContent} backend={backend}/>} />
-            <Route path='/registrar' element={<RegistrarPage  content={content} setContent={setContent} backend={backend}/>} />
-            <Route path='/lecturer' element={<LecturerPage  content={content} setContent={setContent} id={id} setid={setid} backend={backend}/>} />
+            <Route path='/student' element={<StudentPage content={content} setContent={setContent} backend={backend} setIsVisible={setIsVisible}/>} />
+            <Route path='/registrar' element={<RegistrarPage  content={content} setContent={setContent} backend={backend} setIsVisible={setIsVisible}/>} />
+            <Route path='/lecturer' element={<LecturerPage  content={content} setContent={setContent} id={id} setid={setid} backend={backend} setIsVisible={setIsVisible}/>} />
             <Route path='/reset' element={<PasswordReset backend={backend}/>} />
         </Routes>
     </Router>

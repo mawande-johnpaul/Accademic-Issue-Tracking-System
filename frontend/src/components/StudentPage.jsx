@@ -6,7 +6,7 @@ import Logo from "./logo";
 import Content from "./StudentContentSection";
 import { useNavigate } from 'react-router-dom';
 
-const StudentPage = ({ content, setContent, backend }) => {
+const StudentPage = ({ content, setContent, backend, setIsVisible }) => {
   const [issues, setIssues] = useState([]);
   const [notifications, setNotifications] = useState([]);
   const [loadingIssues, setLoadingIssues] = useState(false);
@@ -67,7 +67,7 @@ const StudentPage = ({ content, setContent, backend }) => {
   return (
     <div className="bodyy">
       <div className="left-side">
-        <Logo />
+        <Logo setIsVisible={setIsVisible} setContent={setContent}/>
         <Button
           text={"New issue"}
           image={"new-issue.svg"}

@@ -1,22 +1,15 @@
-from django.shortcuts import render, get_object_or_404
 from rest_framework import generics, permissions, status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny, IsAuthenticated
-from rest_framework.decorators import api_view, permission_classes
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.core.mail import send_mail
-from django.conf import settings
-from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
-from django.utils.encoding import force_bytes
 from django.contrib.auth import get_user_model, login
-from django.contrib.auth.tokens import PasswordResetTokenGenerator
-from django.http import JsonResponse
 from django.utils import timezone
 from .serializers import *
 from .models import *
 from rest_framework.parsers import MultiPartParser, FormParser
-from django.views.decorators.csrf import csrf_exempt
+from PIL import Image
 
 User = get_user_model()
 
@@ -26,11 +19,9 @@ from rest_framework.exceptions import ValidationError
 
 def validate_attachment(file: UploadedFile):
     try:
-        # Try to open with Pillow to check if it's an image
         Image.open(file).verify()
     except Exception:
-        # If it's not an image
-        pass 
+        pass
 
 
 def send_notification(sender, receiver, content, email=False):
@@ -86,7 +77,6 @@ class RegisterView(generics.CreateAPIView):
         except Exception as e:
             log_error(f"Register error: {str(e)}")
             return Response({"error": "internal_server_error"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
 
 class LoginView(generics.GenericAPIView):
     serializer_class = LoginSerializer

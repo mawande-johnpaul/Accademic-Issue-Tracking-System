@@ -15,7 +15,6 @@ const Notifications = ({ items = [] }) => {
 
   return (
     <div className='display-pane'>
-      <div className='pane-header'>Notifications</div>
       <div className='pane-content'>
         {items.map(({ id, sender, content }) => (
           <div key={id} className='message-item'>

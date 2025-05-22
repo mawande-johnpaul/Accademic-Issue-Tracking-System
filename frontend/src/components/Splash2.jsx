@@ -129,50 +129,43 @@ const Splash2 = ({ role, issues = [], newissues = [], assignedissues = [] }) => 
   setQuote(getRandomQuote());
 }, []);
 
- const StatCard = ({ count, label, color, textColor }) => (
-  <div
-    style={{
-      background: color,
-    }}
-    className = "statcard"
-  >
+const StatCard = ({ count, label, color, textColor }) => {
+return (
+  <div className = "statcard" style={{background: color}}>
     <h2 style={{ fontSize: "2.5rem", margin: 0 }}>{count}</h2>
     <p style={{ fontSize: "1rem", margin: 0 }}>{label}</p>
   </div>
-);
+  )};
 
   return (
     <>
       {(role === "student" || role === "lecturer" || role === "registrar") ? (
         <>
-          <div style={{ display: 'flex', gap: '20px', flexWrap: 'wrap' }}>
+          <div>
             {role === "student" && (
-  <div className="statcards">
-    <StatCard count={seen.length} label="Seen Issues" color="#e0f7fa" textColor="#00796b" />
-    <StatCard count={unseen.length} label="Unseen Issues" color="#fff3e0" textColor="#ef6c00" />
-    <StatCard count={resolved.length} label="Resolved Issues" color="#e8f5e9" textColor="#388e3c" />
-  </div>
-)}
+              <div className="statcards">
+                <StatCard count={seen.length} label="Seen Issues" color="#e0f7fa" textColor="#00796b" />
+                <StatCard count={unseen.length} label="Unseen Issues" color="#fff3e0" textColor="#ef6c00" />
+                <StatCard count={resolved.length} label="Resolved Issues" color="#e8f5e9" textColor="#388e3c" />
+              </div>
+            )}
 
-{role === "lecturer" && (
-  <>
-    <StatCard count={assignedissues.length} label="Assigned Issues" color="#bbdefb" textColor="#0d47a1" />
-    <StatCard count={overdue.length} label="Overdue Issues" color="#ffcdd2" textColor="#b71c1c" />
-    <StatCard count={upcoming.length} label="Upcoming Deadlines" color="#d1c4e9" textColor="#4a148c" />
-  </>
-)}
+            {role === "lecturer" && (
+              <div className="statcards">
+                <StatCard count={assignedissues.length} label="Assigned Issues" color="#bbdefb" textColor="#0d47a1" />
+                <StatCard count={overdue.length} label="Overdue Issues" color="#ffcdd2" textColor="#b71c1c" />
+                <StatCard count={upcoming.length} label="Upcoming Deadlines" color="#d1c4e9" textColor="#4a148c" />
+              </div>
+            )}
 
-{role === "registrar" && (
-  <>
-    <StatCard count={seen.length} label="Seen Issues" color="#c8e6c9" textColor="#2e7d32" />
-    <StatCard count={unseen.length} label="Unseen Issues" color="#ffe0b2" textColor="#ef6c00" />
-    <StatCard count={overdue.length} label="Overdue Issues" color="#ffcdd2" textColor="#b71c1c" />
-  </>
-)}
-
+            {role === "registrar" && (
+              <div className="statcards">
+                <StatCard count={seen.length} label="Seen Issues" color="#c8e6c9" textColor="#2e7d32" />
+                <StatCard count={unseen.length} label="Unseen Issues" color="#ffe0b2" textColor="#ef6c00"  />
+                <StatCard count={overdue.length} label="Overdue Issues" color="#ffcdd2" textColor="#b71c1c" />
+              </div>
+            )}
           </div>
-
-          {/* Motivational Quote */}
           <div style={{
             marginTop: '40px',
             fontSize: '1.8rem',

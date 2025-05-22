@@ -6,7 +6,7 @@ import Content from "./RegistrarContentSection";
 import Splash from "./Splash";
 import { useNavigate } from 'react-router-dom';
 
-const RegistrarPage = ({ content, setContent, backend }) => {
+const RegistrarPage = ({ content, setContent, backend, setIsVisible }) => {
   const [newIssues, setNewIssues] = useState([]);
   const [assignedIssues, setAssignedIssues] = useState([]);
   const [notifications, setNotifications] = useState([]);
@@ -48,7 +48,7 @@ const RegistrarPage = ({ content, setContent, backend }) => {
     };
 
     fetchData();
-  }, [user, token]);
+  }, []);
 
   const logout = () => {
     sessionStorage.removeItem("user");
@@ -61,7 +61,7 @@ const RegistrarPage = ({ content, setContent, backend }) => {
   return (
     <div className="bodyy">
       <div className="left-side">
-        <Logo />
+        <Logo setIsVisible={setIsVisible} setContent={setContent}/>
         <Button
           text={"New issues"}
           image={"new-issue.svg"}

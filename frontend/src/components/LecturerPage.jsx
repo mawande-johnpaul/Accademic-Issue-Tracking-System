@@ -6,7 +6,7 @@ import Logo from "./logo";
 import Content from './LecturerContentSection';
 import Splash from "./Splash";
 
-const LecturerPage = ({ content, setContent, backend }) => {
+const LecturerPage = ({ content, setContent, backend, setIsVisible }) => {
   const [issues, setIssues] = useState([]);
   const [resolvedIssues, setResolvedIssues] = useState([]);
   const [notifications, setNotifications] = useState([]);
@@ -60,7 +60,7 @@ const LecturerPage = ({ content, setContent, backend }) => {
     fetchNotifications();
     fetchResolvedIssues();
     fetchIssues();
-  }, [user, token]);
+  }, []);
 
   const logout = () => {
     sessionStorage.removeItem("user");
@@ -73,7 +73,7 @@ const LecturerPage = ({ content, setContent, backend }) => {
   return (
     <div className="bodyy">
       <div className="left-side">
-        <Logo />
+        <Logo setIsVisible={setIsVisible} setContent={setContent}/>
         <Button
           text={"Assigned issues"}
           image={"new-issue.svg"}
