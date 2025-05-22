@@ -12,7 +12,7 @@ const Content = ({
   setContent,
   id,
   setid,
-  role, notifications
+  role, notifications, backend
 }) => {
   return (
     <div>
@@ -46,6 +46,7 @@ const Content = ({
             token={token}
             setContent={setContent}
             issues={newissues}
+            backend={backend}
           />
         ) : to_display_name === "Notifications"? (
           <Notifications items={notifications} />

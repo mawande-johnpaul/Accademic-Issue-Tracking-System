@@ -1,7 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 
-const IssueForm = ({ cs, token, department, pk, content, setContent }) => {
+const IssueForm = ({ cs, token, department, pk, content, setContent, backend }) => {
   const COURSES = {
     BSCS: ["CS101", "CS102", "CS103"],
     BLIS: ["BL101", "BL102", "BL103"],
@@ -82,7 +82,7 @@ const IssueForm = ({ cs, token, department, pk, content, setContent }) => {
 
     try {
       const response = await axios.post(
-        "https://aitsmak.up.railway.app/issues/",
+        `${backend}/issues/`,
         formDataToSend,
         {
           headers: {

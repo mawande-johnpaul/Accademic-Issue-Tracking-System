@@ -1,7 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 
-const LecturerView = ({ issue, token, setContent, issues }) => {
+const LecturerView = ({ issue, token, setContent, issues, backend }) => {
   const currentIssue = issues.find((iss) => iss.id === issue);
   if (!currentIssue) return <p>Issue not found</p>;
 
@@ -20,7 +20,7 @@ const LecturerView = ({ issue, token, setContent, issues }) => {
 
     try {
       await axios.patch(
-        `https://aitsmak.up.railway.app/issues/progress/${issue}/`,
+        `${backend}/issues/progress/${issue}/`,
         { progress },
         {
           headers: {

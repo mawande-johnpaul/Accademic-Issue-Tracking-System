@@ -16,20 +16,22 @@ import RegistrarPage from "./components/RegistrarPage";
 import PasswordReset from './components/PasswordReset';
 import { useState } from 'react';
 
-  
+//https://aitsmak.up.railway.app
+
 function App() {
   const [content, setContent] = useState('Splash2');
   const [id, setid] = useState(0)
+  const [backend, setBackend] = useState("http://127.0.0.1:8000")
   return (
     <Router>
         <Routes>
-            <Route path='/' element={<Homepage />} />
-            <Route path='/signup' element={<SignupPage />} />
-            <Route path='/login' element={<LoginPage />} />
-            <Route path='/student' element={<StudentPage content={content} setContent={setContent}/>} />
-            <Route path='/registrar' element={<RegistrarPage  content={content} setContent={setContent}/>} />
-            <Route path='/lecturer' element={<LecturerPage  content={content} setContent={setContent} id={id} setid={setid}/>} />
-            <Route path='/reset' element={<PasswordReset />} />
+            <Route path='/' element={<Homepage backend={backend}/>} />
+            <Route path='/signup' element={<SignupPage backend={backend}/>} />
+            <Route path='/login' element={<LoginPage backend={backend}/>} />
+            <Route path='/student' element={<StudentPage content={content} setContent={setContent} backend={backend}/>} />
+            <Route path='/registrar' element={<RegistrarPage  content={content} setContent={setContent} backend={backend}/>} />
+            <Route path='/lecturer' element={<LecturerPage  content={content} setContent={setContent} id={id} setid={setid} backend={backend}/>} />
+            <Route path='/reset' element={<PasswordReset backend={backend}/>} />
         </Routes>
     </Router>
   );

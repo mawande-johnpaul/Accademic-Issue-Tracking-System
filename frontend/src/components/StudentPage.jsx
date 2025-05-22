@@ -6,7 +6,7 @@ import Logo from "./logo";
 import Content from "./StudentContentSection";
 import { useNavigate } from 'react-router-dom';
 
-const StudentPage = ({ content, setContent }) => {
+const StudentPage = ({ content, setContent, backend }) => {
   const [issues, setIssues] = useState([]);
   const [notifications, setNotifications] = useState([]);
   const [loadingIssues, setLoadingIssues] = useState(false);
@@ -25,7 +25,7 @@ const StudentPage = ({ content, setContent }) => {
     const fetchIssues = async () => {
       setLoadingIssues(true);
       try {
-        const response = await axios.get("https://aitsmak.up.railway.app/issues/", {
+        const response = await axios.get(`${backend}/issues/`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setIssues(response.data);
@@ -39,7 +39,7 @@ const StudentPage = ({ content, setContent }) => {
     const fetchNotifications = async () => {
       setLoadingNotifications(true);
       try {
-        const response = await axios.get(`https://aitsmak.up.railway.app/notifications/${user.id}`, {
+        const response = await axios.get(`${backend}/notifications/${user.id}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setNotifications(response.data);
@@ -108,6 +108,7 @@ const StudentPage = ({ content, setContent }) => {
           setContent={setContent}
           role={user.role}
           notifications={notifications }
+          backend={backend}
         />
       </div>
     </div>

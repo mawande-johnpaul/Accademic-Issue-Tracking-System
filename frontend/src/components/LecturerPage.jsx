@@ -6,7 +6,7 @@ import Logo from "./logo";
 import Content from './LecturerContentSection';
 import Splash from "./Splash";
 
-const LecturerPage = ({ content, setContent }) => {
+const LecturerPage = ({ content, setContent, backend }) => {
   const [issues, setIssues] = useState([]);
   const [resolvedIssues, setResolvedIssues] = useState([]);
   const [notifications, setNotifications] = useState([]);
@@ -24,7 +24,7 @@ const LecturerPage = ({ content, setContent }) => {
     const fetchIssues = async () => {
       try {
         const response = await axios.get(
-          `https://aitsmak.up.railway.app/issues/${user.id}/`,
+          `${backend}/issues/${user.id}/`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
         setIssues(response.data);
@@ -36,7 +36,7 @@ const LecturerPage = ({ content, setContent }) => {
     const fetchResolvedIssues = async () => {
       try {
         const response = await axios.get(
-          `https://aitsmak.up.railway.app/issues/${user.id}/Resolved`,
+          `${backend}/issues/${user.id}/Resolved`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
         setResolvedIssues(response.data);
@@ -48,7 +48,7 @@ const LecturerPage = ({ content, setContent }) => {
     const fetchNotifications = async () => {
       try {
         const response = await axios.get(
-          `https://aitsmak.up.railway.app/notifications/${user.id}`,
+          `${backend}/notifications/${user.id}`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
         setNotifications(response.data);
@@ -112,6 +112,7 @@ const LecturerPage = ({ content, setContent }) => {
           setContent={setContent}
           role={user.role}
           notifications={notifications }
+          backend={backend}
         />
       </div>
     </div>

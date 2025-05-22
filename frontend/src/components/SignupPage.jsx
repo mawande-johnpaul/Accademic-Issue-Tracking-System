@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
 
-function SignupPage() {
+function SignupPage({backend}) {
 
     // Updated college/department and course structure to match backend DEPARTMENT_CHOICES
     const COLLEGES = {
@@ -46,7 +46,7 @@ function SignupPage() {
       setIsSubmitting(true); // Disable the submit button
 
       try {
-        const response = await axios.post('https://aitsmak.up.railway.app/signup/', { first_name, last_name, username, password, email, webmail, department, course });
+        const response = await axios.post(`${backend}/signup/`, { first_name, last_name, username, password, email, webmail, department, course });
         sessionStorage.setItem('token', response.data.token); // Fixed key for token
         sessionStorage.setItem('user', JSON.stringify(response.data.user));
 
@@ -92,7 +92,7 @@ function SignupPage() {
     
       try {
         const response = await axios.get(
-          `https://aitsmak.up.railway.app/user/${user.id}/` // Ensure the endpoint matches the backend
+          `${backend}/user/${user.id}/` // Ensure the endpoint matches the backend
         );
         const updatedUser = response.data;
     

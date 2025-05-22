@@ -17,7 +17,8 @@ const Content = ({
   role,
   newissues = [],
   assignedissues = [],
-  notifications
+  notifications,
+  backend
 }) => {
   // Determine what to render
   if (to_display_name === "IssueForm" && course) {
@@ -35,6 +36,7 @@ const Content = ({
             pk={pk}
             content={content}
             setContent={setContent}
+            backend={backend}
           />
         </div>
       </div>

@@ -3,7 +3,7 @@ import Splash2 from "./Splash2";
 import LecturerView from "./LecturerView";
 import Notifications from "./Notifications";
 
-const Content = ({ to_display_name, issues, resolvedIssues, user, token, id, setid, setContent, role, notifications }) => {
+const Content = ({ to_display_name, issues, resolvedIssues, user, token, id, setid, setContent, role, notifications, backend }) => {
   return (
     <div>
       <div className="content-section-header">
@@ -36,6 +36,7 @@ const Content = ({ to_display_name, issues, resolvedIssues, user, token, id, set
             token={token}
             setContent={setContent}
             issues={issues}
+            backend={backend}
           />
         ) : to_display_name === "Notifications"? (
           <Notifications items={notifications} />

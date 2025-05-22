@@ -2,7 +2,7 @@ import axios from 'axios';
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 
-function LoginPage() {
+function LoginPage({backend}) {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [message, setMessage] = useState('');
@@ -21,7 +21,7 @@ function LoginPage() {
         setIsSubmitting(true); // Disable the submit button
 
         try {
-            const response = await axios.post('https://aitsmak.up.railway.app/login/', { username, password });
+            const response = await axios.post(`${backend}/login/`, { username, password });
             sessionStorage.setItem('token', response.data.access_token); // Store the token in the browser
             sessionStorage.setItem('user', JSON.stringify(response.data.user)); // Store the user data in the browser
             console.log(response.data.user);

@@ -3,7 +3,7 @@ import axios from "axios";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
-const IssueView = ({ issue, token, setContent, issues }) => {
+const IssueView = ({ issue, token, setContent, issues, backend }) => {
   const [assignedTo, setAssignedTo] = useState("");
   const [deadline, setDeadline] = useState(null);
   const [priority, setPriority] = useState("");
@@ -15,7 +15,7 @@ const IssueView = ({ issue, token, setContent, issues }) => {
     const fetchLecturers = async (issue) => {
       try {
         const response = await axios.get(
-          `https://aitsmak.up.railway.app/lecturers/${issue.department}`,
+          `${backend}/lecturers/${issue.department}`,
           {
             headers: { Authorization: `Bearer ${token}` },
           }
@@ -45,7 +45,7 @@ const IssueView = ({ issue, token, setContent, issues }) => {
 
     try {
       await axios.patch(
-        `https://aitsmak.up.railway.app/issues/assign/${issue}/`,
+        `${backend}/issues/assign/${issue}/`,
         {
           assigned_to: assignedTo,
           priority,

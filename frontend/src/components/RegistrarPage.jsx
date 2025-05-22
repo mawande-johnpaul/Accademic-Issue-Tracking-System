@@ -6,7 +6,7 @@ import Content from "./RegistrarContentSection";
 import Splash from "./Splash";
 import { useNavigate } from 'react-router-dom';
 
-const RegistrarPage = ({ content, setContent }) => {
+const RegistrarPage = ({ content, setContent, backend }) => {
   const [newIssues, setNewIssues] = useState([]);
   const [assignedIssues, setAssignedIssues] = useState([]);
   const [notifications, setNotifications] = useState([]);
@@ -26,13 +26,13 @@ const RegistrarPage = ({ content, setContent }) => {
       setLoading(true);
       try {
         const [unseenRes, seenRes, notificationsRes] = await Promise.all([
-          axios.get(`https://aitsmak.up.railway.app/issues/Unseen/${user.department}`, {
+          axios.get(`${backend}/issues/Unseen/${user.department}`, {
             headers: { Authorization: `Bearer ${token}` },
           }),
-          axios.get(`https://aitsmak.up.railway.app/issues/Seen/${user.department}`, {
+          axios.get(`${backend}/issues/Seen/${user.department}`, {
             headers: { Authorization: `Bearer ${token}` },
           }),
-          axios.get(`https://aitsmak.up.railway.app/notifications/${user.id}`, {
+          axios.get(`${backend}/notifications/${user.id}`, {
             headers: { Authorization: `Bearer ${token}` },
           }),
         ]);
@@ -102,6 +102,7 @@ const RegistrarPage = ({ content, setContent }) => {
           setid={setid}
           role={user.role}
           notifications={notifications }
+          backend={backend}
         />
       </div>
     </div>
