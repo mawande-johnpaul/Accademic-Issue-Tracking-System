@@ -28,7 +28,7 @@ SECRET_KEY = r'django-insecure-=)^=tl^%$nw&ip#(^ch%@d(&24f%@ul)6m%4dbso4aj$%e-u6
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['aitsmak.up.railway.app', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'accademic-issue-tracking-system.onrender.com']
 
 
 # CORS settings
@@ -119,7 +119,7 @@ def can_connect_to_railway():
         return False
 
 #if can_connect_to_railway():
-print("✅ Using Railway DB")
+print("✅ Using Amazon DB")
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
