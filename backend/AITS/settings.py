@@ -41,8 +41,8 @@ CORS_ALLOW_METHODS = [
 CSRF_TRUSTED_ORIGINS = [
     'https://accademic-issue-tracking-system-hz4i.vercel.app',
     'http://localhost:5173',
-    'https://aitsmak.up.railway.app',
     'http://127.0.0.1:8000',
+    'https://accademic-issue-tracking-system.onrender.com'
 ]
 CORS_ALLOW_CREDENTIALS = True
 
@@ -66,7 +66,7 @@ MIDDLEWARE = [
     'django.contrib.sessions.middleware.SessionMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
-    #'django.middleware.csrf.CsrfViewMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -99,27 +99,6 @@ WSGI_APPLICATION = 'AITS.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-import psycopg2
-from psycopg2 import OperationalError
-
-def can_connect_to_railway():
-    try:
-        # Try to connect to the Railway DB directly
-        connection = psycopg2.connect(
-            dbname='railway',
-            user='postgres',
-            password='HYejQKZIHGhSyXYaYYtUpXnjrmKuMKwv',
-            host='shortline.proxy.rlwy.net',
-            port='38482',
-            connect_timeout=2  # fail fast
-        )
-        connection.close()
-        return True
-    except OperationalError:
-        return False
-
-#if can_connect_to_railway():
-print("✅ Using Amazon DB")
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
