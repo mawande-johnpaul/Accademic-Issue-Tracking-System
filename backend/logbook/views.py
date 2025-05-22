@@ -16,6 +16,7 @@ from django.utils import timezone
 from .serializers import *
 from .models import *
 from rest_framework.parsers import MultiPartParser, FormParser
+from django.views.decorators.csrf import csrf_exempt
 
 User = get_user_model()
 
@@ -86,6 +87,7 @@ class RegisterView(generics.CreateAPIView):
             log_error(f"Register error: {str(e)}")
             return Response({"error": "internal_server_error"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
+
 class LoginView(generics.GenericAPIView):
     serializer_class = LoginSerializer
     permission_classes = [AllowAny]
@@ -155,6 +157,7 @@ class IssueListCreate(generics.ListCreateAPIView):
 
         issue = serializer.save(created_by=self.request.user, attachment=attachment)
         log_action(self.request.user, f"Issue created with ID {issue.id}.")
+        return Response({'message': 'Issue created successfully', 'code': 'ISSUE_CREATED'}, status=status.HTTP_201_CREATED)
         
 
 class IssueList(generics.ListAPIView):

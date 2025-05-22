@@ -5,8 +5,8 @@ import Notifications from "./Notifications";
 
 const Content = ({
   to_display_name,
-  newissues = [],
-  assignedissues = [],
+  newissues,
+  assignedissues,
   username,
   token,
   setContent,
@@ -51,7 +51,7 @@ const Content = ({
         ) : to_display_name === "Notifications"? (
           <Notifications items={notifications} />
         ) : (
-          <Splash2 role={role} assignedissues={resolvedIssues} newissues={issues} />
+          <Splash2 role={role} assignedissues={assignedissues} newissues={newissues} />
         )}
       </div>
     </div>

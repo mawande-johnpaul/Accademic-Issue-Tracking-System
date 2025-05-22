@@ -16,12 +16,12 @@ import RegistrarPage from "./components/RegistrarPage";
 import PasswordReset from './components/PasswordReset';
 import { useState } from 'react';
 
-//https://aitsmak.up.railway.app
+//https://aitsmak.up.railway.app http://127.0.0.1:8000
 
 function App() {
   const [content, setContent] = useState('Splash2');
   const [id, setid] = useState(0)
-  const [backend, setBackend] = useState("http://127.0.0.1:8000")
+  const [backend, setBackend] = useState("https://aitsmak.up.railway.app")
   return (
     <Router>
         <Routes>

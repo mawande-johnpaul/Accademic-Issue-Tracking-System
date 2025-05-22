@@ -108,6 +108,44 @@ ACCEPTED_USERS = {
     },
 }
 
+def validate_webmail_and_role(first_name, last_name, webmail):
+    """Validate webmail format based on first_name, last_name and deduce role."""
+    local_part, _, domain = webmail.partition('@')
+
+    # Normalize names for comparison
+    fn_lower = first_name.lower()
+    ln_lower = last_name.lower()
+
+    # Check student email
+    if domain == 'students.mak.ac.ug':
+        # student webmail must be firstname.lastname@students.mak.ac.ug
+        expected_local = f"{fn_lower}.{ln_lower}"
+        if local_part != expected_local:
+            raise serializers.ValidationError(
+                "Invalid student webmail format; expected firstname.lastname@students.mak.ac.ug"
+            )
+        return 'student'
+
+    elif domain == 'mak.ac.ug':
+        # Could be lecturer or registrar
+
+        # Lecturer: firstname.lastname@mak.ac.ug
+        expected_lecturer_local = f"{fn_lower}.{ln_lower}"
+        # Registrar: firstnamelastname@mak.ac.ug
+        expected_registrar_local = f"{fn_lower}{ln_lower}"
+
+        if local_part == expected_lecturer_local:
+            return 'lecturer'
+        elif local_part == expected_registrar_local:
+            return 'registrar'
+        else:
+            raise serializers.ValidationError(
+                "Invalid webmail format for lecturers or registrars; please check your webmail."
+            )
+    else:
+        raise serializers.ValidationError("Invalid email domain.")
+
+
 class RegisterSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
@@ -117,44 +155,58 @@ class RegisterSerializer(serializers.ModelSerializer):
     def validate(self, data):
         if User.objects.filter(username=data['username']).exists():
             raise serializers.ValidationError('Username already exists')
+
+        first_name = data['first_name']
+        last_name = data['last_name']
+        webmail = data['webmail']
+        email = data['email']
+
+        # Validate role based on webmail format
+        role = validate_webmail_and_role(first_name, last_name, webmail)
+
+        # If lecturer or registrar, check if user is in ACCEPTED_USERS for their college
+        if role in ['lecturer', 'registrar']:
+            college = data['department']
+            accepted_list = ACCEPTED_USERS.get(college, {}).get(role + 's', [])
+            
+            # Normalize for comparison
+            fn_lower = first_name.lower()
+            ln_lower = last_name.lower()
+
+            found = False
+            for user in accepted_list:
+                if (user['first_name'].lower() == fn_lower and
+                    user['last_name'].lower() == ln_lower and
+                    user['email'].lower() == email.lower()):
+
+                    # Check webmail format dynamically
+                    accepted_webmail = user['webmail'].lower()
+                    if accepted_webmail == webmail.lower():
+                        found = True
+                        break
+
+            if not found:
+                raise serializers.ValidationError(
+                    f"{role.capitalize()} not recognized for {college}. Contact admin."
+                )
+
+        data['role'] = role
         return data
 
     def create(self, validated_data):
-        webmail = validated_data['webmail']
-        email = validated_data['email']
-        role = 'registrar'  # Default
-
-        if '@students.mak.ac.ug' in webmail:
-            role = 'student'
-        else:
-            if '.' in webmail.split('@')[0]:
-                role = 'lecturer'
-
-        if role in ['lecturer', 'registrar']:
-            college = validated_data['department']
-            accepted = ACCEPTED_USERS.get(college, {}).get(role + 's', [])
-            found = any(
-                user['first_name'] == validated_data['first_name'] and
-                user['last_name'] == validated_data['last_name'] and
-                user['email'] == validated_data['email'] and
-                user['webmail'] == validated_data['webmail']
-                for user in accepted
-            )
-            if not found:
-                raise serializers.ValidationError(f"{role} not recognized for {college}. Contact admin.")
-
         user = User.objects.create_user(
             first_name=validated_data['first_name'],
             last_name=validated_data['last_name'],
-            webmail=webmail,
+            webmail=validated_data['webmail'],
             username=validated_data['username'],
-            email=email,
-            role=role,
+            email=validated_data['email'],
+            role=validated_data['role'],
             department=validated_data['department'],
-            course=validated_data['course'],
+            course=validated_data.get('course', ''),
             password=validated_data['password']
         )
         return user
+
 
 
 
