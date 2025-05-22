@@ -1,8 +1,9 @@
 import PropTypes from 'prop-types';
 
 const Button = ({ text, image, funct, isVisible }) => {
+  // Functions to show buttons or not
   return (
-    <button onClick={funct} className={isVisible? "left-buttons" : "buttons-dropdown"} type="button">
+    <button onClick={funct} className="left-buttons" type="button">
       <div className="icon-left">
         <img src={image} alt="icon" width="20" height="20" />
       </div>

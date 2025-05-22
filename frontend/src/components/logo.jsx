@@ -4,6 +4,8 @@ const toggleButtons = (setIsVisible) => {
     setIsVisible(prev => !prev)
 }
 
+// function to show menu button or not, and toggling views
+
 const Logo = ({setIsVisible, setContent}) => {
     return (
         <div className="logo" onClick={() => toggleButtons(setIsVisible)}>

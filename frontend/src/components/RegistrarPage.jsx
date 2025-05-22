@@ -6,14 +6,13 @@ import Content from "./RegistrarContentSection";
 import Splash from "./Splash";
 import { useNavigate } from 'react-router-dom';
 
-const RegistrarPage = ({ content, setContent, backend, setIsVisible }) => {
+const RegistrarPage = ({ content, setContent, backend, isVisible, setIsVisible }) => {
   const [newIssues, setNewIssues] = useState([]);
   const [assignedIssues, setAssignedIssues] = useState([]);
   const [notifications, setNotifications] = useState([]);
   const [id, setid] = useState(0);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [isVisible, setIsVisible] = useState(true);
 
   const navigate = useNavigate();
   const token = sessionStorage.getItem("token");

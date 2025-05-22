@@ -6,14 +6,13 @@ import Logo from "./logo";
 import Content from "./StudentContentSection";
 import { useNavigate } from 'react-router-dom';
 
-const StudentPage = ({ content, setContent, backend, setIsVisible }) => {
+const StudentPage = ({ content, setContent, backend,isVisible, setIsVisible }) => {
   const [issues, setIssues] = useState([]);
   const [notifications, setNotifications] = useState([]);
   const [loadingIssues, setLoadingIssues] = useState(false);
   const [loadingNotifications, setLoadingNotifications] = useState(false);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
-  const [isVisible, setIsVisible] = useState(true);
 
   const token = sessionStorage.getItem("token");
   const user = JSON.parse(sessionStorage.getItem("user"));

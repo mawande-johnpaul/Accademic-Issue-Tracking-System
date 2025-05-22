@@ -6,14 +6,13 @@ import Logo from "./logo";
 import Content from './LecturerContentSection';
 import Splash from "./Splash";
 
-const LecturerPage = ({ content, setContent, backend, setIsVisible }) => {
+const LecturerPage = ({ content, setContent, backend,isVisible, setIsVisible }) => {
   const [issues, setIssues] = useState([]);
   const [resolvedIssues, setResolvedIssues] = useState([]);
   const [notifications, setNotifications] = useState([]);
   const [error, setError] = useState(null);
   const [id, setid] = useState(0);
   const navigate = useNavigate();
-  const [isVisible, setIsVisible] = useState(true);
 
   const token = sessionStorage.getItem("token");
   const user = JSON.parse(sessionStorage.getItem("user"));
