@@ -13,7 +13,6 @@ const RegistrarPage = ({ content, setContent, backend, isVisible, setIsVisible }
   const [id, setid] = useState(0);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [lecturers, setLecturers] = useState([]);
 
   const navigate = useNavigate();
   const token = sessionStorage.getItem("token");
@@ -36,16 +35,7 @@ const RegistrarPage = ({ content, setContent, backend, isVisible, setIsVisible }
             headers: { Authorization: `Bearer ${token}` },
           }),
         ]);
-    const fetchLecturers = async (issue) => {
-        const response = await axios.get(
-          `${backend}/lecturers/${issue.department}`,
-          {
-            headers: { Authorization: `Bearer ${token}` },
-          }
-        );
-        setLecturers(response.data);
-    };
-        fetchLecturers();
+
         setNewIssues(unseenRes.data);
         setAssignedIssues(seenRes.data);
         setNotifications(notificationsRes.data);
@@ -112,7 +102,6 @@ const RegistrarPage = ({ content, setContent, backend, isVisible, setIsVisible }
           role={user.role}
           notifications={notifications }
           backend={backend}
-          lecturers={lecturers}
         />
       </div>
     </div>

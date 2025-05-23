@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
 
-const IssueCard = ({ issue, type, token, setContent, setid }) => {
+const IssueCard = ({ issue, type, token, setContent, setid, backend }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -24,7 +24,7 @@ const IssueCard = ({ issue, type, token, setContent, setid }) => {
     setLoading(true);
     try {
       await axios.delete(
-        `https://aitsmak.up.railway.app/issues/remove/${identifier}/`,
+        `${backend}issues/remove/${identifier}/`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -44,7 +44,7 @@ const IssueCard = ({ issue, type, token, setContent, setid }) => {
     setLoading(true);
     try {
       await axios.delete(
-        `https://aitsmak.up.railway.app/issues/remove/${identifier}/`,
+        `${backend}issues/remove/${identifier}/`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -64,17 +64,17 @@ const IssueCard = ({ issue, type, token, setContent, setid }) => {
     setLoading(true);
     try {
       await axios.post(
-        `https://aitsmak.up.railway.app/issues/notify/${identifier}/lecturer_notify/`,
-        {},
+        `${backend}/issues/notify/${identifier}/`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         }
       );
+      alert("Lecturer has been notified!")
       setContent("NewIssues");
     } catch {
-      setError("Failed to send notification. Please try again.");
+      setError(error);
     } finally {
       setLoading(false);
     }
@@ -111,7 +111,7 @@ const IssueCard = ({ issue, type, token, setContent, setid }) => {
           {error && <div className="error-message">{error}</div>}
           <button
             className="cardbuttons"
-            style={{ backgroundColor: "red" }}
+            style={{ backgroundColor: "red", color:"white" }}
             onClick={() => reject(issue.id)}
             disabled={loading}
           >

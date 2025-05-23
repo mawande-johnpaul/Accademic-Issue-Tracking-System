@@ -286,31 +286,28 @@ class NotificationsListCreate(generics.ListCreateAPIView):
     permission_classes = [AllowAny]
 
     def get_queryset(self):
-        pk = self.kwargs.get('pk')
+        pk = self.kwargs['pk']
         if not pk:
             return Notification.objects.none()
 
         return Notification.objects.filter(user_id_receiver=pk)
 
-    def post(self, request, *args, **kwargs):
-        pk = kwargs.get('pk')
+    def post(self, request, **kwargs):
+        pk = self.kwargs['pk']
+        ipk = self.kwargs['id']
         if not pk:
             return Response({'error': 'User ID is required.', 'code': 'MISSING_USER_ID'}, status=status.HTTP_400_BAD_REQUEST)
 
         try:
-            issue = Issue.objects.get(pk=pk)
-        except Issue.DoesNotExist:
-            return Response({'error': 'Issue not found.', 'code': 'ISSUE_NOT_FOUND'}, status=status.HTTP_404_NOT_FOUND)
-
-        try:
             user = User.objects.get(pk=pk)
+            issue = Issue.objects.get(pk=ipk)
         except User.DoesNotExist:
             return Response({'error': 'User not found.', 'code': 'USER_NOT_FOUND'}, status=status.HTTP_404_NOT_FOUND)
 
         Notification.objects.create(
             sender='Registrar',
             user_id_receiver=user, 
-            content=f"You have been assigned a new issue: {issue.title}",
+            content=f"Registrar requested progess on issue entitled: {issue.title}",
         )
         return Response({'message': 'Notification sent to the lecturer.', 'code': 'NOTIFICATION_SENT'}, status=status.HTTP_201_CREATED)
 
@@ -370,8 +367,9 @@ class LecturerList(generics.ListAPIView):
     serializer_class = LecturerSerializer
     permission_classes = [AllowAny]
 
-    def get_queryset(self):  
-        return User.objects.filter(role='lecturer', department=self.kwargs['college'])
+    def get_queryset(self):
+        issue = Issue.objects.get(pk=self.kwargs['id'])
+        return User.objects.filter(role='lecturer', department=issue.department)
     
 from django.db.models.signals import post_save
 from django.dispatch import receiver

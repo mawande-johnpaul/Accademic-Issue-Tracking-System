@@ -12,7 +12,7 @@ const Content = ({
   setContent,
   id,
   setid,
-  role, notifications, backend, lecturers
+  role, notifications, backend
 }) => {
   return (
     <div>
@@ -31,6 +31,7 @@ const Content = ({
             token={token}
             setContent={setContent}
             setid={setid}
+            backend={backend}
           />
         ) : to_display_name === "AssignedIssues" ? (
           <RegistrarIssues
@@ -39,6 +40,7 @@ const Content = ({
             token={token}
             setContent={setContent}
             setid={setid}
+            backend={backend}
           />
         ) : to_display_name === "AssignForm" ? (
           <IssueView
@@ -47,7 +49,6 @@ const Content = ({
             setContent={setContent}
             issues={newissues}
             backend={backend}
-            lecturers={lecturers}
           />
         ) : to_display_name === "Notifications"? (
           <Notifications items={notifications} />

@@ -1,6 +1,6 @@
 import IssueCard from "./IssueCard";
 
-const RegistrarIssues = ({ issues = [], type, token, content, setContent, setid }) => {
+const RegistrarIssues = ({ issues = [], type, token, content, setContent, setid, backend }) => {
   if (type !== 'new' && type !== 'assigned') {
     return null;
   }
@@ -16,6 +16,7 @@ const RegistrarIssues = ({ issues = [], type, token, content, setContent, setid 
           content={content}
           setContent={setContent}
           setid={setid}
+          backend={backend}
         />
       ))}
     </div>
