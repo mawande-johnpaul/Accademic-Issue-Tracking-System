@@ -85,7 +85,7 @@ const IssueCard = ({ issue, type, token, setContent, setid }) => {
     return (
       <div className="issue-card">
         <div className="card-header">
-          {issue.title} . {issue.status} . {issue.created_at}
+          {issue.title} . {issue.status}
         </div>
         <div className="card-body">
           <div style={{ fontWeight: "bold", fontSize: "12px", margin: "auto" }}>

@@ -23,7 +23,7 @@ function App() {
   const [content, setContent] = useState('Splash2');
   const [id, setid] = useState(0)
   const [backend, setBackend] = useState("http://127.0.0.1:8000")
-  const [isVisible, setIsVisible] = (true)
+  const [isVisible, setIsVisible] = useState(true)
   return (
     <Router>
         <Routes>

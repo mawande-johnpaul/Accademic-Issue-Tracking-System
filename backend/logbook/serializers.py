@@ -108,11 +108,10 @@ ACCEPTED_USERS = {
     },
 }
 
-def validate_webmail_and_role(first_name, last_name, webmail):
+def validate_webmail_and_role(first_name, last_name, webmail, college):
     """Validate webmail format based on first_name, last_name and deduce role."""
     local_part, _, domain = webmail.partition('@')
 
-    # Normalize names for comparison
     fn_lower = first_name.lower()
     ln_lower = last_name.lower()
 
@@ -127,23 +126,18 @@ def validate_webmail_and_role(first_name, last_name, webmail):
         return 'student'
 
     elif domain == 'mak.ac.ug':
-        # Could be lecturer or registrar
-
-        # Lecturer: firstname.lastname@mak.ac.ug
-        expected_lecturer_local = f"{fn_lower}.{ln_lower}"
-        # Registrar: firstnamelastname@mak.ac.ug
-        expected_registrar_local = f"{fn_lower}{ln_lower}"
-
-        if local_part == expected_lecturer_local:
-            return 'lecturer'
-        elif local_part == expected_registrar_local:
-            return 'registrar'
-        else:
-            raise serializers.ValidationError(
-                "Invalid webmail format for lecturers or registrars; please check your webmail."
-            )
+            for lecturer in ACCEPTED_USERS[college]['lecturers']:
+                if lecturer['webmail'] == webmail:
+                    return 'lecturer'
+                else:
+                    raise serializers.ValidationError("Use a student's webmail")
+            for registrar in ACCEPTED_USERS[college]['registrars']:
+                if registrar['webmail'] == webmail:
+                    return 'registrar'
+                else:
+                    raise serializers.ValidationError("Use a student's webmail")
     else:
-        raise serializers.ValidationError("Invalid email domain.")
+        raise serializers.ValidationError({"message":"Invalid webmail domain."})
 
 
 class RegisterSerializer(serializers.ModelSerializer):
@@ -160,9 +154,10 @@ class RegisterSerializer(serializers.ModelSerializer):
         last_name = data['last_name']
         webmail = data['webmail']
         email = data['email']
+        college = data['department']
 
         # Validate role based on webmail format
-        role = validate_webmail_and_role(first_name, last_name, webmail)
+        role = validate_webmail_and_role(first_name, last_name, webmail, college)
 
         # If lecturer or registrar, check if user is in ACCEPTED_USERS for their college
         if role in ['lecturer', 'registrar']:

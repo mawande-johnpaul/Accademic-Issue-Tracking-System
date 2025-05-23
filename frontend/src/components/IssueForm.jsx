@@ -70,7 +70,6 @@ const IssueForm = ({ cs, token, department, pk, content, setContent, backend }) 
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setMessage("");
     setLoading(true);
 
     const formDataToSend = new FormData();

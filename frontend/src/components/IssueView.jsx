@@ -3,35 +3,17 @@ import axios from "axios";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
-const IssueView = ({ issue, token, setContent, issues, backend }) => {
+const IssueView = ({ issue, token, setContent, issues, backend, lecturers }) => {
   const [assignedTo, setAssignedTo] = useState("");
   const [deadline, setDeadline] = useState(null);
   const [priority, setPriority] = useState("");
-  const [lecturers, setLecturers] = useState([]);
   const [issueData, setIssueData] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
-    const fetchLecturers = async (issue) => {
-      try {
-        const response = await axios.get(
-          `${backend}/lecturers/${issue.department}`,
-          {
-            headers: { Authorization: `Bearer ${token}` },
-          }
-        );
-        setLecturers(response.data);
-      } catch (error) {
-        console.error("Failed to fetch lecturers", error);
-      }
-    };
-    fetchLecturers();
-  }, [token]);
-
-  useEffect(() => {
     const foundIssue = Object.values(issues).find((iss) => iss.id === issue) || {};
     setIssueData(foundIssue);
-  }, [issues, issue]);
+  }, []);
 
   const assignIssue = async (e) => {
     e.preventDefault();
