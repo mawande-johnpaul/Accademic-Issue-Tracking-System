@@ -295,12 +295,12 @@ class NotificationsListCreate(generics.ListCreateAPIView):
     def post(self, request, **kwargs):
         pk = self.kwargs['pk']
         ipk = self.kwargs['id']
-        if not pk:
+        if not pk and ipk:
             return Response({'error': 'User ID is required.', 'code': 'MISSING_USER_ID'}, status=status.HTTP_400_BAD_REQUEST)
 
         try:
-            user = User.objects.get(pk=pk)
-            issue = Issue.objects.get(pk=ipk)
+            user = User.objects.get(pk=ipk)
+            issue = Issue.objects.get(pk=pk)
         except User.DoesNotExist:
             return Response({'error': 'User not found.', 'code': 'USER_NOT_FOUND'}, status=status.HTTP_404_NOT_FOUND)
 

@@ -10,6 +10,7 @@ const IssueCard = ({ issue, type, token, setContent, setid, backend }) => {
   }
 
   const assign = (identifier) => {
+    console.log(identifier)
     setid(identifier);
     setContent("AssignForm");
   };
@@ -44,7 +45,7 @@ const IssueCard = ({ issue, type, token, setContent, setid, backend }) => {
     setLoading(true);
     try {
       await axios.delete(
-        `${backend}issues/remove/${identifier}/`,
+        `${backend}/issues/remove/${identifier}/`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -59,12 +60,12 @@ const IssueCard = ({ issue, type, token, setContent, setid, backend }) => {
     }
   };
 
-  const notify = async (identifier) => {
+  const notify = async (identifier, lect) => {
     setError(null);
     setLoading(true);
     try {
       await axios.post(
-        `${backend}/issues/notify/${identifier}/`,
+        `${backend}/issues/notify/${identifier}/${lect}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -72,7 +73,7 @@ const IssueCard = ({ issue, type, token, setContent, setid, backend }) => {
         }
       );
       alert("Lecturer has been notified!")
-      setContent("NewIssues");
+      setContent("Splash2");
     } catch {
       setError(error);
     } finally {
@@ -171,7 +172,7 @@ const IssueCard = ({ issue, type, token, setContent, setid, backend }) => {
           <button
             className="cardbuttons"
             style={{ backgroundColor: "#00DF81" }}
-            onClick={() => notify(issue.id)}
+            onClick={() => notify(issue.id, issue.assigned_to)}
             disabled={loading}
           >
             Request Report
