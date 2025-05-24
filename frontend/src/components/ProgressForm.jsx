@@ -35,7 +35,7 @@ const ProgressForm = ({ issue, onClose }) => {
       alert("Please complete all required fields.");
       return;
     }
-    alert(`Progress submitted for: ${issue.title}`);
+    alert(`Progress submitted!`);
     onClose(); // close form after submit
   };
 

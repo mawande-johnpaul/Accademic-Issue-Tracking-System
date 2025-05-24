@@ -69,7 +69,6 @@ class RegisterView(generics.CreateAPIView):
                 content=f"Welcome {user.first_name}, you have successfully registered.",
                 email=True
             )
-            '''send_verification_email(id=user.id)'''
             return Response({
                 'token': access_token,
                 'user': RegisterSerializer(user).data
@@ -147,6 +146,12 @@ class IssueListCreate(generics.ListCreateAPIView):
 
         issue = serializer.save(created_by=self.request.user, attachment=attachment)
         log_action(self.request.user, f"Issue created with ID {issue.id}.")
+        send_notification(
+                sender='System',
+                receiver=self.request.user,
+                content=f"Successfully logged issue. You will be notified when it is resolved.",
+                email=True
+            )
         return Response({'message': 'Issue created successfully', 'code': 'ISSUE_CREATED'}, status=status.HTTP_201_CREATED)
         
 
@@ -233,7 +238,7 @@ class IssueUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
                     sender='Registrar',
                     receiver=user,
                     content=f"You have been assigned a new issue: {issue.title}",
-                    email=True
+                    email=False
                 )
 
                 serializer = self.get_serializer(issue)
@@ -276,6 +281,20 @@ class IssueUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
             issue = Issue.objects.get(pk=pk)
             issue.delete()
             log_action(request.user, f"Issue '{issue.title}' deleted.")
+            student = User.objects.filter(pk=issue.created_by)
+            lecturer = User.objects.filter(pk=issue.assigned_to)
+            send_notification(
+                sender='System',
+                receiver=student,
+                content=f"Issue with the following title has been closed or rejected; {issue.title}",
+                email=True
+            )
+            send_notification(
+                sender='System',
+                receiver=lecturer,
+                content=f"Issue with the following title has been closed or rejected; {issue.title}",
+                email=True
+            )
             return Response(status=status.HTTP_204_NO_CONTENT)
         except Issue.DoesNotExist:
             return Response({'error': 'Issue not found.', 'code': 'ISSUE_NOT_FOUND'}, status=status.HTTP_404_NOT_FOUND)
@@ -391,7 +410,7 @@ def notify_on_issue_change(sender, instance, created, **kwargs):
             send_notification(
                 sender='System',
                 receiver=instance.created_by,
-                content=f"Your issue '{instance.title}' has been marked as resolved.",
+                content=f"Your issue '{instance.title}' has been resolved.",
                 email=True
             )
 

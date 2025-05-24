@@ -43,7 +43,7 @@ const Content = ({
     );
   }
 
-  if (to_display_name === "UserIssues" && issues.length > 0) {
+  if (to_display_name === "UserIssues") {
     return (
       <div>
         <div className="content-section-header">

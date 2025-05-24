@@ -91,6 +91,7 @@ const IssueForm = ({ cs, token, department, pk, content, setContent, backend }) 
         }
       );
       if (response){
+      alert('Submission successful!')
       setContent("UserIssues");
       resetForm();}
     } catch (error) {
