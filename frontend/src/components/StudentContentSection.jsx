@@ -81,8 +81,7 @@ const Content = ({
   return (
     <div>
       <div className="content-section-header">
-        <h2 style={{marginBottom: 8}}>{heading}</h2>
-        {username ? `Welcome ${username}!` : "Welcome Guest! Login or Signup to view and submit issues."}
+        {heading}
       </div>
       <div className="content-section-body" style={{ textAlign: "center" }}>
         <Splash2 role={role} issues={issues} newissues={newissues} assignedissues={assignedissues} />
