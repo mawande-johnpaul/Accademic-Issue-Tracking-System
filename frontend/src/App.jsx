@@ -21,7 +21,7 @@ function App() {
   // Add event listener for media queries and edit buttons to render accordingly
   const [content, setContent] = useState('Splash2');
   const [id, setid] = useState(0)
-  const [backend, setBackend] = useState("http://127.0.0.1:8000")
+  const [backend, setBackend] = useState("https://accademic-issue-tracking-system.onrender.com")
   const [isVisible, setIsVisible] = useState(true)
 
   useEffect(() => {

@@ -4,14 +4,19 @@ import LecturerView from "./LecturerView";
 import Notifications from "./Notifications";
 
 const Content = ({ to_display_name, issues, resolvedIssues, user, token, id, setid, setContent, role, notifications, backend }) => {
+  // Map display names to headings
+  const headings = {
+    AssignedIssues: "Assigned Issues",
+    ResolvedIssues: "Resolved Issues",
+    LecturerView: "Issue Details",
+    Notifications: "Notifications"
+  };
+  const heading = headings[to_display_name] || "Dashboard";
+
   return (
     <div>
       <div className="content-section-header">
-        {user ? (
-          <div>Welcome {user?.username}!</div>
-        ) : (
-          <div>Welcome Guest! Login or Signup to view and submit issues.</div>
-        )}
+        {heading}
       </div>
       <div className="content-section-body" style={{ textAlign: "center" }}>
         {to_display_name === "AssignedIssues" && user ? (

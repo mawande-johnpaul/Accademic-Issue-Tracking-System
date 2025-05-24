@@ -1,5 +1,9 @@
 from pathlib import Path
 import os
+from dotenv import load_dotenv
+
+# Load environment variables from .env file if present
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -9,12 +13,12 @@ MEDIA_URL = '/media/'
 
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = r'django-insecure-=)^=tl^%$nw&ip#(^ch%@d(&24f%@ul)6m%4dbso4aj$%e-u64'
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', r'django-insecure-=)^=tl^%$nw&ip#(^ch%@d(&24f%@ul)6m%4dbso4aj$%e-u64')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('DJANGO_DEBUG', 'True') == 'True'
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'accademic-issue-tracking-system.onrender.com']
+ALLOWED_HOSTS = os.environ.get('DJANGO_ALLOWED_HOSTS', 'localhost,127.0.0.1,accademic-issue-tracking-system.onrender.com').split(',')
 
 
 # CORS settings
@@ -24,12 +28,9 @@ CORS_ALLOW_METHODS = [
     'DELETE', 'GET', 'OPTIONS', 'PATCH', 'POST', 'PUT'
 ]
 
-CSRF_TRUSTED_ORIGINS = [
-    'http://localhost:5173',
-    'https://accademic-issue-tracking-system-hz4i.vercel.app',
-    'http://127.0.0.1:8000',
-    'https://accademic-issue-tracking-system.onrender.com'
-]
+CSRF_TRUSTED_ORIGINS = os.environ.get('DJANGO_CSRF_TRUSTED_ORIGINS',
+    'http://localhost:5173,https://accademic-issue-tracking-system-hz4i.vercel.app,http://127.0.0.1:8000,https://accademic-issue-tracking-system.onrender.com'
+).split(',')
 CORS_ALLOW_CREDENTIALS = True
 
 # Application definition
@@ -85,19 +86,18 @@ WSGI_APPLICATION = 'AITS.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-'''DATABASES = {
+DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'railway',
-        'USER': 'postgres',
-        'PASSWORD': 'HYejQKZIHGhSyXYaYYtUpXnjrmKuMKwv',
-        'HOST': 'shortline.proxy.rlwy.net',
-        'PORT': '38482',
+        'ENGINE': os.environ.get('POSTGRES_ENGINE', 'django.db.backends.postgresql_psycopg2'),
+        'NAME': os.environ.get('POSTGRES_DB', 'railway'),
+        'USER': os.environ.get('POSTGRES_USER', 'postgres'),
+        'PASSWORD': os.environ.get('POSTGRES_PASSWORD', 'HYejQKZIHGhSyXYaYYtUpXnjrmKuMKwv'),
+        'HOST': os.environ.get('POSTGRES_HOST', 'shortline.proxy.rlwy.net'),
+        'PORT': os.environ.get('POSTGRES_PORT', '38482'),
     }
 }
-
-else:
-    print("💻 Using Local DB")'''
+'''else:
+    print("💻 Using Local DB")
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -107,7 +107,7 @@ DATABASES = {
         'HOST': 'localhost',
         'PORT': '9000',
     }
-}
+}'''
 
 
 
@@ -169,12 +169,12 @@ REST_FRAMEWORK = {
 }
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'aitsystem0@gmail.com'
-EMAIL_HOST_PASSWORD = 'kzbq fwxu unbj ohip'
-DEFAULT_FROM_EMAIL = 'AITS'
+EMAIL_HOST = os.environ.get('EMAIL_HOST', 'smtp.gmail.com')
+EMAIL_PORT = int(os.environ.get('EMAIL_PORT', 587))
+EMAIL_USE_TLS = os.environ.get('EMAIL_USE_TLS', 'True') == 'True'
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER', 'aitsystem0@gmail.com')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', 'kzbq fwxu unbj ohip')
+DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL', 'AITS')
 
 from datetime import timedelta
 

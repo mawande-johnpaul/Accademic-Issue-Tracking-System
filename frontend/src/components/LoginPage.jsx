@@ -49,7 +49,7 @@ function LoginPage({backend}) {
 
     return (
         <div className='homepage'>
-            <img src='banner2.jpeg' alt='banner' className='banner'></img>
+            <img src='banner2.jpg' alt='banner' className='banner'></img>
             <form onSubmit={login} className='signuplower'>
                 <h1 className='h1'>Log into your AITS account</h1>
                 <div className='row'>

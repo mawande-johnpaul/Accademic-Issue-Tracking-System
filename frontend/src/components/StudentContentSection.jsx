@@ -20,12 +20,20 @@ const Content = ({
   notifications,
   backend
 }) => {
+  // Map display names to headings
+  const headings = {
+    IssueForm: "Create an Issue",
+    UserIssues: "Your Issues",
+    Notifications: "Notifications"
+  };
+  const heading = headings[to_display_name] || "Dashboard";
+
   // Determine what to render
   if (to_display_name === "IssueForm" && course) {
     return (
       <div>
         <div className="content-section-header">
-          {username ? `Welcome ${username}!` : "Welcome Guest! Login or Signup to view and submit issues."}
+          {heading}
         </div>
         <div className="content-section-body" style={{ textAlign: "center" }}>
           <IssueForm
@@ -47,7 +55,7 @@ const Content = ({
     return (
       <div>
         <div className="content-section-header">
-          {username ? `Welcome ${username}!` : "Welcome Guest! Login or Signup to view and submit issues."}
+          {heading}
         </div>
         <div className="content-section-body" style={{ textAlign: "center" }}>
           <UserIssues issues={issues} type={type} content={content} setContent={setContent} />
@@ -60,7 +68,7 @@ const Content = ({
     return (
       <div>
         <div className="content-section-header">
-          {username ? `Welcome ${username}!` : "Welcome Guest! Login or Signup to view and submit issues."}
+          {heading}
         </div>
         <div className="content-section-body" style={{ textAlign: "center" }}>
           <Notifications items={notifications} />
@@ -73,10 +81,8 @@ const Content = ({
   return (
     <div>
       <div className="content-section-header">
-        {to_display_name === "UserIssues" ? (<>Here are your issues.</>) : 
-          to_display_name === "IssueForm"? (<>Create an issue.</>) : 
-          to_display_name === "Notifications"? (<>Notifications.</>) :
-          (<>Welcome {username}!</>)}
+        <h2 style={{marginBottom: 8}}>{heading}</h2>
+        {username ? `Welcome ${username}!` : "Welcome Guest! Login or Signup to view and submit issues."}
       </div>
       <div className="content-section-body" style={{ textAlign: "center" }}>
         <Splash2 role={role} issues={issues} newissues={newissues} assignedissues={assignedissues} />

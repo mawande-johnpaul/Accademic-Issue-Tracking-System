@@ -132,7 +132,7 @@ function SignupPage({backend}) {
 
     return (
       <div className='homepage'>
-        <img src='banner2.jpeg' alt='banner2'></img>
+        <img src='banner2.jpg' alt='banner2'></img>
           <h1 className='h2'>Create your free AITS account</h1>
           <form onSubmit={signup} className='congested-signuplower'>
             <div className='lower'>

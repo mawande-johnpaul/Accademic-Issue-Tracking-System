@@ -14,14 +14,19 @@ const Content = ({
   setid,
   role, notifications, backend
 }) => {
+  // Map display names to headings
+  const headings = {
+    NewIssues: "New Issues",
+    AssignedIssues: "Assigned Issues",
+    AssignForm: "Issue Details",
+    Notifications: "Notifications"
+  };
+  const heading = headings[to_display_name] || "Dashboard";
+
   return (
     <div>
       <div className="content-section-header">
-        {username ? (
-          <div>Welcome {username}!</div>
-        ) : (
-          <div>Welcome Guest! Login or Signup to view and submit issues.</div>
-        )}
+        {heading}
       </div>
       <div className="content-section-body" style={{ textAlign: "center" }}>
         {to_display_name === "NewIssues" ? (
