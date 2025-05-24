@@ -89,6 +89,20 @@ const IssueView = ({ issue, token, setContent, issues, backend}) => {
           <span className="h1">Created By: </span>
           {issueData.created_by || "N/A"}
         </p>
+        {issueData.attachment && (
+          <div style={{ margin: "10px 0" }}>
+            <span className="h1">Attachment: </span>
+            <img
+              src={
+                issueData.attachment.startsWith("http")
+                  ? issueData.attachment
+                  : `${backend}${issueData.attachment}`
+              }
+              alt="Issue Attachment"
+              style={{ maxWidth: "400px", maxHeight: "400px", display: "block", marginTop: "5px" }}
+            />
+          </div>
+        )}
       </div>
 
       <div className="assignarea">

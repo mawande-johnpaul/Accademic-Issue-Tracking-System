@@ -115,9 +115,7 @@ def validate_webmail_and_role(first_name, last_name, webmail, college):
     fn_lower = first_name.lower()
     ln_lower = last_name.lower()
 
-    # Check student email
     if domain == 'students.mak.ac.ug':
-        # student webmail must be firstname.lastname@students.mak.ac.ug
         expected_local = f"{fn_lower}.{ln_lower}"
         if local_part != expected_local:
             raise serializers.ValidationError(
@@ -156,15 +154,12 @@ class RegisterSerializer(serializers.ModelSerializer):
         email = data['email']
         college = data['department']
 
-        # Validate role based on webmail format
         role = validate_webmail_and_role(first_name, last_name, webmail, college)
 
-        # If lecturer or registrar, check if user is in ACCEPTED_USERS for their college
         if role in ['lecturer', 'registrar']:
             college = data['department']
             accepted_list = ACCEPTED_USERS.get(college, {}).get(role + 's', [])
             
-            # Normalize for comparison
             fn_lower = first_name.lower()
             ln_lower = last_name.lower()
 
@@ -231,18 +226,20 @@ class UserDetailSerializer(serializers.ModelSerializer):
 
 
 class IssueSerializer(serializers.ModelSerializer):
+    attachment = serializers.ImageField(use_url=True, required=False, allow_null=True)
+
     class Meta:
         model = Issue
         fields = '__all__'
 
 
-class LogSerializer(serializers.ModelSerializer):  # Fixed typo in class name
+class LogSerializer(serializers.ModelSerializer):
     class Meta:
         model = Log
         fields = '__all__'
 
 
-class NotificationSerializer(serializers.ModelSerializer):  # Fixed typo in class name
+class NotificationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Notification
         fields = '__all__'
