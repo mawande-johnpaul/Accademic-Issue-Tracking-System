@@ -1,6 +1,7 @@
+import axios from "axios";
 import React, { useState } from "react";
 
-const PasswordReset = () => {
+const PasswordReset = ({backend}) => {
     const [step, setStep] = useState(1);
     const [email, setEmail] = useState("");
     const [code, setCode] = useState("");
@@ -9,27 +10,29 @@ const PasswordReset = () => {
     const [message, setMessage] = useState("");
     const [loading, setLoading] = useState(false);
 
-    // Simulate API calls
     const sendVerificationCode = async () => {
         setLoading(true);
-        setTimeout(() => {
-            setLoading(false);
+        setMessage("");
+        try {
+            await axios.post(`${backend}/api/password-reset/send-code/`, { email });
             setMessage("Verification code sent to your email.");
             setStep(2);
-        }, 1000);
+        } catch (err) {
+            setMessage("Failed to send verification code.");
+        }
+        setLoading(false);
     };
 
     const verifyCode = async () => {
         setLoading(true);
-        setTimeout(() => {
-            if (code === "123456") { // Simulated correct code
-                setMessage("");
-                setStep(3);
-            } else {
-                setMessage("Invalid verification code.");
-            }
-            setLoading(false);
-        }, 1000);
+        setMessage("");
+        try {
+            await axios.post(`${backend}/api/password-reset/verify-code/`, { email, code });
+            setStep(3);
+        } catch (err) {
+            setMessage("Invalid verification code.");
+        }
+        setLoading(false);
     };
 
     const resetPassword = async () => {
@@ -38,15 +41,23 @@ const PasswordReset = () => {
             return;
         }
         setLoading(true);
-        setTimeout(() => {
-            setLoading(false);
+        setMessage("");
+        try {
+            await axios.post(`${backend}/api/password-reset/reset-password/`, {
+                email,
+                code,
+                new_password: newPassword
+            });
             setMessage("Password reset successful. You may now log in.");
             setStep(4);
-        }, 1000);
+        } catch (err) {
+            setMessage("Failed to reset password. Please try again.");
+        }
+        setLoading(false);
     };
 
     return (
-        <div style={{ maxWidth: 400, margin: "40px auto", padding: 24, border: "1px solid #ddd", borderRadius: 8 }}>
+        <div style={{ maxWidth: 400, margin: "40px auto", padding: 24, border: "1px solid #ddd", borderRadius: 8, fontFamily:"Inter" }}>
             <h2>Password Reset</h2>
             {message && <div style={{ color: "blue", marginBottom: 12 }}>{message}</div>}
 
@@ -64,10 +75,11 @@ const PasswordReset = () => {
                             value={email}
                             required
                             onChange={e => setEmail(e.target.value)}
-                            style={{ width: "100%", marginTop: 8, marginBottom: 16 }}
+                            className="inputinputs"
+                            style={{margin:"10px auto"}}
                         />
                     </label>
-                    <button type="submit" disabled={loading}>
+                    <button type="submit" disabled={loading} className="buttons" style={{margin:"0 auto"}}>
                         {loading ? "Sending..." : "Send Verification Code"}
                     </button>
                 </form>

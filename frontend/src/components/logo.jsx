@@ -8,11 +8,11 @@ const toggleButtons = (setIsVisible) => {
 
 const Logo = ({setIsVisible, setContent}) => {
     return (
-        <div className="logo" onClick={() => toggleButtons(setIsVisible)}>
+        <div className="logo" >
             <img className='logo-profile' src='logo.png' alt='icon' width="20" height="20" onClick={() => setContent("Splash2")}/>
             <div>AITS</div>
             <div className='logo-subtext'>Academic Issue Tracking System</div>
-            <img className="buttons-dropdown" alt="icon" src="grid.svg"></img>
+            <img className="buttons-dropdown" alt="icon" src="grid.svg" onClick={() => toggleButtons(setIsVisible)}></img>
         </div>
     );
 };

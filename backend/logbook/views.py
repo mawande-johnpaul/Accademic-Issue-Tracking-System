@@ -3,19 +3,77 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework_simplejwt.tokens import RefreshToken
-from django.core.mail import send_mail
 from django.contrib.auth import get_user_model, login
 from django.utils import timezone
 from .serializers import *
 from .models import *
 from rest_framework.parsers import MultiPartParser, FormParser
 from PIL import Image
+from django.core.files.uploadedfile import UploadedFile
+from rest_framework.exceptions import ValidationError
+from django.contrib.auth.models import User
+from django.core.mail import send_mail
+from django.conf import settings
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.crypto import get_random_string
+from django.http import JsonResponse
+import json
+from django.core.cache import cache
 
 User = get_user_model()
 
-from PIL import Image
-from django.core.files.uploadedfile import UploadedFile
-from rest_framework.exceptions import ValidationError
+@csrf_exempt
+def send_reset_code(request):
+    if request.method == "POST":
+        data = json.loads(request.body)
+        email = data.get("email")
+        try:
+            user = User.objects.get(email=email)
+        except User.DoesNotExist:
+            return JsonResponse({"error": "User not found."}, status=404)
+        code = get_random_string(6, allowed_chars="0123456789")
+        cache.set(f"reset_code_{email}", code, timeout=600)
+        send_mail(
+            "Your Password Reset Code",
+            f"Your password reset code is: {code}",
+            settings.DEFAULT_FROM_EMAIL,
+            [email],
+            fail_silently=False,
+        )
+        return JsonResponse({"message": "Code sent."})
+    return JsonResponse({"error": "Invalid request."}, status=400)
+
+@csrf_exempt
+def verify_reset_code(request):
+    if request.method == "POST":
+        data = json.loads(request.body)
+        email = data.get("email")
+        code = data.get("code")
+        cached_code = cache.get(f"reset_code_{email}")
+        if cached_code and code == cached_code:
+            return JsonResponse({"message": "Code verified."})
+        return JsonResponse({"error": "Invalid code."}, status=400)
+    return JsonResponse({"error": "Invalid request."}, status=400)
+
+@csrf_exempt
+def reset_password(request):
+    if request.method == "POST":
+        data = json.loads(request.body)
+        email = data.get("email")
+        code = data.get("code")
+        new_password = data.get("new_password")
+        cached_code = cache.get(f"reset_code_{email}")
+        if not (cached_code and code == cached_code):
+            return JsonResponse({"error": "Invalid code."}, status=400)
+        try:
+            user = User.objects.get(email=email)
+            user.set_password(new_password)
+            user.save()
+            cache.delete(f"reset_code_{email}")
+            return JsonResponse({"message": "Password reset successful."})
+        except User.DoesNotExist:
+            return JsonResponse({"error": "User not found."}, status=404)
+    return JsonResponse({"error": "Invalid request."}, status=400)
 
 def validate_attachment(file: UploadedFile):
     try:

@@ -443,9 +443,12 @@
 
     .left-buttons{
       display: none;
+      width: 90%;
+      margin:5px auto;
     }
 
     .content-section{
+      border: none;
       margin: 10px auto;
       width: 95%;
     }

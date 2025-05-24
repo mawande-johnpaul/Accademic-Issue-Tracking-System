@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import './css/App.css';
 import './css/homepage.css';
 import './css/signup.css';
@@ -14,7 +14,6 @@ import StudentPage from './components/StudentPage';
 import LecturerPage from "./components/LecturerPage";
 import RegistrarPage from "./components/RegistrarPage";
 import PasswordReset from './components/PasswordReset';
-import { useState } from 'react';
 
 //https://accademic-issue-tracking-system.onrender.com http://127.0.0.1:8000
 
@@ -24,6 +23,21 @@ function App() {
   const [id, setid] = useState(0)
   const [backend, setBackend] = useState("http://127.0.0.1:8000")
   const [isVisible, setIsVisible] = useState(true)
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth > 768) {
+        setIsVisible(true);
+      } else {
+        setIsVisible(false);
+      }
+    };
+    window.addEventListener('resize', handleResize);
+    // Set initial state based on current size
+    handleResize();
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   return (
     <Router>
         <Routes>
