@@ -419,6 +419,7 @@ class NotificationsListCreate(generics.ListCreateAPIView):
 
         
 class NotificationDestroy(generics.DestroyAPIView):
+    # Delete a notification
     def destroy(self, request, *args, **kwargs):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
@@ -428,11 +429,13 @@ class LogListUpdateDelete(generics.RetrieveUpdateAPIView):
     permission_classes = [AllowAny]
 
     def delete(self, request, *args, **kwargs):
+         # Delete a log entry
         instance = self.get_object()
         instance.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
     def put(self, request, *args, **kwargs):
+        # Update log entry fields
         instance = self.get_object()
         instance.state = request.data.get('state', instance.state)
         instance.timestamp = timezone.now()
@@ -449,6 +452,7 @@ class LogCreate(generics.CreateAPIView):
     permission_classes = [AllowAny]
 
     def perform_create(self, serializer):
+         # Create new log entry
         return super().perform_create(serializer)
     
 class EmailView(APIView):
