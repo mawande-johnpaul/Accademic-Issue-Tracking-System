@@ -7,17 +7,20 @@ const LecturerView = ({ issue, token, setContent, issues, backend }) => {
   const currentIssue = issues.find((iss) => iss.id === issue);
   if (!currentIssue) return <p>Issue not found</p>;    // Show error if issue not found
 
+  // Local state to manage progress input, loading status, and error message
   const [progress, setProgress] = useState("");
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
+  // Handle progress input change
   const handleChange = (e) => {
     setProgress(e.target.value);
   };
 
+   // Handle form submission to update progress
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError(null);
+    e.preventDefault();    // Prevent default form behavior
+    setError(null);     // Reset any previous error
     setLoading(true);
 
     try {
