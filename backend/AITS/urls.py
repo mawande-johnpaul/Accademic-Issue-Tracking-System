@@ -13,16 +13,19 @@ urlpatterns = [
     path('signup/', RegisterView.as_view(), name='signup'),
     path('login/', LoginView.as_view(), name='login'),
     path('user/<int:pk>/', UserDetailView.as_view(), name='user_detail'),
+    #paths for issues
     path('issues/', IssueListCreate.as_view(), name='issues'),
     path('issues/<int:pk>/', IssueList2.as_view(), name='assigned_issues'),
     path('issues/<int:pk>/<str:status>/', IssueList3.as_view(), name='resolved_issues'),
     path('issues/<str:status>/<str:college>', IssueList.as_view(), name='issue_status'),
     path('issues/<str:action>/<int:pk>/', IssueUpdateDestroy.as_view(), name='edit_issue'),
     path('issues/remove/<int:pk>/', IssueUpdateDestroy.as_view(), name='remove'),
+    #paths for notifications
     path('issues/notify/<int:pk>/<int:id>', NotificationsListCreate.as_view(), name='notify_lecturer'),
     path('notifications/<int:pk>/', NotificationsListCreate.as_view(), name='notifications'),
     path('notifications/remove/<int:pk>', NotificationDestroy.as_view(), name='delete_notification'),
     path('lecturers/<int:id>/', LecturerList.as_view(), name='list_lecturers'),
+    #logic for password
     path('password-reset/send-code/', send_reset_code, name='send_reset_code'),
     path('password-reset/verify-code/', verify_reset_code, name='verify_reset_code'),
     path('password-reset/reset-password/', reset_password, name='reset_password'),
