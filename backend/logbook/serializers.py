@@ -240,18 +240,18 @@ class IssueSerializer(serializers.ModelSerializer):
         model = Issue
         fields = '__all__'
 
-
+# Serializer for logging system actions
 class LogSerializer(serializers.ModelSerializer):
     class Meta:
         model = Log
         fields = '__all__'
 
-
+# Serializer for notifications
 class NotificationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Notification
         fields = '__all__'
-
+# Serializer for filtering or listing lecturers
 class LecturerSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
