@@ -101,6 +101,7 @@ const IssueCard = ({ issue, type, token, setContent, setid, backend }) => {
     );
   }
 
+  // For new, unassigned issues that are viewed by registrar/admin
   if (type === "new") {
     return (
       <div className="issue-card" key={issue.pk}>
@@ -134,6 +135,7 @@ const IssueCard = ({ issue, type, token, setContent, setid, backend }) => {
     );
   }
 
+  // For issues assigned to a lecturer viewed by registrar/admin
   if (type === "assigned") {
     return (
       <div className="issue-card">
@@ -185,6 +187,7 @@ const IssueCard = ({ issue, type, token, setContent, setid, backend }) => {
     );
   }
 
+  // For lecturers viewing their assigned issues
   if (type === "lecturer-assigned") {
     return (
       <div className="issue-card">
