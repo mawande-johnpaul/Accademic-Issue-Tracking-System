@@ -22,8 +22,9 @@ const LecturerPage = ({ content, setContent, backend,isVisible, setIsVisible }) 
 
   // Fetch data after component mounts
   useEffect(() => {
-    if (!user || !token) return;
+    if (!user || !token) return;  // Stop if not authenticated
 
+    // Fetch assigned issues
     const fetchIssues = async () => {
       try {
         const response = await axios.get(
