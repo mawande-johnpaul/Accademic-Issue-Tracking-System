@@ -37,6 +37,7 @@ const LecturerPage = ({ content, setContent, backend,isVisible, setIsVisible }) 
       }
     };
 
+     // Fetch resolved issues
     const fetchResolvedIssues = async () => {
       try {
         const response = await axios.get(
@@ -49,6 +50,7 @@ const LecturerPage = ({ content, setContent, backend,isVisible, setIsVisible }) 
       }
     };
 
+     // Fetch lecturer's notifications
     const fetchNotifications = async () => {
       try {
         const response = await axios.get(
