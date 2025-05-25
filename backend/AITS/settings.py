@@ -73,7 +73,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'AITS.wsgi.application'
 
 #DATABASES
-'''
+
 DATABASES = {
     'default': {
         'ENGINE': os.environ.get('POSTGRES_ENGINE', 'django.db.backends.postgresql_psycopg2'),
@@ -95,6 +95,7 @@ DATABASES = {
         'PORT': '9000',
     }
 }
+'''
 
 AUTH_PASSWORD_VALIDATORS = [
     {
