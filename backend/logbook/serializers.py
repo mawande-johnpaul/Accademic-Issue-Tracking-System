@@ -205,16 +205,18 @@ class RegisterSerializer(serializers.ModelSerializer):
 
 
 
-
+# Serializer for user login
 class LoginSerializer(serializers.Serializer):
     username = serializers.CharField(max_length=255)
     password = serializers.CharField(write_only=True, max_length=128)
-
+     
+# Validate login credentials
     def validate(self, data):
         username = data.get("username")
         password = data.get("password")
 
         if username and password:
+             # Use Django's built-in authentication
             user = authenticate(username=username, password=password)
 
             if user is None or not user.is_active:  # Added check for active status
@@ -224,13 +226,13 @@ class LoginSerializer(serializers.Serializer):
 
         data['user'] = user
         return data
-    
+    # Serializer for returning user details
 class UserDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = '__all__'
 
-
+# Serializer for issue reporting
 class IssueSerializer(serializers.ModelSerializer):
     attachment = serializers.ImageField(use_url=True, required=False, allow_null=True)
 
