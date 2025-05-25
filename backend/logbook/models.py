@@ -61,13 +61,13 @@ class Issue(models.Model):
     def __str__(self):
         return self.title  # Show issue title in admin/list views
     
-    
+    # Validate uploaded file extension
     def clean(self):
         if self.attachment:
             ext = os.path.splitext(self.attachment.name)[1].lower()
             if ext not in ['.pdf', '.doc', '.docx', '.jpg', '.jpeg', '.png', '.gif', '.ppt', '.pptx', '.txt']:
                 raise ValidationError("Unsupported file type.")
-
+# Model to log system/user actions for auditing
 class Log(models.Model):
     id = models.AutoField(primary_key=True)
     user_id = models.ForeignKey(CustomUser, null=True, blank=True, on_delete=models.SET_NULL)
@@ -75,8 +75,8 @@ class Log(models.Model):
     timestamp = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.timestamp
-
+        return self.timestamp # For easier viewing in admin panel
+# Model for storing user notifications
 class Notification(models.Model):
     id = models.AutoField(primary_key=True)
     sender = models.CharField(max_length=10, default="")
@@ -84,4 +84,4 @@ class Notification(models.Model):
     content = models.CharField(max_length=1000, default="")
 
     def __str__(self):
-        return self.sender
+        return self.sender   # Display sender in admin/list view
