@@ -35,6 +35,7 @@ def send_reset_code(request):
         # Generate and store reset code in cache for 10 minutes
         code = get_random_string(6, allowed_chars="0123456789")
         cache.set(f"reset_code_{email}", code, timeout=600)
+        #send code via email
         send_mail(
             "Your Password Reset Code",
             f"Your password reset code is: {code}",
@@ -47,6 +48,7 @@ def send_reset_code(request):
 
 @csrf_exempt
 def verify_reset_code(request):
+     # Verifies the reset code sent to email
     if request.method == "POST":
         data = json.loads(request.body)
         email = data.get("email")
