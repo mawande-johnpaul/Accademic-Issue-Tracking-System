@@ -13,6 +13,7 @@ const LecturerIssues = ({ issues, type, token, setContent, setid }) => {
   }
 
   return (
+    // Container for displaying issue cards
     <div className="max-w-2xl mx-auto mt-6">
       {issues.map((issue) => (
         <IssueCard
