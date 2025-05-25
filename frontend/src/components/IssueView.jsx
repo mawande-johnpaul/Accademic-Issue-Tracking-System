@@ -30,9 +30,10 @@ const IssueView = ({ issue, token, setContent, issues, backend}) => {
 
   }, []);
 
+  // Handle assignment form submission
   const assignIssue = async (e) => {
     e.preventDefault();
-
+// Basic validation
     if (!assignedTo || !deadline || !priority) {
       alert("😐 All fields are required to assign an issue.");
       return;
@@ -41,6 +42,7 @@ const IssueView = ({ issue, token, setContent, issues, backend}) => {
     setIsSubmitting(true);
 
     try {
+      // Send patch request to assign the issue
       await axios.patch(
         `${backend}/issues/assign/${issue}/`,
         {
