@@ -192,7 +192,7 @@ class IssueUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = IssueSerializer
     permission_classes = [AllowAny]
 
-    def put(self, request, *args, **kwargs):
+    def put(self, request, *args, **kwargs): 
         instance = self.get_object()
         instance.state = request.data.get('state', instance.state)
         instance.updated_at = timezone.now()
@@ -200,7 +200,7 @@ class IssueUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
         serializer = self.get_serializer(instance)
         return Response(serializer.data)
 
-    def patch(self, request, *args, **kwargs):
+    def patch(self, request, *args, **kwargs): 
         instance = self.get_object()
         instance.state = request.data.get('state', instance.state)
         instance.updated_at = timezone.now()
@@ -213,7 +213,7 @@ class IssueUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
         instance.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
     def get_queryset(self):  
-        return Issue.objects.filter(created_by=self.request.user)  # student cant view another student issue which they didn't create
+        return Issue.objects.filter(created_by=self.request.user)  # student can't view another student issue which they didn't create
          
 
 
