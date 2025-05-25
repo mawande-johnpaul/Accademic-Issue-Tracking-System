@@ -237,6 +237,7 @@ class IssueList(generics.ListAPIView):
     permission_classes = [AllowAny]
 
     def get_queryset(self):  # Runs if the request method is GET
+        # Filter issues by status and department from URL params
         status = self.kwargs['status']  # Get the status from the URL
         return Issue.objects.filter(status=status, department=self.kwargs['college'])  # Filter issues by status
     
@@ -271,6 +272,7 @@ class IssueUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = IssueSerializer
 
     def get_permissions(self):
+        # Assign permissions dynamically based on method and user role
         if self.request.method in ['DELETE', 'PATCH']:
             if self.request.user.role == 'student':
                 return [permissions.IsAuthenticated(), IsStudent()]
