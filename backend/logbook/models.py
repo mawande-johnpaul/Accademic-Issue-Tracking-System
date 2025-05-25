@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 import os
 from django.core.exceptions import ValidationError
-
+# Function to determine upload path for attachments
 def upload_to(instance, filename):
     return os.path.join('data', filename)  # Ensures file goes into /data/
 
@@ -20,6 +20,7 @@ DEPARTMENT_CHOICES = [
     ('SCHOOL_OF_BUSINESS', 'School of Business'),
     ('SCHOOL_OF_BUILT_ENVIRONMENT', 'School of Built Environment')
 ]
+# Predefined issue categories
 ISSUE_CATEGORIES = [('Marks','Marks'), ('Attendance','Attendance'), ('Resources','Resources'), ('Environmental','Environmental'), ('Conduct','Conduct'), ('Schedules','Schedules'), ('Other','Other')]
 
 # Create your models here.
