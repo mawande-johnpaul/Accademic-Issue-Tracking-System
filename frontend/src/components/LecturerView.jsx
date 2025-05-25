@@ -34,10 +34,13 @@ const LecturerView = ({ issue, token, setContent, issues, backend }) => {
           },
         }
       );
+      // Go back to assigned issues list after successful submission
       setContent("AssignedIssues");
     } catch (err) {
+      // Show error if request fails
       setError("Failed to submit progress. Please try again.");
     } finally {
+      // Stop loading indicator
       setLoading(false);
     }
   };
