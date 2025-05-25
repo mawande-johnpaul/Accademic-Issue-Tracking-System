@@ -61,6 +61,7 @@ def verify_reset_code(request):
 
 @csrf_exempt
 def reset_password(request):
+    # Resets the user's password after verifying code
     if request.method == "POST":
         data = json.loads(request.body)
         email = data.get("email")
@@ -80,10 +81,11 @@ def reset_password(request):
     return JsonResponse({"error": "Invalid request."}, status=400)
 
 def validate_attachment(file: UploadedFile):
+    # Verifies that the uploaded file is a valid image
     try:
         Image.open(file).verify()
     except Exception:
-        pass
+        pass   # Silently ignore invalid files (could log if needed)
 
 
 def send_notification(sender, receiver, content, email=False):
