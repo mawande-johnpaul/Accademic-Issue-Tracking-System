@@ -329,6 +329,7 @@ class IssueUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
                 return Response({'error': 'Assigned user not found.', 'code': 'USER_NOT_FOUND'}, status=status.HTTP_404_NOT_FOUND)
 
         elif action == "progress":
+            # Update issue progress
             progress = request.data.get("progress")
             if not progress:
                 return Response({'error': 'Progress value is required.', 'code': 'MISSING_PROGRESS'}, status=status.HTTP_400_BAD_REQUEST)
@@ -352,6 +353,7 @@ class IssueUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
         return Response({'error': 'Invalid action.', 'code': 'INVALID_ACTION'}, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, *args, **kwargs):
+         # Delete an issue if authorized that is not by  student
         pk = kwargs.get('pk')
         if not pk:
             return Response({'error': 'Missing issue ID.', 'code': 'MISSING_ISSUE_ID'}, status=status.HTTP_400_BAD_REQUEST)
@@ -365,6 +367,7 @@ class IssueUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
             log_action(request.user, f"Issue '{issue.title}' deleted.")
             student = User.objects.filter(pk=issue.created_by)
             lecturer = User.objects.filter(pk=issue.assigned_to)
+             # Notify involved users about issue closure
             send_notification(
                 sender='System',
                 receiver=student,
