@@ -185,10 +185,10 @@ class RegisterSerializer(serializers.ModelSerializer):
                 raise serializers.ValidationError(
                     f"{role.capitalize()} not recognized for {college}. Contact admin."
                 )
-
+# Add role to validated data
         data['role'] = role
         return data
-
+# Custom create method to handle password hashing and field population
     def create(self, validated_data):
         user = User.objects.create_user(
             first_name=validated_data['first_name'],
