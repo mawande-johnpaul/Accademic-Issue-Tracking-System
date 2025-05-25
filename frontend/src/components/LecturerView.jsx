@@ -24,12 +24,13 @@ const LecturerView = ({ issue, token, setContent, issues, backend }) => {
     setLoading(true);     // Show loading state during request
 
     try {
+       // Send PATCH request to update issue progress
       await axios.patch(
         `${backend}/issues/progress/${issue}/`,
         { progress },
         {
           headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${token}`,  // Auth token
           },
         }
       );
