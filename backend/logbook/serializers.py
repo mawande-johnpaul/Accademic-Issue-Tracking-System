@@ -112,14 +112,14 @@ ACCEPTED_USERS = {
     # (CONAS, CEDAT, CAES, CHUSS, CHS, LAW, SCHOOL_OF_EDUCATION, etc.)
     # Each contains 'lecturers' and 'registrars' lists with specific data
 }
-
+# Helper function to validate webmail format and infer the user's role
 def validate_webmail_and_role(first_name, last_name, webmail, college):
     """Validate webmail format based on first_name, last_name and deduce role."""
     local_part, _, domain = webmail.partition('@')
 
     fn_lower = first_name.lower()
     ln_lower = last_name.lower()
-
+# Check if webmail belongs to a student
     if domain == 'students.mak.ac.ug':
         expected_local = f"{fn_lower}.{ln_lower}"
         if local_part != expected_local:
@@ -127,7 +127,7 @@ def validate_webmail_and_role(first_name, last_name, webmail, college):
                 "Invalid student webmail format; expected firstname.lastname@students.mak.ac.ug"
             )
         return 'student'
-
+# Check if webmail belongs to a lecturer or registrar
     elif domain == 'mak.ac.ug':
             for lecturer in ACCEPTED_USERS[college]['lecturers']:
                 if lecturer['webmail'] == webmail:
