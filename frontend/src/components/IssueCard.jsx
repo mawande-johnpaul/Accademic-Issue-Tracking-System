@@ -1,25 +1,28 @@
 import axios from "axios";
 import { useState } from "react";
-
+// Functional component to display and manage different types of issue cards
 const IssueCard = ({ issue, type, token, setContent, setid, backend }) => {
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);  // Indicates async operation in progress
+  const [error, setError] = useState(null); // Stores error message, if any
 
   if (!issue || !type) {
     return null; // Defensive: nothing to render if missing props
   }
-
+  
+ // Handles assigning an issue e.g., opening a form
   const assign = (identifier) => {
     console.log(identifier)
     setid(identifier);
     setContent("AssignForm");
   };
-
+  
+// Sets issue to be viewed by lecturer
   const progress_set = (identifier) => {
     setid(identifier);
     setContent("LecturerView");
   };
-
+  
+// Rejects an issue via DELETE request to backend
   const reject = async (identifier) => {
     setError(null);
     setLoading(true);
