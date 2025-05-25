@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-
+// button component definition with destructed props
 const Button = ({ text, image, funct, isVisible }) => {
   // Functions to show buttons or not
   return (
@@ -11,7 +11,7 @@ const Button = ({ text, image, funct, isVisible }) => {
     </button>
   );
 };
-
+//Prop type validation to enforce correct prop usage
 Button.propTypes = {
   text: PropTypes.string.isRequired,
   image: PropTypes.string.isRequired,
