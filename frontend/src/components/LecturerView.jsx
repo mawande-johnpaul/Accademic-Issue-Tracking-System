@@ -1,9 +1,11 @@
 import { useState } from "react";
 import axios from "axios";
 
+// Component for a lecturer to view and update progress on a single issue
 const LecturerView = ({ issue, token, setContent, issues, backend }) => {
+  // Find the current issue from the list using its ID
   const currentIssue = issues.find((iss) => iss.id === issue);
-  if (!currentIssue) return <p>Issue not found</p>;
+  if (!currentIssue) return <p>Issue not found</p>;    // Show error if issue not found
 
   const [progress, setProgress] = useState("");
   const [error, setError] = useState(null);
