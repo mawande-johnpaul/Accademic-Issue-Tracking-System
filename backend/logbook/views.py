@@ -19,11 +19,12 @@ from django.utils.crypto import get_random_string
 from django.http import JsonResponse
 import json
 from django.core.cache import cache
-
+#use Custom user model
 User = get_user_model()
 
 @csrf_exempt
 def send_reset_code(request):
+    # Sends a 6-digit password reset code to user's email
     if request.method == "POST":
         data = json.loads(request.body)
         email = data.get("email")
