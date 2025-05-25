@@ -16,9 +16,11 @@ const LecturerPage = ({ content, setContent, backend,isVisible, setIsVisible }) 
   const [id, setid] = useState(0);
   const navigate = useNavigate();
 
+  // Retrieve token and user info from session storage
   const token = sessionStorage.getItem("token");
   const user = JSON.parse(sessionStorage.getItem("user"));
 
+  // Fetch data after component mounts
   useEffect(() => {
     if (!user || !token) return;
 
