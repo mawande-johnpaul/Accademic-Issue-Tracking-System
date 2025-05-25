@@ -208,9 +208,11 @@ class IssueListCreate(generics.ListCreateAPIView):
     parser_classes = [MultiPartParser, FormParser]  # To handle file uploads
 
     def get_queryset(self):
+        # List issues created by current user
         return super().get_queryset().filter(created_by=self.request.user)
 
     def perform_create(self, serializer):
+         # Validate attachment and create issue
         attachment = self.request.FILES.get('attachments', None)
         
         if attachment:
