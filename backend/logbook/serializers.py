@@ -2,11 +2,12 @@ from rest_framework import serializers
 from .models import *
 from django.contrib.auth import get_user_model
 from django.contrib.auth import authenticate
-
+# Get the custom user model
 User = get_user_model()
 
 # Add a mapping of accepted lecturers and registrars per college, using all colleges from models.py
 ACCEPTED_USERS = {
+     # Example: College of Computing and Information Sciences
     'COCIS': {
         'lecturers': [
             {'first_name': 'Lecturer1', 'last_name': 'lecturer1', 'email': 'lecturer1@gmail.com', 'webmail': 'lecturer1.lecturer1@mak.ac.ug'},
@@ -16,6 +17,7 @@ ACCEPTED_USERS = {
             {'first_name': 'John', 'last_name': 'Kiggundu', 'email': 'jkiggundu@gmail.com', 'webmail': 'jkiggundu@mak.ac.ug'},
         ]
     },
+    # Other colleges follow same structure
     'COBAMS': {
         'lecturers': [
             {'first_name': 'lecturer3', 'last_name': 'lecturer3', 'email': 'lecturer3@gmail.com', 'webmail': 'lecturer3.lecturer3@mak.ac.ug'},
@@ -106,6 +108,9 @@ ACCEPTED_USERS = {
             {'first_name': 'Patrick', 'last_name': 'Okello', 'email': 'pokello@gmail.com', 'webmail': 'pokello@mak.ac.ug'},
         ]
     },
+    # Add remaining colleges...
+    # (CONAS, CEDAT, CAES, CHUSS, CHS, LAW, SCHOOL_OF_EDUCATION, etc.)
+    # Each contains 'lecturers' and 'registrars' lists with specific data
 }
 
 def validate_webmail_and_role(first_name, last_name, webmail, college):
