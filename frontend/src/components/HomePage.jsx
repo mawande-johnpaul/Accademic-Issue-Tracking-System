@@ -1,7 +1,10 @@
+// Importing necessary modules from React and React Router
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 function HomePage() {
+  // useEffect runs once when the component is mounted
+  // It clears any existing user session data from sessionStorage
   useEffect(() => {
     sessionStorage.removeItem('user');
     sessionStorage.removeItem('token');
