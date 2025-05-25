@@ -21,7 +21,7 @@ const LecturerView = ({ issue, token, setContent, issues, backend }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();    // Prevent default form behavior
     setError(null);     // Reset any previous error
-    setLoading(true);
+    setLoading(true);     // Show loading state during request
 
     try {
       await axios.patch(
