@@ -126,7 +126,7 @@ class RegisterView(generics.CreateAPIView):
             serializer = self.get_serializer(data=request.data)
             serializer.is_valid(raise_exception=True)
             user = serializer.save()
-        ## Generate JWT tokens and login user
+        # Generate JWT tokens and login user
             refresh = RefreshToken.for_user(user)
             access_token = str(refresh.access_token)
             login(request, user)
@@ -148,10 +148,12 @@ class RegisterView(generics.CreateAPIView):
             return Response({"error": "internal_server_error"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 class LoginView(generics.GenericAPIView):
+     # Handles user login
     serializer_class = LoginSerializer
     permission_classes = [AllowAny]
 
     def post(self, request, *args, **kwargs):
+        # Authenticate user and return JWT tokens
         try:
             serializer = self.get_serializer(data=request.data)
             serializer.is_valid(raise_exception=True)
@@ -177,6 +179,8 @@ class UserListView(generics.ListAPIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request, *args, **kwargs):
+        # Return list of all users
+      
         try:
             return super().get(request, *args, **kwargs)
         except Exception as e:
@@ -189,6 +193,7 @@ class UserDetailView(generics.RetrieveAPIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request, *args, **kwargs):
+          #Return details of a specific user by ID 
         try:
             return super().get(request, *args, **kwargs)
         except Exception as e:
