@@ -116,6 +116,7 @@ class IsRegistrar(permissions.BasePermission):
         return request.user.is_authenticated and request.user.role == 'registrar'
 
 class RegisterView(generics.CreateAPIView):
+     # Handles user registration
     queryset = User.objects.all()
     serializer_class = RegisterSerializer
     permission_classes = [AllowAny]
