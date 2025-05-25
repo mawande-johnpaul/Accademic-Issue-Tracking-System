@@ -97,7 +97,7 @@ class IssueSerializer(serializers.ModelSerializer):
 
     def validate_image(self, value):
         max_size = 10 * 1024 * 1024  # 10 MB
-        if value and value.size > max_size:
+        if value and value.size > max_size: #ensures that the rules defined aren't broken
             raise serializers.ValidationError("Image file size must not exceed 10MB")
         return value
 
