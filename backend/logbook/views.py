@@ -126,10 +126,12 @@ class RegisterView(generics.CreateAPIView):
             serializer = self.get_serializer(data=request.data)
             serializer.is_valid(raise_exception=True)
             user = serializer.save()
-
+        ## Generate JWT tokens and login user
             refresh = RefreshToken.for_user(user)
             access_token = str(refresh.access_token)
             login(request, user)
+            
+            # Log and notify user
             log_action(user, "User registered successfully.")
             send_notification(
                 sender='System',
