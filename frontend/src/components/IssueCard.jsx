@@ -42,7 +42,7 @@ const IssueCard = ({ issue, type, token, setContent, setid, backend }) => {
       setLoading(false);
     }
   };
-
+ // Marks an issue as resolved (same endpoint as reject)
   const markAsDone = async (identifier) => {
     setError(null);
     setLoading(true);
@@ -62,7 +62,7 @@ const IssueCard = ({ issue, type, token, setContent, setid, backend }) => {
       setLoading(false);
     }
   };
-
+ // Notifies a lecturer by sending a POST request
   const notify = async (identifier, lect) => {
     setError(null);
     setLoading(true);
