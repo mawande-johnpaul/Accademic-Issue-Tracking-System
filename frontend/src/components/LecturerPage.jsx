@@ -6,7 +6,9 @@ import Logo from "./logo";
 import Content from './LecturerContentSection';
 import Splash from "./Splash";
 
+// Main component for the Lecturer's dashboard/page
 const LecturerPage = ({ content, setContent, backend,isVisible, setIsVisible }) => {
+  // State hooks for issues, notifications, errors, and the selected issue ID
   const [issues, setIssues] = useState([]);
   const [resolvedIssues, setResolvedIssues] = useState([]);
   const [notifications, setNotifications] = useState([]);
