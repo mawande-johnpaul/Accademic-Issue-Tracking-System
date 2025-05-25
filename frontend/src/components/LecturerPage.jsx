@@ -63,11 +63,13 @@ const LecturerPage = ({ content, setContent, backend,isVisible, setIsVisible }) 
       }
     };
 
+    // Call all data fetching functions
     fetchNotifications();
     fetchResolvedIssues();
     fetchIssues();
   }, []);
 
+  // Logout function: clears session storage and redirects to login
   const logout = () => {
     sessionStorage.removeItem("user");
     sessionStorage.removeItem("token");
