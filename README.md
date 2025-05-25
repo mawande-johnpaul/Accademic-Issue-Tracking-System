@@ -1,4 +1,4 @@
-# 🎓 Academic Issue Tracking System
+# 🎓 ACADEMIC ISSUE TRACKING SYSTEM
 
 > **A chaotic but structured way for students, lecturers, and registrars to handle academic issues!**  
 > *"Because we all love bureaucracy, right?"* 😏
@@ -12,7 +12,7 @@ Well, **here it is!**
 
 The **Academic Issue Tracking System** is built to streamline academic complaints, inquiries, and requests between students, lecturers, and registrars. No more endless email chains! No more mysterious "lost" requests! Just pure, academic-grade accountability. 🎯
 
-![Mockup Screenshot](https://via.placeholder.com/800x400.png?text=Academic+Issue+Tracking+Mockup)
+![Mockup Screenshot](https://accademic-issue-tracking-system-j4tjyhz0d.vercel.app)
 
 ---
 
@@ -21,7 +21,7 @@ The **Academic Issue Tracking System** is built to streamline academic complaint
 ### 🎓 For Students:
 - Create issues (e.g., missing grades, registration errors, existential academic crises)
 - Track issue status & progress
-- Receive responses from lecturers & registrars
+- Receive notifications from lecturers & registrars
 - Get notified about issue updates (no need to spam your inbox!)
 
 ### 👨‍🏫 For Lecturers:
@@ -61,16 +61,12 @@ This project is powered by a lovely mix of cutting-edge and battle-tested techno
 
 ### 1️⃣ Clone the Repo
 ```bash
-   git clone https://github.com/your-username/academic-issue-tracker.git
-   cd academic-issue-tracker
+   git clone https://github.com/mawande-johnpaul/Academic-Issue-Tracking-System.git
 ```
 
 ### 2️⃣ Backend Setup (Django)
 ```bash
-   cd backend
-   python -m venv venv  # Create virtual environment
-   source venv/bin/activate  # Activate it (Linux/macOS)
-   venv\Scripts\activate  # (Windows)
+   pipenv shell #Start venv
    pip install -r requirements.txt  # Install dependencies
    python manage.py migrate  # Apply migrations
    python manage.py runserver  # Run server
@@ -83,56 +79,24 @@ This project is powered by a lovely mix of cutting-edge and battle-tested techno
    npm start  # Start the React app
 ```
 
----
-
-## 🔗 API Endpoints & Interactions
-
-### 🔑 Authentication
-- **POST** `/api/auth/login/` → Logs in a user, returns JWT token.
-- **POST** `/api/auth/register/` → Registers a new user.
-- **POST** `/api/auth/logout/` → Logs out the user.
-
-### 📝 Issues Management
-- **GET** `/api/issues/` → Fetch all issues (admin/registrars only)
-- **POST** `/api/issues/` → Submit a new academic issue
-- **GET** `/api/issues/{id}/` → Fetch a specific issue
-- **PUT** `/api/issues/{id}/` → Update issue details (lecturers/registrars only)
-- **DELETE** `/api/issues/{id}/` → Remove an issue (registrars only)
-
-### 📣 Notifications
-- **GET** `/api/notifications/` → Fetch unread notifications
-- **POST** `/api/notifications/mark-read/` → Mark notifications as read
-
----
-
-## 🎭 Mockups & UI Interactions
-
-Here's what the UI looks like (in all its pixel-perfect glory):
-
-| Student Dashboard | Lecturer Dashboard | Registrar Panel |
-|------------------|------------------|----------------|
-| ![Student Mockup](https://via.placeholder.com/400x250.png?text=Student+Dashboard) | ![Lecturer Mockup](https://via.placeholder.com/400x250.png?text=Lecturer+Dashboard) | ![Registrar Mockup](https://via.placeholder.com/400x250.png?text=Registrar+Panel) |
-
----
-
 ## 📄 File Structure
 
 ```
 📂 academic-issue-tracker
  ├── 📂 backend
  │   ├── manage.py
- │   ├── 📂 api
+ │   ├── 📂 logbook
  │   │   ├── models.py
  │   │   ├── views.py
  │   │   ├── serializers.py
  │   │   ├── urls.py
- │   ├── 📂 authentication
+ │   ├── 📂 AITS
  │   ├── settings.py
  │   ├── urls.py
  ├── 📂 frontend
  │   ├── src
  │   │   ├── components
- │   │   ├── pages
+ │   │   ├── css
  │   │   ├── App.js
  │   │   ├── index.js
  │   ├── package.json

@@ -1,131 +1,116 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import ProfileDisplay from "./ProfileDisplay";
-import SearchBar from "./SearchBar";
+import Splash from "./Splash";
 import Button from "./Button";
-import DisplayPane from "./DisplayPane";
-import Logo from "./Logo";
+import Logo from "./logo";
 import Content from "./StudentContentSection";
-import InPageLoginButton from "./InPageLoginButton";
+import { useNavigate } from 'react-router-dom';
 
-const StudentPage = () => {
-
-  const MESSAGES = [
-    {
-      head: 'Notifications',
-      contents: [
-        {
-          name: 'Jane Doe',
-          message: 'You have a new message.'
-        },
-        {
-          name: 'John Doe',
-          message: 'You have a new notification.'
-        },
-        {
-          name: 'Jane Doe',
-          message: 'You have a new message.'
-        }
-      ]
-    },
-    {
-      head: 'Announcements',
-      contents: [
-        {
-          name: 'John Doe',
-          message: 'You have a new request.'
-        },
-        {
-          name: 'Jane Doe',
-          message: 'You have a new request.'
-        },
-        {
-          name: 'John Doe',
-          message: 'You have a new request.'
-        }
-      ]
-    }
-  ];
-
+const StudentPage = ({ content, setContent, backend,isVisible, setIsVisible }) => {
   const [issues, setIssues] = useState([]);
   const [notifications, setNotifications] = useState([]);
-  const [content, setContent] = useState('Splash');
+  const [loadingIssues, setLoadingIssues] = useState(false);
+  const [loadingNotifications, setLoadingNotifications] = useState(false);
+  const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
+  const token = sessionStorage.getItem("token");
+  const user = JSON.parse(sessionStorage.getItem("user"));
 
-  const user = JSON.parse(localStorage.getItem("user"));
-  const token = localStorage.getItem("token");
 
   useEffect(() => {
+    if (!user || !token) return;
+
     const fetchIssues = async () => {
-      const response = await axios.get('http://127.0.0.1:8000/issues/', {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-        },
-      });
-      setIssues(response.data);
+      setLoadingIssues(true);
+      try {
+        const response = await axios.get(`${backend}/issues/`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        setIssues(response.data);
+      } catch (err) {
+        setError("Failed to fetch issues. Please try again later.");
+      } finally {
+        setLoadingIssues(false);
+      }
     };
 
     const fetchNotifications = async () => {
-      const response = await axios.get('http://127.0.0.1:8000/notifications/', {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-        },
-      });
-      setNotifications(response.data);
+      setLoadingNotifications(true);
+      try {
+        const response = await axios.get(`${backend}/notifications/${user.id}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        setNotifications(response.data);
+      } catch (err) {
+        setError("Failed to fetch notifications. Please try again later.");
+      } finally {
+        setLoadingNotifications(false);
+      }
     };
 
-    if (user) {
-      fetchIssues();
-      /*fetchNotifications();*/
-    }
-  }, [user]);
+    fetchIssues();
+    fetchNotifications();
+  }, []);
 
-  const no_operation = () => setContent("Splash");
+  const logout = () => {
+    sessionStorage.removeItem("user");
+    sessionStorage.removeItem("token");
+    navigate("/login");
+  };
+
+  if (!user) {
+    return <Splash />;
+  }
 
   return (
     <div className="bodyy">
-        <>
-          <div className="left-side">
-            {user ? (
-              <div>
-                <Logo />
-                <Button text={"New issue"} image={"new-issue.svg"} funct={() => setContent("IssueForm")} />
-                <Button text={"Posted issues"} image={"posted-logo.svg"} funct={() => setContent("UserIssues")} />
-                <Button text={"Messages"} image={"posted-logo.svg"} funct={() => setContent("Settings")} />
-                <Button text={"Settings"} image={"settings.svg"} funct={no_operation} />
-              </div>
-            ) : (
-              <div>
-                <Logo />
-                <Button text={"New issue"} image={"new-issue.svg"} funct={no_operation} />
-                <Button text={"Posted issues"} image={"posted-logo.svg"} funct={no_operation} />
-                <Button text={"Settings"} image={"settings.svg"} funct={no_operation} />
-              </div>
-            )}
-          </div>
-          <div className="content-section">
-            <SearchBar />
-            <Content to_display_name={content} issues={issues} course={user.course} username={user.username} token={token} department={user.department} pk={user.id} type={'user'}/>
-          </div>
-          <div className="right-side">
-            {user ? (
-              <ProfileDisplay
-                name={user.username}
-              />
-            ) : (
-              <InPageLoginButton />
-            )}
-            <DisplayPane
-              type={"notifications"}
-              items={MESSAGES[0].contents}
-              user={user} />
-            <DisplayPane
-              type={"announcements"}
-              items={MESSAGES[1].contents}
-              user={user} />
-          </div> {/* Closing the right-side div */}
-        </>
-      </div> // Closing the main div
+      <div className="left-side">
+        <Logo setIsVisible={setIsVisible} setContent={setContent}/>
+        <Button
+          text={"New issue"}
+          image={"new-issue.svg"}
+          funct={() => setContent("IssueForm")}
+          isVisible={isVisible}
+        />
+        <Button
+          text={"Posted issues"}
+          image={"posted-logo.svg"}
+          funct={() => setContent("UserIssues")}
+          isVisible={isVisible}
+        />
+        <Button
+          text={"Notifications"}
+          image={"notifications.svg"}
+          funct={() => setContent("Notifications")}
+          isVisible={isVisible}
+        />
+        <Button
+          text={"Logout"}
+          image={"logout.svg"}
+          funct={logout}
+          isVisible={isVisible}
+        />
+      </div>
+      <div className="content-section">
+        {error && <div className="error-message">{error}</div>}
+        <Content
+          to_display_name={content}
+          issues={issues}
+          course={user.course}
+          username={user.username}
+          token={token}
+          department={user.department}
+          pk={user.id}
+          type={"user"}
+          content={content}
+          setContent={setContent}
+          role={user.role}
+          notifications={notifications }
+          backend={backend}
+        />
+      </div>
+    </div>
   );
 };
 

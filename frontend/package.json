@@ -10,16 +10,19 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "aits": "file:",
+    "@radix-ui/react-dropdown-menu": "^2.1.14",
     "axios": "^1.8.1",
+    "lucide-react": "^0.511.0",
     "react": "^18.3.1",
+    "react-datepicker": "^8.3.0",
     "react-dom": "^18.3.1",
     "react-router-dom": "^7.1.5",
-    "prop-types":"^15.8.1"
+    "react-toastify": "^11.0.5",
+    "styled-components": "^6.1.18"
   },
   "devDependencies": {
     "@eslint/js": "^9.15.0",
-    "@types/react": "^18.3.18",
+    "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
     "@vitejs/plugin-react": "^4.3.4",
     "eslint": "^9.15.0",

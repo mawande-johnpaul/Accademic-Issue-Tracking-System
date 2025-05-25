@@ -28,14 +28,13 @@
   .left-side, .content-section, .right-side {
     display: flex;
     flex-direction: column;
-    padding: 0px;
     height: 98vh;
   }
   
   .left-side {
     width: 25%;
     background-color: #06302B;
-    border-radius: 8px 0px 0px 8px;
+    border-radius: 8px;
   }
   
   .content-section {
@@ -45,10 +44,9 @@
     background-color: #ffffff;
     margin-left: 10px;
     margin-right: 10px;
-    border-color: #808080;
+    border: 1.8px solid #032221;
+    border-radius: 10px;
     height: 97.5vh;
-    align-items: flex-start;
-    position: relative;    
   }
 
   .form-holder{
@@ -57,30 +55,23 @@
   }
 
   .content-section-header {
-    border: 0px solid;
-    border-bottom: 0px;
-    border-radius: 5px 5px 0px 0px;
-    border-color: #808080;
-    height: 4%;
+    height: 3vh;
     font-size: 20px;
     font-weight: bold;
     padding: 5px;
     padding-left: 10px;
-    background-color: #d5d5d5;
     cursor: pointer;
   }
   
   .content-section-body {
-    border: 1px solid;
-    border-color: #d5d5d5;
-    height: 83vh;
+    height: 90vh;
     padding: 10px;
-    border-top: 0px;
-    border-radius: 0px 0px 5px 5px;
+    overflow-y: scroll;
   }
   
   .right-side {
     width: 20%;
+    gap: 1vh;
   }
 
   .left-buttons {
@@ -91,55 +82,27 @@
     margin-bottom: 15px;
     cursor: pointer;
     transition: background-color 0.3s, color 0.3s;
-    padding-left: 30px;
+    justify-content: left;
+    padding: 0% 20%;
     border-radius: 5px;
-    border: 0px;
+    border: 2px transparent;
     background-color: #ffffff;
     font-weight: 600;
     font-size: 14px;
+    justify-self: center;
     margin: 10px;
     font-family: 'Inter', 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     color: #333333;
   }
   
   .left-buttons:hover {
-    background-color: #00DF81;
+    border: 2px solid #00DF81;
     color: #032221;
-  }
-  
-  .profile-area {
-    width: 99%;
-    display: flex;
-    gap: 5px;
-    height: 5.8vh;
-    margin-bottom: 5px;
-    background-color: beige;
-    border-radius: 5px;
-    align-content: center;
-  }
-
-  .profile-picture{
-    align-content: center;
-    padding-left: 5px;
-    padding-right: 5px;
-    padding-top: 4px;
-  }
-
-  .profile{
-    width: 30px;
-    height: 30px;
   }
 
   .logo-profile{
     width: 50px;
     height: 50px;
-  }
-
-  .profile-name{
-    font-size: 22px;
-    font-weight: bolder;
-    align-content: center;
-    color: #333333;
   }
 
   .InPageLoginButton{
@@ -153,6 +116,23 @@
     cursor: pointer; 
     font-family:"Inter"; 
     font-weight:bold;
+    margin-top: 10px;
+  }
+
+  .splash{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100%;
+    background-color: aliceblue;
+    font-family: Inter;
+  }
+
+  .splash p{
+    font-size: 12px;
+    font-weight: bold;
   }
 
   .search-bar {
@@ -188,17 +168,10 @@
     border-radius: 0px 5px 5px 0px;
     cursor: pointer;
   }
-  /* For Assigned Issues card*/
-  /*.assigned-issues-wrapper{
-    width: 50%;
-    position:absolute;
-    bottom: 20px;
-    left: 20px;
-    border-radius: 4px;
-  }*/
   
   .display-pane {
-    height: 50%;
+    height: auto;
+    margin-bottom: 10px;
     display: flex;
     flex-direction: column;
   }
@@ -208,22 +181,21 @@
     border-bottom: 0px;
     border-radius: 5px 5px 0px 0px;
     border-color: #808080;
-    height: 14%;
+    height: auto;
     font-size: 16px;
     padding-left: 10px;
     padding-top: 5px;
     background: #d5d5d5;
-    background-color: #d5d5d5;
+    background-color: #fff;
     cursor: pointer;
     font-weight: bold;
+    padding-bottom: 5px;
   }
   
   .pane-content {
-    border: 0px solid;
     border-radius: 0px 0px 5px 5px;
-    border-color: #808080;
-    background-color: beige;
-    height: 140%;
+    height: 91.5vh;
+    max-height: 91.5vh;
     padding: 5px;
     border-top: 0px;
     font-size: 10px;
@@ -235,22 +207,21 @@
     display: flex;
     flex-direction: column;
     align-items: flex-start; /* Align items to the left */
-    border: 0px solid;
+    border: 2px solid #808080;
     border-radius: 5px;
-    border-color: #808080;
+    border-color: rgb(240, 240, 153);
     margin: 5px 0px;
     padding: 5px;
     cursor: pointer;
-    white-space: nowrap;
-    overflow: hidden;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
     text-overflow: ellipsis;
-    background-color: #FFFFFF;
     gap:5px;
   }
 
   .message-header{
     font-weight: bold;
-    font-size: 18;
+    font-size: 14px;
   }
   
   .message-body{
@@ -265,17 +236,17 @@
     background-color: #032221;
     margin-bottom: 20px;
     padding-left: 5px;
-    border-radius: 10px 0px 0px 0px;
+    border-radius: 10px 10px 0px 0px;
     display: flex;
     color: #FFFFFF;
     flex-direction: row;
   }
   
   .logo-subtext {
-    font-size: 12px;
+    font-size: 1.5vh;
     text-align: left;
     padding-left: 10px;
-    padding-top: 14px;
+    padding: 14px 5px;
     white-space: normal; /* Allows text to wrap */
   }
   
@@ -297,23 +268,223 @@
   }
 
   .issue-card{
-    border: 1px solid;
-    margin-bottom: 10px;
     border-radius: 5px;
     border-color: beige;
+    margin: auto;
+    margin-bottom: 10px;
+    height: auto;
+  }
+
+  .issue-card:hover{
+    transform: scale(1.01);
+    transition: transform 0.2s;
   }
 
   .card-header{
     font-weight: bold;
     font-size: 12px;
     padding: 5px;
-    background-color:beige;
+    background-color:#06302B;
+    border-radius: 5px 5px 0px 0px;
+    color: #FFFFFF;
     text-align: left;
   }
 
   .card-body{
-    padding: 10px;
-    font-size: 14px;
+    padding: 5px 10px;
+    font-size: 12px;
+    border: 2px solid #06302B;
+    border-radius: 0px 0px 5px 5px;
+    justify-items: right;
     text-align: left;
   }
+  
+.card-body div{
+  justify-self: left;
+  margin: 10px 0px;
+}
+
+  .cardbuttons{
+    border: 0px;
+    cursor: pointer;
+    padding: 10px;
+    margin: 10px;
+    border-radius: 5px;
+    font-family: inherit;
+    font-weight: bold;
+  }
+
+  .viewcontainer{
+    margin: 0px;
+    justify-content: center;
+    height: auto;
+  }
+
+  .viewarea{
+    margin: auto;
+    text-align: left;
+    padding-left: 6vh;
+    height: auto;
+  }
+
+  .viewarea p{
+    font-size: 12px;
+  }
+
+  .assignarea{
+    margin: auto;
+    justify-content: center;
+    height: auto;
+  }
+
+  .assignarea div{
+    margin: 3vh auto;
+    justify-self: center;
+    height: auto;
+  }
+
+  .h1{
+    font-size: 12px;
+    font-weight: bold;
+    margin: 10px 0px;
+    padding-right: 10px;
+  }
+
+  .buttons-dropdown{
+    display: none;
+  }
+
+  .statcards{
+    display: flex;
+    gap: 10px;
+    flex-direction: row;
+    width: 100%;
+  }
+
+  .statcard{
+    width: 30%;
+    padding: 20px;
+    border-radius: 10px;
+    margin: 20px;
+    color:#000;
+    text-align: center;
+  }
+
+.content-section-body::-webkit-scrollbar {
+  width: 12px;              /* vertical scrollbar width */
+  height: 16px;             /* horizontal scrollbar height */
+  margin-right: 5px;
+}
+
+/* Track (the rail background) */
+.content-section-body::-webkit-scrollbar-track {
+  background: #f0f0f0;      /* nice light background */
+  border-radius: 12px;
+  margin: 5px;              /* creates spacing on both ends */
+  margin-right: 2px;
+}
+
+/* Thumb (the draggable part) */
+.content-section-body::-webkit-scrollbar-thumb {
+  background-color: #BF9E7D;   /* visible color of the thumb */
+  border-radius: 10px;
+  border: 4px solid #f0f0f0; /* creates 4px spacing on each side by mimicking track bg */
+}
+
+/* Thumb on hover */
+.content-section-body::-webkit-scrollbar-thumb:hover {
+  background-color: #BF9E7D;
+}
+
+/* Optional: Bottom-right corner if both scrollbars are present */
+.content-section-body::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+@media screen and (max-width: 768px) {
+    .bodyy {
+      flex-direction: column;
+      height: auto; /* Allow height to adjust based on content */
+    }
+  
+    .left-side, .content-section, .right-side {
+      width: 100%; /* Full width for smaller screens */
+      height: auto; /* Allow height to adjust based on content */
+    }
+  
+    .left-buttons {
+      width: 100%; /* Full width for smaller screens */
+    }
+  
+    .search-bar {
+      flex-direction: column; /* Stack search input and button */
+    }
+  
+    .search-input, .search-button {
+      width: 100%; /* Full width for smaller screens */
+    }
+  
+    .pane-content {
+      max-height: 50vh; /* Limit height for smaller screens */
+    }
+
+    .logo-subtext{
+      display: none;
+    }
+
+    .buttons-dropdown{
+      display: flex;
+      height: auto;
+      padding: 5px;
+      font-size: 12px;
+      margin-left: auto;
+      margin-right: 10px;
+    }
+
+    .left-buttons{
+      display: none;
+      width: 90%;
+      margin:5px auto;
+    }
+
+    .content-section{
+      border: none;
+      margin: 10px auto;
+      width: 95%;
+    }
+
+    .content-section-body{
+      border: 0px;
+    }
+
+    .content-section-header{
+      background-color: #ffffff;
+    }
+
+    .statcards{
+      display: flex;
+      flex-direction: column;
+    }
+
+    .statcard{
+      width: auto;
+      padding: 10px;
+      border-radius: 10px;
+      margin: 8px;
+      color:#000;
+      text-align: center;
+    }
+  
+}
+
+@media screen and (max-width: 1190px) {
+  .logo-subtext {
+    display: none;
+  }
+  .left-buttons{
+    padding: 0% 10%;
+    font-size: 12px;
+  }
+}
+
 

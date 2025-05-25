@@ -1,141 +1,110 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import ProfileDisplay from "./ProfileDisplay";
-import SearchBar from "./SearchBar";
 import Button from "./Button";
-import DisplayPane from "./DisplayPane";
-import Logo from "./Logo";
+import Logo from "./logo";
 import Content from "./RegistrarContentSection";
-import InPageLoginButton from "./InPageLoginButton";
+import Splash from "./Splash";
+import { useNavigate } from 'react-router-dom';
 
-const RegistrarPage = () => {
-
-  const MESSAGES = [
-    {
-      head: 'Notifications',
-      contents: [
-        {
-          name: 'Jane Doe',
-          message: 'You have a new message.'
-        },
-        {
-          name: 'John Doe',
-          message: 'You have a new notification.'
-        },
-        {
-          name: 'Jane Doe',
-          message: 'You have a new message.'
-        }
-      ]
-    },
-    {
-      head: 'Announcements',
-      contents: [
-        {
-          name: 'John Doe',
-          message: 'You have a new request.'
-        },
-        {
-          name: 'Jane Doe',
-          message: 'You have a new request.'
-        },
-        {
-          name: 'John Doe',
-          message: 'You have a new request.'
-        }
-      ]
-    }
-  ];
-
+const RegistrarPage = ({ content, setContent, backend, isVisible, setIsVisible }) => {
   const [newIssues, setNewIssues] = useState([]);
-  const [assignedIssues, setAssignedIssues] = useState([])
+  const [assignedIssues, setAssignedIssues] = useState([]);
   const [notifications, setNotifications] = useState([]);
-  const [content, setContent] = useState('Splash');
+  const [id, setid] = useState(0);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
 
-
-  const user = JSON.parse(localStorage.getItem("user"));
-  const token = localStorage.getItem("token");
+  const navigate = useNavigate();
+  const token = sessionStorage.getItem("token");
+  const user = JSON.parse(sessionStorage.getItem("user"));
 
   useEffect(() => {
-    const fetchIssues = async () => {
-      const response = await axios.get('http://127.0.0.1:8000/issues/', {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-        },
-      });
-      setNewIssues(response.data);
+    if (!user || !token) return;
+
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        const [unseenRes, seenRes, notificationsRes] = await Promise.all([
+          axios.get(`${backend}/issues/Unseen/${user.department}`, {
+            headers: { Authorization: `Bearer ${token}` },
+          }),
+          axios.get(`${backend}/issues/Seen/${user.department}`, {
+            headers: { Authorization: `Bearer ${token}` },
+          }),
+          axios.get(`${backend}/notifications/${user.id}`, {
+            headers: { Authorization: `Bearer ${token}` },
+          }),
+        ]);
+
+        setNewIssues(unseenRes.data);
+        setAssignedIssues(seenRes.data);
+        setNotifications(notificationsRes.data);
+      } catch (err) {
+        setError("Unable to load data. Please try again later.");
+      } finally {
+        setLoading(false);
+      }
     };
 
-    const fetchNotifications = async () => {
-      const response = await axios.get('http://127.0.0.1:8000/notifications/', {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-        },
-      });
-      setNotifications(response.data);
-    };
+    fetchData();
+  }, []);
 
-    if (user) {
-      fetchIssues();
-      /*fetchNotifications();*/
-    }
-  }, [user]);
+  const logout = () => {
+    sessionStorage.removeItem("user");
+    sessionStorage.removeItem("token");
+    navigate("/login");
+  };
 
-  const no_operation = () => setContent("Splash");
-
-  const fetchAllIssues = async() => {
-    const response = await axios.get('http://127.0.0.1:8000/issues/all/', {
-      headers: {
-        'Authorization': `Bearer ${token}`,
-      },
-    });
-    setAssignedIssues(response.data);   
-  }
+  if (!user) return <Splash />;
 
   return (
     <div className="bodyy">
-        <>
-          <div className="left-side">
-            {user ? (
-              <div>
-                <Logo />
-                <Button text={"New issues"} image={"new-issue.svg"} funct={() => setContent("NewIssues")} />
-                <Button text={"Assigned issues"} image={"posted-logo.svg"} funct={() => setContent("AssignedIssues")} />
-                <Button text={"Messages"} image={"posted-logo.svg"} funct={no_operation} />
-                <Button text={"Settings"} image={"settings.svg"} funct={no_operation} />
-              </div>
-            ) : (
-              <div>
-                <Logo />
-                <Button text={"New issues"} image={"new-issue.svg"} funct={no_operation} />
-                <Button text={"Assigned issues"} image={"posted-logo.svg"} funct={no_operation} />
-                <Button text={"Settings"} image={"settings.svg"} funct={no_operation} />
-              </div>
-            )}
-          </div>
-          <div className="content-section">
-            <SearchBar />
-            <Content to_display_name={content} newissues={newIssues} assignedissues={assignedIssues} username={user.username} token={token} department={user.department}/>
-          </div>
-          <div className="right-side">
-            {user ? (
-              <ProfileDisplay
-                name={user.username}
-              />
-            ) : (
-              <InPageLoginButton />
-            )}
-            <DisplayPane
-              type={"notifications"}
-              items={MESSAGES[0].contents}
-              user={user} />
-            <DisplayPane
-              type={"announcements"}
-              items={MESSAGES[1].contents}
-              user={user} />
-          </div> {/* Closing the right-side div */}
-        </>
-      </div> // Closing the main div
+      <div className="left-side">
+        <Logo setIsVisible={setIsVisible} setContent={setContent}/>
+        <Button
+          text={"New issues"}
+          image={"new-issue.svg"}
+          funct={() => setContent("NewIssues")}
+          isVisible={isVisible}
+        />
+        <Button
+          text={"Assigned issues"}
+          image={"posted-logo.svg"}
+          funct={() => setContent("AssignedIssues")}
+          isVisible={isVisible}
+        />
+        <Button
+          text={"Notifications"}
+          image={"notifications.svg"}
+          funct={() => setContent("Notifications")}
+          isVisible={isVisible}
+        />
+        <Button
+          text={"Logout"}
+          image={"logout.svg"}
+          funct={logout}
+          isVisible={isVisible}
+        />
+      </div>
+      <div className="content-section">
+        {error && <div className="error-message">{error}</div>}
+        <Content
+          to_display_name={content}
+          newissues={newIssues}
+          assignedissues={assignedIssues}
+          username={user.username}
+          token={token}
+          department={user.department}
+          content={content}
+          setContent={setContent}
+          id={id}
+          setid={setid}
+          role={user.role}
+          notifications={notifications }
+          backend={backend}
+        />
+      </div>
+    </div>
   );
 };
 

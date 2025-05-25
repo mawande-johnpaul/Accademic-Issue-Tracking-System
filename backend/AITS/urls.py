@@ -1,26 +1,34 @@
 from django.contrib import admin
 from django.urls import path, include
-from django.conf import settings
-from django.conf.urls.static import static
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from logbook.views import *
-from logbook import views
+from django.conf import settings
+from django.contrib.auth import views as auth_views
+from django.conf.urls.static import static
 
 urlpatterns = [
-    path('', views.frontend_view, name='frontend'),
     path('admin/', admin.site.urls),
     path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('signup/', RegisterView.as_view(), name='signup'),
     path('login/', LoginView.as_view(), name='login'),
     path('issues/', IssueListCreate.as_view(), name='issues'),
-    path('issues/all/', IssueList.as_view(), name='issue_assigned'),
-    path('issues/<int:pk>/', IssueUpdateDestroy.as_view(), name='issue_detail'),
-    path('notifications/', NotificationsListDestroy.as_view(), name='notifications'),
-    path('notifications/create/', NotificationsCreate.as_view(), name='create_notification'),
-    path('logs/', LogListUpdateDelete.as_view(), name='logs'),
-]
-
-# Serve static files during development
-if settings.DEBUG:
-    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    path('issues/<int:pk>/', IssueList2.as_view(), name='assigned_issues'),
+    path('issues/<int:pk>/<str:status>/', IssueList3.as_view(), name='resolved_issues'),
+    path('issues/<str:status>/<str:college>', IssueList.as_view(), name='issue_status'),
+    path('issues/<str:action>/<int:pk>/', IssueUpdateDestroy.as_view(), name='edit_issue'),
+    path('issues/remove/<int:pk>/', IssueUpdateDestroy.as_view(), name='remove'),
+    path('issues/notify/<int:pk>/<int:id>', NotificationsListCreate.as_view(), name='notify_lecturer'),
+    path('notifications/<int:pk>/', NotificationsListCreate.as_view(), name='notifications'),
+    path('notifications/remove/<int:pk>', NotificationDestroy.as_view(), name='delete_notification'),
+    path('lecturers/<int:id>/', LecturerList.as_view(), name='list_lecturers'),
+    path('password-reset/send-code/', send_reset_code, name='send_reset_code'),
+    path('password-reset/verify-code/', verify_reset_code, name='verify_reset_code'),
+    path('password-reset/reset-password/', reset_password, name='reset_password'),
+    
+    # Password reset views
+    path('password-reset/', auth_views.PasswordResetView.as_view(), name='password_reset'),
+    path('password-reset/done/', auth_views.PasswordResetDoneView.as_view(), name='password_reset_done'),
+    path('reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
+    path('reset/done/', auth_views.PasswordResetCompleteView.as_view(), name='password_reset_complete'),
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

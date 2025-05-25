@@ -1,1 +1,1 @@
-web: gunicorn backend.AITS.wsgi:application
+web: gunicorn AITS.wsgi:application --bind 0.0.0.0:$PORT --chdir backend

@@ -1,32 +1,76 @@
-.labels{
-    margin:5px;
-    padding-left: 100px;
-    width: 40%;
-    font-weight: bold;
+.inputs{
+    width: 60%;
+    height: 4vh;
+    border: 2px solid #747474;
+    border-radius: 5px;
+    font-family: inherit;
+    padding: 5px;
 }
 
-.inputs{
-    width: 50%;;
-    justify-self:flex-end;
-    border: 1px solid #747474;
-    border-radius: 5px;
-    margin-right: 50px;
+.congested-signuplower{
+    display:flex;
+    justify-content: center;
+    height: auto;
     font-family: Inter;
+    width: 100%;
 }
 
 .signuplower{
     display:flex;
     flex-direction: column;
     justify-content: center;
-    height: 60vh;
-    gap:10px;
+    height: auto;
+    font-family: Inter;
+    gap: auto;
+}
+
+.lower{
+    width: 40%;
+    display:flex;
     flex-direction: column;
+    justify-content: center;
+    height: auto;
     font-family: Inter;
 }
 
+.lower input select{
+    width: 90%;
+    height: 4vh;
+    border: 2px solid #747474;
+    border-radius: 5px;
+    font-family: inherit;
+    padding: 5px;
+}
+
 .row{
-    display: flex;
-    flex-direction: row;
     margin: 10px;
-    height: 24px;
+    height: auto;
+}
+
+@media screen {
+  @media (max-width: 768px) {
+
+    .congested-signuplower{
+        flex-direction: column;
+        gap: 5px;
+        width: 100%;
+        padding: 0px;
+        margin: 0px;
+    }
+    .lower{
+        width: 100%;
+        padding: 0px;
+        margin: 0px;
+    }
+    .lower input select{
+    width: 100%;
+    }
+    .row{
+    margin: 10px;
+    height: auto;
+    }
+    .inputs{
+        width: 90%;
+  }
+}
 }

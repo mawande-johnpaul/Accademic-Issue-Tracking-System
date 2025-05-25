@@ -1,7 +1,4 @@
 
-
-
-
 .App {
   display: flex;
   flex-direction: row;
@@ -13,11 +10,6 @@
   box-sizing: border-box;
   font-family: 'Inter', 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
-
-
-
-
-
 
 .login-button {
   width: 100%;
@@ -36,8 +28,6 @@
   font-weight: bold;
   font-size: larger;
 }
-
-
 
 .android-header{
   display: none;

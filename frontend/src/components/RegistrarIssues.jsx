@@ -1,26 +1,26 @@
-import Card from "./IssueCard";
+import IssueCard from "./IssueCard";
 
-const UserIssues = ({issues, type}) => {
+const RegistrarIssues = ({ issues = [], type, token, content, setContent, setid, backend }) => {
+  if (type !== 'new' && type !== 'assigned') {
+    return null;
+  }
+
   return (
     <div className="max-w-2xl mx-auto mt-6">
-      {type === 'new' ?(
-        <>
-          {issues.map((issue) => (
-            <IssueCard isssue={issue} type={type}/>
-          ))}
-        </>
-      ) : type === 'assigned' ?(
-        <>
-          {issues.map((issue) => (
-            <IssueCard isssue={issue} type={type}/>
-          ))}        
-        </>
-      ): (
-        <></>
-      )}
-
+      {issues.map((issue) => (
+        <IssueCard
+          key={issue.id}
+          issue={issue}  // Fixed typo here
+          type={type}
+          token={token}
+          content={content}
+          setContent={setContent}
+          setid={setid}
+          backend={backend}
+        />
+      ))}
     </div>
   );
 };
 
-export default UserIssues;
+export default RegistrarIssues;
