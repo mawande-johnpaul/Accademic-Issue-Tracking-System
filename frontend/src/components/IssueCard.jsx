@@ -212,6 +212,8 @@ const IssueCard = ({ issue, type, token, setContent, setid, backend }) => {
     );
   }
 
+  
+  // For lecturers viewing resolved issues
   if (type === "lecturer-resolved") {
     return (
       <div className="issue-card">
@@ -231,6 +233,7 @@ const IssueCard = ({ issue, type, token, setContent, setid, backend }) => {
     );
   }
 
+  // Default case if type doesn't match any known category
   return null; // Fallback in case no type matched
 };
 
