@@ -390,6 +390,7 @@ class NotificationsListCreate(generics.ListCreateAPIView):
     permission_classes = [AllowAny]
 
     def get_queryset(self):
+        # List notifications for a specific user
         pk = self.kwargs['pk']
         if not pk:
             return Notification.objects.none()
@@ -397,6 +398,7 @@ class NotificationsListCreate(generics.ListCreateAPIView):
         return Notification.objects.filter(user_id_receiver=pk)
 
     def post(self, request, **kwargs):
+         # Create notification from registrar to lecturer about issue progress request
         pk = self.kwargs['pk']
         ipk = self.kwargs['id']
         if not pk and ipk:
