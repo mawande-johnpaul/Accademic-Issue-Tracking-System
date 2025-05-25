@@ -142,14 +142,15 @@ def validate_webmail_and_role(first_name, last_name, webmail, college):
     else:
         raise serializers.ValidationError({"message":"Invalid webmail domain."})
 
-
+# Serializer for user registration
 class RegisterSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = '__all__'
         extra_kwargs = {'password': {'write_only': True}}
-
+# Custom validation for registration
     def validate(self, data):
+         # Ensure username is unique
         if User.objects.filter(username=data['username']).exists():
             raise serializers.ValidationError('Username already exists')
 
@@ -158,9 +159,9 @@ class RegisterSerializer(serializers.ModelSerializer):
         webmail = data['webmail']
         email = data['email']
         college = data['department']
-
+# Determine user role
         role = validate_webmail_and_role(first_name, last_name, webmail, college)
-
+ # Additional validation for lecturers and registrars
         if role in ['lecturer', 'registrar']:
             college = data['department']
             accepted_list = ACCEPTED_USERS.get(college, {}).get(role + 's', [])
