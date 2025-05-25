@@ -89,6 +89,7 @@ def validate_attachment(file: UploadedFile):
 
 
 def send_notification(sender, receiver, content, email=False):
+    # Creates a notification entry in the database
     try:
         Notification.objects.create(
             sender=sender,
@@ -99,6 +100,7 @@ def send_notification(sender, receiver, content, email=False):
         log_error(f"Notification error: {str(e)}")
 
 def log_action(user, action):
+     # Logs user actions for audit or tracking
     try:
         Log.objects.create(user_id=user, action=action)
     except Exception as e:
@@ -109,6 +111,7 @@ def log_error(message):
     print(f"ERROR: {message}")
 
 class IsRegistrar(permissions.BasePermission):
+     # Custom permission for users with the 'registrar' role
     def has_permission(self, request, view):
         return request.user.is_authenticated and request.user.role == 'registrar'
 
