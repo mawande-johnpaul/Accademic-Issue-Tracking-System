@@ -102,6 +102,7 @@ const IssueForm = ({ cs, token, department, pk, content, setContent, backend }) 
       setContent("UserIssues");      // Go back to issue list view
       resetForm();}                  // Clear form
     } catch (error) {
+      // Show backend error message if available
       setMessage(
         error.response?.data?.detail ||
           "Failed to submit issue. Please try again."
