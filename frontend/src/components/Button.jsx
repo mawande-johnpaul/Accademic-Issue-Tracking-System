@@ -17,5 +17,5 @@ Button.propTypes = {
   image: PropTypes.string.isRequired,
   funct: PropTypes.func.isRequired,
 };
-
+// Export the component for use in other parts of the application
 export default Button;
