@@ -3,6 +3,7 @@ import Splash2 from "./Splash2";
 import LecturerView from "./LecturerView";
 import Notifications from "./Notifications";
 
+// Main content switcher component based on user selection/view
 const Content = ({ to_display_name, issues, resolvedIssues, user, token, id, setid, setContent, role, notifications, backend }) => {
   // Map display names to headings
   const headings = {
@@ -11,6 +12,7 @@ const Content = ({ to_display_name, issues, resolvedIssues, user, token, id, set
     LecturerView: "Issue Details",
     Notifications: "Notifications"
   };
+  // Set default heading if none is matched
   const heading = headings[to_display_name] || "Dashboard";
 
   return (
