@@ -508,7 +508,7 @@ def notify_on_issue_change(sender, instance, created, **kwargs):
                 content=f"Your issue '{instance.title}' has been resolved.",
                 email=True
             )
-
+        # Notify assignee when issue is assigned Seen
         if instance.status == "Seen" and instance.assigned_to:
             send_notification(
                 sender='System',
