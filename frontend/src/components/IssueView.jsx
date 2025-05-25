@@ -12,9 +12,12 @@ const IssueView = ({ issue, token, setContent, issues, backend}) => {
   const [isSubmitting, setIsSubmitting] = useState(false);  // Submission state
   const [lecturers, setLecturers] = useState([]);    // List of available lecturers
 
+  // Load issue details and available lecturers on mount
   useEffect(() => {
+     // Find the issue data from the issues list
     const foundIssue = Object.values(issues).find((iss) => iss.id === issue) || {};
     setIssueData(foundIssue);
+    // Fetch lecturers eligible to be assigned to this issue
     axios.get(`${backend}/lecturers/${issue}/`, {
       headers: { Authorization: `Bearer ${token}` },
     })
