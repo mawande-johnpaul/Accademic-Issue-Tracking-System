@@ -48,14 +48,14 @@ const IssueView = ({ issue, token, setContent, issues, backend}) => {
         {
           assigned_to: assignedTo,
           priority,
-          deadline: deadline.toISOString().split("T")[0],
+          deadline: deadline.toISOString().split("T")[0],    // Format date to YYYY-MM-DD
         },
         {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
       alert("🤗 Issue assigned successfully.");
-      setContent("NewIssues");
+      setContent("NewIssues");     // Go back to list after successful assignment
     } catch (error) {
       console.error("Failed to assign issue", error);
       alert("😥 Failed to assign issue. Please try again.");
