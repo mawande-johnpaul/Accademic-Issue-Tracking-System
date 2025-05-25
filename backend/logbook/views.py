@@ -283,9 +283,11 @@ class IssueUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
         return [permissions.AllowAny()]
 
     def get_queryset(self):
+        # Use all issues for update/delete actions
         return Issue.objects.all()
 
     def patch(self, request, *args, **kwargs):
+         # Handle issue assignment and progress update actions
         pk = kwargs.get('pk')
         action = kwargs.get('action')
         if not pk or not action:
@@ -297,6 +299,7 @@ class IssueUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
             return Response({'error': 'Issue not found.', 'code': 'ISSUE_NOT_FOUND'}, status=status.HTTP_404_NOT_FOUND)
 
         if action == "assign":
+             # Registrar assigns issue to user
             if request.user.role != 'registrar':
                 return Response({'error': 'Permission denied.', 'code': 'PERMISSION_DENIED'}, status=status.HTTP_403_FORBIDDEN)
             
