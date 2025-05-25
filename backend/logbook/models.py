@@ -37,8 +37,8 @@ class CustomUser(AbstractUser):
     course = models.CharField(max_length=100, default='none')
 
     def __str__(self):
-        return self.username
-
+        return self.username  # Returns username when object is printed
+# Model to track issues submitted by users
 class Issue(models.Model):
     id = models.AutoField(primary_key=True)
     title = models.CharField(max_length=100)
@@ -50,16 +50,16 @@ class Issue(models.Model):
     year = models.CharField(max_length=100, default='none')
     assigned_to = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='assigned_issue', null=True, blank=True)
     created_by = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    created_at = models.DateTimeField(auto_now_add=True) # Timestamp when issue was created
+    updated_at = models.DateTimeField(auto_now=True)     # Timestamp when issue was last updated
     status = models.CharField(max_length=10, default='Unseen')
-    priority = models.CharField(max_length=10, default='Low')
-    deadline = models.DateField(auto_now=True)
+    priority = models.CharField(max_length=10, default='Low')  # Priority level: Low, Medium, High
+    deadline = models.DateField(auto_now=True) # Deadline for resolving the issue
     progress = models.CharField(default="", max_length=1000)
     attachment = models.FileField(upload_to=upload_to, null=True, blank=True)
 
     def __str__(self):
-        return self.title
+        return self.title  # Show issue title in admin/list views
     
     
     def clean(self):
