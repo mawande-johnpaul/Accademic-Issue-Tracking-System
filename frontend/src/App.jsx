@@ -4,7 +4,6 @@ import './css/homepage.css';
 import './css/signup.css';
 import './css/dashboard.css';
 import './css/form.css';
-import './css/loadingscreen.css';
 import './css/styles.css'
 import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 import Homepage from './components/HomePage';
@@ -21,7 +20,7 @@ function App() {
   // Add event listener for media queries and edit buttons to render accordingly
   const [content, setContent] = useState('Splash2');
   const [id, setid] = useState(0)
-  const [backend, setBackend] = useState("https://accademic-issue-tracking-system.onrender.com")
+  const [backend, setBackend] = useState("http://127.0.0.1:8000")
   const [isVisible, setIsVisible] = useState(true)
 
   useEffect(() => {

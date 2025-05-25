@@ -30,7 +30,7 @@ const IssueView = ({ issue, token, setContent, issues, backend}) => {
     e.preventDefault();
 
     if (!assignedTo || !deadline || !priority) {
-      alert("All fields are required to assign an issue.");
+      alert("😐 All fields are required to assign an issue.");
       return;
     }
 
@@ -48,11 +48,11 @@ const IssueView = ({ issue, token, setContent, issues, backend}) => {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
-      alert("Issue assigned successfully.");
+      alert("🤗 Issue assigned successfully.");
       setContent("NewIssues");
     } catch (error) {
       console.error("Failed to assign issue", error);
-      alert("Failed to assign issue. Please try again.");
+      alert("😥 Failed to assign issue. Please try again.");
     } finally {
       setIsSubmitting(false);
     }

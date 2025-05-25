@@ -5,7 +5,6 @@ from django.contrib.auth import authenticate
 
 User = get_user_model()
 
-# Add a mapping of accepted lecturers and registrars per college, using all colleges from models.py
 ACCEPTED_USERS = {
     'COCIS': {
         'lecturers': [
@@ -169,7 +168,6 @@ class RegisterSerializer(serializers.ModelSerializer):
                     user['last_name'].lower() == ln_lower and
                     user['email'].lower() == email.lower()):
 
-                    # Check webmail format dynamically
                     accepted_webmail = user['webmail'].lower()
                     if accepted_webmail == webmail.lower():
                         found = True
@@ -197,9 +195,6 @@ class RegisterSerializer(serializers.ModelSerializer):
         )
         return user
 
-
-
-
 class LoginSerializer(serializers.Serializer):
     username = serializers.CharField(max_length=255)
     password = serializers.CharField(write_only=True, max_length=128)
@@ -211,7 +206,7 @@ class LoginSerializer(serializers.Serializer):
         if username and password:
             user = authenticate(username=username, password=password)
 
-            if user is None or not user.is_active:  # Added check for active status
+            if user is None or not user.is_active:
                 raise serializers.ValidationError('Invalid credentials or inactive account.')
         else:
             raise serializers.ValidationError('Both username and password are required.')

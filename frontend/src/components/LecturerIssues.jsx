@@ -6,7 +6,7 @@ const LecturerIssues = ({ issues, type, token, setContent, setid }) => {
   }
 
   if (!issues || issues.length === 0) {
-    return <p>No issues found.</p>;
+    return <p>😊 No issues found.</p>;
   }
 
   return (

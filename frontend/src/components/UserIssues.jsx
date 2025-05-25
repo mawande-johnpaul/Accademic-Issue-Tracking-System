@@ -2,7 +2,7 @@ import IssueCard from "./IssueCard";
 
 const UserIssues = ({ issues = [], type, content, setContent }) => {
   if (!issues.length) {
-    return <p className="text-center mt-6">No issues to display.</p>;
+    return <p className="text-center mt-6">😊 No issues to display.</p>;
   }
 
   return (

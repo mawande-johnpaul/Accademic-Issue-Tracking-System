@@ -19,6 +19,8 @@ from django.utils.crypto import get_random_string
 from django.http import JsonResponse
 import json
 from django.core.cache import cache
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 User = get_user_model()
 
@@ -99,8 +101,36 @@ def log_action(user, action):
         log_error(f"Log action error: {str(e)}")
 
 def log_error(message):
-    # Placeholder for actual logging mechanism
     print(f"ERROR: {message}")
+
+@receiver(post_save, sender=Issue)
+def notify_on_issue_change(sender, instance, created, **kwargs):
+    if created:
+        # Notify all registrars
+        registrars = User.objects.filter(role='registrar')
+        for registrar in registrars:
+            send_notification(
+                sender='System',
+                receiver=registrar,
+                content=f"New issue submitted: {instance.title}",
+                email=True
+            )
+    else:
+        if instance.status == "Resolved" and instance.created_by:
+            send_notification(
+                sender='System',
+                receiver=instance.created_by,
+                content=f"Your issue '{instance.title}' has been resolved.",
+                email=True
+            )
+
+        if instance.status == "Seen" and instance.assigned_to:
+            send_notification(
+                sender='System',
+                receiver=instance.assigned_to,
+                content=f"You've been assigned the issue: {instance.title}",
+                email=True
+            )
 
 class IsRegistrar(permissions.BasePermission):
     def has_permission(self, request, view):
@@ -170,25 +200,21 @@ class UserListView(generics.ListAPIView):
         except Exception as e:
             log_error(f"User list error: {str(e)}")
             return Response({"error": "internal_server_error"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        
+class LecturerList(generics.ListAPIView):
+    serializer_class = LecturerSerializer
+    permission_classes = [AllowAny]
 
-class UserDetailView(generics.RetrieveAPIView):
-    queryset = User.objects.all()
-    serializer_class = UserDetailSerializer
-    permission_classes = [IsAuthenticated]
-
-    def get(self, request, *args, **kwargs):
-        try:
-            return super().get(request, *args, **kwargs)
-        except Exception as e:
-            log_error(f"User detail error: {str(e)}")
-            return Response({"error": "internal_server_error"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    def get_queryset(self):
+        issue = Issue.objects.get(pk=self.kwargs['id'])
+        return User.objects.filter(role='lecturer', department=issue.department)
 
 # Issue Management
 class IssueListCreate(generics.ListCreateAPIView):
     queryset = Issue.objects.all()
     serializer_class = IssueSerializer
     permission_classes = [AllowAny]
-    parser_classes = [MultiPartParser, FormParser]  # To handle file uploads
+    parser_classes = [MultiPartParser, FormParser]
 
     def get_queryset(self):
         return super().get_queryset().filter(created_by=self.request.user)
@@ -217,27 +243,26 @@ class IssueList(generics.ListAPIView):
     serializer_class = IssueSerializer
     permission_classes = [AllowAny]
 
-    def get_queryset(self):  # Runs if the request method is GET
-        status = self.kwargs['status']  # Get the status from the URL
-        return Issue.objects.filter(status=status, department=self.kwargs['college'])  # Filter issues by status
+    def get_queryset(self):
+        status = self.kwargs['status']
+        return Issue.objects.filter(status=status, department=self.kwargs['college'])
     
 class IssueList2(generics.ListAPIView):
     serializer_class = IssueSerializer
     permission_classes = [AllowAny]
 
-    def get_queryset(self):  # Runs if the request method is GET
-        pk = self.kwargs['pk']  # Get the status from the URL
-        return Issue.objects.filter(assigned_to=pk)  # Filter issues by status
+    def get_queryset(self):
+        pk = self.kwargs['pk']
+        return Issue.objects.filter(assigned_to=pk)
     
 class IssueList3(generics.ListAPIView):
     serializer_class = IssueSerializer
     permission_classes = [AllowAny]
 
-    def get_queryset(self):  # Runs if the request method is GET
-        pk = self.kwargs['pk']  # Get the assigned_to from the URL
-        return Issue.objects.filter(assigned_to=pk, status='Resolved')  # Filter issues by assigned_to and status
+    def get_queryset(self):
+        pk = self.kwargs['pk']
+        return Issue.objects.filter(assigned_to=pk, status='Resolved')
 
-# What data exactly is returned, which function does what, notifications on successful action
 class IsStudent(permissions.BasePermission):
     """Custom permission to restrict students from removing or assigning issues."""
     def has_permission(self, request, view):
@@ -313,7 +338,6 @@ class IssueUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
             issue.save()
             log_action(request.user, f"Progress updated on issue '{issue.title}'.")
 
-            # Notify creator (student)
             if issue.created_by:
                 send_notification(
                     sender='System',
@@ -429,53 +453,3 @@ class EmailView(APIView):
 
 
 
-# django signals
-from django.db.models.signals import post_save
-from django.dispatch import receiver
-
-'''class Signal:
-    @receiver(post_save, sender=Issue)
-    def issue_post_save(sender, instance, created, **kwargs):
-        if created:
-            EmailView.send_email('New Issue', 'A new issue has been created', User'''
-
-
-class LecturerList(generics.ListAPIView):
-    serializer_class = LecturerSerializer
-    permission_classes = [AllowAny]
-
-    def get_queryset(self):
-        issue = Issue.objects.get(pk=self.kwargs['id'])
-        return User.objects.filter(role='lecturer', department=issue.department)
-    
-from django.db.models.signals import post_save
-from django.dispatch import receiver
-
-@receiver(post_save, sender=Issue)
-def notify_on_issue_change(sender, instance, created, **kwargs):
-    if created:
-        # Notify all registrars
-        registrars = User.objects.filter(role='registrar')
-        for registrar in registrars:
-            send_notification(
-                sender='System',
-                receiver=registrar,
-                content=f"New issue submitted: {instance.title}",
-                email=True
-            )
-    else:
-        if instance.status == "Resolved" and instance.created_by:
-            send_notification(
-                sender='System',
-                receiver=instance.created_by,
-                content=f"Your issue '{instance.title}' has been resolved.",
-                email=True
-            )
-
-        if instance.status == "Seen" and instance.assigned_to:
-            send_notification(
-                sender='System',
-                receiver=instance.assigned_to,
-                content=f"You've been assigned the issue: {instance.title}",
-                email=True
-            )

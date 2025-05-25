@@ -32,10 +32,10 @@ const ProgressForm = ({ issue, onClose }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!isFormValid()) {
-      alert("Please complete all required fields.");
+      alert("😐 Please complete all required fields.");
       return;
     }
-    alert(`Progress submitted!`);
+    alert(`🙂 Progress submitted!`);
     onClose(); // close form after submit
   };
 

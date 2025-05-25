@@ -7,7 +7,7 @@ const Notifications = ({ items = [] }) => {
       <div className='display-pane'>
         <div className='pane-header'>Notifications</div>
         <div className='pane-content'>
-          <p>No notifications available.</p>
+          <p>😊 No notifications available.</p>
         </div>
       </div>
     );
@@ -18,7 +18,7 @@ const Notifications = ({ items = [] }) => {
       <div className='pane-content'>
         {items.map(({ id, sender, content }) => (
           <div key={id} className='message-item'>
-            <div className='message-header'>{sender}</div>
+            <div className='message-header'>🤖 {sender}</div>
             <div className='message-body'>{content}</div>
           </div>
         ))}

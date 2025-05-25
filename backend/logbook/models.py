@@ -4,7 +4,7 @@ import os
 from django.core.exceptions import ValidationError
 
 def upload_to(instance, filename):
-    return os.path.join('data', filename)  # Ensures file goes into /data/
+    return os.path.join('data', filename)
 
 
 DEPARTMENT_CHOICES = [

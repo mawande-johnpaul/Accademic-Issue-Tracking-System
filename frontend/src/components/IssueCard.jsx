@@ -72,7 +72,7 @@ const IssueCard = ({ issue, type, token, setContent, setid, backend }) => {
           },
         }
       );
-      alert("Lecturer has been notified!")
+      alert("😃 Lecturer has been notified!")
       setContent("Splash2");
     } catch {
       setError(error);

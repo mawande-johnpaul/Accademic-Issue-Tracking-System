@@ -11,7 +11,7 @@ function HomePage() {
     <>
       <img src='banner.jpg' alt='Academic Issue Tracking System Banner' className='banner' />
       <div className='homepage'>
-        <p><b>ACADEMIC ISSUE TRACKING SYSTEM</b></p>
+        <p><b>📒 ACADEMIC ISSUE TRACKING SYSTEM</b></p>
         <p className='p2'>Log into or create your account to log, track and view academic issues for free.</p>
         <div className='choicearea'>
           <Link to='/login' className='buttons'>Log in</Link>
