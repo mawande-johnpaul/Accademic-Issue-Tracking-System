@@ -32,6 +32,7 @@ def send_reset_code(request):
             user = User.objects.get(email=email)
         except User.DoesNotExist:
             return JsonResponse({"error": "User not found."}, status=404)
+        # Generate and store reset code in cache for 10 minutes
         code = get_random_string(6, allowed_chars="0123456789")
         cache.set(f"reset_code_{email}", code, timeout=600)
         send_mail(
