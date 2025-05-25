@@ -3,13 +3,14 @@ import axios from "axios";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
+// Component to view issue details and assign the issue to a lecturer
 const IssueView = ({ issue, token, setContent, issues, backend}) => {
   const [assignedTo, setAssignedTo] = useState("");
   const [deadline, setDeadline] = useState(null);
   const [priority, setPriority] = useState("");
   const [issueData, setIssueData] = useState({});
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [lecturers, setLecturers] = useState([]);
+  const [isSubmitting, setIsSubmitting] = useState(false);  // Submission state
+  const [lecturers, setLecturers] = useState([]);    // List of available lecturers
 
   useEffect(() => {
     const foundIssue = Object.values(issues).find((iss) => iss.id === issue) || {};
