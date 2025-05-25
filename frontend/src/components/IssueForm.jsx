@@ -77,6 +77,7 @@ const IssueForm = ({ cs, token, department, pk, content, setContent, backend }) 
     e.preventDefault();
     setLoading(true);
 
+    // Prepare form data for submission
     const formDataToSend = new FormData();
     for (const key in formData) {
       if (formData[key] !== null && formData[key] !== "") {
@@ -85,6 +86,7 @@ const IssueForm = ({ cs, token, department, pk, content, setContent, backend }) 
     }
 
     try {
+       // Send POST request to create new issue
       const response = await axios.post(
         `${backend}/issues/`,
         formDataToSend,
@@ -97,8 +99,8 @@ const IssueForm = ({ cs, token, department, pk, content, setContent, backend }) 
       );
       if (response){
       alert('Submission successful!')
-      setContent("UserIssues");
-      resetForm();}
+      setContent("UserIssues");      // Go back to issue list view
+      resetForm();}                  // Clear form
     } catch (error) {
       setMessage(
         error.response?.data?.detail ||
