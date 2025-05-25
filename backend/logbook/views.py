@@ -456,6 +456,7 @@ class LogCreate(generics.CreateAPIView):
         return super().perform_create(serializer)
     
 class EmailView(APIView):
+     # Utility to send emails
     def send_email(self, subject, message, to):
         send_mail(subject, message, from_email=None, recipient_list=[to], fail_silently=False, auth_user=None, auth_password=None, connection=None, html_message=None)
 
@@ -472,7 +473,7 @@ from django.dispatch import receiver
         if created:
             EmailView.send_email('New Issue', 'A new issue has been created', User'''
 
-
+# Lecturer List filtered by Issue's department
 class LecturerList(generics.ListAPIView):
     serializer_class = LecturerSerializer
     permission_classes = [AllowAny]
@@ -480,7 +481,9 @@ class LecturerList(generics.ListAPIView):
     def get_queryset(self):
         issue = Issue.objects.get(pk=self.kwargs['id'])
         return User.objects.filter(role='lecturer', department=issue.department)
-    
+
+# Signal handlers for Issue model
+
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
@@ -497,6 +500,7 @@ def notify_on_issue_change(sender, instance, created, **kwargs):
                 email=True
             )
     else:
+        # Notify creator when issue is resolved
         if instance.status == "Resolved" and instance.created_by:
             send_notification(
                 sender='System',
