@@ -76,6 +76,7 @@ const LecturerPage = ({ content, setContent, backend,isVisible, setIsVisible }) 
     navigate("/login");
   };
 
+  // Show splash screen if user is not authenticated
   if (!user) return <Splash />;
 
   return (
