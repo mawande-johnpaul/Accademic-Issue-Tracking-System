@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 
+// Component for submitting a new academic issue
 const IssueForm = ({ cs, token, department, pk, content, setContent, backend }) => {
   const COURSES = {
     BSCS: ["CS101", "CS102", "CS103"],
@@ -10,6 +11,7 @@ const IssueForm = ({ cs, token, department, pk, content, setContent, backend }) 
     BSCOMM: ["BC101", "BC102", "BC103"],
   };
 
+  // Available issue categories
   const ISSUE_CATEGORIES = [
     "Marks",
     "Attendance",
@@ -20,6 +22,7 @@ const IssueForm = ({ cs, token, department, pk, content, setContent, backend }) 
     "Other",
   ];
 
+   // Form state
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -32,13 +35,15 @@ const IssueForm = ({ cs, token, department, pk, content, setContent, backend }) 
     department: department,
   });
 
-  const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState("");
-  const [cse, setCourse] = useState(cs);
+  const [loading, setLoading] = useState(false);       // For button loading state
+  const [message, setMessage] = useState("");          // Error/success message
+  const [cse, setCourse] = useState(cs);               //current selected course
 
   // Handle input changes
   const handleChange = (e) => {
     const { name, value, files } = e.target;
+
+    // Handle file input separately
     if (name === "attachments") {
       setFormData((prev) => ({ ...prev, [name]: files[0] || null }));
     } else {
