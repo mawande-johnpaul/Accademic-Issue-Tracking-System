@@ -1,25 +1,28 @@
 import axios from "axios";
 import { useState } from "react";
-
+// Functional component to display and manage different types of issue cards
 const IssueCard = ({ issue, type, token, setContent, setid, backend }) => {
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);  // Indicates async operation in progress
+  const [error, setError] = useState(null); // Stores error message, if any
 
   if (!issue || !type) {
     return null; // Defensive: nothing to render if missing props
   }
-
+  
+ // Handles assigning an issue e.g., opening a form
   const assign = (identifier) => {
     console.log(identifier)
     setid(identifier);
     setContent("AssignForm");
   };
-
+  
+// Sets issue to be viewed by lecturer
   const progress_set = (identifier) => {
     setid(identifier);
     setContent("LecturerView");
   };
-
+  
+// Rejects an issue via DELETE request to backend
   const reject = async (identifier) => {
     setError(null);
     setLoading(true);
@@ -39,7 +42,7 @@ const IssueCard = ({ issue, type, token, setContent, setid, backend }) => {
       setLoading(false);
     }
   };
-
+ // Marks an issue as resolved (same endpoint as reject)
   const markAsDone = async (identifier) => {
     setError(null);
     setLoading(true);
@@ -59,7 +62,7 @@ const IssueCard = ({ issue, type, token, setContent, setid, backend }) => {
       setLoading(false);
     }
   };
-
+ // Notifies a lecturer by sending a POST request
   const notify = async (identifier, lect) => {
     setError(null);
     setLoading(true);
@@ -98,6 +101,7 @@ const IssueCard = ({ issue, type, token, setContent, setid, backend }) => {
     );
   }
 
+  // For new, unassigned issues that are viewed by registrar/admin
   if (type === "new") {
     return (
       <div className="issue-card" key={issue.pk}>
@@ -131,6 +135,7 @@ const IssueCard = ({ issue, type, token, setContent, setid, backend }) => {
     );
   }
 
+  // For issues assigned to a lecturer viewed by registrar/admin
   if (type === "assigned") {
     return (
       <div className="issue-card">
@@ -182,6 +187,7 @@ const IssueCard = ({ issue, type, token, setContent, setid, backend }) => {
     );
   }
 
+  // For lecturers viewing their assigned issues
   if (type === "lecturer-assigned") {
     return (
       <div className="issue-card">
@@ -206,6 +212,8 @@ const IssueCard = ({ issue, type, token, setContent, setid, backend }) => {
     );
   }
 
+  
+  // For lecturers viewing resolved issues
   if (type === "lecturer-resolved") {
     return (
       <div className="issue-card">
@@ -225,6 +233,7 @@ const IssueCard = ({ issue, type, token, setContent, setid, backend }) => {
     );
   }
 
+  // Default case if type doesn't match any known category
   return null; // Fallback in case no type matched
 };
 

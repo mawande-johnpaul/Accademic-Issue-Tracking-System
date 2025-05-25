@@ -1,5 +1,6 @@
+// Importing Link from react-router-dom to enable client-side navigation
 import { Link } from 'react-router-dom';
-
+// Functional component that renders a styled link as a button for login/signup
 const InPageLoginButton = () => {
   return (
     <Link
