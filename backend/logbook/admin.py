@@ -7,6 +7,7 @@ from .models import *
     #list_filter = ('department')
 
 # Register your models here.
+#this customizes our django admin page 
 admin.site.register(CustomUser)
 admin.site.register(Issue)
 admin.site.register(Log)
