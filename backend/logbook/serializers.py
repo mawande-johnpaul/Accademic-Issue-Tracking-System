@@ -123,16 +123,13 @@ def validate_webmail_and_role(first_name, last_name, webmail, college):
         return 'student'
 
     elif domain == 'mak.ac.ug':
-            for lecturer in ACCEPTED_USERS[college]['lecturers']:
-                if lecturer['webmail'] == webmail:
-                    return 'lecturer'
-                else:
-                    raise serializers.ValidationError("Use a student's webmail")
-            for registrar in ACCEPTED_USERS[college]['registrars']:
-                if registrar['webmail'] == webmail:
-                    return 'registrar'
-                else:
-                    raise serializers.ValidationError("Use a student's webmail")
+        for lecturer in ACCEPTED_USERS[college]['lecturers']:
+            if lecturer['webmail'] == webmail:
+                return 'lecturer'
+        for registrar in ACCEPTED_USERS[college]['registrars']:
+            if registrar['webmail'] == webmail:
+                return 'registrar'
+        raise serializers.ValidationError("Use a student's webmail")
     else:
         raise serializers.ValidationError({"message":"Invalid webmail domain."})
 
