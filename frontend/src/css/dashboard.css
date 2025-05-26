@@ -60,7 +60,7 @@
     font-weight: bold;
     padding: 5px;
     padding-left: 10px;
-    cursor: alias;
+    cursor: pointer;
   }
   
   .content-section-body {
