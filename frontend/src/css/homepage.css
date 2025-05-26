@@ -1,48 +1,44 @@
 .homepage{
+    margin: auto;
+    width: 50%;
+    margin-top: 100px;
+    border: 1px solid;
+    border-radius: 10px;
+    height: 70vh;
+    border: 0PX;
+    box-shadow: 0px 0px 5px 0px #888888;
+}
+
+.h1{
     margin: 0px;
-    padding: 0px;
-    justify-items: center;
+    border-radius: 10px 10px 0px 0px;
     text-align: center;
-    display: flex;
-    flex-direction: column;
-    gap: 1vh;
-    font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-}
-
-.homepage b{
-    font-size: 6vh;
-    font-weight: 600;
-}
-
-.p2{
-    font-size: 3.5vh;
-}
-
-.choicearea{
-    display: flex;
-    flex-direction: row;
-    padding: 20px 0px;
-    justify-content: center;
-    width: auto;
+    padding-top: 20px;
+    border-bottom: 0px;
+    padding-bottom: 10px;
+    background-color: beige;
 }
 
 .buttons{
-    background-color: #000;
+    background-color: #f1f1f1;
     padding: 20px;
-    color: white;
+    color: black;
     text-decoration: none;
     border-radius: 10px;
-    border: 2px transparent;
-    font-family: inherit;
-    cursor: pointer;
-    font-size: large;
     margin: 20px;
+    border: 0px;
+    font-family: Calibri;
+}
+.lower{
+    border-top: 0px;
+    padding-top: 10px;
+    text-align: center;
+    height: 20vh;
+    align-content: center;
+    border-radius: 0px 0px 10px 10px;
 }
 
-.buttons:hover{
-    border: 2px #f9e6c8;
-}
-
-.banner{
-    width: 100%;
+.welcometext{
+    text-align: center;
+    padding: 20px;
 }
