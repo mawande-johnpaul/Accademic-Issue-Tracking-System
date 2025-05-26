@@ -36,7 +36,7 @@
     font-family: inherit;
     cursor: pointer;
     font-size: large;
-    margin: 20px;
+    margin: 0px;
 }
 
 .buttons:hover{
@@ -44,5 +44,4 @@
 }
 
 .banner{
-    width: 100%;
-}
+    width: 100%;}
