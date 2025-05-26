@@ -17,7 +17,7 @@
     overflow: hidden; /* Prevent scrolling */
     display: flex;
     flex-direction: row;
-    height: 100vh;
+    height: 200vh;
     width: 100%;
     box-sizing: border-box;
     padding: 0px;
