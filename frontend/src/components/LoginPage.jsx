@@ -2,12 +2,14 @@ import axios from 'axios';
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 
+// LoginPage handles user login and role-based navigation
 function LoginPage({backend}) {
+    // State variables for form input and feedback
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [message, setMessage] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false); // Track submission state
-    const navigate = useNavigate();
+    const navigate = useNavigate();   // For redirecting based on user role
 
     const login = async (event) => {
         event.preventDefault(); // Prevent the form from refreshing the page
