@@ -3,17 +3,21 @@ import axios from "axios";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
+// Component to view issue details and assign the issue to a lecturer
 const IssueView = ({ issue, token, setContent, issues, backend}) => {
   const [assignedTo, setAssignedTo] = useState("");
   const [deadline, setDeadline] = useState(null);
   const [priority, setPriority] = useState("");
   const [issueData, setIssueData] = useState({});
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [lecturers, setLecturers] = useState([]);
+  const [isSubmitting, setIsSubmitting] = useState(false);  // Submission state
+  const [lecturers, setLecturers] = useState([]);    // List of available lecturers
 
+  // Load issue details and available lecturers on mount
   useEffect(() => {
+     // Find the issue data from the issues list
     const foundIssue = Object.values(issues).find((iss) => iss.id === issue) || {};
     setIssueData(foundIssue);
+    // Fetch lecturers eligible to be assigned to this issue
     axios.get(`${backend}/lecturers/${issue}/`, {
       headers: { Authorization: `Bearer ${token}` },
     })
@@ -26,9 +30,10 @@ const IssueView = ({ issue, token, setContent, issues, backend}) => {
 
   }, []);
 
+  // Handle assignment form submission
   const assignIssue = async (e) => {
     e.preventDefault();
-
+// Basic validation
     if (!assignedTo || !deadline || !priority) {
       alert("😐 All fields are required to assign an issue.");
       return;
@@ -37,19 +42,20 @@ const IssueView = ({ issue, token, setContent, issues, backend}) => {
     setIsSubmitting(true);
 
     try {
+      // Send patch request to assign the issue
       await axios.patch(
         `${backend}/issues/assign/${issue}/`,
         {
           assigned_to: assignedTo,
           priority,
-          deadline: deadline.toISOString().split("T")[0],
+          deadline: deadline.toISOString().split("T")[0],    // Format date to YYYY-MM-DD
         },
         {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
       alert("🤗 Issue assigned successfully.");
-      setContent("NewIssues");
+      setContent("NewIssues");     // Go back to list after successful assignment
     } catch (error) {
       console.error("Failed to assign issue", error);
       alert("😥 Failed to assign issue. Please try again.");

@@ -1,37 +1,46 @@
 import { useState } from "react";
 import axios from "axios";
 
+// Component for a lecturer to view and update progress on a single issue
 const LecturerView = ({ issue, token, setContent, issues, backend }) => {
+  // Find the current issue from the list using its ID
   const currentIssue = issues.find((iss) => iss.id === issue);
-  if (!currentIssue) return <p>Issue not found</p>;
+  if (!currentIssue) return <p>Issue not found</p>;    // Show error if issue not found
 
+  // Local state to manage progress input, loading status, and error message
   const [progress, setProgress] = useState("");
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
+  // Handle progress input change
   const handleChange = (e) => {
     setProgress(e.target.value);
   };
 
+   // Handle form submission to update progress
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError(null);
-    setLoading(true);
+    e.preventDefault();    // Prevent default form behavior
+    setError(null);     // Reset any previous error
+    setLoading(true);     // Show loading state during request
 
     try {
+       // Send PATCH request to update issue progress
       await axios.patch(
         `${backend}/issues/progress/${issue}/`,
         { progress },
         {
           headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${token}`,  // Auth token
           },
         }
       );
+      // Go back to assigned issues list after successful submission
       setContent("AssignedIssues");
     } catch (err) {
+      // Show error if request fails
       setError("Failed to submit progress. Please try again.");
     } finally {
+      // Stop loading indicator
       setLoading(false);
     }
   };

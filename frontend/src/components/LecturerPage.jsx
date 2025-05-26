@@ -6,7 +6,9 @@ import Logo from "./logo";
 import Content from './LecturerContentSection';
 import Splash from "./Splash";
 
+// Main component for the Lecturer's dashboard/page
 const LecturerPage = ({ content, setContent, backend,isVisible, setIsVisible }) => {
+  // State hooks for issues, notifications, errors, and the selected issue ID
   const [issues, setIssues] = useState([]);
   const [resolvedIssues, setResolvedIssues] = useState([]);
   const [notifications, setNotifications] = useState([]);
@@ -14,12 +16,15 @@ const LecturerPage = ({ content, setContent, backend,isVisible, setIsVisible }) 
   const [id, setid] = useState(0);
   const navigate = useNavigate();
 
+  // Retrieve token and user info from session storage
   const token = sessionStorage.getItem("token");
   const user = JSON.parse(sessionStorage.getItem("user"));
 
+  // Fetch data after component mounts
   useEffect(() => {
-    if (!user || !token) return;
+    if (!user || !token) return;  // Stop if not authenticated
 
+    // Fetch assigned issues
     const fetchIssues = async () => {
       try {
         const response = await axios.get(
@@ -32,6 +37,7 @@ const LecturerPage = ({ content, setContent, backend,isVisible, setIsVisible }) 
       }
     };
 
+     // Fetch resolved issues
     const fetchResolvedIssues = async () => {
       try {
         const response = await axios.get(
@@ -44,6 +50,7 @@ const LecturerPage = ({ content, setContent, backend,isVisible, setIsVisible }) 
       }
     };
 
+     // Fetch lecturer's notifications
     const fetchNotifications = async () => {
       try {
         const response = await axios.get(
@@ -56,17 +63,20 @@ const LecturerPage = ({ content, setContent, backend,isVisible, setIsVisible }) 
       }
     };
 
+    // Call all data fetching functions
     fetchNotifications();
     fetchResolvedIssues();
     fetchIssues();
   }, []);
 
+  // Logout function: clears session storage and redirects to login
   const logout = () => {
     sessionStorage.removeItem("user");
     sessionStorage.removeItem("token");
     navigate("/login");
   };
 
+  // Show splash screen if user is not authenticated
   if (!user) return <Splash />;
 
   return (
