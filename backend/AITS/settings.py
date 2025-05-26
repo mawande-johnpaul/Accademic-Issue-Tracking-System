@@ -11,7 +11,7 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', r'django-insecure-=)^=tl^%$nw&i
 
 DEBUG = os.environ.get('DJANGO_DEBUG', 'True') == 'True'
 
-ALLOWED_HOSTS = os.environ.get('DJANGO_ALLOWED_HOSTS', 'localhost,127.0.0.1,accademic-issue-tracking-system.onrender.com').split(',')
+ALLOWED_HOSTS = os.environ.get('DJANGO_ALLOWED_HOSTS', 'localhost,127.0.0.1,accademic-issue-tracking-system.onrender.com','aits-system-omega.vercel.app').split(',')
 
 CORS_ALLOW_ALL_ORIGINS = True
 
@@ -20,7 +20,7 @@ CORS_ALLOW_METHODS = [
 ]
 
 CSRF_TRUSTED_ORIGINS = os.environ.get('DJANGO_CSRF_TRUSTED_ORIGINS',
-    'http://localhost:5173,https://accademic-issue-tracking-system-hz4i.vercel.app,http://127.0.0.1:8000,https://accademic-issue-tracking-system.onrender.com'
+    'http://localhost:5173,https://aits-system-omega.vercel.app,http://127.0.0.1:8000,https://accademic-issue-tracking-system.onrender.com'
 ).split(',')
 
 CORS_ALLOW_CREDENTIALS = True
