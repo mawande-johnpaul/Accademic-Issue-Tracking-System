@@ -18,7 +18,17 @@ const Splash2 = ({ role, issues = [], newissues = [], assignedissues = [] }) => 
     "You're closer to graduation than you were yesterday.",
     "CTRL + S your life. Often.",
     "Just one more task. Then Netflix. Maybe.",
-    "You got this, even if your GPA says otherwise."
+    "You got this, even if your GPA says otherwise.",
+    "Every page you read is a step closer to your dreams.",
+    "Mistakes are proof that you are trying.",
+    "Success is the sum of small efforts repeated day in and day out.",
+    "Your future self will thank you for not giving up.",
+    "The best view comes after the hardest climb.",
+    "You are stronger than your excuses.",
+    "Keep going. Everything you need will come to you.",
+    "Small progress is still progress.",
+    "Your only limit is your mind.",
+    "Dream big, work hard, stay focused."
   ];
 
   const lecturerQuotes = [
@@ -31,7 +41,17 @@ const Splash2 = ({ role, issues = [], newissues = [], assignedissues = [] }) => 
     "PowerPoint can’t capture how brilliant your mind is.",
     "Another day, another class saved.",
     "Turning caffeine into curriculum since forever.",
-    "You don’t just teach — you inspire."
+    "You don’t just teach — you inspire.",
+    "Every question asked is a mind opened.",
+    "You plant seeds of knowledge that grow forever.",
+    "Teaching is the profession that creates all others.",
+    "Your patience is the foundation of learning.",
+    "You turn confusion into clarity daily.",
+    "A good teacher is like a candle—it consumes itself to light the way for others.",
+    "Your lessons echo in minds for years to come.",
+    "You make a difference, one student at a time.",
+    "The best teachers teach from the heart, not from the book.",
+    "You are the architect of future leaders."
   ];
 
   const registrarQuotes = [
@@ -44,7 +64,17 @@ const Splash2 = ({ role, issues = [], newissues = [], assignedissues = [] }) => 
     "Every resolved issue is a quiet victory.",
     "Your role is admin — but you’re a silent hero.",
     "Crisis manager? More like calm-inator.",
-    "Coffee. Forms. Patience. Repeat."
+    "Coffee. Forms. Patience. Repeat.",
+    "You turn paperwork into progress.",
+    "Order in the chaos is your superpower.",
+    "You keep the academic wheels turning smoothly.",
+    "Your attention to detail keeps us all on track.",
+    "You are the silent force behind every graduation.",
+    "Your efficiency is legendary.",
+    "You make the impossible look routine.",
+    "You are the calm in every storm.",
+    "Your work is the backbone of the institution.",
+    "You keep the system running, one form at a time."
   ];
 
 
@@ -99,7 +129,6 @@ const Splash2 = ({ role, issues = [], newissues = [], assignedissues = [] }) => 
     // Combine newissues and assignedissues for deadlines
     const combinedIssues = [...newissues, ...assignedissues];
 
-    // Use assignedissues count for Assigned Issues card
     ({ overdueIssues, upcomingIssues } = categorizeDeadlines(combinedIssues));
   } else if (role === "registrar") {
     // Registrar uses main issues for seen/unseen and deadlines
