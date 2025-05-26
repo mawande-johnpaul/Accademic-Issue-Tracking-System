@@ -171,7 +171,7 @@
   
   .display-pane {
     height: auto;
-    margin-bottom: 10px;
+    margin-bottom: 100px;
     display: flex;
     flex-direction: column;
   }
