@@ -28,7 +28,7 @@
   .left-side, .content-section, .right-side {
     display: flex;
     flex-direction: column;
-    height: 98vh;
+    height: 198vh;
   }
   
   .left-side {
